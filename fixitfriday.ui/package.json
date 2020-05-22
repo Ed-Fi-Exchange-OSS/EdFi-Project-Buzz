@@ -19,6 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "SET CI=true && SET TEAMCITY_VERSION = 1 && yarn test --testResultsProcessor=jest-teamcity-reporter --reporters=jest-junit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -35,5 +36,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest-junit": "^10.0.0",
+    "jest-teamcity-reporter": "^0.9.0"
   }
 }

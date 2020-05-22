@@ -24,30 +24,4 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 */
 
 version = "2019.2"
-
-project {
-
-    vcsRoot(FixItFriday)
-
-    params {
-        param("git.branch.default", "development")
-    }
-}
-
-object FixItFriday : GitVcsRoot({
-    name = "Fix-It-Friday"
-    url = "https://github.com/%github.organization%/Fix-It-Friday.git"
-    branch = "%git.branch.default%"
-    branchSpec = """
-        refs/heads/(*)
-        refs/(pull/*)/merge
-    """.trimIndent()
-    userNameStyle = GitVcsRoot.UserNameStyle.FULL
-    checkoutSubmodules = GitVcsRoot.CheckoutSubmodules.IGNORE
-    serverSideAutoCRLF = true
-    useMirrors = false
-    authMethod = password {
-        userName = "%github.username%"
-        password = "%github.accessToken%"
-    }
-})
+project(_self.FixItFridayProject)
