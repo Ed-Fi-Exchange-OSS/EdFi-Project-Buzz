@@ -19,6 +19,7 @@ object FixItFridayProject : Project({
         param("version.core", "%version.major%.%version.minor%.%version.patch%")
         param("version.prerelease", "pre%build.counter%")
         param("version", "%version.core%-%version.prerelease%")
+        param("version.assembly", "%version.core%.%build.counter%")
     }
 
     subProject(api.APIProject)
