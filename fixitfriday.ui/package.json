@@ -3,24 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.5",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "apollo-boost": "^0.4.9",
     "bootstrap": "^4.5.0",
     "graphql": "^15.0.0",
+    "graphql-tag": "^2.10.3",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "typescript": "^3.9.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:ci": "SET CI=true && SET TEAMCITY_VERSION = 1 && yarn test --testResultsProcessor=jest-teamcity-reporter --reporters=jest-junit",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,7 +46,7 @@
     ]
   },
   "devDependencies": {
-    "jest-junit": "^10.0.0",
-    "jest-teamcity-reporter": "^0.9.0"
+    "eslint-config-airbnb-typescript-prettier": "^2.1.1",
+    "prettier": "^2.0.5"
   }
 }

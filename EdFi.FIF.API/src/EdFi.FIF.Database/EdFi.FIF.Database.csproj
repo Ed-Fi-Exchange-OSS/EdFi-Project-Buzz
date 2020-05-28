@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFramework>netcoreapp3.1</TargetFramework>
+      <OutputType>Exe</OutputType>
+      <IsPackable>true</IsPackable>
+      <RestorePackages>true</RestorePackages>
+      <Title>Ed-Fi Fix-It-Friday Core Business Logic</Title>
+      <Authors>Ed-Fi Alliance, LLC, and contributors</Authors>
+      <Copyright>(c) 2020, Ed-Fi Alliance, LLC, and contributors</Copyright>
+      <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <RepositoryUrl>https://github.com/Ed-Fi-Alliance-OSS/Fix-It-Friday</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <None Remove="Scripts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <EmbeddedResource Include="Scripts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DbUp" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

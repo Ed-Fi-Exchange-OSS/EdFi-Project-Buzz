@@ -8,12 +8,12 @@ const TestComponent = () => (
   <Container className="p-3">
     <Jumbotron>
       <Row className="justify-content-md-center">
-        <h1 className="header">Welcome To Fix it Fridays</h1> 
+        <h1 className="header">Welcome To Fix it Fridays</h1>
       </Row>
     </Jumbotron>
   </Container>
-)
+);
 
-const App = () => (<TestComponent/>);
+const App = () => <TestComponent />;
 
 export default App;
