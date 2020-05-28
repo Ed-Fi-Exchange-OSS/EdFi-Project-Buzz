@@ -5,7 +5,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.freeDiskSpace
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetRestore
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetTest
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
+
 
 object BuildAndTestAPITemplate : Template({
     name = "Build and Test Fix-it-Friday API"
@@ -14,7 +14,7 @@ object BuildAndTestAPITemplate : Template({
 
     vcs {
         // Map the API project as the build root directory.
-        root(DslContext.settingsRoot, "+:./FixItFriday.Api => .")
+        root(DslContext.settingsRoot, "+:. => Fix-It-Friday")
     }
 
     steps {

@@ -16,7 +16,7 @@ object APIProject : Project({
         param("version.minor", "1")
         param("version.patch", "0")
         // Presumably there will be a solution file soon, once tests are added
-        param("src.solutionFile", "FixItFriday.Api.csproj")
+        param("src.solutionFile", "Fix-It-Friday/FixItFriday.Api/FixItFriday.Api.csproj")
         param("dotnet.build.configuration", "release")
     }
 

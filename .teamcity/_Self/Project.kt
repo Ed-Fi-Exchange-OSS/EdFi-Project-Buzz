@@ -24,4 +24,6 @@ object FixItFridayProject : Project({
 
     subProject(api.APIProject)
     subProject(ui.UIProject)
+
+    vcsRoot(_self.vcsRoots.EdFiOdsImplementation)
 })

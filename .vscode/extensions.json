@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "fwcd.kotlin",
-        "mathiasfrohlich.kotlin"
+        "mathiasfrohlich.kotlin",
+        "editorconfig.editorconfig"
     ]
 }

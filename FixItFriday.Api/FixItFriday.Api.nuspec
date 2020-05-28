@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>EdFi.FixItFriday.Api</id>
+    <version>$version$</version>
+    <title>Ed-Fi Fix-It-Friday API</title>
+    <authors>Ed-Fi Alliance, LLC and contributors</authors>
+    <projectUrl>https://github.com/Ed-Fi-Alliance-OSS/Fix-It-Friday</projectUrl>
+    <copyright>Copyright © 2020, Ed-Fi Alliance, LLC and contributors.</copyright>
+    <licenseFile>LICENSE</licenseFile>
+    <summary>Fix-It-Friday web API application</summary>
+    <description>Fix-It-Friday web API application</description>
+  </metadata>
+  <files>  
+    <file src="..\LICENSE" />
+    <file src="..\NOTICES.md" />
+    <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
+    <file src=".\bin\$configuration$\netcoreapp3.1\publish\*.*" exclude="**\web.Release.config" />
+  </files>
+</package>
