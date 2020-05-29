@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
@@ -38,7 +38,8 @@ namespace EdFi.FIF.Data.Tests
                         StudentFirstName = "Tommas",
                         StudentLastName = "McCarthy",
                         EnrollmentDateKey = "20120101",
-                        GradeLevel = "Ninth grade"
+                        GradeLevel = "Ninth grade",
+                        PictureURL = "Some url for the picture"
                     },
                     new StudentSchool()
                     {
@@ -137,10 +138,54 @@ namespace EdFi.FIF.Data.Tests
                     }
                 };
 
+                var studentSections = new List<StudentSection>()
+                {
+                    new StudentSection()
+                    {
+                        StudentSectionKey = "1-1",
+                        SchoolKey = "1",
+                        SectionKey = "1",
+                        StudentSchoolKey = "1-1",
+                        StudentKey = "1",
+                        LocalCourseCode = "ACER08",
+                        Subject = "Fine and Performing Arts",
+                        CourseTitle = "Art, Grade 8",
+                        TeacherName = "Joe Doe",
+                        SchoolYear = "2012"
+                    },
+                    new StudentSection()
+                    {
+                        StudentSectionKey = "2-1",
+                        SchoolKey = "1",
+                        SectionKey = "1",
+                        StudentSchoolKey = "2-1",
+                        StudentKey = "2",
+                        LocalCourseCode = "ACER08",
+                        Subject = "Fine and Performing Arts",
+                        CourseTitle = "Art, Grade 8",
+                        TeacherName = "Joe Doe",
+                        SchoolYear = "2012"
+                    },
+                    new StudentSection()
+                    {
+                        StudentSectionKey = "2-2",
+                        SchoolKey = "1",
+                        SectionKey = "2",
+                        StudentSchoolKey = "2-1",
+                        StudentKey = "2",
+                        LocalCourseCode = "ACER31",
+                        Subject = "Fine and Performing Arts",
+                        CourseTitle = "Art Iii Ceramics (1 Unit)",
+                        TeacherName = "Cody Smith",
+                        SchoolYear = "2012"
+                    }
+                };
+
                 context.AddRange(studentSchools);
                 context.AddRange(sections);
                 context.AddRange(staff);
                 context.AddRange(staffSectionAssociation);
+                context.AddRange(studentSections);
 
                 context.SaveChanges();
             }

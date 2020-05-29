@@ -11,6 +11,7 @@ CREATE TABLE fif.StudentSchool (
     LimitedEnglishProficiency nvarchar(50) NULL,
     IsHispanic bit NOT NULL,
     Sex nvarchar(50) NOT NULL,
+    PictureURL nvarchar(256) NULL,
     CONSTRAINT PK_StudentSchoolKey PRIMARY KEY (StudentSchoolKey)
 );
 
