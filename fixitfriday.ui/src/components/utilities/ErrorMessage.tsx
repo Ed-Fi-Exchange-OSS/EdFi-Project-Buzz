@@ -1,8 +1,12 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Alert } from 'react-bootstrap';
 
-const ErrorMessage: SFC = () => {
-  return <Alert variant="danger">An error has occurred processing the request.</Alert>;
+type ErrorMessageProps = {
+  message: string
+}
+
+const ErrorMessage: FunctionComponent<ErrorMessageProps> = ( { message }) => {
+  return <Alert variant="danger">{message && message !== null ? 'An error has occurred processing the request.' : message}</Alert>;
 };
 
 export default ErrorMessage;

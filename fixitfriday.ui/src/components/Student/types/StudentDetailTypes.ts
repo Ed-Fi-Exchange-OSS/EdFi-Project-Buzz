@@ -1,6 +1,6 @@
 import { StudentDetailGuardianType } from "./StudentDetailGuardianType";
 
-export type StudentDetailProps = {
+export type StudentDetailType = {
   id: string;
   firstName: string;
   lastName: string;
