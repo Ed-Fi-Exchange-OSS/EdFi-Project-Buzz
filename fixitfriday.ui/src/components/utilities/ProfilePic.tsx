@@ -7,18 +7,18 @@ interface ProfilePicProps {
   pictureUrl: string;
 }
 
-const ProfilePic: FunctionComponent<ProfilePicProps> = (props: ProfilePicProps) => {
+const ProfilePic: FunctionComponent<ProfilePicProps> = ({ pictureUrl, firstname, lastname }: ProfilePicProps) => {
   const addDefaultSrc = (ev: SyntheticEvent) => {
     const element = ev.currentTarget as HTMLElement;
     element.style.visibility = 'hidden';
   };
 
-  const picSrc = props.pictureUrl && props.pictureUrl.length > 0 ? props.pictureUrl : ""
+  const picSrc = pictureUrl && pictureUrl.length > 0 ? pictureUrl : '';
 
   return (
     <Card.Img
       style={{ width: 'auto', height: 'auto', minWidth: '100%' }}
-      alt={`Picture of ${props.firstname} ${props.lastname}`}
+      alt={`Picture of ${firstname} ${lastname}`}
       onError={addDefaultSrc}
       src={picSrc}
     />

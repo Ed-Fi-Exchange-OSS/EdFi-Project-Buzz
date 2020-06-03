@@ -3,5 +3,5 @@ export type StudentCardProps = {
   studentFirstName: string;
   studentLastName: string;
   email: string;
-  pictureurl: string,
+  pictureurl: string;
 };

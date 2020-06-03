@@ -5,30 +5,30 @@ import { StudentClassType } from './types/StudentClassType';
 import { StudentRosterProps } from './types/StudentRosterProps';
 
 const StudentRoster: FC<StudentRosterProps> = (props: StudentRosterProps) => {
-  const students = props.students;
+  const { students } = props;
 
   const deck =
     students && students.length > 0 ? (
-      students.map((s: StudentClassType, i: Number) => (
+      students.map((s: StudentClassType) => (
         <StudentCard
           key={s.studentschoolkey}
           studentSchoolKey={s.studentschoolkey}
           studentFirstName={s.studentfirstname}
           studentLastName={s.studentlastname}
-          email={'TODO: NO EMAIL YET'}
+          email="TODO: NO EMAIL YET"
           pictureurl={s.pictureurl}
         />
       ))
     ) : (
-      <div></div>
+      <div />
     );
 
   return (
-    <React.Fragment>
-      <CardDeck className={'studentCard'} style={{ display: 'flex', flexDirection: 'row', width:'100%' }}>
+    <>
+      <CardDeck className="studentCard" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         {deck}
       </CardDeck>
-    </React.Fragment>
+    </>
   );
 };
 

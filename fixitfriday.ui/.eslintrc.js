@@ -5,7 +5,7 @@ module.exports = {
       files: [
         "**/*.test.js",
         "**/*.test.jsx",
-        "**/*.test.tx",
+        "**/*.test.ts",
         "**/*.test.tsx"
       ],
       env: {
