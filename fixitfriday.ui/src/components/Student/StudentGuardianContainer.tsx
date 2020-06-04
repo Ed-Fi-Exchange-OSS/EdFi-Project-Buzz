@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { StudentDetailGuardianType } from './types/StudentDetailGuardianType';
-import { Card, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import ProfilePic from '../utilities/ProfilePic';
 
 const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = ({
@@ -10,6 +10,7 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
   phone,
   address,
   pictureurl,
+  relationship
 }) => {
   return (
     <Card
@@ -17,16 +18,16 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
       style={{
         flex: '1',
         border: '1px solid #696969',
-        minWidth: '18rem',
-        maxWidth: '18rem',
+        minWidth: '16rem',
+        maxWidth: '16rem',
         padding: '5px 5px',
         margin: '10px 10px',
       }}
     >
       <Card.Body style={{ display: 'flex' }}>
-        <div style={{ flex: 3 }}>
+        <div style={{ flex: 4, marginRight: '3px' }}>
           <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
-          <Card.Subtitle>Relationship</Card.Subtitle>
+          <Card.Subtitle>{relationship}</Card.Subtitle>
           <Card.Text>{`${phone}`}</Card.Text>
           <Card.Text>{`${address}`}</Card.Text>
         </div>

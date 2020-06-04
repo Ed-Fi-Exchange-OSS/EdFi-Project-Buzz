@@ -83,6 +83,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
                 phone={value.phone}
                 address={value.address}
                 pictureurl={value.pictureurl}
+                relationship={value.relationship}
               />
             ))}
           </CardDeck>

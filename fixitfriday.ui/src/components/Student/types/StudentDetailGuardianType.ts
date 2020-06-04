@@ -5,4 +5,5 @@ export type StudentDetailGuardianType = {
   phone: string;
   address: string;
   pictureurl: string;
+  relationship: string;
 };

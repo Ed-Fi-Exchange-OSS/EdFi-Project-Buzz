@@ -5,21 +5,21 @@ import {
 
 const surveys: Array<StudentDetailSurveyType> = [
   {
-    id: '1',
+    id: "1",
     name: "Contact Survey Results",
     questions: [
       {
-        id: '1',
+        id: "1",
         question: "Preferred Contact Method",
         answer: "Phone",
       },
       {
-        id: '2',
+        id: "2",
         question: "Best time to Contact",
         answer: "6 am to 9pm (after work)",
       },
       {
-        id: '3',
+        id: "3",
         question: "Contact Notes",
         answer: "Leave a message and they will call back",
       },
@@ -39,7 +39,8 @@ const allStudents: Array<StudentDetailType> = [
     guardians: [
       {
         id: "1",
-        firstName: "Mother",
+        firstName: "Mary",
+        relationship: "Doe",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -47,8 +48,9 @@ const allStudents: Array<StudentDetailType> = [
       },
       {
         id: "2",
-        firstName: "Father",
-        lastName: "Test",
+        firstName: "Jim",
+        relationship: "Father",
+        lastName: "Doe",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
         pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
@@ -56,7 +58,8 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
-        lastName: "Test",
+        relationship: "Grandparent",
+        lastName: "Doe",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
         pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
@@ -65,70 +68,49 @@ const allStudents: Array<StudentDetailType> = [
   },
   {
     id: "2",
-    firstName: "John",
-    lastName: "Doe",
+    firstName: "Richard",
+    lastName: "Roe",
     middleName: "2",
     pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
-    email: "jdoe@test.com",
+    email: "rroe@test.com",
     surveys: surveys,
     guardians: [
       {
         id: "1",
-        firstName: "Mother",
-        lastName: "Test",
+        firstName: "Julie",
+        relationship: "Mother",
+        lastName: "Roe",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
-        pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
-      },
-      {
-        id: "2",
-        firstName: "Father",
-        lastName: "Test",
-        phone: "512-555-3434",
-        address: "123 Main St, Austin, TX, USA 78705",
-        pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
-      },
-      {
-        id: "3",
-        firstName: "Grandma",
-        lastName: "Test",
-        phone: "512-555-5656",
-        address: "498 Oak Dr, Austin, TX, USA 78745",
         pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
       },
     ],
   },
   {
     id: "3",
-    firstName: "John",
-    lastName: "Doe",
+    firstName: "George",
+    lastName: "Lucas",
     middleName: "3",
     pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
-    email: "jdoe@test.com",
+    email: "glucas@test.com",
     surveys: surveys,
     guardians: [
       {
         id: "1",
-        firstName: "Mother",
-        lastName: "Test",
+        firstName: "Francis",
+        relationship: "Mother",
+        lastName: "Lucas",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
         pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
       },
       {
         id: "2",
-        firstName: "Father",
-        lastName: "Test",
+        firstName: "Bill",
+        relationship: "Father",
+        lastName: "Lucas",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
-        pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
-      },
-      {
-        id: "3",
-        firstName: "Grandma",
-        lastName: "Test",
-        phone: "512-555-5656",
-        address: "498 Oak Dr, Austin, TX, USA 78745",
         pictureurl: "https://api.adorable.io/avatars/164/abott@adorable.png",
       },
     ],
@@ -145,6 +127,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -153,6 +136,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -161,6 +145,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
@@ -180,6 +165,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -188,6 +174,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -196,6 +183,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
@@ -215,6 +203,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -223,6 +212,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -231,6 +221,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
@@ -250,6 +241,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -258,6 +250,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -266,6 +259,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
@@ -285,6 +279,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -293,6 +288,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -301,6 +297,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
@@ -320,6 +317,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -328,6 +326,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -336,6 +335,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
@@ -355,6 +355,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "1",
         firstName: "Mother",
+        relationship: "Mother",
         lastName: "Test",
         phone: "512-555-1212",
         address: "124 Main St, Austin, TX, USA 78705",
@@ -363,6 +364,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "2",
         firstName: "Father",
+        relationship: "Father",
         lastName: "Test",
         phone: "512-555-3434",
         address: "123 Main St, Austin, TX, USA 78705",
@@ -371,6 +373,7 @@ const allStudents: Array<StudentDetailType> = [
       {
         id: "3",
         firstName: "Grandma",
+        relationship: "Grandparent",
         lastName: "Test",
         phone: "512-555-5656",
         address: "498 Oak Dr, Austin, TX, USA 78745",
