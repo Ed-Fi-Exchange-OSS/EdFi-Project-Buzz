@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import StudentCard from './StudentCard';
 import { GuardianInformationType } from './types/StudentClassType';
 
@@ -20,14 +21,16 @@ test('renders Student Card', () => {
   };
 
   const { getByText, getAllByText } = render(
-    <StudentCard
-      studentSchoolKey={studentSchoolKey}
-      studentFirstName={firstName}
-      studentLastName={lastName}
-      pictureurl=""
-      email={email}
-      guardianInformation={guardianInformation}
-    />,
+    <BrowserRouter>
+      <StudentCard
+        studentSchoolKey={studentSchoolKey}
+        studentFirstName={firstName}
+        studentLastName={lastName}
+        pictureurl=""
+        email={email}
+        guardianInformation={guardianInformation}
+      />
+    </BrowserRouter>,
   );
 
   const hasStudentId = getByText(`Student ID: ${studentSchoolKey}`);
