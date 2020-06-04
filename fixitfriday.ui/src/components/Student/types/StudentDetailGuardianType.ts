@@ -4,4 +4,5 @@ export type StudentDetailGuardianType = {
   lastName: string;
   phone: string;
   address: string;
+  pictureurl: string;
 };
