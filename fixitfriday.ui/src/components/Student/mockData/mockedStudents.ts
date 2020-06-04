@@ -37,7 +37,7 @@ const surveys: Array<StudentDetailSurveyType> = [
       {
         id: "2",
         question: "Eating times",
-        answer: "Unrestriced",
+        answer: "Unrestricted",
       },
     ],
   },
