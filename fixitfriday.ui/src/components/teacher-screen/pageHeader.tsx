@@ -34,7 +34,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ TeacherName, Tea
         </Col>
       </Row>
       <Row>
-        <Col xs={4}>
+        <Col xs={12} sm={6} md={4}>
           <Form>
             <Form.Group>
               <Form.Control as="select" value={selectedClass} size="sm" onChange={(e) => setSelectedClass(e.target.value)}>
