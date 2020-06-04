@@ -18,7 +18,6 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
 
   let surveyStyle = {
     padding: '25px 12px',
-
   };
 
   useEffect(() => {
@@ -35,50 +34,51 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
         </Col>
       </Row>
       <Row>
-        <Col>
-          <Card
-            key={student.id}
-            style={{
-              flex: '1',
-              border: '1px solid #696969',
-              minWidth: '21rem',
-              maxWidth: '21rem',
-              padding: '5px 5px',
-              margin: '10px 10px',
-            }}
-          >
-            <Card.Body style={{ display: 'flex' }}>
-              <div
-                style={{
-                  flex: 1,
-                  margin: '2px 2em 2px 2px',
-                  minWidth: '70px',
-                }}
-              >
-                <ProfilePic pictureUrl={student.pictureurl} />
-              </div>
-              <div style={{ flex: 4 }}>
-                <div>{student.email}</div>
-                <div>Student ID: {student.id}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col>
-          <CardDeck>
-            {student.guardians.map((value: StudentDetailGuardianType) => (
-              <StudentGuardianContainer
-                key={value.id}
-                id={value.id}
-                firstName={value.firstName}
-                lastName={value.lastName}
-                phone={value.phone}
-                address={value.address}
-                pictureurl={value.pictureurl}
-                relationship={value.relationship}
-              />
-            ))}
-          </CardDeck>
+        <Col style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1 }}>
+            <Card
+              key={student.id}
+              style={{
+                flex: '1',
+                border: '1px solid #696969',
+                minWidth: '21rem',
+                maxWidth: '21rem',
+                padding: '5px 5px',
+                margin: '10px 10px',
+              }}
+            >
+              <Card.Body style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    flex: 1,
+                    margin: '2px 2em 2px 2px',
+                  }}
+                >
+                  <ProfilePic pictureUrl={student.pictureurl} />
+                </div>
+                <div style={{ flex: 4 }}>
+                  <div>{student.email}</div>
+                  <div>Student ID: {student.id}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+          <div style={{ flex: 1 }}>
+            <CardDeck>
+              {student.guardians.map((value: StudentDetailGuardianType) => (
+                <StudentGuardianContainer
+                  key={value.id}
+                  id={value.id}
+                  firstName={value.firstName}
+                  lastName={value.lastName}
+                  phone={value.phone}
+                  address={value.address}
+                  pictureurl={value.pictureurl}
+                  relationship={value.relationship}
+                />
+              ))}
+            </CardDeck>
+          </div>
         </Col>
       </Row>
       {student.surveys && student.surveys.length > 0 ? (
