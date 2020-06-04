@@ -1,14 +1,14 @@
-import { StudentDetailGuardianType } from "./StudentDetailGuardianType";
+import { StudentDetailGuardianType } from './StudentDetailGuardianType';
 
 export type SurveyQuestionType = {
-  id: string,
-  question: string,
-  answer: string,
-}
+  id: string;
+  question: string;
+  answer: string;
+};
 
 export type StudentDetailSurveyType = {
-  id: string,
-  name: string,
+  id: string;
+  name: string;
   questions: Array<SurveyQuestionType>;
 };
 
@@ -22,4 +22,3 @@ export type StudentDetailType = {
   guardians: Array<StudentDetailGuardianType>;
   surveys?: Array<StudentDetailSurveyType>;
 };
-

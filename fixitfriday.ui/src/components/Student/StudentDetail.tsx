@@ -1,22 +1,22 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Container, Row, Col, CardDeck, Card } from 'react-bootstrap';
 import { StudentDetailGuardianType } from './types/StudentDetailGuardianType';
 import { StudentDetailType, StudentDetailSurveyType } from './types/StudentDetailTypes';
 import StudentGuardianContainer from './StudentGuardianContainer';
 import allStudents from './mockData/mockedStudents';
 import ErrorMessage from '../utilities/ErrorMessage';
 import { StudentDetailProps } from './StudentDetailProps';
-import { StudentSurveyContainer } from './StudentSurveyContainer';
-import { Container, Row, Col, CardDeck, Card } from 'react-bootstrap';
+import StudentSurveyContainer from './StudentSurveyContainer';
 import ProfilePic from '../utilities/ProfilePic';
 
 const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
   const [student, setStudent] = useState<StudentDetailType | undefined>(undefined);
 
-  let header = {
+  const header = {
     padding: '25px 10px',
   };
 
-  let surveyStyle = {
+  const surveyStyle = {
     padding: '25px 12px',
   };
 
@@ -40,7 +40,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
               key={student.id}
               style={{
                 flex: '1',
-                border: '1px solid #696969',
+                border: 'none',
                 minWidth: '21rem',
                 maxWidth: '21rem',
                 padding: '5px 5px',
@@ -93,7 +93,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
           </Col>
         </Row>
       ) : (
-        <div></div>
+        <div />
       )}
     </Container>
   ) : (

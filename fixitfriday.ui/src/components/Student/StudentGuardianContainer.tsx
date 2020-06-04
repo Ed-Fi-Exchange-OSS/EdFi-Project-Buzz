@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
+import { Card, Row } from 'react-bootstrap';
 import { StudentDetailGuardianType } from './types/StudentDetailGuardianType';
-import { Card, Col, Row } from 'react-bootstrap';
 import ProfilePic from '../utilities/ProfilePic';
 
 const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = ({
@@ -27,14 +27,14 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
         marginRight: '10px',
       }}
     >
-      <Card.Body style={{paddingLeft: '25px'}}>
+      <Card.Body style={{ paddingLeft: '25px' }}>
         <Row>
           <div style={{ display: 'flex' }}>
             <div style={{ flex: 4, marginRight: '3px' }}>
               <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
               <Card.Subtitle>{relationship}</Card.Subtitle>
-              <Card.Text>{`${phone}`}</Card.Text>
-              <Card.Text>{`${address}`}</Card.Text>
+              <Card.Text>{phone}</Card.Text>
+              <Card.Text>{address}</Card.Text>
             </div>
             <div
               style={{
@@ -48,7 +48,7 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
           </div>
         </Row>
       </Card.Body>
-      {isPrimary ? (<Card.Footer style={{ textAlign: 'right'}}>Primary Contact</Card.Footer>): ''}
+      {isPrimary ? <Card.Footer style={{ textAlign: 'right' }}>Primary Contact</Card.Footer> : ''}
     </Card>
   );
 };
