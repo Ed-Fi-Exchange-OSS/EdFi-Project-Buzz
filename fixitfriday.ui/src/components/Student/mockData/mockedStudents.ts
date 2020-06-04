@@ -25,6 +25,22 @@ const surveys: Array<StudentDetailSurveyType> = [
       },
     ],
   },
+  {
+    id: "2",
+    name: "Eating Survey Results",
+    questions: [
+      {
+        id: "1",
+        question: "Food Allergies",
+        answer: "(none)",
+      },
+      {
+        id: "2",
+        question: "Eating times",
+        answer: "Unrestriced",
+      },
+    ],
+  },
 ];
 
 const allStudents: Array<StudentDetailType> = [

@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { StudentDetailGuardianType } from './types/StudentDetailGuardianType';
-import { StudentDetailType } from './types/StudentDetailTypes';
+import { StudentDetailType, StudentDetailSurveyType } from './types/StudentDetailTypes';
 import StudentGuardianContainer from './StudentGuardianContainer';
 import allStudents from './mockData/mockedStudents';
 import ErrorMessage from '../utilities/ErrorMessage';
 import { StudentDetailProps } from './StudentDetailProps';
+import { StudentSurveyContainer } from './StudentSurveyContainer';
 import { Container, Row, Col, CardDeck, Card } from 'react-bootstrap';
 import ProfilePic from '../utilities/ProfilePic';
 
@@ -13,15 +14,6 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
 
   let header = {
     padding: '25px 10px',
-  };
-
-  let studentContainer = {
-
-  };
-
-  let studentCard = {
-    padding: '10px 10px',
-    margin: '12px 12px',
   };
 
   let surveyStyle = {
@@ -43,7 +35,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
         </Col>
       </Row>
       <Row>
-        <Col sm={4} style={studentContainer}>
+        <Col>
           <Card
             key={student.id}
             style={{
@@ -89,9 +81,19 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
           </CardDeck>
         </Col>
       </Row>
-      <Row style={surveyStyle}>
-        <Col>THIS IS TEXT FOR THE SURVEY</Col>
-      </Row>
+      {student.surveys && student.surveys.length > 0 ? (
+        <Row style={surveyStyle}>
+          <Col>
+            <CardDeck>
+              {student.surveys.map((value: StudentDetailSurveyType) => (
+                <StudentSurveyContainer key={value.id} id={value.id} name={value.name} questions={value.questions} />
+              ))}
+            </CardDeck>
+          </Col>
+        </Row>
+      ) : (
+        <div></div>
+      )}
     </Container>
   ) : (
     <ErrorMessage message={`There is no student with an ID of '${match.params.id}'`} />
