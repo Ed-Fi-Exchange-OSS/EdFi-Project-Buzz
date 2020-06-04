@@ -9,6 +9,9 @@ test('renders Student Detail', () => {
   const primaryGuardian = student.guardians[0];
   const secondGuardian = student.guardians[1];
   const thirdGuardian = student.guardians[2];
+
+  const firstSurveyQuestion = student.surveys[0];
+
   const routeComponentPropsMock = {
     history: {} as any,
     location: {} as any,
@@ -16,7 +19,7 @@ test('renders Student Detail', () => {
   };
 
   const { getByText } = render(<StudentDetail history={routeComponentPropsMock.history} location={routeComponentPropsMock.location} match={routeComponentPropsMock.match}/>);
-  const hasStudentId = getByText(`${student.id}`);
+  const hasStudentId = getByText(`Student ID: ${student.id}`);
   const hasName = getByText(`Student Detail - ${student.firstName} ${student.lastName}`);
   const hasEmail = getByText(student.email);
   const hasPrimaryGuardianName = getByText(`${primaryGuardian.firstName} ${primaryGuardian.lastName}`);
@@ -28,6 +31,14 @@ test('renders Student Detail', () => {
   const hasThirdGuardianName = getByText(`${thirdGuardian.firstName} ${thirdGuardian.lastName}`);
   const hasThirdGuardianPhone = getByText(`${thirdGuardian.phone}`);
   const hasThirdGuardianAddress = getByText(`${thirdGuardian.address}`);
+  const hasFirstSurveyName = getByText(`${firstSurveyQuestion.name}`);
+  const hasFirstSurveyFirstQuestion = getByText(`${firstSurveyQuestion.questions[0].question}:`);
+  const hasFirstSurveyFirstAnswer = getByText(`${firstSurveyQuestion.questions[0].answer}`);
+
+  expect(hasFirstSurveyFirstAnswer).toBeTruthy();
+  expect(hasFirstSurveyFirstQuestion).toBeTruthy();
+  expect(hasFirstSurveyName).toBeTruthy();
+
   expect(hasStudentId).toBeTruthy();
   expect(hasName).toBeTruthy();
   expect(hasEmail).toBeTruthy();
