@@ -1,5 +1,7 @@
 import { RouteComponentProps } from 'react-router';
 
-export interface StudentDetailProps extends RouteComponentProps<string> {
+interface StudentDetailMatchProps {
   id: string;
 }
+
+export type StudentDetailProps = RouteComponentProps<StudentDetailMatchProps>;

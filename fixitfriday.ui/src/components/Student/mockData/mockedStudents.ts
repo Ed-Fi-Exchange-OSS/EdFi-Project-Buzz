@@ -7,7 +7,7 @@ const allStudents: Array<StudentDetailType> = [
     lastName: 'Doe',
     middleName: '1',
     pictureurl: '',
-    email: '',
+    email: 'jdoe@test.com',
     guardians: [{
       id: '1',
       firstName: 'Mother',

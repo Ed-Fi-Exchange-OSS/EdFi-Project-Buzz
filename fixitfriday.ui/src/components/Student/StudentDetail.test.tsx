@@ -1,48 +1,21 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import StudentDetail from './StudentDetail';
+import allStudents from './mockData/mockedStudents';
 
 test('renders Student Detail', () => {
-  const student = {
-    id: '26',
-    firstName: 'Joe',
-    middleName: 'Q',
-    lastName: 'Test',
-    email: 'jtest@email.com',
-    pictureUrl: 'asdfjkl;asdfjkl;asdfjkl;',
+  const query = allStudents;
+  const student = query.filter((s) => s.id === '1')[0];
+  const primaryGuardian = student.guardians[0];
+  const secondGuardian = student.guardians[1];
+  const thirdGuardian = student.guardians[2];
+  const routeComponentPropsMock = {
+    history: {} as any,
+    location: {} as any,
+    match: { params: { id: '1' } } as any,
   };
-  const primaryGuardian = {
-    id: '1',
-    firstName: 'Mother',
-    lastName: 'Test',
-    phone: '512-555-1212',
-    address: '124 Main St, Austin, TX, USA 78705',
-  };
-  const secondGuardian = {
-    id: '2',
-    firstName: 'Father',
-    lastName: 'Test',
-    phone: '512-555-3434',
-    address: '123 Main St, Austin, TX, USA 78705',
-  };
-  const thirdGuardian = {
-    id: '3',
-    firstName: 'Grandma',
-    lastName: 'Test',
-    phone: '512-555-5656',
-    address: '498 Oak Dr, Austin, TX, USA 78745',
-  };
-    const { getByText } = render(
-    <StudentDetail
-      id={student.id}
-      firstName={student.firstName}
-      middleName={student.middleName}
-      lastName={student.lastName}
-      email={student.email}
-      pictureurl={student.pictureUrl}
-      guardians={[primaryGuardian, secondGuardian, thirdGuardian]}
-    />,
-  );
+
+  const { getByText } = render(<StudentDetail history={routeComponentPropsMock.history} location={routeComponentPropsMock.location} match={routeComponentPropsMock.match}/>);
   const hasStudentId = getByText(`${student.id}`);
   const hasName = getByText(`Student Detail - ${student.firstName} ${student.lastName}`);
   const hasEmail = getByText(student.email);
