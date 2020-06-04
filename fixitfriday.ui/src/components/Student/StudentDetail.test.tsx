@@ -18,7 +18,13 @@ test('renders Student Detail', () => {
     match: { params: { id: '1' } } as any,
   };
 
-  const { getByText } = render(<StudentDetail history={routeComponentPropsMock.history} location={routeComponentPropsMock.location} match={routeComponentPropsMock.match}/>);
+  const { getByText } = render(
+    <StudentDetail
+      history={routeComponentPropsMock.history}
+      location={routeComponentPropsMock.location}
+      match={routeComponentPropsMock.match}
+    />,
+  );
   const hasStudentId = getByText(`Student ID: ${student.id}`);
   const hasName = getByText(`Student Detail - ${student.firstName} ${student.lastName}`);
   const hasEmail = getByText(student.email);
