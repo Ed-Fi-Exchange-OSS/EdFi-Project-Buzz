@@ -75,6 +75,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
                   address={value.address}
                   pictureurl={value.pictureurl}
                   relationship={value.relationship}
+                  isPrimary={value.isPrimary}
                 />
               ))}
             </CardDeck>

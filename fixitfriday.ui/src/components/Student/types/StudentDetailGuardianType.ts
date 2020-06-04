@@ -6,4 +6,5 @@ export type StudentDetailGuardianType = {
   address: string;
   pictureurl: string;
   relationship: string;
+  isPrimary: boolean;
 };

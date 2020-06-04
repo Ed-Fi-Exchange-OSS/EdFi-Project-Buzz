@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { StudentDetailGuardianType } from './types/StudentDetailGuardianType';
-import { Card } from 'react-bootstrap';
+import { Card, Col, Row } from 'react-bootstrap';
 import ProfilePic from '../utilities/ProfilePic';
 
 const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = ({
@@ -10,7 +10,8 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
   phone,
   address,
   pictureurl,
-  relationship
+  relationship,
+  isPrimary,
 }) => {
   return (
     <Card
@@ -20,27 +21,34 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
         border: '1px solid #696969',
         minWidth: '16rem',
         maxWidth: '16rem',
-        padding: '5px 5px',
-        margin: '10px 10px',
+        paddingTop: '5px',
+        marginTop: '10px',
+        marginLeft: '10px',
+        marginRight: '10px',
       }}
     >
-      <Card.Body style={{ display: 'flex' }}>
-        <div style={{ flex: 4, marginRight: '3px' }}>
-          <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
-          <Card.Subtitle>{relationship}</Card.Subtitle>
-          <Card.Text>{`${phone}`}</Card.Text>
-          <Card.Text>{`${address}`}</Card.Text>
-        </div>
-        <div
-          style={{
-            flex: 1,
-            margin: '2px 2em 2px 2px',
-            minWidth: '70px',
-          }}
-        >
-          <ProfilePic pictureUrl={pictureurl} />
-        </div>
+      <Card.Body style={{paddingLeft: '25px'}}>
+        <Row>
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: 4, marginRight: '3px' }}>
+              <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
+              <Card.Subtitle>{relationship}</Card.Subtitle>
+              <Card.Text>{`${phone}`}</Card.Text>
+              <Card.Text>{`${address}`}</Card.Text>
+            </div>
+            <div
+              style={{
+                flex: 1,
+                margin: '2px 2em 2px 2px',
+                minWidth: '70px',
+              }}
+            >
+              <ProfilePic pictureUrl={pictureurl} />
+            </div>
+          </div>
+        </Row>
       </Card.Body>
+      {isPrimary ? (<Card.Footer style={{ textAlign: 'right'}}>Primary Contact</Card.Footer>): ''}
     </Card>
   );
 };
