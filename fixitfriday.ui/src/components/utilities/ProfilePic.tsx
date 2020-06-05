@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Card } from 'react-bootstrap';
 
-interface ProfilePicProps {
+type ProfilePicProps = {
   pictureUrl?: string;
 }
 
