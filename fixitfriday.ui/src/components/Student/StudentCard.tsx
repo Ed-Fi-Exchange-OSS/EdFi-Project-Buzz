@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { StudentCardProps } from './types/StudentCardProps';
 import ProfilePic from '../utilities/ProfilePic';
@@ -32,10 +33,12 @@ const StudentCard: FunctionComponent<StudentCardProps> = ({
               minWidth: '70px',
             }}
           >
-            <ProfilePic firstname={studentFirstName} lastname={studentLastName} pictureUrl={pictureurl} />
+            <ProfilePic pictureUrl={pictureurl} />
           </div>
           <div style={{ flex: 4 }}>
-            <BoldText text={`${studentFirstName} ${studentLastName}`} />
+            <Link to={`/student/${studentSchoolKey}`}>
+              <BoldText text={`${studentFirstName} ${studentLastName}`} />
+            </Link>
             <div>Student ID: {studentSchoolKey}</div>
             <div>{email}</div>
           </div>
