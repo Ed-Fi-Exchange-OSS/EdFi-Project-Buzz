@@ -1,3 +1,56 @@
-body {
+* {
+  color: #575757;
+  font-size: 16px;
+  font-family: 'Proxima Nova';
+  border-radius: 6px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+html, body {
+  left: 0px;
+  right: 0px;
+  background-color: white;
+}
+
+main {
+  left: 0px;
+  right: 0px;
+}
+
+#navbar-wrapper{
+  /* width: 100%; */
+  color: white !important;
+  background-color: #0e76bd;
+}
+
+.section-container {
+  /* flex: 1; */
+  background-color: #f7f7f7;
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.card-deck > {
+  background-color: #ffffff;
+}
+
+.bold-text {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.bordered-container-with-label {
+  background-color: white;
+  border: 1px solid #575757;
+  border-radius: 10px;
+  padding-top: 10px;
+}
+
+.bordered-container-label {
   margin-top: 10px;
 }
