@@ -4,7 +4,6 @@ import './app.css';
 import Container from 'react-bootstrap/Container';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
-import styled from 'styled-components';
 
 import EdFiNavBar from './components/Main/EdFiNavBar';
 import EdFiFooter from './components/Main/EdFiFooter';
@@ -12,13 +11,8 @@ import TeacherScreen from './components/teacher-screen/teacherScreen';
 import StudentDetail from './components/Student/StudentDetail';
 import SectionSurvey from './components/Survey/SectionSurvey';
 
-let FooterSection = styled.main`
-  padding-bottom: 1.5em;
-`;
-
 const App = () => (
   <Router>
-    <FooterSection>
       <main>
         <Container fluid>
           <Row>
@@ -51,8 +45,6 @@ const App = () => (
           </Row>
         </Container>
       </main>
-    </FooterSection>
-
   </Router>
 );
 
