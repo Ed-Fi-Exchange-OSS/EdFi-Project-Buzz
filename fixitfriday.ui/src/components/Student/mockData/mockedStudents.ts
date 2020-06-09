@@ -4,6 +4,7 @@ const surveys: Array<StudentDetailSurveyType> = [
   {
     id: '1',
     name: 'Contact Survey Results',
+    date: '3/15/2020',
     questions: [
       {
         id: '1',
@@ -25,6 +26,7 @@ const surveys: Array<StudentDetailSurveyType> = [
   {
     id: '2',
     name: 'Eating Survey Results',
+    date: '1/1/2020',
     questions: [
       {
         id: '1',

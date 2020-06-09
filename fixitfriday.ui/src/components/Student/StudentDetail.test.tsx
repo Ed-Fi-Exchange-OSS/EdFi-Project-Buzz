@@ -18,7 +18,7 @@ test('renders Student Detail', () => {
     match: { params: { id: '1' } } as any,
   };
 
-  const { getByText } = render(
+  const { getByText, getAllByText } = render(
     <StudentDetail
       history={routeComponentPropsMock.history}
       location={routeComponentPropsMock.location}
@@ -38,12 +38,14 @@ test('renders Student Detail', () => {
   const hasThirdGuardianPhone = getByText(`${thirdGuardian.phone}`);
   const hasThirdGuardianAddress = getByText(`${thirdGuardian.address}`);
   const hasFirstSurveyName = getByText(`${firstSurveyQuestion.name}`);
+  const hasFirstSurveyDate = getAllByText(firstSurveyQuestion.date);
   const hasFirstSurveyFirstQuestion = getByText(`${firstSurveyQuestion.questions[0].question}:`);
   const hasFirstSurveyFirstAnswer = getByText(`${firstSurveyQuestion.questions[0].answer}`);
 
   expect(hasFirstSurveyFirstAnswer).toBeTruthy();
   expect(hasFirstSurveyFirstQuestion).toBeTruthy();
   expect(hasFirstSurveyName).toBeTruthy();
+  expect(hasFirstSurveyDate).toBeTruthy();
 
   expect(hasStudentId).toBeTruthy();
   expect(hasName).toBeTruthy();

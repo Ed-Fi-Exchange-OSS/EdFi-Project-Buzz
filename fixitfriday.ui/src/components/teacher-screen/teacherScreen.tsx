@@ -46,15 +46,15 @@ const TeacherScreen: React.FunctionComponent = () => {
   );
 
   return (
-      <Row>
-        <Col xs={12}>
-          <PageHeader TeacherClass={headerData.sections} TeacherName={teacherName} onClassChange={onSectionChange} />
-          <hr />
-        </Col>
-        <Col xs={12}>
-          <SurveyRoster surveys={surveyRosterData} />
-        </Col>
-       <Col xs={12}>
+    <Row>
+      <Col xs={12}>
+        <PageHeader TeacherClass={headerData.sections} TeacherName={teacherName} onClassChange={onSectionChange} />
+        <hr />
+      </Col>
+      <Col xs={12}>
+        <SurveyRoster surveys={surveyRosterData} />
+      </Col>
+      <Col xs={12}>
         <StudentRoster students={rosterData} />
       </Col>
     </Row>

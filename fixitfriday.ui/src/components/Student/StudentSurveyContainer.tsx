@@ -2,20 +2,21 @@ import React, { FunctionComponent } from 'react';
 import { Container, Row, Col, CardDeck, Card } from 'react-bootstrap';
 import { StudentDetailSurveyType, SurveyQuestionType } from './types/StudentDetailTypes';
 
-const StudentSurveyContainer: FunctionComponent<StudentDetailSurveyType> = ({ name, questions }) => {
+const StudentSurveyContainer: FunctionComponent<StudentDetailSurveyType> = ({ name, questions, date }) => {
   const surveyContainer = {
     border: '1px solid black',
     padding: '10px 10px',
     marginBottom: '20px',
   };
   return (
-    <Container fluid style={surveyContainer}>
+    <Container fluid>
       <Row>
         <Col>
           <h5>{name}</h5>
         </Col>
+        <Col style={{ textAlign: 'right' }}>{date}</Col>
       </Row>
-      <Row>
+      <Row style={surveyContainer}>
         <Col>
           <CardDeck>
             {questions.map((value: SurveyQuestionType) => (

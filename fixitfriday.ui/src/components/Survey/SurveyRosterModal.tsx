@@ -15,11 +15,11 @@ const SurveyRoster: FC<SurveyRosterProps> = ({ surveys }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [radioChecked, setRadioChecked] = useState<string>('');
   // Set the first element checked
-  useEffect(()=> {
+  useEffect(() => {
     if (radioChecked === '' && surveys && surveys.length > 0) {
       setRadioChecked(surveys[0].surveyKey);
     }
-  });
+  }, [radioChecked, surveys]);
 
   const surveyOptions =
     surveys && surveys.length > 0 ? (
@@ -41,7 +41,7 @@ const SurveyRoster: FC<SurveyRosterProps> = ({ surveys }) => {
     );
   // If the section does not have related surveys, the component is not shown
   return surveys && surveys.length > 0 ? (
-    <div ref={React.createRef()} >
+    <div ref={React.createRef()}>
       <div id="modalSurveyShow" style={{ float: 'right' }}>
         <Button variant="primary" onClick={() => setShowModal(true)}>
           Class Survey Results

@@ -9,6 +9,7 @@ export type SurveyQuestionType = {
 export type StudentDetailSurveyType = {
   id: string;
   name: string;
+  date: string;
   questions: Array<SurveyQuestionType>;
 };
 

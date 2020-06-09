@@ -86,8 +86,8 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
         <Row style={surveyStyle}>
           <Col>
             <CardDeck>
-              {student.surveys.map((value: StudentDetailSurveyType) => (
-                <StudentSurveyContainer key={value.id} id={value.id} name={value.name} questions={value.questions} />
+              {student.surveys.map(({ id, name, questions, date }: StudentDetailSurveyType) => (
+                <StudentSurveyContainer key={id} id={id} name={name} questions={questions} date={date} />
               ))}
             </CardDeck>
           </Col>

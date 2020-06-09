@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 
 type ProfilePicProps = {
   pictureUrl?: string;
-}
+};
 
 const ProfilePic: FunctionComponent<ProfilePicProps> = ({ pictureUrl }: ProfilePicProps) => {
   return <Card.Img style={{ width: 'auto', height: 'auto', maxWidth: '5em' }} src={pictureUrl} />;
