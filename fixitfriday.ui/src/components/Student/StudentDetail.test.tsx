@@ -9,6 +9,9 @@ test('renders Student Detail', () => {
   const primaryGuardian = student.guardians[0];
   const secondGuardian = student.guardians[1];
   const thirdGuardian = student.guardians[2];
+  
+  const firstSibling = student.siblings[0];
+  const secondSibling = student.siblings[1];
 
   const firstSurveyQuestion = student.surveys[0];
 
@@ -18,7 +21,7 @@ test('renders Student Detail', () => {
     match: { params: { id: '1' } } as any,
   };
 
-  const { getByText, getAllByText } = render(
+  const { getByText, getAllByText, findAllByText } = render(
     <StudentDetail
       history={routeComponentPropsMock.history}
       location={routeComponentPropsMock.location}
@@ -42,6 +45,13 @@ test('renders Student Detail', () => {
   const hasFirstSurveyFirstQuestion = getByText(`${firstSurveyQuestion.questions[0].question}:`);
   const hasFirstSurveyFirstAnswer = getByText(`${firstSurveyQuestion.questions[0].answer}`);
 
+  const hasFirstSiblingName = findAllByText(`${firstSibling.firstName} ${firstSibling.lastName}`);
+  const hasFirstSiblingGradeLevel = findAllByText(`${firstSibling.gradeLevel}`);
+  const hasFirstSiblingSchool = findAllByText(`${firstSibling.school}`);
+  const hasSecondSiblingName = findAllByText(`${secondSibling.firstName} ${secondSibling.lastName}`);
+  const hasSecondSiblingGradeLevel = findAllByText(`${secondSibling.gradeLevel}`);
+  const hasSecondSiblingSchool = findAllByText(`${secondSibling.school}`);
+
   expect(hasFirstSurveyFirstAnswer).toBeTruthy();
   expect(hasFirstSurveyFirstQuestion).toBeTruthy();
   expect(hasFirstSurveyName).toBeTruthy();
@@ -59,4 +69,11 @@ test('renders Student Detail', () => {
   expect(hasThirdGuardianName).toBeTruthy();
   expect(hasThirdGuardianPhone).toBeTruthy();
   expect(hasThirdGuardianAddress).toBeTruthy();
+
+  expect(hasFirstSiblingName).toBeTruthy();
+  expect(hasFirstSiblingGradeLevel).toBeTruthy();
+  expect(hasFirstSiblingSchool).toBeTruthy();
+  expect(hasSecondSiblingName).toBeTruthy();
+  expect(hasSecondSiblingGradeLevel).toBeTruthy();
+  expect(hasSecondSiblingSchool).toBeTruthy();
 });

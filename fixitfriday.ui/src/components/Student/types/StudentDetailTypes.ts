@@ -1,4 +1,5 @@
 import { StudentDetailGuardianType } from './StudentDetailGuardianType';
+import { StudentDetailSiblingType } from './StudentDetailSiblingType';
 
 export type SurveyQuestionType = {
   id: string;
@@ -22,4 +23,5 @@ export type StudentDetailType = {
   email: string;
   guardians: Array<StudentDetailGuardianType>;
   surveys?: Array<StudentDetailSurveyType>;
+  siblings?: Array<StudentDetailSiblingType>;
 };
