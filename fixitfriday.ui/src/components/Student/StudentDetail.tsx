@@ -20,29 +20,29 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
   }, [match.params.id]);
 
   return student && student !== undefined ? (
-    <Container fluid className={'student-detail-container'}>
-      <Row className={'section-container student-detail-container-header'}>
+    <Container fluid className="student-detail-container">
+      <Row className="section-container student-detail-container-header">
         <Col>
-          <span className={'bigger-bold-text'}>{`Student Detail - ${student.firstName} ${student.lastName}`}</span>
+          <span className="bigger-bold-text">{`Student Detail - ${student.firstName} ${student.lastName}`}</span>
           <hr />
         </Col>
       </Row>
       <Row className="section-container">
-        <Col className={'student-detail-container-body'}>
-          <div className={'student-detail-student-info-container'} style={{ flex: 1 }}>
-            <Card key={student.id} className={'student-detail-student-info-card'}>
-              <Card.Body className={'student-detail-student-info-card-profilepic'}>
+        <Col className="student-detail-container-body">
+          <div className="student-detail-student-info-container" style={{ flex: 1 }}>
+            <Card key={student.id} className="student-detail-student-info-card">
+              <Card.Body className="student-detail-student-info-card-profilepic">
                 <div>
                   <ProfilePic pictureUrl={student.pictureurl} />
                 </div>
-                <div className={'student-detail-student-info-card-info'}>
+                <div className="student-detail-student-info-card-info">
                   <div>{student.email}</div>
                   <div>Student ID: {student.id}</div>
                 </div>
               </Card.Body>
             </Card>
           </div>
-          <div className={'student-detail-guardians-container'} style={{ flex: 1 }}>
+          <div className="student-detail-guardians-container" style={{ flex: 1 }}>
             <CardDeck>
               {student.guardians.map((value: StudentDetailGuardianType) => (
                 <StudentGuardianContainer
@@ -103,7 +103,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
         )}
       </Row>
       {student.surveys && student.surveys.length > 0 ? (
-        <Row className={'section-container student-detail-survey-container'}>
+        <Row className="section-container student-detail-survey-container">
           <Col>
             <CardDeck>
               {student.surveys.map(({ id, name, questions, date }: StudentDetailSurveyType) => (

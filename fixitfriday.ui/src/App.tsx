@@ -13,38 +13,38 @@ import SectionSurvey from './components/Survey/SectionSurvey';
 
 const App = () => (
   <Router>
-      <main>
-        <Container fluid>
-          <Row>
-            <Col sm={2}></Col>
-            <Col sm={8} id="navbar-wrapper">
-              <header>
-                <EdFiNavBar />
-              </header>
-            </Col>
-            <Col sm={2}></Col>
-          </Row>
-          <Row>
-            <Col sm={2}></Col>
-            <Col sm={8} id="page-content-wrapper">
-              <Switch>
-                <Route path="/" exact component={TeacherScreen} />
-                <Route path="/teacher/:id" exact component={TeacherScreen} />
-                <Route path="/student/:id" exact component={StudentDetail} />
-                <Route path="/sectionsurvey/:section/:survey" exact component={SectionSurvey} />
-              </Switch>
-            </Col>
-            <Col sm={2}></Col>
-          </Row>
-          <Row>
-            <Col sm={2}></Col>
-            <Col sm={8} className={'section-container'}>
-              <EdFiFooter />
-            </Col>
-            <Col sm={2}></Col>
-          </Row>
-        </Container>
-      </main>
+    <main>
+      <Container fluid>
+        <Row>
+          <Col sm={2} />
+          <Col sm={8} id="navbar-wrapper">
+            <header>
+              <EdFiNavBar />
+            </header>
+          </Col>
+          <Col sm={2} />
+        </Row>
+        <Row>
+          <Col sm={2} />
+          <Col sm={8} id="page-content-wrapper">
+            <Switch>
+              <Route path="/" exact component={TeacherScreen} />
+              <Route path="/teacher/:id" exact component={TeacherScreen} />
+              <Route path="/student/:id" exact component={StudentDetail} />
+                <Route path="/sectionsurvey/:section/:survey" exact component={SectionSurvey} />	      
+            </Switch>
+          </Col>
+          <Col sm={2} />
+        </Row>
+        <Row>
+          <Col sm={2} />
+          <Col sm={8} className="section-container">
+            <EdFiFooter />
+          </Col>
+          <Col sm={2} />
+        </Row>
+      </Container>
+    </main>
   </Router>
 );
 

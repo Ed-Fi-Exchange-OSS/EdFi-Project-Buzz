@@ -14,15 +14,12 @@ const StudentGuardianContainer: FunctionComponent<StudentDetailGuardianType> = (
   isPrimary,
 }) => {
   return (
-    <Card
-      key={id}
-      className={'student-detail-student-info-card'}
-    >
-      <Card.Body className={'student-detail-student-info-card-body'}>
+    <Card key={id} className="student-detail-student-info-card">
+      <Card.Body className="student-detail-student-info-card-body">
         <Row>
-          <div className={'student-detail-student-info-card-profilepic'}>
+          <div className="student-detail-student-info-card-profilepic">
             <div style={{ flex: 4 }}>
-              <Card.Title className={'bold-text'}>{`${firstName} ${lastName}`}</Card.Title>
+              <Card.Title className="bold-text">{`${firstName} ${lastName}`}</Card.Title>
               <Card.Subtitle>{relationship}</Card.Subtitle>
               <Card.Text>{phone}</Card.Text>
               <Card.Text>{address}</Card.Text>

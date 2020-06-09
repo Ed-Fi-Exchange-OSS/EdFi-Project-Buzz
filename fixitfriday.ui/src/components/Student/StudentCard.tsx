@@ -15,7 +15,7 @@ const StudentCard: FunctionComponent<StudentCardProps> = ({
   const BoldText = ({ text }: { text: string }) => <div style={{ fontWeight: 'bold' }}>{text}</div>;
 
   return (
-    <Card key={studentSchoolKey} className={'student-card'}>
+    <Card key={studentSchoolKey} className="student-card">
       <Card.Body>
         <div style={{ display: 'flex' }}>
           <div
