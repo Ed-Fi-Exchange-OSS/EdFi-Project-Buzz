@@ -26,13 +26,7 @@ const StudentRoster: FC<StudentRosterProps> = (props: StudentRosterProps) => {
       <div />
     );
 
-  return (
-    <>
-      <CardDeck className="studentCard" style={{ width: '100%' }}>
-        {deck}
-      </CardDeck>
-    </>
-  );
+  return <CardDeck>{deck}</CardDeck>;
 };
 
 export default StudentRoster;
