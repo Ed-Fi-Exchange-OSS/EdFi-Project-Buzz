@@ -24,7 +24,7 @@ const StudentSurveyContainer: FunctionComponent<StudentDetailSurveyType> = ({ na
               {questions.map((value: SurveyQuestionType) => (
                 <Card className={'no-border'} key={value.id}>
                   <Card.Body>
-                    <Card.Text className={'bold-text'}>{`${value.question}:`}</Card.Text>
+                      <Card.Text className={'bold-text'}>{`${value.question}:`}</Card.Text>
                     <Card.Text>{value.answer}</Card.Text>
                   </Card.Body>
                 </Card>

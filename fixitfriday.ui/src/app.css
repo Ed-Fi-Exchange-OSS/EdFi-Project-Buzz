@@ -29,6 +29,7 @@ footer {
 main {
   left: 0px;
   right: 0px;
+  padding-bottom: 1.5em;
 }
 
 #navbar-wrapper{
@@ -85,6 +86,10 @@ h1, .bigger-bold-text {
   margin-top: 10px;
 }
 
+.footer-text {
+  text-align: center;
+}
+
 .navbar-brand > img {
   height: 3em;
 }
@@ -101,6 +106,13 @@ h1, .bigger-bold-text {
 
 .nav-link:hover, .navbar .btn:hover {
   background-color: #1192eb;
+}
+
+.student-card {
+  flex: 1;
+  border: none !important;
+  padding: 5px 5px;
+  margin-top: 10px;
 }
 
 .student-detail-container {
