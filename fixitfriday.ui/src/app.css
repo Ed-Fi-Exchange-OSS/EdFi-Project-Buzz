@@ -48,6 +48,8 @@ main {
   margin-top: 1em;
   padding-top: 1em;
   padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .card-deck > {
@@ -122,10 +124,6 @@ h1, .bigger-bold-text {
 
 .student-detail-container-header {
   padding: 25px 10px;
-}
-
-.student-detail-survey-container {
-  padding: 25px 12px;
 }
 
 .student-detail-card {

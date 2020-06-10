@@ -61,13 +61,19 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
           </div>
         </Col>
       </Row>
-      <Row>
+      <Row className="section-container student-detail-survey-container">
         {student.siblings && student.siblings.length > 0 ? (
-          <Container fluid className="section-container">
-            <Row>
-              <Col><span className="bold-text">Siblings</span></Col>
-            </Row>
-            <Row>
+          <>
+            <Container fluid className="bordered-container-label">
+              <Row>
+                <Col sm={3} className="bold-text">
+                  Siblings
+                </Col>
+                <Col sm={6} />
+                <Col sm={3} />
+              </Row>
+            </Container>
+            <Container fluid className="bordered-container-with-label">
               <Col xs={12}>
                 <CardDeck>
                   {student.siblings.map((value: StudentDetailSiblingType) => (
@@ -85,8 +91,8 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
                   ))}
                 </CardDeck>
               </Col>
-            </Row>
-          </Container>
+            </Container>
+          </>
         ) : (
           <div />
         )}
