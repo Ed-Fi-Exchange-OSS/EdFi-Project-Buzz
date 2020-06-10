@@ -6,7 +6,7 @@ const firstSection: Array<StudentClassType> = [
     studentfirstname: 'John',
     studentlastname: 'Doe',
     studentmiddlename: '1',
-    pictureurl: '',
+    pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'student@test.com',
     guardianInformation: {
       name: 'Guardian Name',
