@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -14,10 +15,11 @@ import { SurveyRosterProps } from './types/SurveyRosterProps';
 const SurveyRoster: FC<SurveyRosterProps> = ({ surveys }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [radioChecked, setRadioChecked] = useState<string>('');
+  const history = useHistory();
   // Set the first element checked
   useEffect(() => {
     if (radioChecked === '' && surveys && surveys.length > 0) {
-      setRadioChecked(surveys[0].surveyKey);
+      setRadioChecked(`${surveys[0].sectionKey}/${surveys[0].surveyKey}`);
     }
   }, [radioChecked, surveys]);
 
@@ -29,9 +31,9 @@ const SurveyRoster: FC<SurveyRosterProps> = ({ surveys }) => {
             type="radio"
             key={s.surveyKey}
             id={s.surveyKey}
-            checked={radioChecked === s.surveyKey}
-            value={s.surveyKey}
-            onChange={() => setRadioChecked(s.surveyKey)}
+            checked={radioChecked === `${s.sectionKey}/${s.surveyKey}`}
+            value={`${s.surveyKey}/${s.sectionKey}`}
+            onChange={() => setRadioChecked(`${s.sectionKey}/${s.surveyKey}`)}
           />
           &nbsp;{s.surveyName}
         </div>
@@ -65,7 +67,7 @@ const SurveyRoster: FC<SurveyRosterProps> = ({ surveys }) => {
               </Button>
             </Col>
             <Col xs={3}>
-              <Button variant="primary" onClick={() => setShowModal(false)}>
+              <Button variant="primary" onClick={() => history.push(`/sectionsurvey/${radioChecked}`)}>
                 &nbsp;&nbsp;OK&nbsp;&nbsp;
               </Button>
             </Col>

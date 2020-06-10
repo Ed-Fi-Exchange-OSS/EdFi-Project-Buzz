@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Container, Row, Col, CardDeck, Card } from 'react-bootstrap';
-import { StudentDetailSurveyType, SurveyQuestionType } from './types/StudentDetailTypes';
+import { StudentDetailSurveyType } from './types/StudentDetailTypes';
+import { SurveyQuestionType } from '../Survey/types/SurveyQuestionType';
 
 const StudentSurveyContainer: FunctionComponent<StudentDetailSurveyType> = ({ name, questions, date }) => {
   const surveyContainer = {

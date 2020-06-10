@@ -8,10 +8,18 @@ import { TeacherClassType } from './types/TeacherClassType';
 type PageHeaderProps = {
   TeacherName: string;
   TeacherClass: TeacherClassType[];
+  SelectedClass?: string;
+  ShowAllOption?: boolean;
   onClassChange?(value: string): void;
 };
 
-const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ TeacherName, TeacherClass, onClassChange }) => {
+const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
+  TeacherName,
+  TeacherClass,
+  SelectedClass,
+  ShowAllOption,
+  onClassChange,
+}) => {
   const Options = TeacherClass.map((teacherClass) => (
     <option value={teacherClass.sectionkey} key={teacherClass.sectionkey}>
       {teacherClass.schoolyear} - {teacherClass.sessionname}
@@ -26,6 +34,12 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ TeacherName, Tea
     }
   }, [selectedClass, onClassChange]);
 
+  useEffect(() => {
+    if (SelectedClass) {
+      setSelectedClass(SelectedClass);
+    }
+  }, [SelectedClass]);
+
   return (
     <>
       <Row>
@@ -38,7 +52,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ TeacherName, Tea
           <Form>
             <Form.Group>
               <Form.Control as="select" value={selectedClass} size="sm" onChange={(e) => setSelectedClass(e.target.value)}>
-                <option value="">Select a class</option>
+                <option value={ShowAllOption ? 'all' : ''}>{ShowAllOption ? 'All' : 'Select a class'}</option>
                 {Options}
               </Form.Control>
             </Form.Group>

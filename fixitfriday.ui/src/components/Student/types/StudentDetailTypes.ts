@@ -1,11 +1,6 @@
 import { StudentDetailGuardianType } from './StudentDetailGuardianType';
 import { StudentDetailSiblingType } from './StudentDetailSiblingType';
-
-export type SurveyQuestionType = {
-  id: string;
-  question: string;
-  answer: string;
-};
+import { SurveyQuestionType } from '../../Survey/types/SurveyQuestionType';
 
 export type StudentDetailSurveyType = {
   id: string;

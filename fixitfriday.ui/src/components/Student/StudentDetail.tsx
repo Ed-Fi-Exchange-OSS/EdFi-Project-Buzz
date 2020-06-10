@@ -96,10 +96,12 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
                 <h5>Siblings</h5>
               </Col>
             </Row>
-            <Row style={{
-              border: '1px solid black',
-              padding: '10px 10px',
-            }}>
+            <Row
+              style={{
+                border: '1px solid black',
+                padding: '10px 10px',
+              }}
+            >
               <Col xs={12}>
                 <CardDeck>
                   {student.siblings.map((value: StudentDetailSiblingType) => (

@@ -9,7 +9,7 @@ test('renders Student Detail', () => {
   const primaryGuardian = student.guardians[0];
   const secondGuardian = student.guardians[1];
   const thirdGuardian = student.guardians[2];
-  
+
   const firstSibling = student.siblings[0];
   const secondSibling = student.siblings[1];
 

@@ -14,7 +14,7 @@ const StudentSiblingContainer: FunctionComponent<StudentDetailSiblingType> = ({
     <Media
       style={{
         marginBottom: '10px',
-        marginTop: '10px'
+        marginTop: '10px',
       }}
     >
       <div

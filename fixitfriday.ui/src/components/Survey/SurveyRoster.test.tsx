@@ -7,6 +7,7 @@ test('renders Survey Modal', () => {
   const sectionSurveys: Array<SurveyClassType> = [
     {
       surveyKey: '1',
+      sectionKey: '1',
       surveyName: 'Test Survey',
     },
   ];
@@ -14,7 +15,7 @@ test('renders Survey Modal', () => {
   const { getByText, getByDisplayValue } = render(<SurveyRosterModal surveys={sectionSurveys} />);
   fireEvent.click(getByText('Class Survey Results'));
 
-  const surveyHasSurveyKey = getByDisplayValue(sectionSurveys[0].surveyKey);
+  const surveyHasSurveyKey = getByDisplayValue(`${sectionSurveys[0].sectionKey}/${sectionSurveys[0].surveyKey}`);
   const surveyHasSurveyName = getByText(sectionSurveys[0].surveyName);
 
   expect(surveyHasSurveyKey).toBeTruthy();
