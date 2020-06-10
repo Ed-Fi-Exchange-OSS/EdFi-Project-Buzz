@@ -11,30 +11,26 @@ const StudentSiblingContainer: FunctionComponent<StudentDetailSiblingType> = ({
   pictureurl,
 }) => {
   return (
-    <Media
-      style={{
-        marginBottom: '10px',
-        marginTop: '10px',
-      }}
-    >
-      <div
-        style={{
-          margin: '2px 1em 2px 2px',
-          width: '80px',
-        }}
-      >
-        <ProfilePic pictureUrl={pictureurl} />
-      </div>
-      <Media.Body>
-        <Card.Text>
+    <Card className="student-card">
+      <Card.Body>
+      <div style={{ display: 'flex' }}>
+        <div
+          style={{
+            flex: 1,
+          }}
+        >
+          <ProfilePic pictureUrl={pictureurl} />
+        </div>
+        <div style={{ flex: 4 }}>
           {`${firstName} ${lastName}`}
           <br />
           {gradeLevel}
           <br />
           {school}
-        </Card.Text>
-      </Media.Body>
-    </Media>
+        </div>
+      </div>
+      </Card.Body>
+    </Card>
   );
 };
 

@@ -29,7 +29,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
       </Row>
       <Row className="section-container">
         <Col className="student-detail-container-body">
-          <div className="student-detail-student-info-container" style={{ flex: 1 }}>
+          <div className="student-detail-student-info-container">
             <Card key={student.id} className="student-detail-student-info-card">
               <Card.Body className="student-detail-student-info-card-profilepic">
                 <div>
@@ -61,24 +61,13 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
           </div>
         </Col>
       </Row>
-      <Row
-        style={{
-          padding: '25px 12px 0px 12px',
-        }}
-      >
+      <Row>
         {student.siblings && student.siblings.length > 0 ? (
-          <Container fluid>
+          <Container fluid className="section-container">
             <Row>
-              <Col>
-                <h5>Siblings</h5>
-              </Col>
+              <Col><span className="bold-text">Siblings</span></Col>
             </Row>
-            <Row
-              style={{
-                border: '1px solid black',
-                padding: '10px 10px',
-              }}
-            >
+            <Row>
               <Col xs={12}>
                 <CardDeck>
                   {student.siblings.map((value: StudentDetailSiblingType) => (
