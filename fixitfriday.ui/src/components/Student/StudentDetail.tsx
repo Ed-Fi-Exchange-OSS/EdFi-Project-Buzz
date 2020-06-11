@@ -61,42 +61,40 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
           </div>
         </Col>
       </Row>
-      <Row className="section-container student-detail-survey-container">
-        {student.siblings && student.siblings.length > 0 ? (
-          <>
-            <Container fluid className="bordered-container-label">
-              <Row>
-                <Col sm={3} className="bold-text">
-                  Siblings
-                </Col>
-                <Col sm={6} />
-                <Col sm={3} />
-              </Row>
-            </Container>
-            <Container fluid className="bordered-container-with-label">
-              <Col xs={12}>
-                <CardDeck>
-                  {student.siblings.map((value: StudentDetailSiblingType) => (
-                    <Col key={value.id} xs={12} sm={12} md={6} lg={4} xl={4}>
-                      <StudentSiblingContainer
-                        key={value.id}
-                        id={value.id}
-                        firstName={value.firstName}
-                        lastName={value.lastName}
-                        gradeLevel={value.gradeLevel}
-                        school={value.school}
-                        pictureurl={value.pictureurl}
-                      />
-                    </Col>
-                  ))}
-                </CardDeck>
+      {student.siblings && student.siblings.length > 0 ? (
+        <Row className="section-container student-detail-survey-container">
+          <Container fluid className="bordered-container-label">
+            <Row>
+              <Col sm={3} className="bold-text">
+                Siblings
               </Col>
-            </Container>
-          </>
-        ) : (
-          <div />
-        )}
-      </Row>
+              <Col sm={6} />
+              <Col sm={3} />
+            </Row>
+          </Container>
+          <Container fluid className="bordered-container-with-label">
+            <Col xs={12}>
+              <CardDeck>
+                {student.siblings.map((value: StudentDetailSiblingType) => (
+                  <Col key={value.id} xs={12} sm={12} md={6} lg={4} xl={4}>
+                    <StudentSiblingContainer
+                      key={value.id}
+                      id={value.id}
+                      firstName={value.firstName}
+                      lastName={value.lastName}
+                      gradeLevel={value.gradeLevel}
+                      school={value.school}
+                      pictureurl={value.pictureurl}
+                    />
+                  </Col>
+                ))}
+              </CardDeck>
+            </Col>
+          </Container>
+        </Row>
+      ) : (
+        <div />
+      )}
       {student.surveys && student.surveys.length > 0 ? (
         <Row className="section-container student-detail-survey-container">
           <Col>
