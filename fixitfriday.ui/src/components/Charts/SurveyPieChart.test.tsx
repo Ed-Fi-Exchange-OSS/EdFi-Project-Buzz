@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import SurveyPieChart from './SurveyPieChart';
-import SurveyQuestionType from '../Survey/types/SurveyQuestionType';
+import { SurveyQuestionType } from '../Survey/types/SurveyQuestionType';
 
 test('renders Survey Pie Chart', () => {
   const answers: Array<SurveyQuestionType> = [

@@ -10,6 +10,7 @@ import EdFiFooter from './components/Main/EdFiFooter';
 import TeacherScreen from './components/teacher-screen/teacherScreen';
 import StudentDetail from './components/Student/StudentDetail';
 import SectionSurvey from './components/Survey/SectionSurvey';
+import AdvancedSearch from './components/Survey/AdvancedSearch';
 
 const App = () => (
   <Router>
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/teacher/:id" exact component={TeacherScreen} />
               <Route path="/student/:id" exact component={StudentDetail} />
               <Route path="/sectionsurvey/:section/:survey" exact component={SectionSurvey} />
+              <Route path="/AdvancedSearch" exact component={AdvancedSearch} />
             </Switch>
           </Col>
           <Col sm={2} />

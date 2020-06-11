@@ -71,7 +71,12 @@ const SectionSurvey: FC<SectionSurveyProps> = ({ match }) => {
           <Link to="/">
             <Button variant="primary">Class Roster</Button>
           </Link>
-          <hr />
+          &nbsp; &nbsp;
+          <Link to="/AdvancedSearch">
+            <Button variant="primary">Advanced Search</Button>
+          </Link>
+          <br />
+          <br />
         </div>
       </Col>
       <Col xs={12}>
