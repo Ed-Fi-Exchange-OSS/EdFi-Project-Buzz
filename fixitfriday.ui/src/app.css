@@ -1,3 +1,185 @@
-body {
+* {
+  color: #575757;
+  font-size: 16px;
+  font-family: 'Proxima Nova';
+  border-radius: 6px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+html, body {
+  left: 0px;
+  right: 0px;
+  background-color: white;
+}
+
+footer {
+  margin-top: 2rem;
+  line-height: 1rem;
+  text-align: center;
+  background-color: #f7f7f7;
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+main {
+  left: 0px;
+  right: 0px;
+  padding-bottom: 1.5em;
+}
+
+#navbar-wrapper{
+  /* width: 100%; */
+  color: white !important;
+  background-color: #0e76bd;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.section-container {
+  /* flex: 1; */
+  background-color: #f7f7f7;
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.card-deck > {
+  background-color: #ffffff;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+h2, .big-bold-text {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+h1, .bigger-bold-text {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.bordered-container-with-label {
+  background-color: white;
+  border: 1px solid #575757;
+  border-radius: 10px;
+  padding-top: 10px;
+}
+
+.bordered-container-with-label {
+  background-color: #ffffff;
+  border: 1px solid rgba(87, 87, 87, 0.125);
+  border-radius: 10px;
+  padding-top: 10px;
+}
+
+.bordered-container-label {
   margin-top: 10px;
+}
+
+.footer-text {
+  text-align: center;
+}
+
+.navbar-brand > img {
+  height: 3em;
+}
+
+.navbar .btn {
+  color: white;
+  border-color: white !important;
+  margin-right: 2em;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.nav-link:hover, .navbar .btn:hover {
+  background-color: #1192eb;
+}
+
+.student-card {
+  flex: 1;
+  border: none !important;
+  padding: 5px 5px;
+  margin-top: 10px;
+}
+
+.student-detail-container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.student-detail-container-header {
+  padding: 25px 10px;
+}
+
+.student-detail-card {
+  flex: 1;
+  border: 1px solid #575757;
+  min-width: 21rem;
+  padding: 5px 5px;
+  margin: 10px 10px;
+}
+
+.student-detail-card-body {
+  display: 'flex';
+}
+
+.student-detail-container-body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.student-detail-student-info-container {
+  flex: 1 1 auto;
+  margin-right: 1em;
+}
+
+.student-detail-student-info-card {
+  flex: 1 1 auto;
+  min-width: 21rem;
+  max-width: 21rem;
+  margin: 10px 10px;
+}
+
+.student-detail-student-info-card-body {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.student-detail-student-info-card-profilepic {
+  display: flex;
+}
+
+.student-detail-student-info-card-profilepic > div {
+  flex: 1;
+  margin: 2px 2px 2px 2px;
+}
+
+.student-detail-student-info-card-info {
+  flex: 4;
+}
+
+.student-detail-guardians-container {
+  flex: 1 1 auto;
+  margin: 0px 10px;
+  align-content: space-around;
+}
+
+.student-detail-survey-container-timestamp {
+  text-align: right;
+  right: 0px;
 }

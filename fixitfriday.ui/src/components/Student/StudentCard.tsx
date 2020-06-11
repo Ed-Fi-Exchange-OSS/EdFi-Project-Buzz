@@ -15,22 +15,12 @@ const StudentCard: FunctionComponent<StudentCardProps> = ({
   const BoldText = ({ text }: { text: string }) => <div style={{ fontWeight: 'bold' }}>{text}</div>;
 
   return (
-    <Card
-      key={studentSchoolKey}
-      style={{
-        flex: '1',
-        border: '1px solid #696969',
-        minWidth: '19rem',
-        padding: '5px 5px',
-        marginTop: '10px',
-      }}
-    >
+    <Card key={studentSchoolKey} className="student-card">
       <Card.Body>
         <div style={{ display: 'flex' }}>
           <div
             style={{
               flex: 1,
-              minWidth: '70px',
             }}
           >
             <ProfilePic pictureUrl={pictureurl} />

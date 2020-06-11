@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Card, Media } from 'react-bootstrap';
+import { Media } from 'react-bootstrap';
 import { StudentDetailSiblingType } from './types/StudentDetailSiblingType';
 import ProfilePic from '../utilities/ProfilePic';
 
@@ -11,28 +11,24 @@ const StudentSiblingContainer: FunctionComponent<StudentDetailSiblingType> = ({
   pictureurl,
 }) => {
   return (
-    <Media
-      style={{
-        marginBottom: '10px',
-        marginTop: '10px',
-      }}
-    >
-      <div
-        style={{
-          margin: '2px 1em 2px 2px',
-          width: '80px',
-        }}
-      >
-        <ProfilePic pictureUrl={pictureurl} />
-      </div>
+    <Media className="student-card">
       <Media.Body>
-        <Card.Text>
-          {`${firstName} ${lastName}`}
-          <br />
-          {gradeLevel}
-          <br />
-          {school}
-        </Card.Text>
+        <div style={{ display: 'flex' }}>
+          <div
+            style={{
+              flex: 1,
+            }}
+          >
+            <ProfilePic pictureUrl={pictureurl} />
+          </div>
+          <div style={{ flex: 4 }}>
+            {`${firstName} ${lastName}`}
+            <br />
+            {gradeLevel}
+            <br />
+            {school}
+          </div>
+        </div>
       </Media.Body>
     </Media>
   );
