@@ -17,6 +17,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-fontawesome": "^1.6.4",
     "@types/react-router-dom": "^5.1.5",
+    "@types/recharts": "^1.8.11",
     "apollo-boost": "^0.4.9",
     "bootstrap": "^4.5.0",
     "bootswatch": "^4.5.0",
@@ -29,6 +30,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "recharts": "^1.8.5",
     "typescript": "^3.9.3"
   },
   "scripts": {
