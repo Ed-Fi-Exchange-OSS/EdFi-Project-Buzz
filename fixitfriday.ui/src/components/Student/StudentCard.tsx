@@ -1,8 +1,49 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import { StudentCardProps } from './types/StudentCardProps';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faEnvelope, faLaptop } from '@fortawesome/free-solid-svg-icons';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import ProfilePic from '../utilities/ProfilePic';
+import { StudentCardProps } from './types/StudentCardProps';
+
+const BoldText = ({ text }: { text: string }) => <div style={{ fontWeight: 'bold' }}>{text}</div>;
+
+type AccessComponentProps = {
+  googleClassroom: boolean;
+  email: boolean;
+  phone: boolean;
+  internet: boolean;
+};
+
+const AccessComponent: FunctionComponent<AccessComponentProps> = ({ googleClassroom, email, phone, internet }) => {
+  const spaceAfter = { paddingRight: '3px' };
+  return (
+    <div>
+      {googleClassroom ? (
+        <FontAwesomeIcon
+          data-testid="google-classroom-icon"
+          icon={faGoogle}
+          title="Has Google Classroom access"
+          style={spaceAfter}
+        />
+      ) : (
+        ''
+      )}
+      {email ? (
+        <FontAwesomeIcon data-testid="email-icon" icon={faEnvelope} title="Has email access" style={spaceAfter} />
+      ) : (
+        ''
+      )}
+      {phone ? <FontAwesomeIcon data-testid="phone-icon" icon={faPhone} title="Has phone access" style={spaceAfter} /> : ''}
+      {internet ? (
+        <FontAwesomeIcon data-testid="internet-icon" icon={faLaptop} title="Has Internet access" style={spaceAfter} />
+      ) : (
+        ''
+      )}
+    </div>
+  );
+};
 
 const StudentCard: FunctionComponent<StudentCardProps> = ({
   studentFirstName,
@@ -11,11 +52,22 @@ const StudentCard: FunctionComponent<StudentCardProps> = ({
   email,
   pictureurl,
   guardianInformation,
+  hasEmail,
+  hasAccessToGoogleClassroom,
+  hasInternetAccess,
+  hasPhone,
 }) => {
-  const BoldText = ({ text }: { text: string }) => <div style={{ fontWeight: 'bold' }}>{text}</div>;
-
   return (
-    <Card key={studentSchoolKey} className="student-card">
+    <Card
+      key={studentSchoolKey}
+      style={{
+        flex: '1',
+        border: '1px solid #696969',
+        minWidth: '19rem',
+        padding: '5px 5px',
+        marginTop: '10px',
+      }}
+    >
       <Card.Body>
         <div style={{ display: 'flex' }}>
           <div
@@ -47,6 +99,14 @@ const StudentCard: FunctionComponent<StudentCardProps> = ({
           <div>{guardianInformation.contactNotes}</div>
         </div>
       </Card.Body>
+      <Card.Footer style={{ textAlign: 'right' }}>
+        <AccessComponent
+          googleClassroom={hasAccessToGoogleClassroom}
+          email={hasEmail}
+          phone={hasPhone}
+          internet={hasInternetAccess}
+        />
+      </Card.Footer>
     </Card>
   );
 };

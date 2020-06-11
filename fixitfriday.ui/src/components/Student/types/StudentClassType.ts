@@ -17,4 +17,8 @@ export type StudentClassType = {
   pictureurl: string;
   email: string;
   guardianInformation: GuardianInformationType;
+  hasEmail: boolean;
+  hasAccessToGoogleClassroom: boolean;
+  hasInternetAccess: boolean;
+  hasPhone: boolean;
 };

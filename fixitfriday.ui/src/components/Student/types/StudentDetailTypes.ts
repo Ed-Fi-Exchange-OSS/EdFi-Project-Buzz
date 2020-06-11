@@ -19,4 +19,8 @@ export type StudentDetailType = {
   guardians: Array<StudentDetailGuardianType>;
   surveys?: Array<StudentDetailSurveyType>;
   siblings?: Array<StudentDetailSiblingType>;
+  hasEmail: boolean;
+  hasAccessToGoogleClassroom: boolean;
+  hasInternetAccess: boolean;
+  hasPhone: boolean;
 };

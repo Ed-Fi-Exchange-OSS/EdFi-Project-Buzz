@@ -51,6 +51,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: false,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -126,6 +130,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'rroe@test.com',
     surveys,
+    hasEmail: false,
+    hasAccessToGoogleClassroom: false,
+    hasInternetAccess: false,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -157,6 +165,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'glucas@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: false,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -206,6 +218,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -273,6 +289,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -332,6 +352,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -399,6 +423,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -440,6 +468,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -481,6 +513,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',
@@ -522,6 +558,10 @@ const allStudents: Array<StudentDetailType> = [
     pictureurl: 'https://api.adorable.io/avatars/164/abott@adorable.png',
     email: 'jdoe@test.com',
     surveys,
+    hasEmail: true,
+    hasAccessToGoogleClassroom: true,
+    hasInternetAccess: true,
+    hasPhone: true,
     guardians: [
       {
         id: '1',

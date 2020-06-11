@@ -19,6 +19,10 @@ const StudentRoster: FC<StudentRosterProps> = (props: StudentRosterProps) => {
             email={s.email}
             pictureurl={s.pictureurl}
             guardianInformation={s.guardianInformation}
+            hasAccessToGoogleClassroom={s.hasAccessToGoogleClassroom}
+            hasPhone={s.hasPhone}
+            hasInternetAccess={s.hasInternetAccess}
+            hasEmail={s.hasEmail}
           />
         </Col>
       ))

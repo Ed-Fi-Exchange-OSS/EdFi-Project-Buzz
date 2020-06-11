@@ -7,4 +7,8 @@ export type StudentCardProps = {
   email: string;
   pictureurl: string;
   guardianInformation: GuardianInformationType;
+  hasEmail: boolean;
+  hasAccessToGoogleClassroom: boolean;
+  hasInternetAccess: boolean;
+  hasPhone: boolean;
 };

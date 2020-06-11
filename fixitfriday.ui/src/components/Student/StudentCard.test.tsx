@@ -20,7 +20,7 @@ test('renders Student Card', () => {
     contactNotes: 'Write a message before calling',
   };
 
-  const { getByText, getAllByText } = render(
+  const { queryByTestId, getByText, getAllByText } = render(
     <BrowserRouter>
       <StudentCard
         studentSchoolKey={studentSchoolKey}
@@ -29,6 +29,10 @@ test('renders Student Card', () => {
         pictureurl=""
         email={email}
         guardianInformation={guardianInformation}
+        hasAccessToGoogleClassroom
+        hasEmail={false}
+        hasInternetAccess
+        hasPhone
       />
     </BrowserRouter>,
   );
@@ -43,6 +47,10 @@ test('renders Student Card', () => {
   const guardianHasNameAndRelationship = getByText(`${guardianInformation.name} (${guardianInformation.relationship})`);
   const guardianHasPhone = getByText(guardianInformation.phone);
   const guardianHasPreferredContactMethod = getByText(guardianInformation.preferredContactMethod);
+  const hasGoogleIcon = queryByTestId('google-classroom-icon');
+  const hasPhoneIcon = queryByTestId('phone-icon');
+  const hasInternetIcon = queryByTestId('internet-icon');
+  const hasNoEmailIcon = queryByTestId('email-icon');
 
   expect(hasStudentId).toBeTruthy();
   expect(hasName).toBeTruthy();
@@ -54,4 +62,8 @@ test('renders Student Card', () => {
   expect(guardianHasNameAndRelationship).toBeTruthy();
   expect(guardianHasPhone).toBeTruthy();
   expect(guardianHasPreferredContactMethod).toBeTruthy();
+  expect(hasGoogleIcon).toBeTruthy();
+  expect(hasPhoneIcon).toBeTruthy();
+  expect(hasInternetIcon).toBeTruthy();
+  expect(hasNoEmailIcon).toBeFalsy();
 });
