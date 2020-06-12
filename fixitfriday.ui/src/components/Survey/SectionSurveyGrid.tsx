@@ -4,19 +4,27 @@ import { StudentDetailSurveyType } from '../Student/types/StudentDetailTypes';
 import { SectionSurveyGridProps } from './types/SectionSurveyGridProps';
 import { SurveyQuestionType } from './types/SurveyQuestionType';
 import { SectionSurveyType } from './types/SectionSurveyType';
+import StudentSurveyAnswerModal from './StudentSurveyAnswerModal';
 
 const SectionSurveyGrid: FC<SectionSurveyGridProps> = ({ surveyresult }) => {
   const definition = surveyresult.surveydefinition;
   const surveyanswers = surveyresult.answers;
+
   const results = (
     <Table striped bordered hover size="sm" responsive>
       <thead>
         <tr>
-          <th>Student Name</th>
-          {definition.questions && definition.questions.length > 0 ? (
+          {definition.questions && definition.questions.length > 0 && surveyanswers && surveyanswers.length > 0 ? (
+            <th>Student Name</th>
+          ) : (
+            ''
+          )}
+          {definition.questions && definition.questions.length > 0 && surveyanswers && surveyanswers.length > 0 ? (
             definition.questions.map((q: SurveyQuestionType) => <th key={q.id}>{q.question}</th>)
           ) : (
-            <th>&nbsp;</th>
+            <th>
+              <strong>No data</strong>
+            </th>
           )}
         </tr>
       </thead>
@@ -29,7 +37,14 @@ const SectionSurveyGrid: FC<SectionSurveyGridProps> = ({ surveyresult }) => {
                   <td>{a.name}</td>
                   {a.questions && a.questions.length > 0 ? (
                     a.questions.map((q: SurveyQuestionType) => (
-                      <td key={`${s.surveykey}-${s.sectionkey}-${a.id}-${q.id}`}>{q.answer}</td>
+                      <td key={`${s.surveykey}-${s.sectionkey}-${a.id}-${q.id}`}>
+                        <StudentSurveyAnswerModal
+                          studentId={a.id}
+                          studentName={a.name}
+                          surveyDefinition={surveyresult.surveydefinition}
+                          studentanswer={q}
+                        />
+                      </td>
                     ))
                   ) : (
                     <td>&nbsp;</td>

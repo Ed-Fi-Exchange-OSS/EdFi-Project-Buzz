@@ -173,11 +173,13 @@ const SectionSurveyResultsData: SectionSurveyRostType = {
               id: '1',
               question: '',
               answer: 'High Speed Internet',
+              comments: 'Bandwidth: 100 MB',
             },
             {
               id: '2',
               question: '',
               answer: 'Yes',
+              comments: 'Family phone',
             },
             {
               id: '3',

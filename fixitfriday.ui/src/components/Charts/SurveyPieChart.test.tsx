@@ -47,7 +47,9 @@ test('renders Survey Pie Chart', () => {
     },
   ];
 
-  const { getByText } = render(<SurveyPieChart answers={answers} question="Internet Access" questionId="1" />);
+  const { getByText } = render(
+    <SurveyPieChart answers={answers} question="Internet Access" questionId="1" width={300} and height={300} />,
+  );
 
   const surveyHasQuestion = getByText('Internet Access');
   const surveyHasSurveyAnswerNo = getByText('No (2)');
