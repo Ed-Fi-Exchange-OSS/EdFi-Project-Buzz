@@ -11,7 +11,7 @@ const EdFiNavBar = () => (
       <Nav className="mr-auto">
         <Nav.Link href="/">Home</Nav.Link>
       </Nav>
-      <Form inline>
+      <Form inline className="d-none d-lg-block">
         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
         <Button variant="outline-success">Search</Button>
       </Form>
