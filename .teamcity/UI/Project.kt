@@ -7,15 +7,10 @@ object UIProject : Project({
     id("FixItFriday_UI")
     name = "UI"
     description = "Fix-it-Friday User Interface"
-    
+
     buildType(ui.buildTypes.PullRequestUIBuild)
     buildType(ui.buildTypes.BranchUIBuild)
-
-    params {        
-        param("version.major", "0")
-        param("version.minor", "1")
-        param("version.patch", "0")
-    }
+    buildType(ui.buildTypes.DeployUIBuild)
 
     template(ui.templates.BuildAndTestUITemplate)
 })

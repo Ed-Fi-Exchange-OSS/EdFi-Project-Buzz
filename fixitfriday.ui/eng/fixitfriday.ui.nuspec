@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>fixitfriday.ui</id>
+    <version>$version$</version>
+    <title>Ed-Fi Fix-It-Friday UI</title>
+    <authors>Ed-Fi Alliance, LLC and contributors</authors>
+    <projectUrl>https://github.com/Ed-Fi-Alliance-OSS/Fix-It-Friday</projectUrl>
+    <copyright>Copyright © 2020, Ed-Fi Alliance, LLC and contributors.</copyright>
+    <license type="file">LICENSE</license>
+    <summary>Fix-It-Friday end-user web site</summary>
+    <description>Fix-It-Friday end-user web site</description>
+  </metadata>
+  <files>
+    <file src="..\..\LICENSE" />
+    <file src="..\..\NOTICES.md" />
+    <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
+    <file src="..\build\**" target="build" />
+    <file src="windows\**" target="windows" />
+    <file src="nginx.conf" />
+  </files>
+</package>

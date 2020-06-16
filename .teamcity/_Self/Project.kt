@@ -13,17 +13,10 @@ object FixItFridayProject : Project({
             refs/heads/(*)
             refs/(pull/*)/merge
         """.trimIndent())
-        param("version.major", "0")
-        param("version.minor", "1")
-        param("version.patch", "0")
-        param("version.core", "%version.major%.%version.minor%.%version.patch%")
-        param("version.prerelease", "pre%build.counter%")
-        param("version", "%version.core%-%version.prerelease%")
-        param("version.assembly", "%version.core%.%build.counter%")
+        param("octopus.deploy.timeout", "00:45:00")
+        param("octopus.release.environment", "Integration")
     }
 
-    subProject(api.APIProject)
     subProject(ui.UIProject)
 
-    vcsRoot(_self.vcsRoots.EdFiOdsImplementation)
 })
