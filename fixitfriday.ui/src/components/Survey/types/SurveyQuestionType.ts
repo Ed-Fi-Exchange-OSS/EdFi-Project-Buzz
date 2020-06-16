@@ -3,4 +3,5 @@ export type SurveyQuestionType = {
   question: string;
   answer: string;
   comments?: string;
+  disabled?: boolean;
 };

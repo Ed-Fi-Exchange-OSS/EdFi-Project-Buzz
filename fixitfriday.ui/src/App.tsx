@@ -11,6 +11,7 @@ import TeacherScreen from './components/teacher-screen/teacherScreen';
 import StudentDetail from './components/Student/StudentDetail';
 import SectionSurvey from './components/Survey/SectionSurvey';
 import AdvancedSearch from './components/Survey/AdvancedSearch';
+import SurveyVisibilityAdministration from './components/Survey/SurveyVisivilityAdministration/SurveyVisibilityAdministration';
 
 const App = () => (
   <Router>
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/student/:id" exact component={StudentDetail} />
               <Route path="/sectionsurvey/:section/:survey" exact component={SectionSurvey} />
               <Route path="/AdvancedSearch" exact component={AdvancedSearch} />
+              <Route path="/surveyvisibilityadministration" exact component={SurveyVisibilityAdministration} />
             </Switch>
           </Col>
           <Col sm={2} />

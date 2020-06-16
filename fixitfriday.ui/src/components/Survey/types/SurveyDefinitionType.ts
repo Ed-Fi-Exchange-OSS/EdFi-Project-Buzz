@@ -4,4 +4,5 @@ export type SurveyDefinitionType = {
   surveykey: string;
   surveyname: string;
   questions: Array<SurveyQuestionType>;
+  disabled?: boolean;
 };
