@@ -1,0 +1,12 @@
+type Query{
+  sections: [Section]
+  section(sectionkey: ID!): Section
+}
+type Section{
+  sectionkey: String
+  schoolkey: String
+  localcoursecode: String
+  sessionname: String
+  sectionidentifier: String
+  schoolyear: Int
+}

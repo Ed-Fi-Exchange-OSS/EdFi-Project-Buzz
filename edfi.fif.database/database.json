@@ -1,0 +1,11 @@
+{
+  "defaultEnv": "local",
+  "local": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "p@ssw0rd",
+    "host": "localhost",
+    "database": "FixItFriday",
+    "port": "5432"
+  }
+}
