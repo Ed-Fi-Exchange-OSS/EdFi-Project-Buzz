@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import App from './App';
 import client from './services/graphqlClient';
+import './customStyles.css';
 
 ReactDOM.render(
   <React.StrictMode>
