@@ -5,8 +5,7 @@ import { SurveyQuestionsPropsType } from './types/SurveyQuestionsPropsType';
 import { SurveyQuestionType } from '../types/SurveyQuestionType';
 import Question from './Question';
 
-const SurveyQuestions: FC<SurveyQuestionsPropsType> = ({ survey, surveyDisabled } : SurveyQuestionsPropsType) => {
-
+const SurveyQuestions: FC<SurveyQuestionsPropsType> = ({ survey, surveyDisabled }: SurveyQuestionsPropsType) => {
   const questions =
     survey && survey.length > 0 ? (
       survey.map(({ id, question, disabled }: SurveyQuestionType) => (

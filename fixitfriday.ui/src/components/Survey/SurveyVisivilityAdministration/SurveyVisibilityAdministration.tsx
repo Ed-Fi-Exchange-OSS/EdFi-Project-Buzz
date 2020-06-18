@@ -16,20 +16,14 @@ const SurveyVisibilityAdministration: FC = () => {
   const [surveysData, setSurveysData] = useState<Array<SurveyQuestionType>>([]);
   const [surveyAvailability, setSurveyAvailability] = useState<boolean>(false);
 
-  const onSurveyChange = useCallback(
-    (evt: string) => {
-      setSurveyKey(evt);
-    },
-    []
-  );
+  const onSurveyChange = useCallback((evt: string) => {
+    setSurveyKey(evt);
+  }, []);
 
-  const onSurveyAvailabilityChange = useCallback(
-    (evt: boolean) => {
-      setSurveyAvailability(evt);
-    },
-    []
-  );
-  
+  const onSurveyAvailabilityChange = useCallback((evt: boolean) => {
+    setSurveyAvailability(evt);
+  }, []);
+
   useEffect(() => {
     let roster: Array<SurveyQuestionType> = [];
     if (surveyKey) {

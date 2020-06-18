@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
 import logo from '../../logo.png';
 
-const EdFiNavBar = () => (
+const EdFiNavBar: React.FC = () => (
   <Navbar>
     <Navbar.Brand href="/">
       <img alt="Ed-Fi logo" src={logo} />
