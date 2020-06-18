@@ -4,26 +4,7 @@ _Project overview will go here..._
 
 ## Installation
 
-_Brief notes..._
-
-* To host in IIS, must install the [.NET Core 3.1 Hosting Bundle](https://dotnet.microsoft.com/download/dotnet-core/3.1).
-* The `EdFi.FixItFriday.Installer` package contains a PowerShell script for
-  automating deployment of all components of the solution. It will be bundled
-  into a NuGet package and pushed to MyGet for distribution. It can be executed
-  manually: first run the build script to prepare the local directory, even if
-  you don't care about the NuGet package output. Then import the local module
-  and run `get-help` on the available public functions to learn how to use them:
-  `Install-FixItFriday` and `Uninstall-FixItFriday`.
-
-  ```powershell
-  PS > cd EdFi.FixItFriday.Installer
-  PS > .\build-package.ps1 -version 1.0.0 -BuildCounter 6
-  PS > import-module .\Install-FixItFriday.psm1
-  PS > get-help Install-FixItFriday
-  PS > get-help Uninstall-FixItFriday
-  ```
-
-  (at this time only supports API installation)
+* [User Interface - Windows Installation](fixitfriday.ui/eng/windows/install.md)
 
 ## Legal Information
 

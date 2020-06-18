@@ -48,6 +48,17 @@ object BuildAndTestUITemplate : Template({
                 """.trimIndent()
             }
         }
+        powerShell {
+            name = "Style Check"
+            id = "BuildAndTestUITemplate_YarnLintCi"
+            workingDir = "./fixitfriday.ui"
+            formatStderrAsError = true
+            scriptMode = script {
+                content = """
+                    yarn lint:ci
+                """.trimIndent()
+            }
+        }
     }
 
     features {

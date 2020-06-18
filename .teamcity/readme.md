@@ -12,7 +12,8 @@ To apply these build configuration settings on a new TeamCity environment:
     github.accessToken = %github.accessToken.protected%
     ```
 
-    If pull from an organization, use that organization's name. Else use own GitHub user name to pull from your fork.
+    If pull from an organization, use that organization's name. Else use own
+    GitHub user name to pull from your fork.
 
 1. Create the sub-project `Fix-it-Friday`.
 1. Set these parameters in `Fix-it-Friday`:
@@ -40,5 +41,6 @@ To apply these build configuration settings on a new TeamCity environment:
     * Settings format: `kotlin`
     * Generate portable DSL scripts: `true`
 1. Click Apply.
-1. If prompted to choose either committing current changes or reading from the VCS root, then choose to read from the VCS root.
+1. If prompted to choose either committing current changes or reading from the
+   VCS root, then choose to read from the VCS root.
     1. Else click on the "Load project settings from VCS..." button.

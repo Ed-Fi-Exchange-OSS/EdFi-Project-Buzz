@@ -4,14 +4,14 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.Project
 
 object FixItFridayProject : Project({
-    description = "Projects Owned by the ODS Platform Team"
+    description = "Projects Owned by the Analytics Team"
 
     params {
         param("build.feature.freeDiskSpace", "2gb")
         param("git.branch.default", "development")
         param("git.branch.specification", """
             refs/heads/(*)
-            refs/(pull/*)/merge
+            refs/(pull/*)/head
         """.trimIndent())
         param("octopus.deploy.timeout", "00:45:00")
         param("octopus.release.environment", "Integration")
