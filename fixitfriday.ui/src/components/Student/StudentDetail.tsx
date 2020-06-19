@@ -15,7 +15,7 @@ const StudentDetail: FunctionComponent<StudentDetailProps> = ({ match }) => {
   const [student, setStudent] = useState<StudentDetailType | undefined>(undefined);
 
   useEffect(() => {
-    const ourStudent = allStudents.filter((s) => s.id === match.params.id)[0];
+    const ourStudent = allStudents.filter(s => s.id === match.params.id)[0];
     setStudent(ourStudent);
   }, [match.params.id]);
 

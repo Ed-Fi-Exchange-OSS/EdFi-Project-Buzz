@@ -27,7 +27,7 @@ const SurveyVisibilityAdministration: FC = () => {
   useEffect(() => {
     let roster: Array<SurveyQuestionType> = [];
     if (surveyKey) {
-      const survey = headerData.find((x) => x.surveykey === surveyKey);
+      const survey = headerData.find(x => x.surveykey === surveyKey);
       if (survey !== undefined) roster = survey.questions;
     }
     setSurveysData(roster);

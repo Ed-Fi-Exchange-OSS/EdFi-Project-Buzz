@@ -19,10 +19,10 @@ const SectionSurvey: FC<SectionSurveyProps> = ({ match }) => {
 
   useEffect(() => {
     const sectionSurveyDefinition = SectionSurveyResultsData.surveydefinition.filter(
-      (s) => s.surveykey === match.params.survey,
+      s => s.surveykey === match.params.survey,
     )[0];
     const sectionSurveyResults = SectionSurveyResultsData.surveyresults?.filter(
-      (s) =>
+      s =>
         (match.params.section.toLowerCase() === 'all' || s.sectionkey === match.params.section) &&
         s.surveykey === match.params.survey,
     );

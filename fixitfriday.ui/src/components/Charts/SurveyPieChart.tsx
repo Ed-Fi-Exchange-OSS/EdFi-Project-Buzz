@@ -22,7 +22,7 @@ const SurveyPieChart: FC<PieChartProps> = ({ questionId, question, answers, radi
       return groups;
     }, {});
     // An array is created to be used in pie chart
-    const data = Object.keys(counts).map((k) => {
+    const data = Object.keys(counts).map(k => {
       return { name: k, value: counts[k] };
     });
     setPieCharDataSetDataData(data);
@@ -51,7 +51,7 @@ const SurveyPieChart: FC<PieChartProps> = ({ questionId, question, answers, radi
                   outerRadius={radius}
                   fill="#8884d8"
                   labelLine
-                  label={(entry) => `${entry.name} (${entry.value})`}
+                  label={entry => `${entry.name} (${entry.value})`}
                 >
                   {pieCharDataSetData.map((entry, index) => (
                     <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />

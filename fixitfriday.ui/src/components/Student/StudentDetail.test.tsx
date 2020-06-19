@@ -5,7 +5,7 @@ import allStudents from './mockData/mockedStudents';
 
 test('renders Student Detail', () => {
   const query = allStudents;
-  const student = query.filter((s) => s.id === '1')[0];
+  const student = query.filter(s => s.id === '1')[0];
   const primaryGuardian = student.guardians[0];
   const secondGuardian = student.guardians[1];
   const thirdGuardian = student.guardians[2];
@@ -15,6 +15,7 @@ test('renders Student Detail', () => {
 
   const firstSurveyQuestion = student.surveys[0];
 
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   const routeComponentPropsMock = {
     history: {} as any,
     location: {} as any,

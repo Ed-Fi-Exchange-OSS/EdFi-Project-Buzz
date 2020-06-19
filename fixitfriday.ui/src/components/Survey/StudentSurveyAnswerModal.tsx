@@ -21,7 +21,7 @@ const StudentSurveyAnswerModal: FC<StudentSurveyAnswerProps> = ({
   const [textAreaValue, setTextAreaValue] = useState<string>('');
 
   useEffect(() => {
-    const question = surveyDefinition.questions.filter((q) => q.id === studentanswer.id);
+    const question = surveyDefinition.questions.filter(q => q.id === studentanswer.id);
     if (question && question.length > 0) {
       setCurrentQuestion(question[0].question);
     }
@@ -66,7 +66,7 @@ const StudentSurveyAnswerModal: FC<StudentSurveyAnswerProps> = ({
                   as="textarea"
                   rows={3}
                   value={textAreaValue}
-                  onChange={(e) => setTextAreaValue(e.target.value)}
+                  onChange={e => setTextAreaValue(e.target.value)}
                 />
               </Col>
             </Row>

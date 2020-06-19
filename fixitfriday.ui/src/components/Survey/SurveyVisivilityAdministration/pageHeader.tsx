@@ -12,7 +12,7 @@ type PageHeaderProps = {
 };
 
 const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ Surveys, onSurveyChange, onSurveyAvailabilityChange }) => {
-  const Options = Surveys.map((survey) => (
+  const Options = Surveys.map(survey => (
     <option value={survey.surveykey} key={survey.surveykey}>
       {survey.surveyname}
     </option>
@@ -46,7 +46,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ Surveys, onSurve
         <Col xs={12} sm={12} md={6} lg={6} xl={6}>
           <Form>
             <Form.Group>
-              <Form.Control as="select" value={selectedSurvey} size="sm" onChange={(e) => setSelectedSurvey(e.target.value)}>
+              <Form.Control as="select" value={selectedSurvey} size="sm" onChange={e => setSelectedSurvey(e.target.value)}>
                 <option value="">Select a survey</option>
                 {Options}
               </Form.Control>

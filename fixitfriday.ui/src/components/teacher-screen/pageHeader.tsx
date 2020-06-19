@@ -20,7 +20,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
   ShowAllOption,
   onClassChange,
 }) => {
-  const Options = TeacherClass.map((teacherClass) => (
+  const Options = TeacherClass.map(teacherClass => (
     <option value={teacherClass.sectionkey} key={teacherClass.sectionkey}>
       {teacherClass.schoolyear} - {teacherClass.sessionname}
     </option>
@@ -51,7 +51,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
         <Col xs={12} sm={6} md={4}>
           <Form>
             <Form.Group>
-              <Form.Control as="select" value={selectedClass} size="sm" onChange={(e) => setSelectedClass(e.target.value)}>
+              <Form.Control as="select" value={selectedClass} size="sm" onChange={e => setSelectedClass(e.target.value)}>
                 <option value={ShowAllOption ? 'all' : ''}>{ShowAllOption ? 'All' : 'Select a class'}</option>
                 {Options}
               </Form.Control>
