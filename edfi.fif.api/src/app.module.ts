@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import AppController from './app.controller';
 import AppService from './app.service';
 import SectionModule from './graphql/modules/section.module';
+import StaffModule from './graphql/modules/staff.module';
+import StudentSchoolModule from './graphql/modules/studentschool.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import SectionModule from './graphql/modules/section.module';
       playground: true,
     }),
     SectionModule,
+    StaffModule,
+    StudentSchoolModule,
   ],
   controllers: [AppController],
   providers: [AppService],
