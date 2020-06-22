@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top top-nav">
+  <a class="navbar-brand" [routerLink]="['/']"><img src="../../../assets/OwlFace.png" width="24" /> TOD - Fix it
+    Fridays</a>
+  <div class="d-flex order-md-2 order-lg-2">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse order-lg-1 order-lg-1" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show"> <a class="nav-link" [routerLink]="['/app']"                 ><i class="icon ion-md-home"></i> Class Roster</a> </li>
+      <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show"> <a class="nav-link" [routerLink]="['/app/surveyAnalytics']" ><i class="icon ion-md-analytics"></i> Survey Results Summary</a> </li>
+      <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show"> <a class="nav-link" [routerLink]="['/app/surveyAnalytics2']"><i class="icon ion-md-analytics"></i> Survey Results Summary 2</a> </li>
+    </ul>
+    <ul class="navbar-nav user-settings">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Welcome, {{teacher.name}}<i class="icon ion-md-person"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown">
+          <a class="dropdown-item" (click)="signOut();"><i class="icon ion-md-unlock"></i> Log out</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

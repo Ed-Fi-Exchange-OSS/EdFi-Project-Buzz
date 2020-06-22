@@ -1,0 +1,23 @@
+.btn-fill-search{
+    background-color: #007bff;
+    margin-top: 1ex;
+}
+
+.dotted-right {
+    border-right: 2px dotted lightgray;
+}
+
+.max-h{
+    max-height: 13em;
+    overflow-y: auto;
+}
+
+.table.verticle-middle th, .table td{
+    vertical-align: middle;
+}
+
+table.first-td-left th:first-child,
+table.first-td-left td:first-child
+{
+    text-align: left;
+}

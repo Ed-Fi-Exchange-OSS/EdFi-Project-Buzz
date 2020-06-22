@@ -1,0 +1,17 @@
+.main-logo {
+  background-image: url('/assets/Owl-Logo-GrandBend.png');
+  width: 100%;
+  height: 213px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@media screen and (max-width: 600px) {
+  .main-logo {
+    background-image: url('/assets/Owl-Logo-GrandBend.png');
+    width: 100%;
+    height: 213px;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}

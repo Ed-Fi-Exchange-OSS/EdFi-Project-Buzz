@@ -1,0 +1,42 @@
+<main role="main" class="container h-100">
+  <div class="row justify-content-center h-100">
+    <div class="">
+      <!--<div class="alert alert-danger"><i class="icon ion-md-information-circle f-s-20"></i> Thank you for helping us during this Pilot. Our team is working very hard every day to bring relevant data to improve your students education. Please let us know if you have any feedback.</div>-->
+      <div class="card m-t--50">
+        <div class="card-body">
+          <div class="text-center">
+            <img src="/assets/Owl-Logo-GrandBend.png" style="width: 100%; max-width: 350px;" />
+            
+          </div>
+          <h1 class=" text-center m-t-25">TOD - Teacher Observation Dashboard</h1>
+          <div class="text-center m-t-20">
+            <a (click)="signIn()" class="btn btn-primary">SSO Login</a>
+            <br />
+            <span class="link-text cursor-pointer" (click)="goToLanding()">Skip Login</span>
+            <p class="m-t-30" *ngIf="model.loggedIn">
+              Currently logged in as: {{model.user.name}}
+              <br />
+              <a (click)="signOut();">Logout</a>
+            </p>
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="text-left">
+            <a ui-sref="app.privacypolicy"><i class="icon ion-md-lock"></i> Privacy Policy</a>
+          </span>
+          <!--<div class="dropdown login-feedback-button">
+            <a class="btn btn-fill-help"
+               id="dropdown"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false"
+               tooltip-placement="bottom">
+              <i class="ion ion-md-help"></i>
+            </a>
+          </div>-->
+          <div class="float-right">0.0.1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

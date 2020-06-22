@@ -1,0 +1,96 @@
+<main role="main" class="container">
+
+  <h1>Home, <span>class roster</span></h1>
+
+  <div class="card">
+    <div class="card-body" style="padding: 1rem;">
+      <div class="row">
+        <div class="col-12 col-lg-12 form-group" style="margin-bottom: 0;">
+          <label><h4> Filters </h4> </label>
+          <div class="input-group">
+            <select class="form-control" name="repeatSelect" id="sectionsSelect" [(ngModel)]="currentSection"
+              (change)="search()">
+              <option [value]="null">All Sections</option>
+              <option *ngFor="let section of teacher.sections" [value]="section">{{section}}</option>
+            </select>
+            <input [(ngModel)]="searchByStudentName" type="text" class="form-control" id="studentNameInputs"
+              placeholder="Student Name" (keyup)="search()">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" (click)="search()"><label>Search</label><i
+                  class="ion ion-md-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row align-items-center m-b-10" ng-if="students.length > 0">
+    <div class="col">
+      <div class="d-flex justify-content-between">
+        <h2 class="">Students: {{students.length}}</h2>
+        <div class="d-flex" >
+          <button class="btn btn-primary m-l-10" (click)="setView('Grid')"><i class="ion ion-md-grid"></i></button>
+          <button class="btn btn-primary m-l-10" (click)="setView('List')"><i class="ion ion-md-list"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="view=='Grid'">
+    <div class="col-lg-4" *ngFor="let student of students">
+      <app-student-card [student]="student"></app-student-card>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="view=='List'">
+    <div class="card" style="width: 100%;">
+      <div class="card-body table-responsive-md">
+        <table class="table table-bordered table-striped verticle-middle">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th style="margin-left: 2em;">Student Email</th>
+              <th>Primary Contact</th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td>
+
+                <img [src]="student.pictureUrl" alt="{{student.name}} Profile Picture" class="imgage-round"
+                  style="width: 32px;" />
+                <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}">
+                  &nbsp;{{student.name}}
+                </a>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{{student.studentId}}
+              </td>
+              <td>
+                <a href="mailto:{{student.email}}">{{student.email}}</a>
+              </td>
+
+              <td>{{student.guardians[0].name}} ({{student.guardians[0].relationship}})<br>
+                Preferred Contact Method: {{student.preferredContactMethod}} <br>
+                <a href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a>
+              </td>
+
+              <td class="text-center">
+                <a class="btn btn-outline-mail table-btn-outline" tooltip-placement="bottom">
+                  <i class="ion ion-md-mail"></i>
+                  <div class="bubble-counter blue">5</div>
+                </a>
+                <a class="btn btn-outline-notifications table-btn-outline">
+                  <i class="ion ion-md-notifications-outline"></i>
+                  <div class="bubble-counter orange">12</div>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
