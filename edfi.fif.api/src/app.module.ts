@@ -6,6 +6,7 @@ import AppService from './app.service';
 import SectionModule from './graphql/modules/section.module';
 import StaffModule from './graphql/modules/staff.module';
 import StudentSchoolModule from './graphql/modules/studentschool.module';
+import SurveyModule from './graphql/modules/survey.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import StudentSchoolModule from './graphql/modules/studentschool.module';
     SectionModule,
     StaffModule,
     StudentSchoolModule,
+    SurveyModule
   ],
   controllers: [AppController],
   providers: [AppService],
