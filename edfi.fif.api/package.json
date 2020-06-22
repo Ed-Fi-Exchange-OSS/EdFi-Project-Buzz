@@ -16,7 +16,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "graphql-typings": "npx ts-node src/generate-typings"
+    "graphql-typings": "npx ts-node src/generate-typings",
+    "test:ci": "SET CI=true && SET TEAMCITY_VERSION = 1 && yarn test --testResultsProcessor=jest-teamcity-reporter --reporters=jest-junit",
+    "lint:ci": "eslint \"{src,apps,libs,test}/**/*.ts\" --format ./node_modules/eslint-teamcity/index.js"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
@@ -27,8 +29,11 @@
     "@nestjs/typeorm": "^7.1.0",
     "apollo-server": "^2.14.4",
     "apollo-server-fastify": "^2.14.4",
+    "eslint-teamcity": "^3.0.1",
     "graphql": "^15.1.0",
     "graphql-tools": "^6.0.10",
+    "jest-junit": "^10.0.0",
+    "jest-teamcity-reporter": "^0.9.0",
     "node-postgres": "^0.6.2",
     "pg": "^8.2.1",
     "reflect-metadata": "^0.1.13",

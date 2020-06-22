@@ -1,4 +1,4 @@
-package ui.buildTypes
+package api.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
@@ -6,7 +6,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 
 
-object DeployUIBuild : BuildType ({
+object DeployAPIBuild : BuildType ({
     name = "Deploy"
 
     features {
@@ -16,7 +16,7 @@ object DeployUIBuild : BuildType ({
     }
 
     dependencies {
-        artifacts(BranchUIBuild) {
+        artifacts(BranchAPIBuild) {
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }
@@ -38,7 +38,7 @@ object DeployUIBuild : BuildType ({
                 content = """
                     ${"$"}packages = Get-ChildItem -Path %teamcity.build.checkoutDir% -Filter *pre*.nupkg -Recurse
                     ${"$"}packageName = ${"$"}packages[0].Name
-                    ${"$"}packageName -Match "fixitfriday\.ui\.(.+)\.nupkg"
+                    ${"$"}packageName -Match "fixitfriday\.api\.(.+)\.nupkg"
                     ${"$"}packageVersion = ${"$"}Matches[1]
                     Write-Host "##teamcity[setParameter name='octopus.release.version' value='${"$"}packageVersion']"
                 """.trimIndent()

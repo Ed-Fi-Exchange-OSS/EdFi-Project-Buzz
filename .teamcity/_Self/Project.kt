@@ -18,5 +18,9 @@ object FixItFridayProject : Project({
     }
 
     subProject(ui.UIProject)
+    subProject(api.APIProject)
+
+    template(_self.templates.BuildAndTestTemplate)
+    template(_self.templates.PullRequestTemplate)
 
 })
