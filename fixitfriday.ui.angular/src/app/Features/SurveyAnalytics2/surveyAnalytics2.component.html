@@ -1,0 +1,161 @@
+<div class="position-relative p-t-10">
+  <a class="btn-outline-nav inline-block position-relative" style="top:-10px; left:0px;" href="javascript:history.back(-1)">
+    <i class="ion ion-md-arrow-dropleft f-s-37 position-absolute" style="top:-1px; left:10px;"></i>
+  </a>
+  <h1 class="inline-block position-absolute" style="top:3px; left:44px;">Survey <span>results</span></h1>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body d-flex form-group" style="margin-bottom: 0;">
+
+        <div class="input-group">
+
+          <select class="form-control" name="" id="sectionsSelect" [(ngModel)]="currentSection" (change)="search()">
+            <option [value]="null">All Sections</option>
+            <option *ngFor="let section of teacher.sections" [value]="section">{{section}}</option>
+          </select>
+
+          <input [(ngModel)]="searchInSurvey" (keyup)="search()" type="text" class="form-control" id="searchInputs" placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" (click)="search()"><label>Search</label><i
+                class="ion ion-md-search"></i></button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<h1 *ngIf="!showSearchResults">Click "Search" to Show Results</h1>
+<h1 *ngIf="showSearchResults">Search Results</h1>
+
+<div class="row" *ngIf="showSearchResults">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <ul class="list-group">
+          <li *ngFor="let surveyMetadata of surveyMetadataList " class="list-group-item d-flex">
+            <input (click)="selectSurvey(surveyMetadata.surveyId,surveyMetadata.surveyName)" 
+              type="radio" name="survey"
+              id="s_{{surveyMetadata.surveyId}}" class="m-r-10">
+            <label for="s_{{surveyMetadata.surveyId}}">
+              <h4> {{surveyMetadata.surveyName}} </h4>
+              {{surveyMetadata.questionCount}} Questions
+              <br>{{surveyMetadata.studentsAnswered}} of {{surveyMetadata.totalStudents}} students answered
+            </label>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row" *ngIf="showSurvey">
+  <div class="col-12 col-md-6">
+    <div id="summaryCard" class="card">
+      <div class="card-body">
+        <h2>Summary: "{{currentQuestion.surveyName}}"</h2>
+
+        <ul class="list-group">
+          <li *ngFor="let question of surveyQuestionSummaryList; let index = index" class="list-group-item">
+            <a [routerLink]="" (click)="selectQuestion(question.question)">{{index+1}}. {{question.question}}</a><br>
+                <ng-container *ngFor="let answer of question.answers; first as isFirst">
+                  <ng-container *ngIf="!isFirst">
+                    <ng-container *ngIf="question.answers.length > 2"><br></ng-container>
+                    <ng-container *ngIf="question.answers.length <= 2"> | </ng-container>
+                  </ng-container>
+                  {{answer.label}}:&nbsp;{{answer.count / question.totalAnswers | percent}}
+                </ng-container>            
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-12 col-md-6">
+    <div id="chartCard" class="card">
+      <div class="card-body">
+        <h2>Analysing Question: "{{currentQuestion.question}}"</h2>
+        <div class="row">
+          <div class="col-12">
+            <canvas baseChart [datasets]="chartData.data" [labels]="chartData.labels" [options]="chartData.options"
+              [plugins]="[]" [legend]="true" [chartType]="chartData.type" (chartClick)="chartClicked($event)"
+              style="height: 20rem;">
+            </canvas>
+          </div>
+          <div class="col-12 table-responsive-md">
+            <table class="table table-bordered table-striped verticle-middle text-center first-td-left">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>{{currentQuestion.question}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let surveyAnswer of surveyAnswersFiltered">
+                  <td>
+                    <a [routerLink]="['/app/studentDetail']" [state]="{studentId: surveyAnswer.studentId}">
+                      {{surveyAnswer.studentName}}
+                    </a>
+                  </td>
+                  <td>{{surveyAnswer.surveyResults.items[0].answer}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="showSurvey">
+  <a href="../../../assets/Internet Access.csv" class="" style="float:right; margin-top: 0;"><i
+      class="icon ion-md-analytics"></i> Export to CSV</a>
+  <h1>Survey Details</h1>
+</div>
+<div class="row" *ngIf="showSurvey">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body table-responsive-md">
+
+        <table class="table table-bordered table-striped verticle-middle text-center first-td-left">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th *ngFor="let question of surveyQuestionSummaryList; let index = index">{{index+1}}.
+                {{question.question}}</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let student of allAnswersCurrentSurvey">
+              <td>
+                <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}">
+                  {{student.studentName}}
+                </a>
+              </td>
+              <td *ngFor="let answer of student.surveyResults.items">{{answer.answer}}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

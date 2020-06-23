@@ -1,0 +1,54 @@
+<div class="card">
+  <!--<div class="card-header text-right student-card-header p-b-0">
+  </div>-->
+  <div class="card-body p-t-0">
+    <div class="d-flex p-t-12">
+      <div>
+        <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}">
+          <div class="image-container img-avatar img-size">
+            <img [src]="student.pictureUrl" alt="{{student.name}} Profile Picture">
+          </div>
+        </a>
+        <!-- <div class="bubble-counter orange" tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+          [trigger]="'click'" autoPlacement="true">{{4}}</div> -->
+      </div>
+      <div class="flex-grow-1 overflow-hidden">
+        <h3 class="m-b-2 d-flex">{{student.name}}</h3>
+        <p class="text-muted m-b-1">{{student.studentId}}</p>
+        <a class="m-b-2 text-ellipsis" href="mailto:{{student.email}}" title="{{student.email}}">{{student.email}}</a>
+      </div>
+    </div>
+    <div [ngClass]="{collapse:isCollapsed}">
+      <span class="text-muted">
+        {{student.guardians[0].relationship}}: {{student.guardians[0].name}}
+        <a class="inline-block" href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a>
+      </span>
+    </div>
+    <div class="collapse" [ngClass]="{show:isCollapsed}">
+      <hr />
+      <h3>Primary Contact</h3>
+      <p class="m-l-10">
+        <span class="text-muted block">{{student.guardians[0].name}} ({{student.guardians[0].relationship}})</span>
+        <i class="icon ion-md-mail"></i>&nbsp;<a class="m-b-2 "
+          href="mailto:{{student.guardians[0].email}}">{{student.guardians[0].email}}</a>
+        <br><i class="icon ion-md-phone-portrait"></i>&nbsp;<span class="text-muted"><a
+            href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a></span>
+        <span class="text-muted block">{{student.guardians[0].address}}</span>
+      </p>
+      <h4>Preferred Contact Method: <span class="text-muted">{{student.preferredContactMethod}}</span></h4>
+
+      <h4>Best time to contact: <span class="text-muted">{{student.contactTime}}</span></h4>
+
+      <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}"
+        class="btn btn-block btn-outline-primary btn-rounded mt-3">Survey Results</a>
+      <hr />
+      <h3>Notes</h3>
+      <p *ngFor="let note of student.contactNotes" class="text-muted m-b-2">{{note}}</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <i (click)="isCollapsed = !isCollapsed"
+      [ngClass]="{'ion-md-arrow-dropdown-circle':!isCollapsed, 'ion-md-arrow-dropup-circle':isCollapsed}"
+      class="ion rounded block text-center f-s-28 cursor-pointer" style="color:#03a9f4"></i>
+  </div>
+</div>

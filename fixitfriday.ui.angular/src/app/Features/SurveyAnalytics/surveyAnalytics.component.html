@@ -1,0 +1,85 @@
+<script src="node_modules/chart.js/Chart.min.js"></script>
+<script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item home-item">
+      <a class="ion ion-ios-arrow-dropleft-circle history-back" href="javascript:history.back(-1)"></a>
+      <a class="link-to-app" href="/#/app">Home</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Survey Results Summary</li>
+  </ol>
+</nav>
+
+
+
+<div class="card">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-lg-4 dotted-right">
+        <div class="form-group">
+          <label for="sectionsSelect"> Sections: </label>
+          <select class="form-control" name="repeatSelect" id="sectionsSelect" [(ngModel)]="currentSection"
+            (change)="filterSection()">
+            <option [value]="null">All Sections</option>
+            <option *ngFor="let section of teacher.sections" [value]="section">{{section}}</option>
+          </select>
+          <br />
+          <div>
+            <input [(ngModel)]="searchInSurvey" type="text" class="form-control" id="searchInputs"
+              placeholder="Search in survey" (keyup)="filterQuestions()">
+          </div>
+          <div class="form-control btn btn-fill-search btn-primary" (click)="filterQuestions()">
+            <i class="ion ion-md-search"></i> <span>Search</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 max-h">
+        <ul>
+          <li *ngFor="let survey of surveyList; let sidx = index">{{survey.surveyName}}
+            <ul>
+              <li *ngFor="let question of survey.questions; let qidx = index">
+                <input type="radio" name="radioqestions" id="rq-{{sidx}}-{{qidx}}" autocomplete="off"
+                  (click)="selectQuestion(survey.surveyId, question)">
+                &nbsp;<label for="rq-{{sidx}}-{{qidx}}"> {{question}} </label>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-6">
+        <canvas baseChart [datasets]="chartData.data" [labels]="chartData.labels" [options]="chartData.options"
+          [plugins]="[]" [legend]="true" [chartType]="chartData.type" (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+      <div class="col-lg-6 ">
+        <table class="table table-bordered table-striped verticle-middle">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Answer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let surveyAnswer of surveyAnswersFiltered">
+              <td><a [routerLink]="['/app/studentDetail']" [state]="{studentId: surveyAnswer.studentId}"
+                  class="">{{surveyAnswer.studentName}}</a></td>
+              <td>{{surveyAnswer.surveyResults.items[0].answer}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
