@@ -20,9 +20,11 @@ export class NavbarComponent {
     this.teacher = this.api.teacher.get(null)[0];
   }
 
-
   signOut() {
-    this.socialAuthService.signOut(true).then(result => { localStorage.clear(); this.router.navigate(['/login']); });
+    this.socialAuthService
+      .signOut(true)
+      .then(result => { localStorage.clear(); this.router.navigate(['/login']); })
+      .catch( () => this.router.navigate(['/login']) );
   }
 
 }

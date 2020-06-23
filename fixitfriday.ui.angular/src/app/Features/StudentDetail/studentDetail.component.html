@@ -1,6 +1,7 @@
 <main role="main" class="container">
   <div class="position-relative p-t-10">
-    <a class="btn-outline-nav inline-block position-relative" style="top:-10px; left:0px;" href="javascript:history.back(-1)">
+    <a class="btn-outline-nav inline-block position-relative" style="top:-10px; left:0px;"
+      href="javascript:history.back(-1)">
       <i class="ion ion-md-arrow-dropleft f-s-37 position-absolute" style="top:-1px; left:10px;"></i>
     </a>
     <h1 class="inline-block position-absolute" style="top:3px; left:44px;">Student <span>detail</span></h1>
@@ -11,26 +12,55 @@
       <app-student-card-lite [student]="student"></app-student-card-lite>
     </div>
     <div class="col-lg-7">
-      <h2>Guardians</h2>
-      <div class="row">
-        <div class="col-lg-6" *ngFor="let guardian of student.guardians">
-          <app-guardian-card [guardian]="guardian"></app-guardian-card>
+      <h2>Guardians: {{student.guardians.length}}</h2>
+
+      <div class="" style="overflow-x: auto;">
+        <div class="row d-flex flex-row flex-nowrap">
+          <div *ngFor="let guardian of student.guardians" class="col-lg-6 card-deck">
+            <app-guardian-card [guardian]="guardian" style="display: block;"></app-guardian-card>
+          </div>
         </div>
       </div>
-      <h2 *ngIf="student.siblings.length > 0">Siblings</h2>
-      <div class="row">
-        <div class="col-lg-6" *ngFor="let sibling of student.siblings">
-          <app-sibling-card [sibling]="sibling"></app-sibling-card>
+
+
+      <div *ngIf="student.siblings.length > 0" class="d-flex justify-content-between">
+        <h2 style="margin-top: 10px;">Siblings: {{student.siblings.length}}</h2>
+        <i (click)="siblingsIsCollapsed = !siblingsIsCollapsed"
+          [ngClass]="{'ion-md-arrow-dropdown-circle':siblingsIsCollapsed, 'ion-md-arrow-dropup-circle':!siblingsIsCollapsed}"
+          class="ion rounded block text-center f-s-28 cursor-pointer" style="color:#03a9f4"></i>
+      </div>
+      <div *ngIf="!siblingsIsCollapsed" class="" style="overflow-x: auto;">
+        <div class="row d-flex flex-row flex-nowrap">
+          <div *ngFor="let sibling of student.siblings" class="col-lg-6 card-deck">
+            <app-sibling-card [sibling]="sibling" style="display: block; min-width: 15rem;"></app-sibling-card>
+          </div>
         </div>
       </div>
+      <hr>
+
     </div>
   </div>
 
-  <div class="d-flex justify-content-between">
-    <h2>Notes</h2>
-    <span (click)="addNote()" class="btn btn-primary btn-rounded f-s-12 m-b-10" style="padding:0 0.5rem !important"> + </span>
+
+  <div class="row surveys-notes">
+    <div class="col">
+      <span *ngIf="isNotesVisible" (click)="addNote()" class="btn btn-primary btn-add-note btn-rounded f-s-25"> + </span>
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{active: isSurveysVisible}" (click)="viewSurveys()">Surveys</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{active: isNotesVisible}" (click)="viewNotes()">Notes</a>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="row">
+
+
+  <div class="d-flex justify-content-between" >
+    <span></span>
+  </div>
+  <div class="row" *ngIf="isNotesVisible">
     <div class="col-12">
       <div class="card">
         <div class="card-body">
@@ -38,18 +68,19 @@
             <li *ngFor="let note of student.notes; let index = index" class="list-group-item">
 
               <ng-container *ngIf="index == editingNote">
-              <textarea #noteInput [(ngModel)]="note.note" onclick="this.select();" rows="2" class="form-control" ></textarea>
-              <div class="d-flex justify-content-between">
-                <span (click)="cancelAddNote()" class="btn btn-danger ion-md-save f-s-20 m-t-10">Cancel</span>
-                <span (click)="saveNote()" class="btn btn-primary ion-md-save f-s-30 m-t-10"></span>
-              </div>
+                <textarea #noteInput [(ngModel)]="note.note" onclick="this.select();" rows="2"
+                  class="form-control"></textarea>
+                <div class="d-flex justify-content-between">
+                  <span (click)="cancelAddNote()" class="btn btn-secondary ion-md-close-circle f-s-15 m-t-10">&nbsp;Cancel</span>
+                  <span (click)="saveNote()" class="btn btn-primary ion-md-checkmark-circle f-s-15 m-t-10">&nbsp;Save</span>
+                </div>
               </ng-container>
 
               <ng-container *ngIf="index != editingNote">
-                <span (click)="deleteNote(note.id)" class="btn btn-sm text-danger ion-md-trash" style="float:right; padding: 0 0.5rem !important;"></span>
+                <span (click)="deleteNote(note.id)" class="btn btn-danger btn-delete-note ion-md-trash"></span>
                 <div>
                   {{note.note}}<br>
-                  <span class="text-secondary text-right">{{note.teacher}} - {{note.date | date:'MM/dd/yyyy@h:mma'}}</span>
+                  <div class="text-secondary text-right note-info">{{note.teacher}} - {{note.date | date:getDateFormat(note.date)}}</div>
                 </div>
               </ng-container>
             </li>
@@ -59,8 +90,7 @@
     </div>
   </div>
 
-  <h2>Surveys</h2>
-  <div class="row">
+  <div class="row" *ngIf="isSurveysVisible">
     <div class="col-12" *ngFor="let survey of student.surveys">
       <app-survey-card [surveyResult]="survey"></app-survey-card>
     </div>

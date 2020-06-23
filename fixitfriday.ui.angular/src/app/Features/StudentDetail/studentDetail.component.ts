@@ -15,11 +15,19 @@ export class StudentDetailComponent {
   editingNote: number;
   currentTeacher: string;
 
+  siblingsIsCollapsed: boolean;
+
+  isSurveysVisible: boolean
+  isNotesVisible: boolean
+
   @ViewChild('noteInput', {static: false}) noteInput: ElementRef;
 
   constructor(private api: ApiService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.editingNote = -1;
     this.currentTeacher = "Kathie Dillon"
+    this.siblingsIsCollapsed = true;
+    this.isSurveysVisible = true;
+    this.isNotesVisible = false;
   }
 
   ngOnInit() {
@@ -63,4 +71,24 @@ export class StudentDetailComponent {
     }
     this.api.student.save();
   }
+
+  viewSurveys(){
+    this.isNotesVisible = false;
+    this.isSurveysVisible = true;
+  }
+  viewNotes(){
+    this.isNotesVisible = true;
+    this.isSurveysVisible = false;
+  }
+
+  getDateFormat(date:string){
+    let today = new Date();
+    let checkDate = new Date(date);
+    if (today.getDate() == checkDate.getDate() && today.getMonth() == checkDate.getMonth() && today.getFullYear() == checkDate.getFullYear()){
+      return 'h:mma';
+    }else{
+      return 'MM/dd/yyyy';
+    }
+  }
+
 }

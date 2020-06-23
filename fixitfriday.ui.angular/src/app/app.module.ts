@@ -18,7 +18,6 @@ import { SurveyCardComponent } from './Components/SurveyCard/surveyCard.componen
 import { StudentDetailComponent } from './Features/StudentDetail/studentDetail.component';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { LoginComponent } from './Features/Login/login.component';
-import { SurveyAnalyticsComponent } from './Features/SurveyAnalytics/surveyAnalytics.component';
 import { ChartsModule } from 'ng2-charts';
 import { SurveyAnalytics2Component } from './Features/SurveyAnalytics2/surveyAnalytics2.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
@@ -47,7 +46,6 @@ export function provideConfig() {
     SiblingCardComponent,
     SurveyCardComponent,
     StudentDetailComponent,
-    SurveyAnalyticsComponent,
     SurveyAnalytics2Component,
     SurveyAnalyticsCardComponent,
     LoginComponent
@@ -65,7 +63,6 @@ export function provideConfig() {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
           { path: '', component: TeacherLandingComponent },
           { path: 'studentDetail', component: StudentDetailComponent },
-          { path: 'surveyAnalytics', component: SurveyAnalyticsComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
         ]
       },

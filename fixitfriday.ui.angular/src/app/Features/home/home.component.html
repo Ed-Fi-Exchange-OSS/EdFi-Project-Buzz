@@ -3,5 +3,23 @@
   <div class="main-view-container">
       <router-outlet></router-outlet>
   </div>
+  <footer class="text-center m-b-10">&copy; 2020 <a href="http://ed-fi.org">Ed-Fi Alliance LLC</a></footer>
 </main>
-<footer class="text-center m-b-10">&copy; 2020 <a href="http://ed-fi.org">Ed-Fi Alliance LLC</a></footer>
+
+<footer class="buttons-footer">
+  <hr>
+  <div class="row buttons-row">
+    <div class="col-6" [ngClass]="{ 'isCurrent': isClassRosterActive }">
+      <a class="btn text-secondary" [routerLink]="['/app']">
+        <span class="ion ion-md-people"></span>
+        <p>Class roster</p>
+      </a>
+    </div>
+    <div class="col-6" [ngClass]="{ 'isCurrent': isSurveyActive }">
+      <a class="btn text-secondary" [routerLink]="['/app/surveyAnalytics2']">
+        <span class="ion ion-md-pie"></span>
+        <p>Survey</p>
+      </a>
+    </div>
+  </div>
+</footer>

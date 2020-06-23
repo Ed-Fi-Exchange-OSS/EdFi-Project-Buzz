@@ -1,5 +1,4 @@
 ﻿import { Component, Input } from '@angular/core';
-import { StudentService } from '../../Services/student.service';
 
 @Component({
     selector: 'app-survey-analytics-card',

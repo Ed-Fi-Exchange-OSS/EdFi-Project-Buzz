@@ -1,0 +1,35 @@
+.surveys-notes .nav-link {
+    cursor: pointer;
+}
+
+.surveys-notes .nav-link.active {
+    border-bottom: solid 5px #a2b6be;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.btn-add-note {
+    padding: 0 0.8rem !important;
+    background-color: #03a9f4;
+    float: right;
+}
+
+.btn-delete-note {
+    float: right;
+    margin-top: -11px;
+    margin-right: -19px;
+    margin-left: 5px;
+    font-size: 22px !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+li.list-group-item > div:nth-child(2){
+    text-align: justify;
+}
+
+.note-info{
+    clear: both; 
+    font-size: smaller;
+    margin-top: 5px;
+}
