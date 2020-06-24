@@ -1,3 +1,3 @@
 export class Question {
-    question: string;
+  question: string;
 }

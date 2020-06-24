@@ -32,6 +32,9 @@ type StudentSchool
   ishispanic: Boolean
   sex: String
   pictureurl: String
+  contacts: [ContactPerson]
+  siblingscount: Int,
+  siblings: [StudentSchool]
 }
 
 type Staff
@@ -85,4 +88,22 @@ type Survey{
   surveykey: String
   title: String
   info: [SurveyJson]
+}
+type ContactPerson{
+  uniquekey: String
+  contactpersonkey: String
+  studentkey: String
+  contactfirstname: String
+  contactlastname: String
+  relationshiptostudent: String
+  streetnumbername: String
+  apartmentroomsuitenumber: String
+  state: String
+  postalcode: String
+  phonenumber: String
+  primaryemailaddress: String
+  isprimarycontact: Boolean
+  preferredcontactmethod: String
+  besttimetocontact: String
+  contactnotes: String
 }

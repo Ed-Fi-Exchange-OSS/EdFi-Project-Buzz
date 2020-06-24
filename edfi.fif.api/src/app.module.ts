@@ -18,7 +18,7 @@ import SurveyModule from './graphql/modules/survey.module';
     SectionModule,
     StaffModule,
     StudentSchoolModule,
-    SurveyModule
+    SurveyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

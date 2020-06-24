@@ -23,7 +23,7 @@ export default class StaffService {
 
   async findSectionByStaff(staffkey: number): Promise<SectionEntity[]> {
     return this.FixItFridaySectionRepository.createQueryBuilder('section')
-      .leftJoin(StaffSectionAssociationEntity, 'ssa', `section.sectionkey = ssa.sectionkey and ssa.staffkey='${staffkey}'`)
+      .innerJoin(StaffSectionAssociationEntity, 'ssa', `section.sectionkey = ssa.sectionkey and ssa.staffkey='${staffkey}'`)
       .getMany();
   }
 }

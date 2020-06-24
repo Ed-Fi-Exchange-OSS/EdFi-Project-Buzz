@@ -1,7 +1,8 @@
-import { Question } from "./Question";
-import { Answer } from "./Answer";
+import { Question } from './Question';
+import { Answer } from './Answer';
 
 export class SurveyJson {
-    questions: Array<Question>;
-    answers: Array<Answer>;
+  questions: Array<Question>;
+
+  answers: Array<Answer>;
 }

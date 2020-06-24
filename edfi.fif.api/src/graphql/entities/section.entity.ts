@@ -1,6 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToMany, JoinTable } from 'typeorm';
-
-import StudentSchoolEntity from './studentschool.entity';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ schema: 'fif', name: 'section', synchronize: false })
 export default class SectionEntity {
@@ -15,8 +13,4 @@ export default class SectionEntity {
   @Column() sectionidentifier: string;
 
   @Column() schoolyear: number;
-
-  @OneToMany(() => StudentSchoolEntity, studentschool => studentschool.studentschoolkey)
-  @JoinTable()
-  students?: StudentSchoolEntity[];
 }

@@ -24,7 +24,7 @@ export default class SectionService {
 
   async findStudentsBySection(sectionkey: string): Promise<StudentSchoolEntity[]> {
     return this.FixItFridayStudentSchoolRepository.createQueryBuilder('student')
-      .leftJoin(
+      .innerJoin(
         StudentSectionEntity,
         'ss',
         `student.studentschoolkey = ss.studentschoolkey and ss.sectionkey='${sectionkey}'`,

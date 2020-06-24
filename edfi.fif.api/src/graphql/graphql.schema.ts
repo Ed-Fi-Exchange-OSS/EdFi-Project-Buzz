@@ -1,4 +1,3 @@
-
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -48,6 +47,9 @@ export class StudentSchool {
     ishispanic?: boolean;
     sex?: string;
     pictureurl?: string;
+    contacts?: ContactPerson[];
+    siblingscount?: number;
+    siblings?: StudentSchool[];
 }
 
 export class Staff {
@@ -105,4 +107,23 @@ export class Survey {
     surveykey?: string;
     title?: string;
     info?: SurveyJson[];
+}
+
+export class ContactPerson {
+    uniquekey?: string;
+    contactpersonkey?: string;
+    studentkey?: string;
+    contactfirstname?: string;
+    contactlastname?: string;
+    relationshiptostudent?: string;
+    streetnumbername?: string;
+    apartmentroomsuitenumber?: string;
+    state?: string;
+    postalcode?: string;
+    phonenumber?: string;
+    primaryemailaddress?: string;
+    isprimarycontact?: boolean;
+    preferredcontactmethod?: string;
+    besttimetocontact?: string;
+    contactnotes?: string;
 }
