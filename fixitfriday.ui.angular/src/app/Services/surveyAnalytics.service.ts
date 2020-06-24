@@ -40,7 +40,7 @@ export class SurveyAnalyticsApiService {
         }, accSy);
       }, accS);
     }, []);
-    console.log(searchInSurvey, questions);
+    // console.log(searchInSurvey, questions);
     return questions;
   }
 

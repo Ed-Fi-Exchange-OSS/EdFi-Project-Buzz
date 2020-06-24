@@ -1,21 +1,15 @@
-<!-- Parent Data -->
 <div class="card">
     <div class="card-body">
-        <div class="text-center">
-            <div class="row">
-                <div class="col">
-                    <img [src]="guardian.pictureUrl ? guardian.pictureUrl : '/assets/studentImage.jpg'" alt="{{guardian.name}} Profile Picture" class="w-75px m-b-5">
-                    <h3 class="m-b-0">{{guardian.name}}</h3>
-                    <p>{{guardian.relationship}}</p>
-                    <div class="text-left" >
-                      <p class="text-muted m-b-2"><i class="icon ion-md-mail"></i>&nbsp;<a href="{{guardian.email}}">{{guardian.email}}</a></p>
-                      <p class="text-muted m-b-2"><i class="icon ion-md-phone-portrait"></i>&nbsp;<a href="tel:{{guardian.phone}}">{{guardian.phone}}</a></p>
-                      <p class="text-muted m-b-2"><i class="icon ion-md-bookmark"></i>&nbsp;{{guardian.address}}</p>
-                    </div>
-                    <!-- <p *ngIf="guardian.isPrimaryContact" style="font-weight: bold;">Primary contact</p> -->
+        <div class="row">
+            <div class="col">
+                <h3 class="m-b-0">{{guardian.name}}</h3>
+                <p>{{guardian.relationship}}</p>
+                <div class="text-left">
+                    <p class="text-muted m-b-2 d-flex"><i class="icon ion-md-mail"></i>&nbsp;<a href="{{guardian.email}}">{{guardian.email}}</a></p>
+                    <p class="text-muted m-b-2"><i class="icon ion-md-phone-portrait"></i>&nbsp;<a href="tel:{{guardian.phone}}">{{guardian.phone}}</a></p>
+                    <p class="text-muted m-b-2"><i class="icon ion-md-bookmark"></i>&nbsp;{{guardian.address}}</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Data -->

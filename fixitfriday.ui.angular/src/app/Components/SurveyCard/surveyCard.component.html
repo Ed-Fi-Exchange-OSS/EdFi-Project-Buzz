@@ -1,10 +1,10 @@
 <div class="card">
-    <div class="card-body">
-        <p style="float: right">{{surveyResult.dateAnswered | date}}</p>
+    <div class="card-body">        
+        <p *ngIf="!isCollapsed" style="float: right; margin-bottom: 0;">{{surveyResult.dateAnswered | date}}</p>
         <h2>{{surveyResult.name}}</h2>
-        <div class="row">
-            <div class="col-12 col-md-6" *ngFor="let item of surveyResult.items">
-                <h3>{{item.question}}</h3>
+        <div *ngIf="!isCollapsed" class="row" >
+            <div class="col-12 col-md-6" *ngFor="let item of surveyResult.items; let idx = index">
+                <h3>{{idx+1}}. {{item.question}}</h3>
                 <p>
                     <i *ngIf="item.answer.toUpperCase() == 'YES'">✔</i>
                     <i *ngIf="item.answer.toUpperCase() == 'NO'">✘</i>
@@ -14,5 +14,16 @@
                     {{item.answer}}</p>
             </div>
         </div>
+
+        <div class="row" *ngIf="isCollapsed">
+            <div class="col-6">Date: {{surveyResult.dateAnswered | date}}</div>
+            <div class="col-6">Questions: {{surveyResult.items.length}}</div>
+        </div>
+
     </div>
+  <div class="card-footer">
+    <i (click)="isCollapsed = !isCollapsed"
+      [ngClass]="{'ion-md-arrow-dropdown-circle':isCollapsed, 'ion-md-arrow-dropup-circle':!isCollapsed}"
+      class="ion rounded block text-center f-s-28 cursor-pointer" style="color:#03a9f4"></i>
+  </div>
 </div>
