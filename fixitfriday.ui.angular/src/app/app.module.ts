@@ -21,7 +21,6 @@ import { LoginComponent } from './Features/Login/login.component';
 import { ChartsModule } from 'ng2-charts';
 import { SurveyAnalytics2Component } from './Features/SurveyAnalytics2/surveyAnalytics2.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
-import { SurveyAnalyticsCardComponent } from './Components/SurveyAnalyticsCard/surveyAnalyticsCard.component';
 
 let config = new AuthServiceConfig([
   {
@@ -47,7 +46,6 @@ export function provideConfig() {
     SurveyCardComponent,
     StudentDetailComponent,
     SurveyAnalytics2Component,
-    SurveyAnalyticsCardComponent,
     LoginComponent
   ],
   imports: [

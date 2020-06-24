@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">        
-        <p *ngIf="!isCollapsed" style="float: right">{{surveyResult.dateAnswered | date}}</p>
+        <p *ngIf="!isCollapsed" style="float: right; margin-bottom: 0;">{{surveyResult.dateAnswered | date}}</p>
         <h2>{{surveyResult.name}}</h2>
         <div *ngIf="!isCollapsed" class="row" >
             <div class="col-12 col-md-6" *ngFor="let item of surveyResult.items; let idx = index">
