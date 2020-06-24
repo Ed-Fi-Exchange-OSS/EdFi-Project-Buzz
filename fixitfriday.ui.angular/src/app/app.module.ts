@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { ApolloModule, APOLLO_OPTIONS } from "apollo-angular";
+import { HttpLinkModule, HttpLink } from "apollo-angular-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Features/home/home.component';
@@ -53,6 +56,8 @@ export function provideConfig() {
     BrowserAnimationsModule,
     HttpClientModule,
     SocialLoginModule,
+    ApolloModule,
+    HttpLinkModule,
     FormsModule,
     ChartsModule,
     TooltipModule,
@@ -70,6 +75,18 @@ export function provideConfig() {
   ],
   providers: [
     { provide: AuthServiceConfig, useFactory: provideConfig },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httpLink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: "http://localhost:3000/graphql"
+          })
+        }
+      },
+      deps: [HttpLink]
+    }
   ],
   bootstrap: [AppComponent]
 })

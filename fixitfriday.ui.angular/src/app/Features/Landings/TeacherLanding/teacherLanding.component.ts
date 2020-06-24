@@ -17,13 +17,13 @@ export class TeacherLandingComponent {
   isSurveyResultsVisible: boolean;
   view: string;
 
-  
+
   constructor(private api: ApiService) {
     this.students = [];
     this.searchByStudentName = null;
     this.currentSection = null;
     this.isSurveyResultsVisible = false;
-    
+
     this.view = localStorage['studentListViewType'] || "Grid";
     //this.view = "List";
   }
@@ -32,10 +32,12 @@ export class TeacherLandingComponent {
     this.search();
   }
 
-  search() {
+  async search() {
     //call the service for same data, send the selected sections
     this.students = this.api.student.get(this.currentSection, this.searchByStudentName);
     this.teacher = this.api.teacher.get()[0];
+    const sections = await this.api.section.get();
+    this.teacher.sections = sections.map(section => `${section.sessionname} - ${section.schoolyear}`);
   }
 
   toggleSurveyResults() {
