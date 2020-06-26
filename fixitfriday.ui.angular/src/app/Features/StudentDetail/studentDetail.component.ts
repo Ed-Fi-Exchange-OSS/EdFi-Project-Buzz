@@ -28,18 +28,19 @@ export class StudentDetailComponent {
     this.siblingsIsCollapsed = true;
     this.isSurveysVisible = true;
     this.isNotesVisible = false;
+    this.student = new Student;
   }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(()=> {
-      if(window.history.state.student) { this.student = window.history.state.student; }
-      else if (window.history.state.studentId) {
-        this.student = this.api.student.getById(window.history.state.studentId)[0];
-      }
-      else{
+    this.activatedRoute.paramMap.subscribe(params => {
+      if(!params.get('id')) {
         this.router.navigate(['/app']);
         return;
       }
+
+      this.studentId = params.get('id');
+      // Get the student Data
+      this.api.student.getById(this.studentId).then(data => { this.student=data; } );
     });
   }
 

@@ -65,7 +65,7 @@ export function provideConfig() {
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
           { path: '', component: TeacherLandingComponent },
-          { path: 'studentDetail', component: StudentDetailComponent },
+          { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
         ]
       },

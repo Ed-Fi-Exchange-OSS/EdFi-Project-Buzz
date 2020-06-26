@@ -4,9 +4,9 @@
   <div class="card-body p-t-0">
     <div class="d-flex p-t-12">
       <div>
-        <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}">
+        <a [routerLink]="['/app/studentDetail', student.studentschoolkey]">
           <div class="image-container img-avatar img-size">
-            <img [src]="student.pictureUrl" alt="{{student.name}} Profile Picture">
+            <img [src]="student.pictureurl" alt="{{student.name}} Profile Picture">
           </div>
         </a>
         <!-- <div class="bubble-counter orange" tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
@@ -14,8 +14,8 @@
       </div>
       <div class="flex-grow-1 overflow-hidden">
         <h3 class="m-b-2 d-flex">{{student.name}}</h3>
-        <p class="text-muted m-b-1">{{student.studentId}}</p>
-        <a class="m-b-2 text-ellipsis" href="mailto:{{student.email}}" title="{{student.email}}">{{student.email}}</a>
+        <p class="text-muted m-b-1">{{student.studentkey}}</p>
+        <a class="m-b-2 text-ellipsis" href="mailto:{{student.primaryemailaddress}}" title="{{student.primaryemailaddress}}">{{student.primaryemailaddress}}</a>
       </div>
     </div>
     <div [ngClass]="{collapse:isCollapsed}">
@@ -39,7 +39,7 @@
 
       <h4>Best time to contact: <span class="text-muted">{{student.contactTime}}</span></h4>
 
-      <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}"
+      <a [routerLink]="['/app/studentDetail', student.studentschoolkey]"
         class="btn btn-block btn-outline-primary btn-rounded mt-3">Survey Results</a>
       <hr />
       <h3>Notes</h3>

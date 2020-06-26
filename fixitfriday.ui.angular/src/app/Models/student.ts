@@ -1,19 +1,42 @@
-import { SurveyResult, Guardian } from ".";
+import { SurveyResult, Guardian, ContactPerson } from ".";
 
 export class Student {
-  studentId: string;
-  name: string;
-  email: string;
-  gradeLevel: string;
-  section: string;
-  guardians: Guardian[];
-  preferredContactMethod: string;
-  contactTime: string;
-  contactNotes?: string[];
-  siblings?: Sibling[];
-  surveys?: SurveyResult[];
-  pictureUrl?: string;
-  notes?: Note[]
+  
+  studentkey?: string;
+  studentschoolkey?: string;
+  schoolkey?: string;
+
+  schoolname: String
+  schoolyear?: string;
+  
+  name?: string;
+  studentfirstname?: string;
+  studentmiddlename?: string;
+  studentlastname?: string;
+  primaryemailaddress?: string;
+
+  enrollmentdatekey?: string;
+  gradelevel?: string;
+  limitedenglishproficiency?: string;
+  ishispanic?: boolean;
+  sex?: string;
+  pictureurl?: string;
+  contacts?: ContactPerson[];
+  siblingscount?: number;
+  siblings: Student[];
+
+
+  // to Depreicate: These will be removed soon
+  section?: string;
+  surveys:any[];
+  notes:any[];
+
+  constructor() {
+    this.contacts = [];
+    this.siblings = [];
+    this.surveys = [];
+    this.notes = [];
+  }
 }
 
 export class Sibling {

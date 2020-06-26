@@ -1,4 +1,5 @@
 ﻿import { Component, Input } from '@angular/core';
+import {Student} from '../../Models/student';
 
 @Component({
     selector: 'app-student-card-lite',
@@ -6,5 +7,5 @@
     styleUrls: ['./studentCardLite.component.css']
 })
 export class StudentCardLiteComponent {
-    @Input() student: any;
+    @Input() student: Student;
 }
