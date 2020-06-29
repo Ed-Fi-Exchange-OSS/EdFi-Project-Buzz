@@ -10,8 +10,8 @@
           <div class="input-group">
             <select class="form-control" name="repeatSelect" id="sectionsSelect" [(ngModel)]="currentSection"
               (change)="search()">
-              <option [value]="null">All Sections</option>
-              <option *ngFor="let section of teacher.sections" [value]="section">{{section}}</option>
+              <option [value]="null">Select a section</option>
+              <option *ngFor="let section of sections" [value]="section.sectionkey">{{section.sessionname}} - {{section.schoolyear}}</option>
             </select>
             <input [(ngModel)]="searchByStudentName" type="text" class="form-control" id="studentNameInputs"
               placeholder="Student Name" (keyup)="search()">
@@ -72,7 +72,7 @@
               </td>
 
               <td>{{student.guardians[0].name}} ({{student.guardians[0].relationship}})<br>
-                Preferred Contact Method: {{student.preferredContactMethod}} <br>
+                Preferred Contact Method: {{student.guardians[0].relationship}} <br>
                 <a href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a>
               </td>
 

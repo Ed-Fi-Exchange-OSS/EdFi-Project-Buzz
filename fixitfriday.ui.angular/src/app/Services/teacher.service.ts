@@ -10,9 +10,8 @@ export class TeacherApiService {
   constructor() {
     this.teachers = [
       {
-        id: "teacher0",
-        name: "Kathie Dillon",
-        sections: ["Period 4 - English I","Period 2 - Biology"]
+        id: "1",
+        name: "Kathie Dillon"
       }
     ];
   }

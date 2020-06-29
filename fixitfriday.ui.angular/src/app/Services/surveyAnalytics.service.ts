@@ -19,8 +19,8 @@ export class SurveyAnalyticsApiService {
     ];
   }
 
-  getQuestions(searchInSurvey: string) {
-    let students = this.studentService.get(null);
+  async getQuestions(searchInSurvey: string) {
+    let students = await this.studentService.get(null);
     let questions = students.reduce((accS, curS) => {
       return curS.surveys.reduce((accSy, curSy) => {
         return curSy.items.reduce((accIt, curIt) => {
@@ -44,8 +44,8 @@ export class SurveyAnalyticsApiService {
     return questions;
   }
 
-  getSurveyAnswers(surveyId: number, surveyItem?: string, sectionName?: string) {
-    let students = this.studentService.get(sectionName);
+  async getSurveyAnswers(surveyId: number, surveyItem?: string, sectionName?: string) {
+    let students = await this.studentService.get(sectionName);
     return [].concat(...students.map(s =>
       s.surveys
         .filter(sv => sv.id == surveyId)
@@ -65,8 +65,8 @@ export class SurveyAnalyticsApiService {
     ));
   }
 
-  getSurveyAnalytics(surveyId: number, surveyItem: string, sectionName?: string) {
-    let surveyResults = this.getSurveyAnswers(surveyId, surveyItem, sectionName);
+  async getSurveyAnalytics(surveyId: number, surveyItem: string, sectionName?: string) {
+    let surveyResults =  await this.getSurveyAnswers(surveyId, surveyItem, sectionName);
     let data = [].concat(...
       surveyResults
         .map(cur => cur.surveyResults.items)
@@ -88,17 +88,17 @@ export class SurveyAnalyticsApiService {
         questionCount: number,
         totalStudents: number,
         studentsAnswered: number
-      }]  
+      }]
   */
-  getSurveyMetadata(section: string, filter: string) {
+  async getSurveyMetadata(section: string, filter: string) {
     let upperFilter = filter ? filter.toUpperCase() : null;
-    let students = this.studentService.get(section);
+    let students = await this.studentService.get(section);
     let totalStudents = students.length;
 
     let questions = Object.values(students.reduce((accS, curS) => {
       return curS.surveys
           .filter(s => !upperFilter ||
-                       s.name.toUpperCase().includes(upperFilter) || 
+                       s.name.toUpperCase().includes(upperFilter) ||
                        s.items.filter(i => i.question.toUpperCase().includes(upperFilter)).length > 0)
           .reduce((accSy, curSy) => {
         let survey = accSy[curSy.id];
@@ -110,7 +110,7 @@ export class SurveyAnalyticsApiService {
             totalStudents: totalStudents,
             studentsAnswered: 0
           };
-          accSy[curSy.id] = survey; 
+          accSy[curSy.id] = survey;
         }
         survey.studentsAnswered++;
         return accSy;
@@ -129,8 +129,8 @@ export class SurveyAnalyticsApiService {
     ]
   }]
   */
-  getSurveyQuestionSummaryList(surveyId:number, section: string){
-    let surveyAnswers = this.getSurveyAnswers(surveyId, null, section);
+  async getSurveyQuestionSummaryList(surveyId:number, section: string){
+    let surveyAnswers = await this.getSurveyAnswers(surveyId, null, section);
     return Object.values(surveyAnswers.reduce((accSt, curSt) => {
       return curSt.surveyResults.items.reduce((accIt, curIt)=>{
         let surveyId = curSt.surveyResults.id;

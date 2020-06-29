@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../../Services/api.service';
-import { Student, Teacher } from 'src/app/Models';
+import { Student, Teacher, Section } from 'src/app/Models';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
@@ -12,6 +12,7 @@ import { typeWithParameters } from '@angular/compiler/src/render3/util';
 export class TeacherLandingComponent {
   students: Student[];
   teacher: Teacher;
+  sections: Section[];
   searchByStudentName: string;
   currentSection: string;
   isSurveyResultsVisible: boolean;
@@ -34,10 +35,9 @@ export class TeacherLandingComponent {
 
   async search() {
     //call the service for same data, send the selected sections
-    this.students = this.api.student.get(this.currentSection, this.searchByStudentName);
     this.teacher = this.api.teacher.get()[0];
-    const sections = await this.api.section.get();
-    this.teacher.sections = sections.map(section => `${section.sessionname} - ${section.schoolyear}`);
+    this.sections = await this.api.section.getByTeacherId(this.teacher.id);
+    this.students = await this.api.student.get(this.currentSection, this.searchByStudentName);
   }
 
   toggleSurveyResults() {

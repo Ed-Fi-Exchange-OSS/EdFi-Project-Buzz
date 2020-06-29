@@ -50,19 +50,19 @@ export class StudentDetailComponent {
     this.editingNote = 0;
     let newId = this.student.notes.length > 0 ? Math.max(...this.student.notes.map(el => el.id)) + 1: 1;
     this.student.notes.unshift({ id: newId, note: `New note: ${newId}`, date: new Date(), teacher: this.currentTeacher });
-    window.setTimeout( () => { 
+    window.setTimeout( () => {
       this.noteInput.nativeElement.focus();
       this.noteInput.nativeElement.select();
     }, 200 );
-    
+
   }
   saveNote(){
-    this.editingNote = -1; 
+    this.editingNote = -1;
     this.api.student.save();
   }
   cancelAddNote(){
-    this.editingNote = -1; 
-    this.student.notes.splice(0, 1);   
+    this.editingNote = -1;
+    this.student.notes.splice(0, 1);
   }
   deleteNote(id:number){
     let idx = this.student.notes.findIndex(el => el.id == id);

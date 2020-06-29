@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getAllSections = gql`
+const getSectionsByStaff = gql`
 query {
   sections {
     sectionkey
@@ -11,4 +11,4 @@ query {
 }
 `;
 
-export { getAllSections };
+export { getSectionsByStaff };

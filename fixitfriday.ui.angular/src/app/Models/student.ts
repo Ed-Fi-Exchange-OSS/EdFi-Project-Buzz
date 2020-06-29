@@ -13,11 +13,18 @@ export class Student {
   siblings?: Sibling[];
   surveys?: SurveyResult[];
   pictureUrl?: string;
-  notes?: { id: number, note: string, date: Date, teacher: string }[]
+  notes?: Note[]
 }
 
 export class Sibling {
   name: string;
   gradeLevel: string;
   schoolName: string;
+}
+
+export class Note {
+  id: number;
+  note: string;
+  date: Date;
+  teacher: string;
 }
