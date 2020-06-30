@@ -6,13 +6,13 @@
         <div class="card-body">
           <div class="text-center">
             <img src="/assets/Owl-Logo-GrandBend.png" style="width: 100%; max-width: 350px;" />
-            
+
           </div>
           <h1 class=" text-center m-t-25">TOD - Teacher Observation Dashboard</h1>
           <div class="text-center m-t-20">
             <a (click)="signIn()" class="btn btn-primary">SSO Login</a>
             <br />
-            <span class="link-text cursor-pointer" (click)="goToLanding()">Skip Login</span>
+            <span class="link-text cursor-pointer" (click)="useMockCredentials()">Use mock credentials</span>
             <p class="m-t-30" *ngIf="model.loggedIn">
               Currently logged in as: {{model.user.name}}
               <br />
