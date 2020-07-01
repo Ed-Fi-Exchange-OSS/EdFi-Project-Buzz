@@ -43,3 +43,5 @@ node_modules/
 *.pdf
 launchSettings.json
 tempkey.rsa
+
+.env

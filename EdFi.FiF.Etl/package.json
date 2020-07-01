@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "lint": "eslint --fix \"./**/*.{js,jsx,ts,tsx}\"",
+    "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.3.1",
+    "etl": "^0.6.12",
+    "fs": "^0.0.1-security",
+    "msnodesqlv8": "^1.1.6",
+    "mssql": "^6.2.0",
+    "path": "^0.12.7",
+    "pg": "^8.2.1",
+    "tedious": "^8.3.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-jsx-a11y": "6.3.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "7.20.0",
+    "prettier": "^2.0.5"
+  },
+  "peerDependencies": {
+    "eslint": "^7.3.1"
+  }
+}
