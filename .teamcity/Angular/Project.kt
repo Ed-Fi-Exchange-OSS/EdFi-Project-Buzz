@@ -9,11 +9,11 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
 object AngularProject : Project({
     id("FixItFriday_UI_Angular")
-    name = "UI"
+    name = "Angular"
     description = "Fix-it-Friday User Interface - Angular"
 
-    buildType(angular.buildTypes.PullRequestUIBuild)
-    buildType(angular.buildTypes.BranchUIBuild)
+    buildType(angular.buildTypes.PullRequestAngularBuild)
+    buildType(angular.buildTypes.BranchAngularBuild)
 
     params{
         param("project.directory", "./fixitfriday.ui.angular");

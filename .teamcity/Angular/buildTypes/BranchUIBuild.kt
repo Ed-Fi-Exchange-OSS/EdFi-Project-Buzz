@@ -11,7 +11,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
-object BranchUIBuild : BuildType ({
+object BranchAngularBuild : BuildType ({
     name = "Branch Build and Test"
     templates(_self.templates.BuildAndTestTemplate)
 
