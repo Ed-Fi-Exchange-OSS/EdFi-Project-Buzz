@@ -7,7 +7,7 @@
     "build": "ng build",
     "build:ssr": "ng run EdFi.FixItFridays.Web:server:dev",
     "test": "ng test",
-    "test:ci": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "lint:ci": "ng lint",
     "e2e": "ng e2e"
