@@ -1,6 +1,6 @@
 SELECT DISTINCT
 	ssa.id as studentsectionkey,
-	ssa.schoolid as studentschoolkey,
+	ssa.studentusi as studentschoolkey,
 	ssa.studentusi as studentkey,
 	ssa.sectionidentifier as sectionkey,
 	ssa.localcoursecode as localcoursecode,
@@ -13,11 +13,11 @@ SELECT DISTINCT
 			FROM edfi.StaffSectionAssociation
 				LEFT OUTER JOIN edfi.Staff
 				ON StaffSectionAssociation.StaffUSI = Staff.StaffUSI
-			WHERE StudentSectionAssociation.SchoolId = StaffSectionAssociation.SchoolId
-				AND StudentSectionAssociation.LocalCourseCode = StaffSectionAssociation.LocalCourseCode
-				AND StudentSectionAssociation.SchoolYear = StaffSectionAssociation.SchoolYear
-				AND StudentSectionAssociation.SectionIdentifier = StaffSectionAssociation.SectionIdentifier
-				AND StudentSectionAssociation.SessionName = StaffSectionAssociation.SessionName FOR
+			WHERE ssa.SchoolId = StaffSectionAssociation.SchoolId
+				AND ssa.LocalCourseCode = StaffSectionAssociation.LocalCourseCode
+				AND ssa.SchoolYear = StaffSectionAssociation.SchoolYear
+				AND ssa.SectionIdentifier = StaffSectionAssociation.SectionIdentifier
+				AND ssa.SessionName = StaffSectionAssociation.SessionName FOR
 			XML PATH('')
 		), 1, 1, N''), '') AS TeacherName,
 	ssa.begindate as studentsectionstartdatekey,

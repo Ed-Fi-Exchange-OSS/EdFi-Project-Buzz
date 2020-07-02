@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import ContactPersonEntity from '../entities/contactperson.entity';
+import SchoolEntity from '../entities/school.entity';
 import StudentSchoolEntity from '../entities/studentschool.entity';
 import StudentContactEntity from '../entities/studentcontact.entity';
 
@@ -15,6 +16,7 @@ export default class SectionService {
   constructor(
     @InjectRepository(StudentSchoolEntity) private readonly FixItFridayRepository: Repository<StudentSchoolEntity>,
     @InjectRepository(ContactPersonEntity) private readonly FixItFridayRepositoryContacts: Repository<ContactPersonEntity>,
+    @InjectRepository(SchoolEntity) private readonly FixItFridayRepositorySchool: Repository<SchoolEntity>,
   ) {}
 
   async findAll(): Promise<StudentSchoolEntity[]> {
@@ -66,5 +68,9 @@ export default class SectionService {
         { father: `${this.fatherText}%`, mother: `${this.motherText}%` },
       )
       .getMany();
+  }
+
+  async findOneSchoolByStudent(id: string): Promise<SchoolEntity> {
+    return this.FixItFridayRepositorySchool.findOne({ where: { schoolkey: id } });
   }
 }

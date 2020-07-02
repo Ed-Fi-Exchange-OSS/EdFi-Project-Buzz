@@ -1,16 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-const sqlSourceDir = `./../sql/${process.env.FIF_SQLSOURCE || 'ods'}/`;
+const sqlSourceDir = `./../sql/${process.env.FIF_SQLSOURCE || 'amt'}/`;
 
-const studentSchoolSource = `${sqlSourceDir}/0001-ImportStudentSchool.sql`;
-const contactPersonSource = `${sqlSourceDir}/0002-ImportContactPerson.sql`;
-const studentContactSource = `${sqlSourceDir}/0003-ImportStudentContact.sql`;
-const sectionSource = `${sqlSourceDir}/0004-ImportSection.sql`;
-const staffSource = `${sqlSourceDir}/0005-ImportStaff.sql`;
-const staffSectioNSource = `${sqlSourceDir}/0006-ImportStaffSectionAssociation.sql`;
-const studentSectionSource = `${sqlSourceDir}/0007-ImportStudentSection.sql`;
+const schoolSource = `${sqlSourceDir}/0001-ImportSchool.sql`;
+const studentSchoolSource = `${sqlSourceDir}/0002-ImportStudentSchool.sql`;
+const contactPersonSource = `${sqlSourceDir}/0003-ImportContactPerson.sql`;
+const studentContactSource = `${sqlSourceDir}/0004-ImportStudentContact.sql`;
+const sectionSource = `${sqlSourceDir}/0005-ImportSection.sql`;
+const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
+const staffSectioNSource = `${sqlSourceDir}/0007-ImportStaffSectionAssociation.sql`;
+const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
 
+const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');
 const studentSchoolSourceSQL = fs.readFileSync(path.join(__dirname, studentSchoolSource), 'utf8');
 const contactPersonSourceSQL = fs.readFileSync(path.join(__dirname, contactPersonSource), 'utf8');
 const studentContactSourceSQL = fs.readFileSync(path.join(__dirname, studentContactSource), 'utf8');
@@ -18,6 +20,32 @@ const sectionSourceSQL = fs.readFileSync(path.join(__dirname, sectionSource), 'u
 const staffSourceSQL = fs.readFileSync(path.join(__dirname, staffSource), 'utf8');
 const staffSectionSourceSQL = fs.readFileSync(path.join(__dirname, staffSectioNSource), 'utf8');
 const studentSectionSourceSQL = fs.readFileSync(path.join(__dirname, studentSectionSource), 'utf8');
+
+exports.schoolConfig = {
+  recordType: 'School',
+  selectSql: 'SELECT 1 FROM fif.school WHERE schoolkey=$1',
+  insertSql: 'INSERT INTO fif.school(schoolkey, schoolname, schooltype, schooladdress, schoolcity, schoolcounty, schoolstate, localeducationagencyname, localeducationagencykey, stateeducationagencyname, stateeducationagencykey, educationservicecentername, educationservicecenterkey,lastmodifieddate) VALUES ($1::text, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13,$14)',
+  updateSql: 'UPDATE fif.school SET schoolkey=$1, schoolname=$2, schooltype=$3, schooladdress=$4, schoolcity=$5, schoolcounty=$6, schoolstate=$7, localeducationagencyname=$8, localeducationagencykey=$9, stateeducationagencyname=$10, stateeducationagencykey=$11, educationservicecentername=$12, educationservicecenterkey=$13, lastmodifieddate=$14 WHERE schoolkey=$1;',
+  sourceSql: schoolSourceSQL,
+  keyIndex: 0,
+  isEntityMap: false,
+  valueFunc: (row) => [
+    row.schoolkey,
+    row.schoolname,
+    row.schooltype,
+    row.schooladdress,
+    row.schoolcity,
+    row.schoolcounty,
+    row.schoolstate,
+    row.localeducationagencyname,
+    row.localeducationagencykey,
+    row.stateeducationagencyname,
+    row.stateeducationagencykey,
+    row.educationservicecentername,
+    row.educationservicecenterkey,
+    row.lastmodifieddate,
+  ],
+};
 
 exports.studentSchoolConfig = {
   recordType: 'StudentSchool',

@@ -1,0 +1,17 @@
+SELECT
+       schoolkey,
+       schoolname,
+       schooltype,
+       schooladdress,
+       schoolcity,
+       schoolcounty,
+       schoolstate,
+       localeducationagencyname,
+       localeducationagencykey,
+       stateeducationagencyname,
+       stateeducationagencykey,
+       educationservicecentername,
+       educationservicecenterkey,
+       lastmodifieddate
+FROM
+     analytics.SchoolDim

@@ -38,4 +38,11 @@ export default class StudentSchoolResolvers {
   async siblings(@Parent() parent): Promise<ContactPerson[]> {
     return this.studentschoolService.findStudentsSiblings(parent.studentschoolkey);
   }
+
+  @ResolveProperty('schoolname')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async schoolname(@Parent() parent): Promise<string> {
+    const result = await this.studentschoolService.findOneSchoolByStudent(parent.schoolkey);
+    return result && result !== undefined ? result.schoolname : '';
+  }
 }

@@ -1,3 +1,21 @@
+CREATE TABLE fif.School(
+    SchoolKey varchar NOT NULL,
+    SchoolName varchar NOT NULL,
+    SchoolType varchar NULL,
+    SchoolAddress varchar NULL,
+    SchoolCity varchar NULL,
+    SchoolCounty varchar NULL,
+    SchoolState varchar NULL,
+    LocalEducationAgencyName varchar NULL,
+    LocalEducationAgencyKey int NULL,
+    StateEducationAgencyName varchar NULL,
+    StateEducationAgencyKey int NULL,
+    EducationServiceCenterName varchar NULL,
+    EducationServiceCenterKey int NULL,
+    LastModifiedDate date NULL,
+    CONSTRAINT PK_SchoolKey PRIMARY KEY (SchoolKey)
+);
+
 CREATE TABLE fif.StudentSchool (
     StudentSchoolKey varchar(45) NOT NULL,
     StudentKey varchar(32) NOT NULL,
@@ -12,7 +30,8 @@ CREATE TABLE fif.StudentSchool (
     IsHispanic bit NOT NULL,
     Sex varchar(50) NOT NULL,
     PictureURL varchar(256) NULL,
-    CONSTRAINT PK_StudentSchoolKey PRIMARY KEY (StudentSchoolKey)
+    CONSTRAINT PK_StudentSchoolKey PRIMARY KEY (StudentSchoolKey),
+    CONSTRAINT FK_StudentSchool_SchoolKey FOREIGN KEY (SchoolKey) REFERENCES fif.School (SchoolKey)
 );
 
 CREATE TABLE fif.ContactPerson (
@@ -54,10 +73,10 @@ CREATE TABLE fif.Section (
 );
 
 CREATE TABLE fif.StudentSection (
-    StudentSectionKey varchar(60) NOT NULL,
+    StudentSectionKey varchar(80) NOT NULL,
     StudentSchoolKey varchar(64) NOT NULL,
     StudentKey varchar(32) NOT NULL,
-    SectionKey varchar(60) NULL,
+    SectionKey varchar(128) NULL,
     LocalCourseCode varchar(60) NULL,
     Subject varchar(60) NOT NULL,
     CourseTitle varchar(60) NOT NULL,

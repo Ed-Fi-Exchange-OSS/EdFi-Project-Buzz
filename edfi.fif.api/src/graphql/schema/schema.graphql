@@ -22,6 +22,7 @@ type StudentSchool
   studentschoolkey: String
   studentkey: String
   schoolkey: String
+  schoolname: String
   schoolyear: String
   studentfirstname: String
   studentmiddlename: String
@@ -106,4 +107,20 @@ type ContactPerson{
   preferredcontactmethod: String
   besttimetocontact: String
   contactnotes: String
+}
+
+type School{
+  schoolkey: String
+  schoolname: String
+  schooltype: String
+  schooladdress: String
+  schoolcity: String
+  schoolcounty: String
+  schoolstate: String
+  localeducationagencyname: String
+  localeducationagencykey: Int
+  stateeducationagencyname: String
+  stateeducationagencykey: Int
+  educationservicecentername: String
+  educationservicecenterkey: Int
 }
