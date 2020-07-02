@@ -1,4 +1,4 @@
-import { Parent, Args, Query, Resolver, ResolveProperty } from '@nestjs/graphql';
+import { Parent, Args, Resolver, ResolveProperty } from '@nestjs/graphql';
 import { StudentSchool, ContactPerson } from '../graphql.schema';
 import StudentSchoolService from '../services/studentschool.service';
 
@@ -7,12 +7,11 @@ export default class StudentSchoolResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly studentschoolService: StudentSchoolService) {}
 
-  @Query()
+  // @Query()
   async students(): Promise<StudentSchool[]> {
     return this.studentschoolService.findAll();
   }
 
-  @Query('student')
   async findOneById(
     @Args('studentschoolkey')
     studentschoolkey: string,

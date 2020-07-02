@@ -44,15 +44,15 @@ export class Metadata {
 export abstract class IQuery {
     abstract staff(): Staff[] | Promise<Staff[]>;
 
-    abstract sectionsbystaff(staffkey: string): Staff | Promise<Staff>;
+    abstract staffbyid(staffkey: string): Staff | Promise<Staff>;
 
-    abstract sections(): Section[] | Promise<Section[]>;
+    abstract sectionsbystaff(staffkey: string): Section[] | Promise<Section[]>;
 
-    abstract section(sectionkey: string): Section | Promise<Section>;
+    abstract sectionbystaff(staffkey: string, sectionkey?: string): Section | Promise<Section>;
 
-    abstract students(): StudentSchool[] | Promise<StudentSchool[]>;
+    abstract studentbystaff(staffkey: string, studentschoolkey: string): StudentSchool | Promise<StudentSchool>;
 
-    abstract student(studentschoolkey: string): StudentSchool | Promise<StudentSchool>;
+    abstract studentsbystaff(staffkey: string): StudentSchool[] | Promise<StudentSchool[]>;
 
     abstract surveys(): Survey[] | Promise<Survey[]>;
 
@@ -86,6 +86,7 @@ export class Section {
     sessionname?: string;
     sectionidentifier?: string;
     schoolyear?: number;
+    student?: StudentSchool;
     students?: StudentSchool[];
 }
 
@@ -96,6 +97,7 @@ export class Staff {
     middlename?: string;
     lastsurname?: string;
     staffuniqueid?: string;
+    section?: Section;
     sections?: Section[];
 }
 

@@ -1,10 +1,10 @@
 type Query{
   staff: [Staff]
-  sectionsbystaff(staffkey: ID!): Staff
-  sections: [Section]
-  section(sectionkey: ID!): Section
-  students: [StudentSchool]
-  student(studentschoolkey: ID!): StudentSchool
+  staffbyid(staffkey: ID!): Staff
+  sectionsbystaff(staffkey: ID!): [Section]
+  sectionbystaff(staffkey: ID!, sectionkey:String): Section
+  studentbystaff(staffkey: ID!, studentschoolkey: String!): StudentSchool
+  studentsbystaff(staffkey: ID!): [StudentSchool]
   surveys: [Survey]
   survey(surveykey: ID!): Survey
 }
@@ -15,6 +15,7 @@ type Section{
   sessionname: String
   sectionidentifier: String
   schoolyear: Int
+  student(studentschoolkey: String!): StudentSchool
   students: [StudentSchool]
 }
 type StudentSchool
@@ -46,6 +47,7 @@ type Staff
   middlename: String
   lastsurname: String
   staffuniqueid: String
+  section(sectionkey:String!): Section
   sections: [Section]
 }
 
