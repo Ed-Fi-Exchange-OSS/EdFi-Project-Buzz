@@ -97,6 +97,11 @@
             "exclude": [
               "**/node_modules/**"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "tslint-teamcity-reporter"
+            }
           }
         },
         "server": {
