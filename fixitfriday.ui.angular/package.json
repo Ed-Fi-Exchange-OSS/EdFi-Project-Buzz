@@ -1,13 +1,15 @@
 {
   "name": "edfi.fixitfridays.web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build:ssr": "ng run EdFi.FixItFridays.Web:server:dev",
     "test": "ng test",
+    "test:ci": "ng test",
     "lint": "ng lint",
+    "lint:ci": "ng lint",
     "e2e": "ng e2e"
   },
   "private": true,

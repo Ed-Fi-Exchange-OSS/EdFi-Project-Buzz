@@ -1,7 +1,6 @@
 package _self
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.Project
 
 object FixItFridayProject : Project({
     description = "Projects Owned by the Analytics Team"
@@ -19,6 +18,7 @@ object FixItFridayProject : Project({
 
     subProject(ui.UIProject)
     subProject(api.APIProject)
+    subProject(angular.AngularProject)
 
     template(_self.templates.BuildAndTestTemplate)
     template(_self.templates.PullRequestTemplate)
