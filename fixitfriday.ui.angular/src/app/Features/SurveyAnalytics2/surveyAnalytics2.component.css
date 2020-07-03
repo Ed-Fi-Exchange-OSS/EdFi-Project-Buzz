@@ -1,3 +1,5 @@
+
+
 .btn-fill-search {
   background-color: #007bff;
   margin-top: 1ex;
@@ -10,6 +12,39 @@
 .max-h {
   max-height: 13em;
   overflow-y: auto;
+}
+/* For survey matadata list*/
+.survey-metadata {
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.survey-metadata .survey-selected {
+  border-bottom: #007bff solid 3px;
+  background-color: #f9f9f9;
+}
+
+.survey-metadata .card-body div h2{
+  font-size: 18px;
+  color: #1b1c1d;
+  margin-bottom: 12px;
+}
+
+.survey-metadata .card-body div{
+  border-left: #007bff solid 3px;
+  padding-left: 12px;
+  color: #1b1c1d;
+}
+.survey-metadata .card-body div p span{
+  font-weight: bold;
+}
+
+.survey-metadata .card-body div p{
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.survey-metadata .card-body div p:last-child{
+  margin-bottom: 0;
 }
 
 /* For sorting */
