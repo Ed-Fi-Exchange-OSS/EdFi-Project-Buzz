@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Student, Guardian, Note } from '../Models/';
+import { getStudentsBySection, getStudentById } from './GraphQL/studentQueries';
 import { Apollo } from 'apollo-angular';
-import { getStudentsBySection } from './GraphQL/studentQueries';
 declare var require: any
 
 @Injectable({ providedIn: 'root' })
@@ -42,15 +42,15 @@ export class StudentApiService {
         )
         const notes: string[] = [ student.contacts[0].contactnotes, ]
         const typedStudent: Student = {
-          studentId: student.studentkey,
+          studentkey: student.studentkey,
           name: `${student.studentfirstname || ''} ${student.studentmiddlename || ''} ${student.studentlastname || ''}`,
-          email: 'test@mail.com',
-          gradeLevel: student.gradelevel,
+          primaryemailaddress: 'test@mail.com',
+          gradelevel: student.gradelevel,
           section: data.sessionname,
           guardians,
           preferredContactMethod: student.contacts[0].preferredcontactmethod,
           contactTime: student.contacts[0].besttimetocontact,
-          contactNotes: notes,
+          //contactNotes: notes,
           //siblings
           //surveys
           pictureUrl: '/assets/studentImage.jpg'
@@ -66,9 +66,29 @@ export class StudentApiService {
       .sort( (a, b) => a.name.localeCompare(b.name) );
   }
 
-  public getById(id: string) {
-    return this.students
-      .filter(s => s.studentId == id)
-      .sort( (a, b) => a.name.localeCompare(b.name) );
+  public async getById(id: string) {
+    console.log("student.service:" + id);
+    let student: Student;
+
+    const client = this.apollo.getClient();
+    await client.query({ query: getStudentById, variables:{studentschoolkey:id} }).then(response => {
+      
+      // No mapping =)
+      student = response.data.student;
+
+      // OK I lied... but just a little =P
+      student.name = `${student.studentlastname || ''}, ${student.studentfirstname || ''} ${student.studentmiddlename || ''}`;
+      
+      if(!student.primaryemailaddress)
+        student.primaryemailaddress = `${student.studentfirstname}@grandbend.com`;
+      
+      if(!student.pictureurl)
+        student.pictureurl= '/assets/studentImage.jpg',
+
+      student.surveys = [];      
+      student.notes = [];
+    });
+
+    return student;
   }
 }

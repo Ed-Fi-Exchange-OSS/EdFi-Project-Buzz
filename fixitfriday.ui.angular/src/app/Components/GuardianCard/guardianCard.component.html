@@ -2,12 +2,12 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <h3 class="m-b-0">{{guardian.name}}</h3>
-                <p>{{guardian.relationship}}</p>
+                <h3 class="m-b-0">{{contact.contactlastname}}, {{contact.contactfirstname}}</h3>
+                <p>{{contact.relationshiptostudent}}</p>
                 <div class="text-left">
-                    <p class="text-muted m-b-2 d-flex"><i class="icon ion-md-mail"></i>&nbsp;<a href="{{guardian.email}}">{{guardian.email}}</a></p>
-                    <p class="text-muted m-b-2"><i class="icon ion-md-phone-portrait"></i>&nbsp;<a href="tel:{{guardian.phone}}">{{guardian.phone}}</a></p>
-                    <p class="text-muted m-b-2"><i class="icon ion-md-bookmark"></i>&nbsp;{{guardian.address}}</p>
+                    <p class="text-muted m-b-2 d-flex"><i class="icon ion-md-mail"></i>&nbsp;<a href="{{contact.primaryemailaddress}}">{{contact.primaryemailaddress}}</a></p>
+                    <p class="text-muted m-b-2"><i class="icon ion-md-phone-portrait"></i>&nbsp;<a href="tel:{{contact.phonenumber}}">{{contact.phonenumber}}</a></p>
+                    <p class="text-muted m-b-2"><i class="icon ion-md-bookmark"></i>&nbsp;{{contact.streetnumbername}} {{contact.apartmentroomsuitenumber}} {{contact.state}} {{contact.postalcode}}</p>
                 </div>
             </div>
         </div>

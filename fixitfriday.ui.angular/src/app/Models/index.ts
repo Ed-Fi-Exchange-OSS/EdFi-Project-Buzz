@@ -1,3 +1,4 @@
+export { ContactPerson } from './contactPerson';
 export { Guardian } from './guardian';
 export { Student, Note } from './student';
 export { SurveyResult, SurveyItem } from './survey';

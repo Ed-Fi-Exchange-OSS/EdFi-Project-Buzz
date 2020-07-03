@@ -12,12 +12,12 @@
       <app-student-card-lite [student]="student"></app-student-card-lite>
     </div>
     <div class="col-lg-7">
-      <h2>Guardians: {{student.guardians.length}}</h2>
+      <h2>Guardians: {{student.contacts.length}}</h2>
 
       <div class="" style="overflow-x: auto;">
         <div class="row d-flex flex-row flex-nowrap">
-          <div *ngFor="let guardian of student.guardians" class="col-lg-6 card-deck">
-            <app-guardian-card [guardian]="guardian" style="display: block;"></app-guardian-card>
+          <div *ngFor="let contact of student.contacts" class="col-lg-6 card-deck">
+            <app-guardian-card [contact]="contact" style="display: block;"></app-guardian-card>
           </div>
         </div>
       </div>
