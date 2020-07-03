@@ -5,9 +5,12 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class Answer {
-    metadata?: Metadata;
-    data?: Data[];
+export class AnswersByStudent {
+    surveykey?: string;
+    surveyquestionkey?: string;
+    question?: string;
+    studentschoolkey?: string;
+    answer?: string;
 }
 
 export class ContactPerson {
@@ -29,18 +32,6 @@ export class ContactPerson {
     contactnotes?: string;
 }
 
-export class Data {
-    question?: string;
-    answer?: string;
-}
-
-export class Metadata {
-    timestamp?: string;
-    studentschoolkey?: string;
-    studentname?: string;
-    studentemail?: string;
-}
-
 export abstract class IQuery {
     abstract staff(): Staff[] | Promise<Staff[]>;
 
@@ -56,11 +47,11 @@ export abstract class IQuery {
 
     abstract surveys(): Survey[] | Promise<Survey[]>;
 
-    abstract survey(surveykey: string): Survey | Promise<Survey>;
-}
+    abstract survey(): Survey | Promise<Survey>;
 
-export class Question {
-    question?: string;
+    abstract surveysummary(sectionkey: string, title?: string): SurveySummary[] | Promise<SurveySummary[]>;
+
+    abstract questions(): SurveySummaryQuestions[] | Promise<SurveySummaryQuestions[]>;
 }
 
 export class School {
@@ -101,6 +92,12 @@ export class Staff {
     sections?: Section[];
 }
 
+export class StudentNote {
+    studentnotekey?: string;
+    note?: string;
+    studentschoolkey?: string;
+}
+
 export class StudentSchool {
     studentschoolkey?: string;
     studentkey?: string;
@@ -119,6 +116,8 @@ export class StudentSchool {
     contacts?: ContactPerson[];
     siblingscount?: number;
     siblings?: StudentSchool[];
+    studentsurveys?: StudentSurvey[];
+    notes?: StudentNote[];
 }
 
 export class StudentSection {
@@ -136,13 +135,53 @@ export class StudentSection {
     schoolyear?: string;
 }
 
+export class StudentSurvey {
+    studentsurveykey?: string;
+    surveykey?: string;
+    studentschoolkey?: string;
+    date?: string;
+    survey?: Survey;
+    answers?: AnswersByStudent[];
+}
+
 export class Survey {
     surveykey?: string;
     title?: string;
-    info?: SurveyJson[];
+    questions?: SurveyQuestion[];
 }
 
-export class SurveyJson {
-    questions?: Question[];
-    answers?: Answer[];
+export class SurveyQuestion {
+    surveyquestionkey?: string;
+    surveykey?: string;
+    question?: string;
+    studentanswer?: SurveySummaryAnswers;
+}
+
+export class SurveySummary {
+    sectionkey?: number;
+    surveykey?: number;
+    title?: string;
+    studentsanswered?: number;
+    numberofquestions?: number;
+    totalstudents?: number;
+    questions?: SurveySummaryQuestions[];
+}
+
+export class SurveySummaryAnswers {
+    sectionkey?: number;
+    surveykey?: number;
+    title?: string;
+    surveyquestionkey?: number;
+    question?: string;
+    studentschoolkey?: number;
+    studentname?: string;
+    answer?: string;
+}
+
+export class SurveySummaryQuestions {
+    surveykey?: number;
+    title?: string;
+    surveyquestionkey?: number;
+    question?: string;
+    answers?: SurveySummaryAnswers[];
 }

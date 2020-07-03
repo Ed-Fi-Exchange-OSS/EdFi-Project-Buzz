@@ -6,7 +6,9 @@ type Query{
   studentbystaff(staffkey: ID!, studentschoolkey: String!): StudentSchool
   studentsbystaff(staffkey: ID!): [StudentSchool]
   surveys: [Survey]
-  survey(surveykey: ID!): Survey
+  survey: Survey
+  surveysummary(sectionkey: String!, title: String): [SurveySummary]
+  questions: [SurveySummaryQuestions]
 }
 type Section{
   sectionkey: String
@@ -37,6 +39,22 @@ type StudentSchool
   contacts: [ContactPerson]
   siblingscount: Int,
   siblings: [StudentSchool]
+  studentsurveys: [StudentSurvey]
+  notes: [StudentNote]
+}
+type StudentNote {
+  studentnotekey: String
+  note: String
+  studentschoolkey: String
+}
+
+type StudentSurvey{
+  studentsurveykey:String
+  surveykey: String
+  studentschoolkey: String
+  date: String
+  survey: Survey
+  answers: [AnswersByStudent]
 }
 
 type Staff
@@ -66,31 +84,51 @@ type StudentSection{
   schoolyear: String
 }
 
-type Data {
-  question: String
-  answer: String
-}
-type Metadata {
-  timestamp: String
-  studentschoolkey: String
-    studentname: String
-    studentemail: String
-}
-type Question {
-  question: String
-}
-type Answer {
-  metadata: Metadata
-  data: [Data]
-}
-type SurveyJson {
-  questions: [Question]
-  answers: [Answer]
-}
-type Survey{
+
+type Survey {
   surveykey: String
   title: String
-  info: [SurveyJson]
+  questions: [SurveyQuestion]
+}
+type SurveyQuestion {
+  surveyquestionkey: String
+  surveykey: String
+  question: String
+  studentanswer: SurveySummaryAnswers
+}
+type AnswersByStudent {
+  surveykey: String
+  surveyquestionkey: String
+  question: String
+  studentschoolkey: String
+  answer: String
+}
+
+type SurveySummary {
+  sectionkey: Int
+  surveykey: Int
+  title: String
+  studentsanswered: Int
+  numberofquestions: Int
+  totalstudents: Int
+  questions: [SurveySummaryQuestions]
+}
+type SurveySummaryQuestions {
+  surveykey: Int
+  title: String
+  surveyquestionkey: Int
+  question: String
+  answers: [SurveySummaryAnswers]
+}
+type SurveySummaryAnswers {
+  sectionkey: Int
+  surveykey: Int
+  title: String
+  surveyquestionkey: Int
+  question: String
+  studentschoolkey: Int
+  studentname: String
+  answer: String
 }
 type ContactPerson{
   uniquekey: String

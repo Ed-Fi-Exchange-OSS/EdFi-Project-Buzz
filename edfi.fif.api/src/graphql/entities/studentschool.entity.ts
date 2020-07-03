@@ -1,4 +1,6 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
+import StudentSurveyEntity from './survey/studentsurvey.entity';
+import StudentNoteEntity from './studentnote.entity';
 
 @Entity({ schema: 'fif', name: 'studentschool', synchronize: false })
 export default class StudentSchoolEntity {
@@ -27,4 +29,8 @@ export default class StudentSchoolEntity {
   @Column() sex: string;
 
   @Column() pictureurl: string;
+
+  studentsurveys?: StudentSurveyEntity[];
+
+  notes?: StudentNoteEntity[];
 }
