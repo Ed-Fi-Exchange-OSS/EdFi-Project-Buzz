@@ -24,6 +24,8 @@ import { LoginComponent } from './Features/Login/login.component';
 import { ChartsModule } from 'ng2-charts';
 import { SurveyAnalytics2Component } from './Features/SurveyAnalytics2/surveyAnalytics2.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { JwtInterceptor } from './Interceptors/jwt.interceptor';
+import { AuthGuard } from './Interceptors/auth.guard';
 
 let config = new AuthServiceConfig([
   {
@@ -67,14 +69,16 @@ export function provideConfig() {
           { path: '', component: TeacherLandingComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
-        ]
+        ],
+        canActivate: [AuthGuard],
       },
       { path: 'login', component: LoginComponent },
-      { path: '**', redirectTo: 'login' } // when security and auth guards applied change it to redirect to '' then auth guard login will redirect to login if necessary.
+      { path: '**', redirectTo: 'app' } // when security and auth guards applied change it to redirect to '' then auth guard login will redirect to login if necessary.
     ], { useHash: true, scrollPositionRestoration: 'enabled' })
   ],
   providers: [
     { provide: AuthServiceConfig, useFactory: provideConfig },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {

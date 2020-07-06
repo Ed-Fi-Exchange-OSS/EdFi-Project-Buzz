@@ -13,18 +13,21 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   teacher: Teacher;
 
-  constructor(private api: ApiService, private socialAuthService: AuthService, private router: Router) {
+  constructor(private api: ApiService
+    , private socialAuthService: AuthService
+    , private router: Router)
+  {
+    let user = api.authentication.currentUserValue;
+    this.teacher = user.teacher;
   }
 
-  ngOnInit() {
-    this.teacher = this.api.teacher.get(null)[0];
-  }
 
   signOut() {
+    this.api.authentication.logout();
     this.socialAuthService
       .signOut(true)
       .then(result => { localStorage.clear(); this.router.navigate(['/login']); })
-      .catch( () => this.router.navigate(['/login']) );
+      .catch(() => this.router.navigate(['/login']));
   }
 
 }

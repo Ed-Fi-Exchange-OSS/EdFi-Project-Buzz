@@ -20,4 +20,8 @@ export class TeacherApiService {
     return this.teachers
       .filter(t => name ? t.name.includes(name) : true);
   }
+
+  getTeacher(): Teacher {
+    return this.teachers[0];
+  }
 }
