@@ -1,7 +1,7 @@
 SELECT DISTINCT
-	seoa.id as studentschoolkey,
-	seoa.studentusi as studentkey,
-	seoa.educationorganizationid as schoolkey,
+	CONCAT(s.StudentUniqueId, '-', ssa.SchoolId) AS StudentSchoolKey,
+	s.StudentUniqueId as studentkey,
+	ssa.SchoolId as schoolkey,
 	ssa.schoolyear as schoolyear,
 	s.firstname as studentfirstname,
 	s.middlename as studentmiddlename,
