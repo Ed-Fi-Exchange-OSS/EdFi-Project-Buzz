@@ -13,13 +13,17 @@ export default class SurveySummaryService {
     private readonly FixItFridayQuestionsRepository: Repository<SurveySummaryQuestionsEntity>,
   ) {}
 
-  async findAll(title: string, sectionkey: string): Promise<SurveySummaryEntity[]> {
+  async findAll(title: string, staffkey: number, sectionkey: string): Promise<SurveySummaryEntity[]> {
     if (title) {
       return this.FixItFridayRepository.createQueryBuilder('SurveySummary')
-        .where(`SurveySummary.sectionkey = '${sectionkey}' AND LOWER(SurveySummary.title) like LOWER('%${title}%')`)
+        .where(
+          `SurveySummary.staffkey = '${staffkey}' AND SurveySummary.sectionkey = '${sectionkey}' AND LOWER(SurveySummary.title) like LOWER('%${title}%')`,
+        )
         .getMany();
     }
-    return this.FixItFridayRepository.find({ where: { sectionkey } });
+    return this.FixItFridayRepository.createQueryBuilder('SurveySummary')
+      .where(`SurveySummary.staffkey = '${staffkey}' AND SurveySummary.sectionkey = '${sectionkey}'`)
+      .getMany();
   }
 
   async findQuestionsBySurvey(surveykey: number): Promise<SurveySummaryQuestionsEntity[]> {

@@ -2,6 +2,7 @@ CREATE OR REPLACE VIEW fif.SurveySummary
 AS
 
 SELECT
+  fif.staffsectionassociation.staffkey,
   fif.studentsection.sectionkey,
   fif.survey.surveykey, 
   fif.survey.title,
@@ -30,9 +31,12 @@ FROM
       fif.studentsurvey 
         ON survey.surveykey = fif.studentsurvey.surveykey
     INNER JOIN 
-      fif.studentsection 
+      fif.studentsection
         ON fif.studentsurvey.studentschoolkey = fif.studentsection.studentschoolkey
-GROUP BY survey.surveykey, survey.title, fif.studentsection.sectionkey;
+    INNER JOIN
+      fif.staffsectionassociation
+        ON fif.studentsection.sectionkey = fif.staffsectionassociation.sectionkey
+GROUP BY fif.staffsectionassociation.staffkey, fif.studentsection.sectionkey, survey.surveykey, survey.title;
 
 ---
 

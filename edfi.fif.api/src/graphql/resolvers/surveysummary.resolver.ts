@@ -10,9 +10,10 @@ export default class SurveySummaryResolvers {
   @Query()
   async surveysummary(
     @Args('title', { nullable: false }) title: string,
-    @Args('sectionkey', { nullable: true }) sectionkey: string,
+    @Args('staffkey', { nullable: false }) staffkey: number,
+    @Args('sectionkey', { nullable: false }) sectionkey: string,
   ): Promise<SurveySummary[]> {
-    return this.surveySummaryService.findAll(title, sectionkey);
+    return this.surveySummaryService.findAll(title, staffkey, sectionkey);
   }
 
   @ResolveProperty('questions')

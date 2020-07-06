@@ -6,7 +6,6 @@ import AppService from './app.service';
 import SectionModule from './graphql/modules/section.module';
 import StaffModule from './graphql/modules/staff.module';
 import StudentSchoolModule from './graphql/modules/studentschool.module';
-import SurveyModule from './graphql/modules/survey.module';
 import SurveySummaryModule from './graphql/modules/surveysummary.module';
 import SurveySummaryQuestionsModule from './graphql/modules/surveysummaryquestions.module';
 import StudentSurveyModule from './graphql/modules/studentsurvey.module';
@@ -21,7 +20,6 @@ import StudentSurveyModule from './graphql/modules/studentsurvey.module';
     SectionModule,
     StaffModule,
     StudentSchoolModule,
-    SurveyModule,
     StudentSurveyModule,
     SurveySummaryModule,
     SurveySummaryQuestionsModule,
