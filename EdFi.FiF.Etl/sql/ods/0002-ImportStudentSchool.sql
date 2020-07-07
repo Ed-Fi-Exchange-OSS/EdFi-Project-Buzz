@@ -1,5 +1,5 @@
 SELECT DISTINCT
-	CONCAT(s.StudentUniqueId, '-', ssa.SchoolId) AS StudentSchoolKey,
+	CONCAT(s.StudentUniqueId, '-', ssa.SchoolId) AS studentschoolkey,
 	s.StudentUniqueId as studentkey,
 	ssa.SchoolId as schoolkey,
 	ssa.schoolyear as schoolyear,
