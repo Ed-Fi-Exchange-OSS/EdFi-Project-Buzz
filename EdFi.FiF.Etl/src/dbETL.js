@@ -11,7 +11,7 @@ const ms = config.mssqlConfig;
 
 const loadBaseEntities = async () => {
   try {
-    console.log('loading records from ODS');
+    console.log(`loading records from ${process.env.FIF_SQLSOURCE}`);
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.schoolConfig);
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentSchoolConfig);
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.contactPersonConfig);
