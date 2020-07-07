@@ -1,5 +1,7 @@
 {
     "recommendations": [
+        "psioniq.psi-header",
+        "streetsidesoftware.code-spell-checker",
         "fwcd.kotlin",
         "mathiasfrohlich.kotlin",
         "editorconfig.editorconfig"

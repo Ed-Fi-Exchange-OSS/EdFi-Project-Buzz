@@ -3,11 +3,11 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-package ui.buildTypes
+package angular.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
-object PullRequestUIBuild : BuildType ({
+object PullRequestAngularBuild : BuildType ({
     name = "Pull Request Build and Test"
     templates(_self.templates.PullRequestTemplate)
 

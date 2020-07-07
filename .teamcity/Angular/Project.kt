@@ -3,24 +3,20 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-package ui
+package angular
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
-object UIProject : Project({
-    id("FixItFriday_UI")
-    name = "UI"
-    description = "Fix-it-Friday User Interface"
+object AngularProject : Project({
+    id("FixItFriday_UI_Angular")
+    name = "Angular"
+    description = "Fix-it-Friday User Interface - Angular"
 
-    buildType(ui.buildTypes.PullRequestUIBuild)
-    buildType(ui.buildTypes.BranchUIBuild)
-    buildType(ui.buildTypes.DeployUIBuild)
+    buildType(angular.buildTypes.PullRequestAngularBuild)
+    buildType(angular.buildTypes.BranchAngularBuild)
 
     params{
-        param("project.directory", "./fixitfriday.ui");
-        param("octopus.release.version","<placeholder value>")
-        param("octopus.release.project", "Fix-it-Friday UI")
-        param("octopus.project.id", "Projects-112")
+        param("project.directory", "./fixitfriday.ui.angular");
         param("vcs.checkout.rules","""
         +:.teamcity => .teamcity
         +:%project.directory% => %project.directory%

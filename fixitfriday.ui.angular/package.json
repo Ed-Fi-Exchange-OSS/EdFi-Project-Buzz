@@ -1,13 +1,15 @@
 {
   "name": "edfi.fixitfridays.web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build:ssr": "ng run EdFi.FixItFridays.Web:server:dev",
     "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
+    "lint:ci": "ng lint --format tslint-teamcity-reporter",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -59,6 +61,8 @@
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
+    "karma-teamcity-reporter": "^1.1.0",
+    "tslint-teamcity-reporter": "^3.2.2",
     "typescript": "3.5.3"
   },
   "optionalDependencies": {
