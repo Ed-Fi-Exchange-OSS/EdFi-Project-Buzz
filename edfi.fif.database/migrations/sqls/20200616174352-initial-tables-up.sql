@@ -95,6 +95,7 @@ CREATE TABLE fif.Staff (
     MiddleName varchar(75) NULL,
     LastSurname varchar(75) NULL,
     StaffUniqueId varchar(32) NOT NULL,
+    ElectronicMailAddress varchar(128) NULL,
     CONSTRAINT PK_StaffStaffKey PRIMARY KEY (StaffKey)
 );
 

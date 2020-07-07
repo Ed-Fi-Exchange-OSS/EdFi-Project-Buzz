@@ -24,6 +24,10 @@ export default class StaffService {
     return this.FixItFridayRepository.findOne({ where: { staffkey: id } });
   }
 
+  async findOneByEmail(staffmail: string): Promise<StaffEntity> {
+    return this.FixItFridayRepository.findOne({ where: { electronicmailaddress: staffmail } });
+  }
+
   async findSectionsByStaff(staffkey: number): Promise<SectionEntity[]> {
     return this.FixItFridaySectionRepository.createQueryBuilder('section')
       .innerJoin(StaffSectionAssociationEntity, 'ssa', `section.sectionkey = ssa.sectionkey and ssa.staffkey='${staffkey}'`)

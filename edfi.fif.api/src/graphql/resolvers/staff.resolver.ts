@@ -12,6 +12,14 @@ export default class StaffResolvers {
     return this.staffService.findAll();
   }
 
+  @Query('staffbyemail')
+  async staffByEmail(
+    @Args('staffemail')
+    staffemail: string,
+  ): Promise<Staff> {
+    return this.staffService.findOneByEmail(staffemail);
+  }
+
   @Query('staffbyid')
   async staffById(
     @Args('staffkey')

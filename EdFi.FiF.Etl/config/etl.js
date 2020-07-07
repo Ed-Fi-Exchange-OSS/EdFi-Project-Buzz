@@ -133,8 +133,8 @@ exports.sectionConfig = {
 exports.staffConfig = {
   recordType: 'Staff',
   selectSql: 'SELECT 1 FROM fif.staff WHERE staffkey=$1',
-  insertSql: 'INSERT INTO fif.staff (staffkey, personaltitleprefix, firstname, middlename, lastsurname, staffuniqueid) VALUES ($1, $2, $3, $4, $5, $6)',
-  updateSql: 'UPDATE fif.staff SET personaltitleprefix=$2, firstname=$3, middlename=$4, lastsurname=$5, staffuniqueid=$6 WHERE staffkey=$1',
+  insertSql: 'INSERT INTO fif.staff (staffkey, personaltitleprefix, firstname, middlename, lastsurname, staffuniqueid, electronicmailaddress) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+  updateSql: 'UPDATE fif.staff SET personaltitleprefix=$2, firstname=$3, middlename=$4, lastsurname=$5, staffuniqueid=$6, electronicmailaddress=$7 WHERE staffkey=$1',
   sourceSql: staffSourceSQL,
   keyIndex: 0,
   isEntityMap: false,
@@ -145,6 +145,7 @@ exports.staffConfig = {
     row.middlename,
     row.lastsurname,
     row.staffuniqueid,
+    row.electronicmailaddress,
   ],
 };
 
