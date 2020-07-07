@@ -64,14 +64,8 @@ SELECT
 		INNER JOIN
 			edfi.Descriptor as StateAbbreviationType
 		  ON EducationOrganizationAddress.StateAbbreviationDescriptorId = StateAbbreviationType.DescriptorId
-         INNER JOIN
-              analytics_config.DescriptorMap
-           ON AddressType.DescriptorId = DescriptorMap.DescriptorId
-         INNER JOIN
-              analytics_config.DescriptorConstant
-           ON DescriptorConstant.DescriptorConstantId = DescriptorMap.DescriptorConstantId
 		WHERE
 			School.SchoolId = EducationOrganizationAddress.EducationOrganizationId
 			AND EducationOrganizationAddressPeriod.EndDate IS NULL
-			AND DescriptorConstant.ConstantName = 'Address.Physical'
+			AND AddressType.CodeValue = 'Physical'
 	) as SchoolAddress;

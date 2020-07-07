@@ -3,6 +3,7 @@ const pgConfig = {
   user: process.env.FIF_USER || 'postgres',
   password: process.env.FIF_PASSWORD || 'p@ssw0rd',
   database: process.env.FIF_DBNAME || 'FixItFriday',
+  port: parseInt(process.env.FIF_PORT, 10) || 5432,
   max: parseInt(process.env.FIF_MAX || 20, 10),
   idleTimeoutMillis: parseInt(process.env.FIF_IDLETIMEOUTMILLIS || 5000, 10),
   connectionTimeoutMillis: parseInt(process.env.FIF_CONNECTIONTIMEOUTMILLIS || 2000, 10),

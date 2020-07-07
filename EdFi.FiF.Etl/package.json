@@ -4,6 +4,7 @@
     "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js"
   },
   "dependencies": {
+    "csv-parser": "^2.3.3",
     "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.3.1",

@@ -1,5 +1,5 @@
 SELECT DISTINCT
   cpd.uniquekey as contactkey,
-  seoa.studentlocaleducationagencykey as studentschoolkey
+  seoa.studentSchoolKey as studentschoolkey
 From analytics.ContactPersonDim cpd
-INNER JOIN analytics.StudentLocalEducationAgencyDim seoa on cpd.Studentkey = seoa.StudentKey
+INNER JOIN analytics.StudentSchoolDim seoa on cpd.Studentkey = seoa.StudentKey
