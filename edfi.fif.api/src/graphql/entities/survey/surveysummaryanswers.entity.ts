@@ -3,7 +3,7 @@ import { ViewEntity, ViewColumn, PrimaryColumn } from 'typeorm';
 @ViewEntity({ schema: 'fif', name: 'surveysummaryanswers', synchronize: false })
 export default class SurveySummaryAnswersEntity {
   @ViewColumn()
-  sectionkey: number;
+  sectionkey: string;
 
   @PrimaryColumn()
   surveykey: number;
