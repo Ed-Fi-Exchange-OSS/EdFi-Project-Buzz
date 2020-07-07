@@ -18,7 +18,7 @@ export default class SurveySummaryAnswersEntity {
   question: string;
 
   @ViewColumn()
-  studentschoolkey: number;
+  studentschoolkey: string;
 
   @ViewColumn()
   studentname: string;

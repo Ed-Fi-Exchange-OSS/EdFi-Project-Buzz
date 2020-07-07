@@ -124,7 +124,7 @@ type SurveySummaryAnswers {
   title: String
   surveyquestionkey: Int
   question: String
-  studentschoolkey: Int
+  studentschoolkey: String
   studentname: String
   answer: String
 }

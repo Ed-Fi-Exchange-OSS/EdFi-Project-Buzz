@@ -168,7 +168,7 @@ export class SurveySummaryAnswers {
     title?: string;
     surveyquestionkey?: number;
     question?: string;
-    studentschoolkey?: number;
+    studentschoolkey?: string;
     studentname?: string;
     answer?: string;
 }
