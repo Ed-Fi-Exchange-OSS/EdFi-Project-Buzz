@@ -42,20 +42,13 @@ const processEntity = async (values, pgClient, rowConfig) => {
     .then(async (res) => {
       if (res.rowCount === 0) {
         await pgClient.query(rowConfig.insertSql, values)
-          .catch((err) => {
-            console.error(`[${rowConfig.recordType}] ERROR insert error:\n${err.stack}`);
-          });
+          .catch(() => console.error(JSON.stringify(values)));
       }
 
       if (res.rowCount === 1) {
         await pgClient.query(rowConfig.updateSql, values)
-          .catch((err) => {
-            console.error(`[${rowConfig.recordType}] ERROR update error:\n${err.stack}`);
-          });
+          .catch(() => console.error(JSON.stringify(values)));
       }
-    })
-    .catch((err) => {
-      console.error(`[${rowConfig.recordType}] ERROR processEntity:\n${err.stack}`);
     });
 };
 
@@ -125,7 +118,6 @@ const processRecords = async (config, rowConfig, pgConfig) => {
     done = true;
 
     rewriteLine(`[${rowConfig.recordType}] Loaded records: ${processedRows}`, process.stdout);
-    console.log(`\n[${rowConfig.recordType}] request.done`);
     await sql.close();
   });
 
@@ -146,8 +138,9 @@ sql.on('error', (sqlerror) => {
 });
 
 const loadMsSqlData = async (pgConfig, mssqlConfig, config) => {
+  console.log(`[${config.recordType}] loading....`);
   await processRecords(mssqlConfig, config, pgConfig);
-  console.log(`${config.recordType} done`);
+  console.log(`\n[${config.recordType}] done`);
 };
 
 exports.loadMsSqlData = loadMsSqlData;

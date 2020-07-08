@@ -11,5 +11,4 @@ SELECT DISTINCT
  ssd.studentsectionenddatekey,
  ssd.schoolkey,
  ssd.schoolyear
-FROM analytics.StudentSectionDim ssd
-INNER JOIN analytics.StudentSchoolDim sd ON ssd.StudentKey = sd.StudentKey;
+FROM analytics.StudentSectionDim ssd;
