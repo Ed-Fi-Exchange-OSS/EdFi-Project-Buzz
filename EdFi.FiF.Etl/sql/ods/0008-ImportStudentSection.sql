@@ -1,3 +1,8 @@
+-- SPDX-License-Identifier: Apache-2.0
+-- Licensed to the Ed-Fi Alliance under one or more agreements.
+-- The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+-- See the LICENSE and NOTICES files in the project root for more information.
+
      SELECT
             CAST(Student.StudentUniqueId AS NVARCHAR) + '-' + CAST(StudentSectionAssociation.SchoolId AS NVARCHAR) + '-' + StudentSectionAssociation.LocalCourseCode + '-' + CAST(StudentSectionAssociation.SchoolYear AS NVARCHAR) + '-' + StudentSectionAssociation.SectionIdentifier + '-' + StudentSectionAssociation.SessionName + '-' + CONVERT(NVARCHAR, StudentSectionAssociation.BeginDate, 112) AS studentsectionkey,
 			CONCAT(Student.StudentUniqueId ,'-', CAST(StudentSectionAssociation.SchoolId AS VARCHAR)) as studentschoolkey,
