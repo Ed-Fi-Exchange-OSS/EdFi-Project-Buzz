@@ -1,23 +1,150 @@
-.btn-fill-search{
-    background-color: #007bff;
-    margin-top: 1ex;
+
+
+.btn-fill-search {
+  background-color: #007bff;
+  margin-top: 1ex;
 }
 
 .dotted-right {
-    border-right: 2px dotted lightgray;
+  border-right: 2px dotted lightgray;
 }
 
-.max-h{
-    max-height: 13em;
-    overflow-y: auto;
+.max-h {
+  max-height: 13em;
+  overflow-y: auto;
+}
+/* For survey matadata list*/
+.survey-metadata {
+  margin-bottom: 15px;
+  cursor: pointer;
 }
 
-.table.verticle-middle th, .table td{
-    vertical-align: middle;
+.survey-metadata .survey-selected {
+  border-bottom: #007bff solid 3px;
+  background-color: #f9f9f9;
+}
+
+.survey-metadata .card-body div h2{
+  font-size: 18px;
+  color: #1b1c1d;
+  margin-bottom: 12px;
+}
+
+.survey-metadata .card-body div{
+  border-left: #007bff solid 3px;
+  padding-left: 12px;
+  color: #1b1c1d;
+}
+.survey-metadata .card-body div p span{
+  font-weight: bold;
+}
+
+.survey-metadata .card-body div p{
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.survey-metadata .card-body div p:last-child{
+  margin-bottom: 0;
+}
+
+/* For sorting */
+.table.verticle-middle th,
+.table td {
+  vertical-align: middle;
 }
 
 table.first-td-left th:first-child,
-table.first-td-left td:first-child
-{
-    text-align: left;
+table.first-td-left td:first-child {
+  text-align: left;
+}
+
+li.list-group-item div {
+  border-left: #03a9f4 solid 4px;
+  padding-left: 0.25rem;
+}
+table.dataTable td,
+table.dataTable th {
+ -webkit-box-sizing:content-box;
+ box-sizing:content-box
+}
+table.dataTable td.dataTables_empty,
+table.dataTable th.dataTables_empty {
+ text-align:center
+}
+table.dataTable.nowrap th,
+table.dataTable.nowrap td {
+ white-space:nowrap
+}
+table.dataTable thead>tr>th.sorting_asc,
+table.dataTable thead>tr>th.sorting_desc,
+table.dataTable thead>tr>th.sorting,
+table.dataTable thead>tr>td.sorting_asc,
+table.dataTable thead>tr>td.sorting_desc,
+table.dataTable thead>tr>td.sorting {
+ padding-right:30px
+}
+table.dataTable thead>tr>th:active,
+table.dataTable thead>tr>td:active {
+ outline:none
+}
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+ cursor:pointer;
+ position:relative
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:after {
+ position:absolute;
+ bottom:0.9em;
+ display:block;
+ opacity:0.3
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+ right:1em;
+ content:"\2191";
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+ right:0.5em;
+ content:"\2193";
+}
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:after {
+ opacity:1
+}
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:after {
+ opacity:0
+}
+table.dataTable.table-sm>thead>tr>th {
+ padding-right:20px
+}
+table.dataTable.table-sm .sorting:before,
+table.dataTable.table-sm .sorting_asc:before,
+table.dataTable.table-sm .sorting_desc:before {
+ top:5px;
+ right:0.85em
+}
+table.dataTable.table-sm .sorting:after,
+table.dataTable.table-sm .sorting_asc:after,
+table.dataTable.table-sm .sorting_desc:after {
+ top:5px
 }

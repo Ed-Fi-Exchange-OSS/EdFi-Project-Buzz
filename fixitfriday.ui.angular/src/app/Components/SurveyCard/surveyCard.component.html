@@ -1,17 +1,18 @@
 <div class="card">
-    <div class="card-body">        
+    <div class="card-body">
         <p *ngIf="!isCollapsed" style="float: right; margin-bottom: 0;">{{surveyResult.dateAnswered | date}}</p>
         <h2>{{surveyResult.name}}</h2>
         <div *ngIf="!isCollapsed" class="row" >
             <div class="col-12 col-md-6" *ngFor="let item of surveyResult.items; let idx = index">
-                <h3>{{idx+1}}. {{item.question}}</h3>
-                <p>
+                <h3>{{item.question}}</h3>
+                <p style="margin-bottom: 0;">
                     <i *ngIf="item.answer.toUpperCase() == 'YES'">✔</i>
                     <i *ngIf="item.answer.toUpperCase() == 'NO'">✘</i>
                     <i *ngIf="item.answer.toUpperCase() == 'PHONE'" class="icon ion-md-phone-portrait"></i>
                     <i *ngIf="item.answer.toUpperCase() == 'EMAIL'" class="icon ion-md-mail"></i>
 
                     {{item.answer}}</p>
+                <hr>
             </div>
         </div>
 

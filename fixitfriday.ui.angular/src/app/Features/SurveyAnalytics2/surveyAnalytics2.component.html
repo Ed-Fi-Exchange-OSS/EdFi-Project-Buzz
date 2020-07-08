@@ -35,31 +35,46 @@
 <h1 *ngIf="!showSearchResults">Click "Search" to Show Results</h1>
 <h1 *ngIf="showSearchResults">Search Results</h1>
 
-<div class="row" *ngIf="showSearchResults">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-
-        <ul class="list-group">
-          <li *ngFor="let surveyMetadata of surveyMetadataList " class="list-group-item d-flex">
-            <input (click)="selectSurvey(surveyMetadata.surveyId,surveyMetadata.surveyName)" 
-              type="radio" name="survey"
-              id="s_{{surveyMetadata.surveyId}}" class="m-r-10">
-            <label for="s_{{surveyMetadata.surveyId}}">
-              <h4> {{surveyMetadata.surveyName}} </h4>
-              {{surveyMetadata.questionCount}} Questions
-              <br>{{surveyMetadata.studentsAnswered}} of {{surveyMetadata.totalStudents}} students answered
-            </label>
-          </li>
-
-        </ul>
-
+<div *ngIf="showSearchResults" class="row" >
+  <div *ngFor="let surveyMetadata of surveyMetadataList; let i = index "
+    class="col-12 col-md-6">
+    <div class="card survey-metadata" >
+      <div class="card-body" [ngClass]="{'survey-selected' :  surveyMetadata.surveyId === currentQuestion.surveyId }">
+        <div [ngStyle]="{'borderLeftColor': colorList[i % 6]}"
+             (click)="selectSurvey(surveyMetadata.surveyId,surveyMetadata.surveyName)">
+          <h2>{{surveyMetadata.surveyName}}</h2>
+          <p><span>Questions:</span> {{surveyMetadata.questionCount}} </p>
+          <p><span>Completed:</span> {{surveyMetadata.studentsAnswered}} of {{surveyMetadata.totalStudents}} students</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- <div class="row" *ngIf="showSearchResults">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
 
+        <ul class="list-group">
+          <li *ngFor="let surveyMetadata of surveyMetadataList; let i = index " class="list-group-item">
+            <div class="d-flex" [ngStyle]="{'borderLeftColor': colorList[i]}">
+              <input (click)="selectSurvey(surveyMetadata.surveyId,surveyMetadata.surveyName)"
+                type="radio" name="survey"
+                id="s_{{surveyMetadata.surveyId}}" class="m-r-10">
+                <label for="s_{{surveyMetadata.surveyId}}">
+                  <h4> {{surveyMetadata.surveyName}} </h4>
+                  {{surveyMetadata.questionCount}} Questions
+                  <br>{{surveyMetadata.studentsAnswered}} of {{surveyMetadata.totalStudents}} students answered
+                </label>
+              </div>
+            </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div> -->
 
 <div class="row" *ngIf="showSurvey">
   <div class="col-12 col-md-6">
@@ -76,7 +91,7 @@
                     <ng-container *ngIf="question.answers.length <= 2"> | </ng-container>
                   </ng-container>
                   {{answer.label}}:&nbsp;{{answer.count / question.totalAnswers | percent}}
-                </ng-container>            
+                </ng-container>
           </li>
         </ul>
 
@@ -131,17 +146,23 @@
     <div class="card">
       <div class="card-body table-responsive-md">
 
-        <table class="table table-bordered table-striped verticle-middle text-center first-td-left">
+        <table lang="en" style="hyphens: auto;" class="full-survey-table table table-bordered table-striped verticle-middle text-center first-td-left dataTable">
           <thead>
             <tr>
-              <th>Student Name</th>
-              <th *ngFor="let question of surveyQuestionSummaryList; let index = index">{{index+1}}.
-                {{question.question}}</th>
+              <th (click)="changeSort(STUDENT_NAME_STRING)"
+                  [ngClass]="{'sorting': STUDENT_NAME_STRING != sortSurveyByColumn, 'sorting_asc': STUDENT_NAME_STRING === sortSurveyByColumn && sortSurveyByColumnAsc, 'sorting_desc': STUDENT_NAME_STRING === sortSurveyByColumn && !sortSurveyByColumnAsc }"
+                  >Student Name
+              </th>
+              <th *ngFor="let question of surveyQuestionSummaryList; let index = index"
+                  (click)="changeSort(question.question)"
+                  [ngClass]="{'sorting': question.question != sortSurveyByColumn, 'sorting_asc': question.question === sortSurveyByColumn && sortSurveyByColumnAsc, 'sorting_desc': question.question === sortSurveyByColumn && !sortSurveyByColumnAsc }"
+                >{{index+1}}. {{question.question}}
+              </th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let student of allAnswersCurrentSurvey">
+            <tr *ngFor="let student of sortSurveyBy(sortSurveyByColumn)">
               <td>
                 <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}">
                   {{student.studentName}}
