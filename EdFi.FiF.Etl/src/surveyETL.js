@@ -78,7 +78,7 @@ async function getOrSaveStudentSurvey(surveykey, studentAnswers, db) {
     console.error(`ERROR: StudentUniqueId (${studentkey}) not found `);
     return null;
   }
-  studentschoolkey = studentSchoolKeyRow.rows[0].studentschoolkey;
+  const studentschoolkey = studentSchoolKeyRow.rows[0].studentschoolkey;
 
   const result = await db
     .query('SELECT studentsurveykey, surveykey, studentschoolkey, "date" FROM fif.studentsurvey where surveykey = $1 and studentschoolkey = $2; ', [surveykey, studentschoolkey]);

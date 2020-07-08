@@ -176,7 +176,7 @@ export class SurveySummary {
 }
 
 export class SurveySummaryAnswers {
-    sectionkey?: number;
+    sectionkey?: string;
     surveykey?: number;
     title?: string;
     surveyquestionkey?: number;
