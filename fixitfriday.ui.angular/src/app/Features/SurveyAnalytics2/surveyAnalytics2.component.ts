@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/Services/api.service';
-import { Teacher } from 'src/app/Models';
+import { Teacher, Section } from 'src/app/Models';
 
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
@@ -10,7 +10,7 @@ import { Label } from 'ng2-charts';
   templateUrl: './surveyAnalytics2.component.html',
   styleUrls: ['./surveyAnalytics2.component.css']
 })
-export class SurveyAnalytics2Component {
+export class SurveyAnalytics2Component implements OnInit {
   showSearchResults: boolean;
   showSurvey: boolean;
 
@@ -19,7 +19,7 @@ export class SurveyAnalytics2Component {
   surveyQuestionSummaryList: any;
 
   searchInSurvey: string;
-  currentSection: string;
+  currentSectionKey: string;
   currentQuestion: { surveyId: number, surveyName:string, question: string }
   answerFilter: string;
 
@@ -39,12 +39,12 @@ export class SurveyAnalytics2Component {
     this.showSearchResults = false;
     this.showSurvey = false;
 
-    this.currentSection = null;
+    this.currentSectionKey = null;
     this.searchInSurvey = null;
   }
 
-  ngOnInit() {
-    this.teacher = this.api.teacher.get()[0];
+  async ngOnInit() {
+    this.teacher = this.api.authentication.currentUserValue.teacher;
     this.surveyMetadataList = [];
     this.currentQuestion = { surveyId: -1, surveyName:"", question: "" };
 
@@ -65,32 +65,39 @@ export class SurveyAnalytics2Component {
     }
   }
 
-  search() {
-    this.surveyMetadataList = this.api.surveyAnalytics.getSurveyMetadata(this.currentSection, this.searchInSurvey);
+  async search() {
+    this.surveyMetadataList = await this.api.surveyAnalytics.getSurveyMetadata(this.currentSectionKey, this.searchInSurvey);
     this.showSearchResults = true;
   }
 
-  selectSurvey(surveyId: number, surveyName:string) {
+  async selectSurvey(surveyKey: number, surveyTitle:string) {
     this.showSurvey = true;
-    this.currentQuestion.surveyId = surveyId;
-    this.currentQuestion.surveyName = surveyName;
-    this.surveyQuestionSummaryList = this.api.surveyAnalytics.getSurveyQuestionSummaryList(surveyId, this.currentSection);
-    this.allAnswersCurrentSurvey = this.api.surveyAnalytics
-      .getSurveyAnswers(this.currentQuestion.surveyId, null, this.currentSection);
+    this.currentQuestion.surveyId = surveyKey;
+    this.currentQuestion.surveyName = surveyTitle;
 
-    this.selectQuestion(this.surveyQuestionSummaryList[0].question, false);
+    this.surveyQuestionSummaryList = await this.api.surveyAnalytics
+      .getSurveyQuestionSummaryList(surveyKey, this.currentSectionKey);
+
+    await this.selectQuestion(this.surveyQuestionSummaryList[0].question, false);
+
+    this.allAnswersCurrentSurvey = await this.api.surveyAnalytics
+      .getAllSurveyAnswers(this.currentQuestion.surveyId, this.currentSectionKey);
 
     this.scrollIntoView("summaryCard");
   }
 
-  selectQuestion(question: any, scrollIntoChart:boolean = true) {
+  async selectQuestion(question: any, scrollIntoChart:boolean = true) {
+
     this.currentQuestion.question = question;
 
-    this.surveyAnalytics = this.api.surveyAnalytics
-      .getSurveyAnalytics(this.currentQuestion.surveyId, this.currentQuestion.question, this.currentSection);
-    this.surveyAnswers = this.api.surveyAnalytics
-      .getSurveyAnswers(this.currentQuestion.surveyId, this.currentQuestion.question, this.currentSection);
-    this.surveyAnswersFiltered = this.surveyAnswers;
+    this.surveyAnalytics = {};
+    const selectedQuestionSummary = this.surveyQuestionSummaryList
+      .filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
+    this.surveyAnalytics.labels = selectedQuestionSummary.answers.map(a => a.label);
+    this.surveyAnalytics.totals = selectedQuestionSummary.answers.map(a => a.count);
+
+    this.surveyAnswers = await this.api.surveyAnalytics.getSurveyAnswers(this.currentQuestion.surveyId, this.currentQuestion.question, this.currentSectionKey);
+    this.surveyAnswersFiltered = this.surveyAnswers.answers;
 
     this.chartData = {
       options: {
@@ -105,7 +112,7 @@ export class SurveyAnalytics2Component {
       type: 'pie',
       labels: this.surveyAnalytics.labels,
       data: [
-        { data: this.surveyAnalytics.total, label: this.currentQuestion.question }
+        { data: this.surveyAnalytics.totals, label: this.currentQuestion.question }
       ]
     }
 
@@ -114,17 +121,15 @@ export class SurveyAnalytics2Component {
 
   chartClicked(e: any) {
     if (e.active.length > 0) {
-      //let datasetIndex = e.active[0]._datasetIndex
       let dataIndex = e.active[0]._index
       let labelClicked = this.chartData.labels[dataIndex].toString();
-      //console.log(dataObject, datasetIndex, e)
       if (!this.answerFilter || this.answerFilter.toUpperCase() != labelClicked.toUpperCase()) {
         this.answerFilter = labelClicked;
-        this.surveyAnswersFiltered = this.surveyAnswers.filter(sa =>  !this.answerFilter || sa.surveyResults.items[0].answer == this.answerFilter);
+        this.surveyAnswersFiltered = this.surveyAnswers.answers.filter(sa =>  !this.answerFilter || sa.answer === this.answerFilter);
       }
       else {
         this.answerFilter = null;
-        this.surveyAnswersFiltered = this.surveyAnswers;
+        this.surveyAnswersFiltered = this.surveyAnswers.answers;
       }
     }
   }
@@ -153,10 +158,10 @@ export class SurveyAnalytics2Component {
   getAnswerFromSurve(survey:any, question:string){
     const qUpper = question.toUpperCase();
     if(question === this.STUDENT_NAME_STRING){
-      return survey.studentName;
+      return survey.studentname;
     }
-    const sItem = survey.surveyResults.items.filter(it => it.question.toUpperCase() === qUpper);
-    return sItem.length > 0 ? sItem[0].answer : null;
+    const qMap = Object.keys(survey.questions).reduce( (acc, cur, arr) => { acc[survey.questions[cur].toUpperCase()] = cur; return acc}, {} )
+    return survey.answers[qMap[qUpper]];
   }
   compare(a:any, b:any, asc:boolean):number{
     const ascValue: number = asc ? 1 : -1;
@@ -166,7 +171,7 @@ export class SurveyAnalytics2Component {
   sortSurveyBy(column: string){
     if(this.sortedSurveyStudentAnswers) {return this.sortedSurveyStudentAnswers;}
 
-    console.log(this.allAnswersCurrentSurvey);
+    if(!this.allAnswersCurrentSurvey){ return []; }
     const list = this.allAnswersCurrentSurvey
       .sort((a, b) => {
         const firstField = this.compare(this.getAnswerFromSurve(a, column),

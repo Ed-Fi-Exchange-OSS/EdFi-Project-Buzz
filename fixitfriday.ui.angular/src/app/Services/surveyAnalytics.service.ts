@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../Models/student';
 import { StudentApiService } from './student.service';
-import { SurveyResult } from '../Models';
+import { SurveyResult, Teacher } from '../Models';
+import { getSurveySummaryBySectionKey, getSurveyQuestionsSummary } from './GraphQL/surveyQueries';
+import { Apollo } from 'apollo-angular';
+import { AuthenticationService } from './authentication.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class SurveyAnalyticsApiService {
   controllerName = 'surveyAnalytics';
-  //students: Student[];
-  constructor(private studentService: StudentApiService) {
+  teacher: Teacher;
 
+  constructor(private studentService: StudentApiService, authenticationService: AuthenticationService, private apollo: Apollo) {
+    this.teacher = authenticationService.currentUserValue.teacher;
   }
 
   getSurveyList() {
@@ -44,15 +48,73 @@ export class SurveyAnalyticsApiService {
     return questions;
   }
 
-  async getSurveyAnswers(surveyId: number, surveyItem?: string, sectionName?: string) {
+  /*
+    {
+      answers: {
+        answer: string
+        studentname: string
+        studentschoolkey: string
+      }[]​
+      question: string
+      surveyquestionkey: number
+    }
+   */
+  async getSurveyAnswers(surveyKey: number, question?: string, sectionKey?: string) {
+    const client = this.apollo.getClient();
+    const { data } = await client.query({ query: getSurveyQuestionsSummary, variables: { staffkey: this.teacher.staffkey, sectionkey:sectionKey, surveykey: surveyKey } });
+    if (data.surveysummary.length === 0) {
+      return [];
+    }
+    const surveysummary = data.surveysummary[0];
+    return surveysummary.questions.filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
+  }
+  /*
+  [
+    {
+      studentname: string
+      studentschoolkey: string
+      questions: []
+      answers: []
+    }
+  ]
+   */
+
+  async getAllSurveyAnswers(surveyKey: number, sectionKey?: string) {
+    const client = this.apollo.getClient();
+    const { data } = await client.query({ query: getSurveyQuestionsSummary, variables: { staffkey: this.teacher.staffkey, sectionkey:sectionKey, surveykey: surveyKey } });
+    if (data.surveysummary.length === 0) {
+      return [];
+    }
+
+    let q = Object.values(data.surveysummary[0].questions.reduce( (qacc, qcur) => {
+      return qcur.answers.reduce( (aacc, acur) => {
+        let student = aacc[acur.studentschoolkey];
+        if(!student){
+          student = {
+            studentname: acur.studentname,
+            studentschoolkey: acur.studentschoolkey,
+            questions: {},
+            answers: {}
+          }
+          aacc[acur.studentschoolkey] = student;
+        }
+        student.questions[qcur.surveyquestionkey] = qcur.question;
+        student.answers[qcur.surveyquestionkey] = acur.answer;
+        return aacc;
+      }, qacc );
+    }, {} )
+    );
+    return q;
+  }
+  async xgetSurveyAnswers(surveyId: number, surveyItem?: string, sectionName?: string) {
     let students = await this.studentService.get(sectionName);
     return [].concat(...students.map(s =>
       s.surveys
         .filter(sv => sv.id == surveyId)
         .map(sf => {
           return {
-            studentId: s.studentId,
-            studentName: s.name,
+            studentId: s.studentkey,
+            studentName: s.studentlastname + ' ' + s.studentfirstname + ' ' + s.studentmiddlename,
             surveyResults: <SurveyResult>{
               id: sf.id,
               dateAnswered:
@@ -65,23 +127,6 @@ export class SurveyAnalyticsApiService {
     ));
   }
 
-  async getSurveyAnalytics(surveyId: number, surveyItem: string, sectionName?: string) {
-    let surveyResults =  await this.getSurveyAnswers(surveyId, surveyItem, sectionName);
-    let data = [].concat(...
-      surveyResults
-        .map(cur => cur.surveyResults.items)
-    )
-      .reduce((acc, curr) => {
-        acc[curr.answer] = (acc[curr.answer] ? acc[curr.answer] : 0) + 1;
-        return acc;
-      }, {});
-
-    let answerCount = { labels: Object.keys(data), total: Object.keys(data).map(k => data[k]) };
-    return answerCount;
-  }
-
-
-
   /*  [{
         surveyId: number,
         surveyName: string,
@@ -90,71 +135,58 @@ export class SurveyAnalyticsApiService {
         studentsAnswered: number
       }]
   */
-  async getSurveyMetadata(section: string, filter: string) {
-    let upperFilter = filter ? filter.toUpperCase() : null;
-    let students = await this.studentService.get(section);
-    let totalStudents = students.length;
-
-    let questions = Object.values(students.reduce((accS, curS) => {
-      return curS.surveys
-          .filter(s => !upperFilter ||
-                       s.name.toUpperCase().includes(upperFilter) ||
-                       s.items.filter(i => i.question.toUpperCase().includes(upperFilter)).length > 0)
-          .reduce((accSy, curSy) => {
-        let survey = accSy[curSy.id];
-        if (!survey) {
-          survey = {
-            surveyId: curSy.id,
-            surveyName: curSy.name,
-            questionCount: curSy.items.length,
-            totalStudents: totalStudents,
-            studentsAnswered: 0
-          };
-          accSy[curSy.id] = survey;
-        }
-        survey.studentsAnswered++;
-        return accSy;
-      }, accS);
-    }, {}));
-    //console.log(filter, questions);
-    return questions;
+  async getSurveyMetadata(sectionKey: string, filter: string) {
+    const client = this.apollo.getClient();
+    const { data } = await client.query({ query: getSurveySummaryBySectionKey, variables: { staffkey: this.teacher.staffkey, sectionkey: sectionKey, title: filter } });
+    const sections = data.surveysummary;
+    return sections;
   }
 
   /*
   [{
-    surveyId: number,
+    surveykey: number,
     question: string,
-    topAnswers: [
+    answers: [
       {label: string, count: number}
     ]
   }]
   */
-  async getSurveyQuestionSummaryList(surveyId:number, section: string){
-    let surveyAnswers = await this.getSurveyAnswers(surveyId, null, section);
-    return Object.values(surveyAnswers.reduce((accSt, curSt) => {
-      return curSt.surveyResults.items.reduce((accIt, curIt)=>{
-        let surveyId = curSt.surveyResults.id;
+  async getSurveyQuestionSummaryList(surveyKey:number, sectionKey: string){
+    function calculateTopAnswers(answers:any[]){
+      const countAnswers = answers
+        .reduce((aacc, acur) => {
+				        aacc[acur.answer] = 1 + (aacc[acur.answer] ? aacc[acur.answer] : 0);
+				        return aacc;
+            }, {} );
 
-        let question = accIt[curIt.question];
-        if(!question){
-          question = {
-            surveyId: surveyId,
-            question: curIt.question,
-            answers: [],
-            totalAnswers : 0
+      return Object.keys(countAnswers)
+        .map((cur, idx, arr) => {
+          return {
+            label: cur,
+            count: countAnswers[cur]
           };
-          accIt[curIt.question] = question;
+        });
+    }
+
+    const client = this.apollo.getClient();
+    const { data } = await client.query({ query: getSurveyQuestionsSummary, variables: { staffkey: this.teacher.staffkey, sectionkey:sectionKey, surveykey: surveyKey } });
+
+    if (data.surveysummary.length == 0) {
+      return [];
+    }
+    const surveysummary = data.surveysummary[0];
+    const questions = surveysummary.questions
+      .map((qcur, qidx, qarr) => {
+        return {
+          surveykey: data.surveysummary[0].surveykey,
+          surveyquestionkey: qcur.surveyquestionkey,
+          question: qcur.question,
+          answers: calculateTopAnswers(qcur.answers),
+          totalAnswers: qcur.answers.length
         }
-        question.totalAnswers++;
-        let answer = question.answers.find( a => a.label.toUpperCase() == curIt.answer.toUpperCase());
-        if(!answer){
-          answer = { label: curIt.answer, count: 0 };
-          question.answers.push(answer);
-        }
-        answer.count++;
-        return accIt;
-      }, accSt);
-    }, {}));
+      });
+
+    return questions;
   }
 
 }

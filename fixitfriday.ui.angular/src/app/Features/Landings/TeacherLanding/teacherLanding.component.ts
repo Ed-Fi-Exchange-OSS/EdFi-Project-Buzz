@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../../Services/api.service';
 import { Student, Teacher, Section } from 'src/app/Models';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-teacher-landing',
@@ -34,8 +33,7 @@ export class TeacherLandingComponent {
   }
 
   async search() {
-    //call the service for same data, send the selected sections
-    this.teacher = this.api.teacher.get()[0];
+    this.teacher = this.api.authentication.currentUserValue.teacher;
     this.sections = await this.api.section.getByTeacherId(this.teacher.id);
     this.students = await this.api.student.get(this.currentSection, this.searchByStudentName);
   }

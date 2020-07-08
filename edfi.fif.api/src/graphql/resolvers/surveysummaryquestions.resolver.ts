@@ -2,8 +2,8 @@
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
+import { Resolver, ResolveProperty, Parent, Args, Query } from '@nestjs/graphql';
 
-import { Resolver, ResolveProperty, Parent } from '@nestjs/graphql';
 import { SurveySummaryAnswers } from '../graphql.schema';
 import SurveySummaryQuestionsService from '../services/surveysummaryquestions.service';
 
@@ -14,7 +14,10 @@ export default class SurveySummaryQuestionsResolvers {
 
   @ResolveProperty('answers')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async answers(@Parent() parent): Promise<SurveySummaryAnswers[]> {
-    return this.surveySummaryQuestionsService.findAnswersByQuestion(9, parent.surveyquestionkey);
+  async answers(
+    @Parent() parent,
+    @Args('sectionkey', { nullable: false }) sectionkey: string
+  ): Promise<SurveySummaryAnswers[]> {
+    return this.surveySummaryQuestionsService.findAnswersByQuestion(sectionkey, parent.surveyquestionkey);
   }
 }

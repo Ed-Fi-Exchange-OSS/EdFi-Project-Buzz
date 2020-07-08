@@ -8,9 +8,10 @@ import { TeacherApiService } from './teacher.service';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  readonly storage = window.sessionStorage;
 
   constructor(private teacherService: TeacherApiService) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -19,25 +20,22 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  validateSocialUser(socialUser: SocialUser): boolean {
+  async validateSocialUser(socialUser: SocialUser): Promise<boolean> {
     // TODO: Get user profile data from graphql.  Waiting implementation
-    let teacher = this.teacherService.getTeacher();
-    //if (socialUser.email == "xavier@nearshoredevs.com") {
-      let user: User = {
-        email: socialUser.email,
-        token: socialUser.idToken,
-        teacher: teacher
-      };
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      this.currentUserSubject.next(user);
-      return true;
-    //}
-    //return false;
+    let teacher = await this.teacherService.getTeacher();
+    let user: User = {
+      email: socialUser.email,
+      token: socialUser.idToken,
+      teacher: teacher
+    };
+    this.storage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+    return true;
   }
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    this.storage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
 }

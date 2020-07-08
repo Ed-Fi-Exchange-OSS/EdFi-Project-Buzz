@@ -17,8 +17,9 @@ export default class SurveySummaryResolvers {
     @Args('title', { nullable: false }) title: string,
     @Args('staffkey', { nullable: false }) staffkey: number,
     @Args('sectionkey', { nullable: false }) sectionkey: string,
+    @Args('surveykey', { nullable: true }) surveykey: number,
   ): Promise<SurveySummary[]> {
-    return this.surveySummaryService.findAll(title, staffkey, sectionkey);
+    return this.surveySummaryService.findAll(title, staffkey, sectionkey, surveykey);
   }
 
   @ResolveProperty('questions')

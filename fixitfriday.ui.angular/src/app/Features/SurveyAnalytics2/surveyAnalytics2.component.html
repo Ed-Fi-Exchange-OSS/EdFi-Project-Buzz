@@ -12,9 +12,9 @@
 
         <div class="input-group">
 
-          <select class="form-control" name="" id="sectionsSelect" [(ngModel)]="currentSection" (change)="search()">
+          <select class="form-control" name="" id="sectionsSelect" [(ngModel)]="currentSectionKey" (change)="search()">
             <option [value]="null">All Sections</option>
-            <option *ngFor="let section of teacher.sections" [value]="section">{{section}}</option>
+            <option *ngFor="let section of teacher.sections" [value]="section.sectionkey">{{section.sectionkey}}</option>
           </select>
 
           <input [(ngModel)]="searchInSurvey" (keyup)="search()" type="text" class="form-control" id="searchInputs" placeholder="Search">
@@ -39,42 +39,17 @@
   <div *ngFor="let surveyMetadata of surveyMetadataList; let i = index "
     class="col-12 col-md-6">
     <div class="card survey-metadata" >
-      <div class="card-body" [ngClass]="{'survey-selected' :  surveyMetadata.surveyId === currentQuestion.surveyId }">
+      <div class="card-body" [ngClass]="{'survey-selected' :  surveyMetadata.surveykey === currentQuestion.surveyId }">
         <div [ngStyle]="{'borderLeftColor': colorList[i % 6]}"
-             (click)="selectSurvey(surveyMetadata.surveyId,surveyMetadata.surveyName)">
-          <h2>{{surveyMetadata.surveyName}}</h2>
-          <p><span>Questions:</span> {{surveyMetadata.questionCount}} </p>
-          <p><span>Completed:</span> {{surveyMetadata.studentsAnswered}} of {{surveyMetadata.totalStudents}} students</p>
+             (click)="selectSurvey(surveyMetadata.surveykey,surveyMetadata.title)">
+          <h2>{{surveyMetadata.title}}</h2>
+          <p><span>Questions:</span> {{surveyMetadata.numberofquestions}} </p>
+          <p><span>Completed:</span> {{surveyMetadata.studentsanswered}} of {{surveyMetadata.totalstudents}} students</p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <div class="row" *ngIf="showSearchResults">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-
-        <ul class="list-group">
-          <li *ngFor="let surveyMetadata of surveyMetadataList; let i = index " class="list-group-item">
-            <div class="d-flex" [ngStyle]="{'borderLeftColor': colorList[i]}">
-              <input (click)="selectSurvey(surveyMetadata.surveyId,surveyMetadata.surveyName)"
-                type="radio" name="survey"
-                id="s_{{surveyMetadata.surveyId}}" class="m-r-10">
-                <label for="s_{{surveyMetadata.surveyId}}">
-                  <h4> {{surveyMetadata.surveyName}} </h4>
-                  {{surveyMetadata.questionCount}} Questions
-                  <br>{{surveyMetadata.studentsAnswered}} of {{surveyMetadata.totalStudents}} students answered
-                </label>
-              </div>
-            </li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div class="row" *ngIf="showSurvey">
   <div class="col-12 col-md-6">
@@ -83,14 +58,14 @@
         <h2>Summary: "{{currentQuestion.surveyName}}"</h2>
 
         <ul class="list-group">
-          <li *ngFor="let question of surveyQuestionSummaryList; let index = index" class="list-group-item">
-            <a [routerLink]="" (click)="selectQuestion(question.question)">{{index+1}}. {{question.question}}</a><br>
+          <li *ngFor="let question of surveyQuestionSummaryList; let i = index" class="list-group-item">
+            <a [routerLink]="" (click)="selectQuestion(question.question)">{{i+1}}. {{question.question}}</a><br>
                 <ng-container *ngFor="let answer of question.answers; first as isFirst">
                   <ng-container *ngIf="!isFirst">
                     <ng-container *ngIf="question.answers.length > 2"><br></ng-container>
                     <ng-container *ngIf="question.answers.length <= 2"> | </ng-container>
                   </ng-container>
-                  {{answer.label}}:&nbsp;{{answer.count / question.totalAnswers | percent}}
+                  {{answer.label}}:&nbsp;{{answer.count}} ({{answer.count / question.totalAnswers | percent}})
                 </ng-container>
           </li>
         </ul>
@@ -122,11 +97,11 @@
               <tbody>
                 <tr *ngFor="let surveyAnswer of surveyAnswersFiltered">
                   <td>
-                    <a [routerLink]="['/app/studentDetail']" [state]="{studentId: surveyAnswer.studentId}">
-                      {{surveyAnswer.studentName}}
+                    <a [routerLink]="['/app/studentDetail', surveyAnswer.studentschoolkey]">
+                      {{surveyAnswer.studentname}}
                     </a>
                   </td>
-                  <td>{{surveyAnswer.surveyResults.items[0].answer}}</td>
+                  <td>{{surveyAnswer.answer}}</td>
                 </tr>
               </tbody>
             </table>
@@ -164,11 +139,11 @@
           <tbody>
             <tr *ngFor="let student of sortSurveyBy(sortSurveyByColumn)">
               <td>
-                <a [routerLink]="['/app/studentDetail']" [state]="{studentId: student.studentId}">
-                  {{student.studentName}}
+                <a [routerLink]="['/app/studentDetail', student.studentschoolkey]">
+                  {{student.studentname}}
                 </a>
               </td>
-              <td *ngFor="let answer of student.surveyResults.items">{{answer.answer}}</td>
+              <td *ngFor="let question of surveyQuestionSummaryList">{{student.answers[question.surveyquestionkey]}}</td>
             </tr>
 
           </tbody>
