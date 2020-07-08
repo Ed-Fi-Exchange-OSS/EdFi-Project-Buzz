@@ -22,7 +22,7 @@ export default class StudentSchoolResolvers {
   @ResolveProperty('contacts')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async contacts(@Parent() parent): Promise<ContactPerson[]> {
-    return this.studentschoolService.findStudentContactsById(parent.sectionkey);
+    return this.studentschoolService.findStudentContactsById(parent.studentschoolkey);
   }
 
   @ResolveProperty('siblingscount')

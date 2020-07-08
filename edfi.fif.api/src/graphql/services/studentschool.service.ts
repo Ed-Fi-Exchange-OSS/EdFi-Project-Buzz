@@ -30,8 +30,8 @@ export default class SectionService {
 
   async findAllBySection(id: string): Promise<StudentSchoolEntity[]> {
     return this.FixItFridayRepository.createQueryBuilder('section')
-      .leftJoin(StudentSchoolEntity, 'ss', 'ss.sectionkey = section.sectionkey')
-      .leftJoinAndSelect('section.students', 'student', 'student.studentschoolkey = ss.studentschoolkey')
+      .innerJoin(StudentSchoolEntity, 'ss', 'ss.sectionkey = section.sectionkey')
+      .innerJoinAndSelect('section.students', 'student', 'student.studentschoolkey = ss.studentschoolkey')
       .where({ sectionkey: id })
       .getMany();
   }
@@ -42,7 +42,7 @@ export default class SectionService {
 
   async findStudentContactsById(studentschoolkey: string): Promise<ContactPersonEntity[]> {
     return this.FixItFridayRepositoryContacts.createQueryBuilder('contactperson')
-      .leftJoin(
+      .innerJoin(
         StudentContactEntity,
         'sc',
         `contactperson.uniquekey = sc.contactkey and sc.studentschoolkey='${studentschoolkey}'`,
