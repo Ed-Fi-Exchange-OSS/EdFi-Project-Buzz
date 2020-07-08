@@ -12,11 +12,6 @@ export default class StaffResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly staffService: StaffService) {}
 
-  @Query('staff')
-  async staffs(): Promise<Staff[]> {
-    return this.staffService.findAll();
-  }
-
   @Query('staffbyemail')
   async staffByEmail(
     @Args('staffemail')

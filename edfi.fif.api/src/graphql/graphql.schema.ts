@@ -33,8 +33,6 @@ export class ContactPerson {
 }
 
 export abstract class IQuery {
-    abstract staff(): Staff[] | Promise<Staff[]>;
-
     abstract staffbyemail(staffemail: string): StaffInformation | Promise<StaffInformation>;
 
     abstract staffbyid(staffkey: string): Staff | Promise<Staff>;
