@@ -3,10 +3,13 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+import { UseGuards } from '@nestjs/common';
 import { Args, Parent, Resolver, ResolveProperty } from '@nestjs/graphql';
 import { Section, StudentSchool } from '../graphql.schema';
 import SectionService from '../services/section.service';
+import AuthGuard from '../auth.guard';
 
+@UseGuards(AuthGuard)
 @Resolver('Section')
 export default class SectionResolvers {
   // eslint-disable-next-line no-useless-constructor

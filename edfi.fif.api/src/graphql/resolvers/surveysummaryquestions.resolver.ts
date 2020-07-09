@@ -4,9 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 import { Resolver, ResolveProperty, Parent, Args } from '@nestjs/graphql';
 
+import { UseGuards } from '@nestjs/common';
 import { SurveySummaryAnswers } from '../graphql.schema';
 import SurveySummaryQuestionsService from '../services/surveysummaryquestions.service';
+import AuthGuard from '../auth.guard';
 
+@UseGuards(AuthGuard)
 @Resolver('SurveySummaryQuestions')
 export default class SurveySummaryQuestionsResolvers {
   // eslint-disable-next-line no-useless-constructor

@@ -21,6 +21,7 @@ import StudentSurveyModule from './graphql/modules/studentsurvey.module';
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       playground: true,
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     SectionModule,
     StaffModule,
