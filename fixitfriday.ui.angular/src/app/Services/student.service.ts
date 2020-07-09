@@ -50,12 +50,12 @@ export class StudentApiService {
           gradelevel: student.gradelevel,
           section: data.sessionname,
           contacts: student.contacts,
-          //preferredContactMethod: student.contacts[0].preferredcontactmethod,
-          //contactTime: student.contacts[0].besttimetocontact,
-          //contactNotes: notes,
+          // preferredContactMethod: student.contacts[0].preferredcontactmethod,
+          // contactTime: student.contacts[0].besttimetocontact,
+          // contactNotes: notes,
           guardians: guardians,
-          siblings:[],
-          surveys:[],
+          siblings: [],
+          surveys: [],
           pictureurl: '/assets/studentImage.jpg',
           notes
         };
