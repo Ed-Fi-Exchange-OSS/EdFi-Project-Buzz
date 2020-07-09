@@ -1,86 +1,100 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../Models/student';
 import { StudentApiService } from './student.service';
-import { SurveyResult } from '../Models';
+import { SurveyResult, Teacher } from '../Models';
+import { getSurveySummaryBySectionKey, getSurveyQuestionsSummary } from './GraphQL/surveyQueries';
+import { Apollo } from 'apollo-angular';
+import { AuthenticationService } from './authentication.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class SurveyAnalyticsApiService {
   controllerName = 'surveyAnalytics';
-  //students: Student[];
-  constructor(private studentService: StudentApiService) {
 
+  constructor(private studentService: StudentApiService, private authenticationService: AuthenticationService, private apollo: Apollo) {
   }
 
-  getSurveyList() {
-    return [
-      { surveyId: 0, surveyName: "Contact", questions: ["Preferred contact method"] },
-      { surveyId: 1, surveyName: "Internet Accessibility", questions: ["Internet Access Type", "Has computer at home"] }
-    ];
+
+  getTeacher() {
+    const user = this.authenticationService.currentUserValue;
+    if (!user) {
+      return null;
+    }
+    return user.teacher;
   }
 
-  async getQuestions(searchInSurvey: string) {
-    let students = await this.studentService.get(null);
-    let questions = students.reduce((accS, curS) => {
-      return curS.surveys.reduce((accSy, curSy) => {
-        return curSy.items.reduce((accIt, curIt) => {
-          //console.log("curSy.name", curSy.name, "curIt.question", curIt.question);
-          if (curSy.name.toUpperCase().includes(searchInSurvey.toUpperCase()) || curIt.question.toUpperCase().includes(searchInSurvey.toUpperCase())) {
-            let survey = accIt.find(el => el.surveyName.toUpperCase() == curSy.name.toUpperCase())
-            if (!survey) {
-              survey = { surveyId: curSy.id, surveyName: curSy.name, questions: [] };
-              accIt.push(survey);
-            }
-            let question = curIt.question.trim();
-            if (!survey.questions.find(q => q.toUpperCase() == question.toUpperCase())) {
-              survey.questions.push(question);
-            }
-          }
-          return accIt;
-        }, accSy);
-      }, accS);
-    }, []);
-    // console.log(searchInSurvey, questions);
-    return questions;
+  /*
+    {
+      answers: {
+        answer: string
+        studentname: string
+        studentschoolkey: string
+      }[]​
+      question: string
+      surveyquestionkey: number
+    }
+   */
+  async getSurveyAnswers(surveyKey: number, question?: string, sectionKey?: string) {
+    const client = this.apollo.getClient();
+    const { data } = await client.query({
+      query: getSurveyQuestionsSummary,
+      variables: {
+        staffkey: this.getTeacher().staffkey,
+        sectionkey: sectionKey,
+        surveykey: surveyKey
+      }
+    });
+    if (data.surveysummary.length === 0) {
+      return [];
+    }
+    const surveysummary = data.surveysummary[0];
+    return surveysummary.questions.filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
   }
+  /*
+  [
+    {
+      studentname: string
+      studentschoolkey: string
+      questions: []
+      answers: []
+    }
+  ]
+   */
 
-  async getSurveyAnswers(surveyId: number, surveyItem?: string, sectionName?: string) {
-    let students = await this.studentService.get(sectionName);
-    return [].concat(...students.map(s =>
-      s.surveys
-        .filter(sv => sv.id == surveyId)
-        .map(sf => {
-          return {
-            studentId: s.studentId,
-            studentName: s.name,
-            surveyResults: <SurveyResult>{
-              id: sf.id,
-              dateAnswered:
-                sf.dateAnswered,
-              name: sf.name,
-              items: sf.items.filter(i => surveyItem == null || i.question == surveyItem)
-            }
+  async getAllSurveyAnswers(surveyKey: number, sectionKey?: string) {
+    const client = this.apollo.getClient();
+    const { data } = await client.query({
+      query: getSurveyQuestionsSummary,
+      variables: {
+        staffkey: this.getTeacher().staffkey,
+        sectionkey: sectionKey,
+        surveykey: surveyKey
+      }
+    });
+    if (data.surveysummary.length === 0) {
+      return [];
+    }
+
+    const q = Object.values(data.surveysummary[0].questions.reduce((qacc, qcur) => {
+      return qcur.answers.reduce((aacc, acur) => {
+        let student = aacc[acur.studentschoolkey];
+        if (!student) {
+          student = {
+            studentname: acur.studentname,
+            studentschoolkey: acur.studentschoolkey,
+            questions: {},
+            answers: {}
           };
-        })
-    ));
+          aacc[acur.studentschoolkey] = student;
+        }
+        student.questions[qcur.surveyquestionkey] = qcur.question;
+        student.answers[qcur.surveyquestionkey] = acur.answer;
+        return aacc;
+      }, qacc);
+    }, {})
+    );
+    return q;
   }
-
-  async getSurveyAnalytics(surveyId: number, surveyItem: string, sectionName?: string) {
-    let surveyResults =  await this.getSurveyAnswers(surveyId, surveyItem, sectionName);
-    let data = [].concat(...
-      surveyResults
-        .map(cur => cur.surveyResults.items)
-    )
-      .reduce((acc, curr) => {
-        acc[curr.answer] = (acc[curr.answer] ? acc[curr.answer] : 0) + 1;
-        return acc;
-      }, {});
-
-    let answerCount = { labels: Object.keys(data), total: Object.keys(data).map(k => data[k]) };
-    return answerCount;
-  }
-
-
 
   /*  [{
         surveyId: number,
@@ -90,71 +104,73 @@ export class SurveyAnalyticsApiService {
         studentsAnswered: number
       }]
   */
-  async getSurveyMetadata(section: string, filter: string) {
-    let upperFilter = filter ? filter.toUpperCase() : null;
-    let students = await this.studentService.get(section);
-    let totalStudents = students.length;
-
-    let questions = Object.values(students.reduce((accS, curS) => {
-      return curS.surveys
-          .filter(s => !upperFilter ||
-                       s.name.toUpperCase().includes(upperFilter) ||
-                       s.items.filter(i => i.question.toUpperCase().includes(upperFilter)).length > 0)
-          .reduce((accSy, curSy) => {
-        let survey = accSy[curSy.id];
-        if (!survey) {
-          survey = {
-            surveyId: curSy.id,
-            surveyName: curSy.name,
-            questionCount: curSy.items.length,
-            totalStudents: totalStudents,
-            studentsAnswered: 0
-          };
-          accSy[curSy.id] = survey;
-        }
-        survey.studentsAnswered++;
-        return accSy;
-      }, accS);
-    }, {}));
-    //console.log(filter, questions);
-    return questions;
+  async getSurveyMetadata(sectionKey: string, filter: string) {
+    const client = this.apollo.getClient();
+    const { data } = await client.query({
+      query: getSurveySummaryBySectionKey,
+      variables: {
+        staffkey: this.getTeacher().staffkey,
+        sectionkey: sectionKey,
+        title: filter
+      }
+    });
+    const sections = data.surveysummary;
+    return sections;
   }
 
   /*
   [{
-    surveyId: number,
+    surveykey: number,
     question: string,
-    topAnswers: [
+    answers: [
       {label: string, count: number}
     ]
   }]
   */
-  async getSurveyQuestionSummaryList(surveyId:number, section: string){
-    let surveyAnswers = await this.getSurveyAnswers(surveyId, null, section);
-    return Object.values(surveyAnswers.reduce((accSt, curSt) => {
-      return curSt.surveyResults.items.reduce((accIt, curIt)=>{
-        let surveyId = curSt.surveyResults.id;
+  async getSurveyQuestionSummaryList(surveyKey: number, sectionKey: string) {
+    function calculateTopAnswers(answers: any[]) {
+      const countAnswers = answers
+        .reduce((aacc, acur) => {
+          aacc[acur.answer] = 1 + (aacc[acur.answer] ? aacc[acur.answer] : 0);
+          return aacc;
+        }, {});
 
-        let question = accIt[curIt.question];
-        if(!question){
-          question = {
-            surveyId: surveyId,
-            question: curIt.question,
-            answers: [],
-            totalAnswers : 0
+      return Object.keys(countAnswers)
+        .map((cur, idx, arr) => {
+          return {
+            label: cur,
+            count: countAnswers[cur]
           };
-          accIt[curIt.question] = question;
-        }
-        question.totalAnswers++;
-        let answer = question.answers.find( a => a.label.toUpperCase() == curIt.answer.toUpperCase());
-        if(!answer){
-          answer = { label: curIt.answer, count: 0 };
-          question.answers.push(answer);
-        }
-        answer.count++;
-        return accIt;
-      }, accSt);
-    }, {}));
+        });
+    }
+
+    const client = this.apollo.getClient();
+    const { data } = await client.query({
+      query: getSurveyQuestionsSummary,
+      variables: {
+        staffkey: this.getTeacher().staffkey,
+        sectionkey: sectionKey,
+        surveykey:
+        surveyKey
+      }
+    });
+
+    if (data.surveysummary.length === 0) {
+      return [];
+    }
+    const surveysummary = data.surveysummary[0];
+    const questions = surveysummary.questions
+      .map((qcur, qidx, qarr) => {
+        return {
+          surveykey: data.surveysummary[0].surveykey,
+          surveyquestionkey: qcur.surveyquestionkey,
+          question: qcur.question,
+          answers: calculateTopAnswers(qcur.answers),
+          totalAnswers: qcur.answers.length
+        };
+      });
+
+    return questions;
   }
 
 }

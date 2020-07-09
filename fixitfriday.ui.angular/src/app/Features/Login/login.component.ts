@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
       console.log("trace this");
-      console.log(localStorage.getItem('currentUser'));
+      console.log(sessionStorage.getItem('currentUser'));
       console.log(user);
 
       if (!user)

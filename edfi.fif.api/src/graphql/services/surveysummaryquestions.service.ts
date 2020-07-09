@@ -23,10 +23,10 @@ export default class SurveySummaryQuestionsService {
     return this.FixItFridayRepository.find();
   }
 
-  async findAnswersByQuestion(sectionkey: number, surveyquestionkey: number): Promise<SurveySummaryAnswersEntity[]> {
+  async findAnswersByQuestion(sectionkey: string, surveyquestionkey: number): Promise<SurveySummaryAnswersEntity[]> {
     return this.FixItFridayAnswersRepository.createQueryBuilder('SurveySummaryAnswers')
       .leftJoin(SurveySummaryQuestionsEntity, 'ss', `SurveySummaryAnswers.surveyquestionkey = ss.surveyquestionkey`)
-      .where({ surveyquestionkey })
+      .where({ sectionkey, surveyquestionkey })
       .getMany();
   }
 }

@@ -1,14 +1,14 @@
 import { SurveyResult, Guardian, ContactPerson } from ".";
 
 export class Student {
-  
+
   studentkey?: string;
   studentschoolkey?: string;
   schoolkey?: string;
 
   schoolname: String
   schoolyear?: string;
-  
+
   name?: string;
   studentfirstname?: string;
   studentmiddlename?: string;

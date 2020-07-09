@@ -24,6 +24,7 @@ export class StudentApiService {
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getStudentsBySection });
 
+    this.students = data.students;
 
     this.students = data.students.map(
       (student: any) => {
@@ -44,17 +45,18 @@ export class StudentApiService {
         const typedStudent: Student = {
           studentkey: student.studentkey,
           name: `${student.studentfirstname || ''} ${student.studentmiddlename || ''} ${student.studentlastname || ''}`,
+          schoolname: "",
           primaryemailaddress: 'test@mail.com',
           gradelevel: student.gradelevel,
           section: data.sessionname,
-          guardians,
-          preferredContactMethod: student.contacts[0].preferredcontactmethod,
-          contactTime: student.contacts[0].besttimetocontact,
+          contacts: student.contacts,
+          //preferredContactMethod: student.contacts[0].preferredcontactmethod,
+          //contactTime: student.contacts[0].besttimetocontact,
           //contactNotes: notes,
-          //siblings
-          //surveys
-          pictureUrl: '/assets/studentImage.jpg'
-          //notes
+          siblings:[],
+          surveys:[],
+          pictureurl: '/assets/studentImage.jpg',
+          notes:[]
         };
 
         return typedStudent;
@@ -72,20 +74,20 @@ export class StudentApiService {
 
     const client = this.apollo.getClient();
     await client.query({ query: getStudentById, variables:{studentschoolkey:id} }).then(response => {
-      
+
       // No mapping =)
       student = response.data.student;
 
       // OK I lied... but just a little =P
       student.name = `${student.studentlastname || ''}, ${student.studentfirstname || ''} ${student.studentmiddlename || ''}`;
-      
+
       if(!student.primaryemailaddress)
         student.primaryemailaddress = `${student.studentfirstname}@grandbend.com`;
-      
+
       if(!student.pictureurl)
         student.pictureurl= '/assets/studentImage.jpg',
 
-      student.surveys = [];      
+      student.surveys = [];
       student.notes = [];
     });
 
