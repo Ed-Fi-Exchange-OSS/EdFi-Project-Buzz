@@ -58,6 +58,18 @@ query($staffkey: ID!, $studentschoolkey: String!) {
       studentnotekey,
       note
     },
+    studentsurveys {
+      surveykey,
+      studentsurveykey,
+      survey{
+        title
+      },
+      date,
+      answers{
+        question,
+        answer
+      }
+    },
     contacts {
       contactfirstname,
       contactlastname,

@@ -92,7 +92,7 @@
   </div>
 
   <div class="row" *ngIf="isSurveysVisible">
-    <div class="col-12" *ngFor="let survey of student.surveys">
+    <div class="col-12" *ngFor="let survey of student.studentsurveys">
       <app-survey-card [surveyResult]="survey"></app-survey-card>
     </div>
   </div>

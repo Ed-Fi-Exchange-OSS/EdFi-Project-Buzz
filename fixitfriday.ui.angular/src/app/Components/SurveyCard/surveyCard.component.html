@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-body">
-        <p *ngIf="!isCollapsed" style="float: right; margin-bottom: 0;">{{surveyResult.dateAnswered | date}}</p>
-        <h2>{{surveyResult.name}}</h2>
+        <p *ngIf="!isCollapsed" style="float: right; margin-bottom: 0;">{{surveyResult.date | date}}</p>
+        <h2>{{surveyResult.survey.title}}</h2>
         <div *ngIf="!isCollapsed" class="row" >
-            <div class="col-12 col-md-6" *ngFor="let item of surveyResult.items; let idx = index">
+            <div class="col-12 col-md-6" *ngFor="let item of surveyResult.answers; let idx = index">
                 <h3>{{item.question}}</h3>
                 <p style="margin-bottom: 0;">
                     <i *ngIf="item.answer.toUpperCase() == 'YES'">✔</i>
@@ -17,8 +17,8 @@
         </div>
 
         <div class="row" *ngIf="isCollapsed">
-            <div class="col-6">Date: {{surveyResult.dateAnswered | date}}</div>
-            <div class="col-6">Questions: {{surveyResult.items.length}}</div>
+            <div class="col-6">Date: {{surveyResult.date | date}}</div>
+            <div class="col-6">Questions: {{surveyResult.answers.length}}</div>
         </div>
 
     </div>
