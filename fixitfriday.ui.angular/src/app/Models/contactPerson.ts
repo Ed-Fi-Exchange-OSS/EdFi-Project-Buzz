@@ -8,7 +8,7 @@ export class ContactPerson {
 
     relationshiptostudent: string;
 
-    //Address
+    // Address
     streetnumbername: string;
     apartmentroomsuitenumber: string;
     state: string;
@@ -16,7 +16,7 @@ export class ContactPerson {
 
     phonenumber: string;
     primaryemailaddress: string;
-    isprimarycontact: boolean
+    isprimarycontact: boolean;
     preferredcontactmethod: string;
     besttimetocontact: string;
     contactnotes: string;

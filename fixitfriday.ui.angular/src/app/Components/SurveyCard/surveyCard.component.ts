@@ -7,5 +7,5 @@
 })
 export class SurveyCardComponent {
     @Input() surveyResult: any;
-    isCollapsed: boolean = true;
+    isCollapsed = true;
 }
