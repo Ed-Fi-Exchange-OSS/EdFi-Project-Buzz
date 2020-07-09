@@ -1,7 +1,7 @@
 const pgConfig = {
   host: process.env.FIF_DBSERVER || '127.0.0.1',
   user: process.env.FIF_USER || 'postgres',
-  password: process.env.FIF_PASSWORD || 'p@ssw0rd',
+  password: process.env.FIF_PASSWORD || 'P@ssw0rd',
   database: process.env.FIF_DBNAME || 'FixItFriday',
   port: parseInt(process.env.FIF_PORT, 10) || 5432,
   max: parseInt(process.env.FIF_MAX || 20, 10),
