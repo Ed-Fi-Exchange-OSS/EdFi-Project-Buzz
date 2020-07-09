@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../Services/api.service';
 import { Student, Teacher, Section } from 'src/app/Models';
 
@@ -8,7 +8,7 @@ import { Student, Teacher, Section } from 'src/app/Models';
   styleUrls: ['./teacherLanding.component.css']
 })
 
-export class TeacherLandingComponent {
+export class TeacherLandingComponent implements OnInit {
   students: Student[];
   teacher: Teacher;
   sections: Section[];
@@ -24,8 +24,8 @@ export class TeacherLandingComponent {
     this.currentSection = null;
     this.isSurveyResultsVisible = false;
 
-    this.view = localStorage['studentListViewType'] || "Grid";
-    //this.view = "List";
+    this.view = localStorage['studentListViewType'] || 'Grid';
+    // this.view = "List";
   }
 
   ngOnInit() {
@@ -42,9 +42,9 @@ export class TeacherLandingComponent {
     this.isSurveyResultsVisible = !this.isSurveyResultsVisible;
   }
 
-  setView(viewType: string){
+  setView(viewType: string) {
     localStorage['studentListViewType'] = viewType;
-    this.view = viewType;/* Grid | List */
+    this.view = viewType; /* Grid | List */
   }
 
 

@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { ApolloModule, APOLLO_OPTIONS } from "apollo-angular";
-import { HttpLinkModule, HttpLink } from "apollo-angular-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Features/home/home.component';
@@ -27,10 +27,10 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 
-let config = new AuthServiceConfig([
+const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider("761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com")
+    provider: new GoogleLoginProvider('761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com')
   }
 ]);
 
@@ -73,7 +73,8 @@ export function provideConfig() {
         canActivate: [AuthGuard],
       },
       { path: 'login', component: LoginComponent },
-      { path: '**', redirectTo: 'app' } // when security and auth guards applied change it to redirect to '' then auth guard login will redirect to login if necessary.
+      // when security and auth guards applied change it to redirect to '' then auth guard login will redirect to login if necessary.
+      { path: '**', redirectTo: 'app' }
     ], { useHash: true, scrollPositionRestoration: 'enabled' })
   ],
   providers: [
@@ -85,9 +86,9 @@ export function provideConfig() {
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: "http://localhost:3000/graphql"
+            uri: 'http://localhost:3000/graphql'
           })
-        }
+        };
       },
       deps: [HttpLink]
     }

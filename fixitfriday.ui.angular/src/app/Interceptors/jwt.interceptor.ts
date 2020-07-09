@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from '../Services/authentication.service';
-//import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -13,7 +13,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        let currentUser = this.authenticationService.currentUserValue;
+        const currentUser = this.authenticationService.currentUserValue;
         if (currentUser && currentUser.token) {
             request = request.clone({
                 setHeaders: {
@@ -39,6 +39,6 @@ export class JwtInterceptor implements HttpInterceptor {
   private handleAuthError() {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('login');
-    //this.toastr.info('Your session has expired.');
+    // this.toastr.info('Your session has expired.');
   }
 }

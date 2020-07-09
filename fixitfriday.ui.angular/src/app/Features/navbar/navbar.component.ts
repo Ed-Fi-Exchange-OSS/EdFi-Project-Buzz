@@ -15,9 +15,8 @@ export class NavbarComponent {
 
   constructor(private api: ApiService
     , private socialAuthService: AuthService
-    , private router: Router)
-  {
-    let user = api.authentication.currentUserValue;
+    , private router: Router) {
+    const user = api.authentication.currentUserValue;
     this.teacher = user.teacher;
   }
 

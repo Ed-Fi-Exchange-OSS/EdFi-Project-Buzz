@@ -11,7 +11,7 @@ export class StudentApiService {
   controllerName = 'student';
   students: Student[];
 
-  constructor(private apollo: Apollo, private auth: AuthenticationService) {}
+  constructor(private apollo: Apollo, private auth: AuthenticationService) { }
 
   public save() {
     localStorage.setItem('studentList', JSON.stringify(this.students));
@@ -22,7 +22,7 @@ export class StudentApiService {
       this.students = [];
       return this.students;
     }
-    console.log({section, name});
+    console.log({ section, name });
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getStudentsBySection });
 
@@ -42,23 +42,23 @@ export class StudentApiService {
             };
             return mappedGuardian;
           }
-        )
-        const notes: string[] = [ student.contacts[0].contactnotes, ]
+        );
+        const notes: string[] = [student.contacts[0].contactnotes];
         const typedStudent: Student = {
           studentkey: student.studentkey,
           name: `${student.studentfirstname || ''} ${student.studentmiddlename || ''} ${student.studentlastname || ''}`,
-          schoolname:'Grand Bend High',
+          schoolname: 'Grand Bend High',
           primaryemailaddress: 'test@mail.com',
           gradelevel: student.gradelevel,
           section: data.sessionname,
           contacts: student.contacts,
-          //preferredContactMethod: student.contacts[0].preferredcontactmethod,
-          //contactTime: student.contacts[0].besttimetocontact,
-          //contactNotes: notes,
-          siblings:[],
-          surveys:[],
+          // preferredContactMethod: student.contacts[0].preferredcontactmethod,
+          // contactTime: student.contacts[0].besttimetocontact,
+          // contactNotes: notes,
+          siblings: [],
+          surveys: [],
           pictureurl: '/assets/studentImage.jpg',
-          notes:[]
+          notes: []
         };
 
         return typedStudent;
@@ -67,7 +67,7 @@ export class StudentApiService {
 
     return this.students
       .filter(s => name ? s.name.toUpperCase().includes(name.toUpperCase()) : true)
-      .sort( (a, b) => a.name.localeCompare(b.name) );
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   public async getById(id: string) {
@@ -75,7 +75,7 @@ export class StudentApiService {
     let student: Student;
 
     const client = this.apollo.getClient();
-    const queryparams = {staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: id};
+    const queryparams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: id };
     await client.query({ query: getStudentById, variables: queryparams }).then(response => {
       // No mapping =)
       student = response.data.studentbystaff;
