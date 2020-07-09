@@ -9,6 +9,7 @@ import { UseGuards } from '@nestjs/common';
 import { Staff, Section, StudentSchool } from '../graphql.schema';
 import StaffService from '../services/staff.service';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
+import CurrentUser from '../decorators/currentUser.decorator';
 
 @Resolver('Staff')
 export default class StaffResolvers {
@@ -16,11 +17,8 @@ export default class StaffResolvers {
   constructor(private readonly staffService: StaffService) {}
 
   @Query('staffbyemail')
-  async staffByEmail(
-    @Args('staffemail')
-    staffemail: string,
-  ): Promise<Staff> {
-    return this.staffService.findOneByEmail(staffemail);
+  async staffByEmail(@CurrentUser() usermail: string): Promise<Staff> {
+    return this.staffService.findOneByEmail(usermail);
   }
 
   @Query('staffbyid')

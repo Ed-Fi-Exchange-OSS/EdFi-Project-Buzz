@@ -1,5 +1,5 @@
 type Query{
-  staffbyemail(staffemail: String!): StaffInformation
+  staffbyemail: StaffInformation
   staffbyid(staffkey: ID!): Staff
   sectionsbystaff(staffkey: ID!): [Section]
   sectionbystaff(staffkey: ID!, sectionkey:String): Section
