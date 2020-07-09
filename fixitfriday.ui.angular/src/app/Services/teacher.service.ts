@@ -15,7 +15,7 @@ export class TeacherApiService {
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getStaffById, variables: { staffkey: 56 } });
     const staff = data.staffbyid;
-    const teacher:Teacher = <Teacher>staff;
+    const teacher: Teacher = <Teacher>staff;
 
     return teacher;
   }

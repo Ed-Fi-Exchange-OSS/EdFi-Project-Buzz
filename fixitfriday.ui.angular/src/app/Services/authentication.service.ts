@@ -22,8 +22,8 @@ export class AuthenticationService {
 
   async validateSocialUser(socialUser: SocialUser): Promise<boolean> {
     // TODO: Get user profile data from graphql.  Waiting implementation
-    let teacher = await this.teacherService.getTeacher();
-    let user: User = {
+    const teacher = await this.teacherService.getTeacher();
+    const user: User = {
       email: socialUser.email,
       token: socialUser.idToken,
       teacher: teacher
@@ -43,6 +43,6 @@ export class AuthenticationService {
 export class User {
   public email: string;
   public token: string;
-  public teacher: Teacher
+  public teacher: Teacher;
 }
 

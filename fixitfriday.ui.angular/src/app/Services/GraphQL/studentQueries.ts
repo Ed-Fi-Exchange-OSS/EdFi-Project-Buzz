@@ -43,9 +43,9 @@ query($studentschoolkey: ID!) {
     studentfirstname,
     studentmiddlename,
     studentlastname,
-    gradelevel,    
+    gradelevel,
     pictureurl,
-    
+
   	contacts {
       contactfirstname,
       contactlastname,
