@@ -16,7 +16,7 @@ export default class SurveySummaryQuestionsResolvers {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async answers(
     @Parent() parent,
-    @Args('sectionkey', { nullable: false }) sectionkey: string
+    @Args('sectionkey', { nullable: false }) sectionkey: string,
   ): Promise<SurveySummaryAnswers[]> {
     return this.surveySummaryQuestionsService.findAnswersByQuestion(sectionkey, parent.surveyquestionkey);
   }

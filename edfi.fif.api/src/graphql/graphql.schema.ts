@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -45,7 +46,7 @@ export abstract class IQuery {
 
     abstract studentsbystaff(staffkey: string): StudentSchool[] | Promise<StudentSchool[]>;
 
-    abstract surveysummary(staffkey: number, sectionkey: string, title?: string): SurveySummary[] | Promise<SurveySummary[]>;
+    abstract surveysummary(staffkey: number, sectionkey?: string, title?: string, surveykey?: number): SurveySummary[] | Promise<SurveySummary[]>;
 }
 
 export class School {
@@ -101,6 +102,8 @@ export class StudentNote {
     studentnotekey?: string;
     note?: string;
     studentschoolkey?: string;
+    staffkey?: number;
+    dateadded?: string;
 }
 
 export class StudentSchool {

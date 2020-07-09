@@ -12,4 +12,8 @@ export default class StudentNoteEntity {
   @Column() note: string;
 
   @Column() studentschoolkey: string;
+
+  @Column() staffkey: number;
+
+  @Column() dateadded: string;
 }
