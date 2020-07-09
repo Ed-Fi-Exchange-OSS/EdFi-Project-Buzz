@@ -2,25 +2,27 @@ import { Injectable } from '@angular/core';
 import { Student, Guardian, Note } from '../Models/';
 import { getStudentsBySection, getStudentById } from './GraphQL/studentQueries';
 import { Apollo } from 'apollo-angular';
-declare var require: any
+import { AuthenticationService } from './authentication.service';
+
+declare var require: any;
 
 @Injectable({ providedIn: 'root' })
 export class StudentApiService {
   controllerName = 'student';
   students: Student[];
 
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo, private auth: AuthenticationService) {}
 
-  public save(){
-    localStorage.setItem("studentList", JSON.stringify(this.students));
+  public save() {
+    localStorage.setItem('studentList', JSON.stringify(this.students));
   }
 
   public async get(section?: string, name?: string) {
-    if(!section|| section === 'null') {
+    if (!section || section === 'null') {
       this.students = [];
       return this.students;
     }
-    console.log({section,name})
+    console.log({section, name});
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getStudentsBySection });
 
@@ -45,7 +47,7 @@ export class StudentApiService {
         const typedStudent: Student = {
           studentkey: student.studentkey,
           name: `${student.studentfirstname || ''} ${student.studentmiddlename || ''} ${student.studentlastname || ''}`,
-          schoolname: "",
+          schoolname:'Grand Bend High',
           primaryemailaddress: 'test@mail.com',
           gradelevel: student.gradelevel,
           section: data.sessionname,
@@ -69,26 +71,28 @@ export class StudentApiService {
   }
 
   public async getById(id: string) {
-    console.log("student.service:" + id);
+    console.log('student.service:' + id);
     let student: Student;
 
     const client = this.apollo.getClient();
-    await client.query({ query: getStudentById, variables:{studentschoolkey:id} }).then(response => {
-
+    const queryparams = {staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: id};
+    await client.query({ query: getStudentById, variables: queryparams }).then(response => {
       // No mapping =)
-      student = response.data.student;
+      student = response.data.studentbystaff;
+      console.log(student);
 
       // OK I lied... but just a little =P
-      student.name = `${student.studentlastname || ''}, ${student.studentfirstname || ''} ${student.studentmiddlename || ''}`;
+      if (student) {
+        student.name = `${student.studentlastname || ''}, ${student.studentfirstname || ''} ${student.studentmiddlename || ''}`;
 
-      if(!student.primaryemailaddress)
-        student.primaryemailaddress = `${student.studentfirstname}@grandbend.com`;
+        if (!student.primaryemailaddress) {
+          student.primaryemailaddress = `${student.studentfirstname}@grandbend.com`;
+        }
 
-      if(!student.pictureurl)
-        student.pictureurl= '/assets/studentImage.jpg',
-
-      student.surveys = [];
-      student.notes = [];
+        if (!student.pictureurl) {
+          student.pictureurl = '/assets/studentImage.jpg';
+        }
+      }
     });
 
     return student;

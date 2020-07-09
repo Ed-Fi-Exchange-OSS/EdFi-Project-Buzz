@@ -35,8 +35,8 @@ query {
 `;
 
 const getStudentById = gql`
-query($studentschoolkey: ID!) {
-  student(studentschoolkey: $studentschoolkey) {
+query($staffkey: ID!, $studentschoolkey: String!) {
+  studentbystaff(staffkey:$staffkey, studentschoolkey: $studentschoolkey) {
     studentschoolkey,
     studentkey,
 
@@ -46,7 +46,19 @@ query($studentschoolkey: ID!) {
     gradelevel,
     pictureurl,
 
-  	contacts {
+    siblingscount,
+    siblings {
+      studentfirstname,
+      studentmiddlename,
+      studentlastname,
+      gradelevel,
+      studentschoolkey
+    },
+    notes{
+      studentnotekey,
+      note
+    },
+    contacts {
       contactfirstname,
       contactlastname,
       relationshiptostudent,
@@ -58,14 +70,6 @@ query($studentschoolkey: ID!) {
       preferredcontactmethod,
       besttimetocontact,
       contactnotes,
-    },
-    siblingscount,
-    siblings {
-      studentfirstname,
-      studentmiddlename,
-      studentlastname,
-      gradelevel,
-      studentschoolkey
     }
   }
 }
