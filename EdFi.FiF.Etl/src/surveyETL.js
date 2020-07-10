@@ -1,10 +1,10 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
-
+const dotnet = require('dotenv');
+dotnet.config();
 const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
 const { Client } = require('pg');
-
 const { pgConfig } = require('../config/dbs');
 
 const SURVEY_DATE_FIELD = 'Timestamp';
