@@ -6,6 +6,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { config } from 'dotenv';
 import AppController from './app.controller';
 import AppService from './app.service';
 import SectionModule from './graphql/modules/section.module';
@@ -15,11 +16,22 @@ import SurveySummaryModule from './graphql/modules/surveysummary.module';
 import SurveySummaryQuestionsModule from './graphql/modules/surveysummaryquestions.module';
 import StudentSurveyModule from './graphql/modules/studentsurvey.module';
 
+config({ path: `${__dirname}/.env` });
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.FIF_API_DB_HOST,
+      port: parseInt(process.env.FIF_API_DB_PORT, 10),
+      username: process.env.FIF_API_DB_USERNAME,
+      password: process.env.FIF_API_DB_PASSWORD,
+      database: process.env.FIF_API_DB_DATABASE,
+      entities: [`${__dirname}/**/*.entity.js`],
+      synchronize: true,
+    }),
     GraphQLModule.forRoot({
-      typePaths: ['./**/*.graphql'],
+      typePaths: [`${__dirname}/**/*.graphql`],
       playground: true,
       context: ({ req }) => ({ headers: req.headers }),
     }),

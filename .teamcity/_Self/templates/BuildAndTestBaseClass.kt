@@ -20,6 +20,17 @@ open class BuildAndTestBaseClass : Template({
 
     steps {
         powerShell {
+            name = "Install and Use Correct Version of Node.js"
+            formatStderrAsError = true
+            scriptMode = script {
+                content = """
+                    nvm install %node.version%
+                    nvm use %node.version%
+                    Start-Sleep -Seconds 1
+                """.trimIndent()
+            }
+        }
+        powerShell {
             name = "Install Packages"
             workingDir = "%project.directory%"
             formatStderrAsError = true

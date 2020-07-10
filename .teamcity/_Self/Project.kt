@@ -19,6 +19,7 @@ object FixItFridayProject : Project({
         """.trimIndent())
         param("octopus.deploy.timeout", "00:45:00")
         param("octopus.release.environment", "Integration")
+        param("node.version", "12.13.0")
     }
 
     subProject(ui.UIProject)

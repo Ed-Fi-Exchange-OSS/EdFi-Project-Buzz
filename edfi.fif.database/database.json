@@ -5,7 +5,7 @@
     "user": "postgres",
     "password": "P@ssw0rd",
     "host": "localhost",
-    "database": "FixItFriday",
+    "database": "fixitfriday",
     "port": "5432"
   }
 }

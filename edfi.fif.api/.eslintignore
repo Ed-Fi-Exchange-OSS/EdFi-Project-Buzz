@@ -1,0 +1,3 @@
+# This empty file forces eslint to treat this directory as the root, thus fixing
+# a problem where some eslintrc rules were not being applied to glob file paths
+# correctly. See https://github.com/AtomLinter/linter-eslint/issues/771

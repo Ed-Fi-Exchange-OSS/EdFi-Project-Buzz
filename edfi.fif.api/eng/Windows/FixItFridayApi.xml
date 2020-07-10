@@ -1,0 +1,9 @@
+<service>
+    <id>edfi-fif-api</id>
+    <name>Ed-Fi Fix-it-Friday API</name>
+    <description>Runs Node.js as a service to host the Ed-Fi Fix-it-Friday API web application</description>
+    <executable>node</executable>
+    <arguments>{0}\dist\main.js</arguments>
+    <logpath>{0}\logs</logpath>
+    <logmode>rotate</logmode>
+</service>

@@ -6,7 +6,7 @@ GraphQL-based API for supporting the Ed-Fi Fix-it-Friday solution.
 
 ## Installation
 
-```powershell
+```bash
 yarn install
 ```
 
@@ -14,33 +14,35 @@ yarn install
 
 ```bash
 # development
-$ npm run start
+$ yarn start
+
+# Open http://localhost:3000/ in a browser to verify
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
 
 ## TeamCity
 
 Additional commands for TeamCity support
 
-```powershell
+```bash
 yarn test:ci
 yarn lint:ci
 ```
