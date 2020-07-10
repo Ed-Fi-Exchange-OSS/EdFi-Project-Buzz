@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.model.user = null;
-    this.socialAuthService.authState.subscribe((user) => {
+    this.socialAuthService.authState.subscribe(async (user) => {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
       console.log('trace this');
@@ -43,8 +43,11 @@ export class LoginComponent implements OnInit {
       this.model.user = user;
       this.model.loggedIn = (user != null);
 
+      // Save temp token
+      sessionStorage.setItem('validatingToken', user.idToken);
+
       // authenticationService
-      if (this.api.authentication.validateSocialUser(user)) {
+      if (await this.api.authentication.validateSocialUser(user)) {
         this.router.navigate([this.returnUrl]);
       }
     });
