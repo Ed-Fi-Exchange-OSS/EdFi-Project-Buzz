@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const getSectionsByStaff = gql`
-query {
-  sections {
+query($staffkey: ID!) {
+  sectionsbystaff(staffkey:$staffkey) {
     sectionkey
     localcoursecode
     sessionname

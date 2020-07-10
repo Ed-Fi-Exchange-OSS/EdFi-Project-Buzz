@@ -34,7 +34,7 @@ export class TeacherLandingComponent implements OnInit {
 
   async search() {
     this.teacher = this.api.authentication.currentUserValue.teacher;
-    this.sections = await this.api.section.getByTeacherId(this.teacher.id);
+    this.sections = await this.api.section.getByTeacherId();
     this.students = await this.api.student.get(this.currentSection, this.searchByStudentName);
   }
 

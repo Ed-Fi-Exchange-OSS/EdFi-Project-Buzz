@@ -22,13 +22,10 @@ export class StudentApiService {
       this.students = [];
       return this.students;
     }
-    console.log({ section, name });
     const client = this.apollo.getClient();
-    const { data } = await client.query({ query: getStudentsBySection });
+    const { data } = await client.query({ query: getStudentsBySection, variables: { sectionKey: section, staffkey: this.auth.currentUserValue.teacher.staffkey } });
 
-    this.students = data.students;
-
-    this.students = data.students.map(
+    this.students = data.sectionbystaff.students.map(
       (student: any) => {
         const guardians: Guardian[] = student.contacts.map(
           (contact) => {
@@ -46,6 +43,7 @@ export class StudentApiService {
         const notes: string[] = [student.contacts[0].contactnotes];
         const typedStudent: Student = {
           studentkey: student.studentkey,
+          studentschoolkey: student.studentschoolkey,
           name: `${student.studentfirstname || ''} ${student.studentmiddlename || ''} ${student.studentlastname || ''}`,
           schoolname: 'Grand Bend High',
           primaryemailaddress: 'test@mail.com',
@@ -55,10 +53,11 @@ export class StudentApiService {
           // preferredContactMethod: student.contacts[0].preferredcontactmethod,
           // contactTime: student.contacts[0].besttimetocontact,
           // contactNotes: notes,
+          guardians: guardians,
           siblings: [],
           surveys: [],
           pictureurl: '/assets/studentImage.jpg',
-          notes: []
+          notes
         };
 
         return typedStudent;

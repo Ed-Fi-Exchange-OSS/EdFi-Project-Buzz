@@ -1,34 +1,36 @@
 import gql from 'graphql-tag';
 
 const getStudentsBySection = gql`
-query {
-  students {
-    studentkey,
-    studentfirstname,
-    studentmiddlename,
-    studentlastname,
-    gradelevel,
-    studentschoolkey,
-  	contacts {
-      contactfirstname,
-      contactlastname,
-      relationshiptostudent,
-      primaryemailaddress,
-      phonenumber,
-      streetnumbername,
-      apartmentroomsuitenumber,
-      isprimarycontact,
-      preferredcontactmethod,
-      besttimetocontact,
-      contactnotes,
-    },
-    siblingscount,
-    siblings {
+query($staffkey: ID!, $sectionKey: String) {
+  sectionbystaff(staffkey:$staffkey, sectionkey:$sectionKey) {
+    students {
+      studentkey,
       studentfirstname,
       studentmiddlename,
       studentlastname,
       gradelevel,
-      studentschoolkey
+      studentschoolkey,
+      contacts {
+        contactfirstname,
+        contactlastname,
+        relationshiptostudent,
+        primaryemailaddress,
+        phonenumber,
+        streetnumbername,
+        apartmentroomsuitenumber,
+        isprimarycontact,
+        preferredcontactmethod,
+        besttimetocontact,
+        contactnotes,
+      },
+      siblingscount,
+      siblings {
+        studentfirstname,
+        studentmiddlename,
+        studentlastname,
+        gradelevel,
+        studentschoolkey
+      }
     }
   }
 }
