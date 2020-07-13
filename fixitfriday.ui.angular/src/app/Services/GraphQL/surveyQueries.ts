@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 
 const getSurveySummaryBySectionKey = gql`
-query($staffkey:Int!, $sectionkey:String!, $title:String){
+query($staffkey:ID!, $sectionkey:String!, $title:String){
   surveysummary(staffkey:$staffkey, sectionkey:$sectionkey, title:$title){
     surveykey
     sectionkey
@@ -15,7 +15,7 @@ query($staffkey:Int!, $sectionkey:String!, $title:String){
 `;
 
 const getSurveyQuestionsSummary = gql`
-query($staffkey:Int!, $sectionkey:String!, $surveykey:Int){
+query($staffkey:ID!, $sectionkey:String!, $surveykey:Int){
   surveysummary(staffkey:$staffkey, sectionkey:$sectionkey, surveykey:$surveykey){
     surveykey
     sectionkey

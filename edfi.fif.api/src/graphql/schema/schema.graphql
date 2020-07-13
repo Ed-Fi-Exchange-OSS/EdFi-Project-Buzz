@@ -5,7 +5,7 @@ type Query{
   sectionbystaff(staffkey: ID!, sectionkey:String): Section
   studentbystaff(staffkey: ID!, studentschoolkey: String!): StudentSchool
   studentsbystaff(staffkey: ID!): [StudentSchool]
-  surveysummary(staffkey: Int!, sectionkey: String, title: String, surveykey: Int): [SurveySummary]
+  surveysummary(staffkey: ID!, sectionkey: String, title: String, surveykey: Int): [SurveySummary]
 }
 type Section{
   sectionkey: String

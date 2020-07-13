@@ -45,7 +45,7 @@ export abstract class IQuery {
 
     abstract studentsbystaff(staffkey: string): StudentSchool[] | Promise<StudentSchool[]>;
 
-    abstract surveysummary(staffkey: number, sectionkey?: string, title?: string, surveykey?: number): SurveySummary[] | Promise<SurveySummary[]>;
+    abstract surveysummary(staffkey: string, sectionkey?: string, title?: string, surveykey?: number): SurveySummary[] | Promise<SurveySummary[]>;
 }
 
 export class School {
