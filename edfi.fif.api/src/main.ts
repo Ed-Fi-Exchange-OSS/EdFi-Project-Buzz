@@ -7,7 +7,7 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import AppModule from './app.module';
 
-const httpPort = parseInt(process.env.FIF_API_HTTP_PORT, 10);
+const httpPort = parseInt(process.env.FIF_API_PORT, 10);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());

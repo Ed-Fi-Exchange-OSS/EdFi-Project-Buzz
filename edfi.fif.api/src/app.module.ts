@@ -22,11 +22,11 @@ config({ path: `${__dirname}/.env` });
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.FIF_API_DB_HOST,
-      port: parseInt(process.env.FIF_API_DB_PORT, 10),
-      username: process.env.FIF_API_DB_USERNAME,
-      password: process.env.FIF_API_DB_PASSWORD,
-      database: process.env.FIF_API_DB_DATABASE,
+      host: process.env.FIF_DB_HOST,
+      port: parseInt(process.env.FIF_DB_PORT, 10),
+      username: process.env.FIF_DB_USERNAME,
+      password: process.env.FIF_DB_PASSWORD,
+      database: process.env.FIF_DB_DATABASE,
       entities: [`${__dirname}/**/*.entity.js`],
       synchronize: true,
     }),

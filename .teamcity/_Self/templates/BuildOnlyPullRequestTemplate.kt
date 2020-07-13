@@ -14,10 +14,10 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
-object PullRequestTemplate : BuildAndTestBaseClass() {
+object BuildOnlyPullRequestTemplate : BuildBaseClass() {
     init {
-        name = "Pull Request Node.js Template"
-        id = RelativeId("PullRequestTemplate")
+        name = "Build Only Pull Request Node.js Template"
+        id = RelativeId("BuildOnlyPullRequestTemplate")
 
         features {
             commitStatusPublisher {

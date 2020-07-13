@@ -1,11 +1,11 @@
 {
-  "defaultEnv": "local",
-  "local": {
-    "driver": "pg",
-    "user": "postgres",
-    "password": "P@ssw0rd",
-    "host": "localhost",
-    "database": "fixitfriday",
-    "port": "5432"
-  }
+    "defaultEnv": "local",
+    "local": {
+        "driver": "pg",
+        "user": { "ENV": "FIF_DB_USERNAME" },
+        "password": { "ENV": "FIF_DB_PASSWORD" },
+        "host": { "ENV": "FIF_DB_HOST" },
+        "database": { "ENV": "FIF_DB_DATABASE" },
+        "port": { "ENV": "FIF_DB_PORT" }
+    }
 }

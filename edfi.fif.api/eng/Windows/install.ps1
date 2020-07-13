@@ -133,12 +133,12 @@ function Install-NodeService {
 
 function New-DotEnvFile {
   $fileContents = @"
-FIF_API_DB_HOST = '$DbServer'
-FIF_API_DB_PORT = $DbPort
-FIF_API_DB_USERNAME ='$DbUserName'
-FIF_API_DB_PASSWORD = '$DbPassword'
-FIF_API_DB_DATABASE = '$DbName'
-FIF_API_HTTP_PORT = $HttpPort
+FIF_DB_HOST = '$DbServer'
+FIF_DB_PORT = $DbPort
+FIF_DB_USERNAME ='$DbUserName'
+FIF_DB_PASSWORD = '$DbPassword'
+FIF_DB_DATABASE = '$DbName'
+FIF_API_PORT = $HttpPort
 "@
 
   $fileContents | Out-File "$InstallPath\dist\.env" -Encoding UTF8 -Force
