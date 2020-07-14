@@ -19,5 +19,18 @@ query($staffkey:ID!){
 }
 `;
 
+const getStaffNameById = gql`
+query($staffkey:ID!){
+  staffbyid(staffkey: $staffkey){
+    staffkey
+    personaltitleprefix
+    lastsurname
+    firstname
+    middlename
+    electronicmailaddress
+  }
+}
+`;
 
-export { getStaffById };
+
+export { getStaffById, getStaffNameById };

@@ -1,5 +1,5 @@
 type Query{
-  staffbyemail: StaffInformation
+  staffbyemail: Staff
   staffbyid(staffkey: ID!): Staff
   sectionsbystaff(staffkey: ID!): [Section]
   sectionbystaff(staffkey: ID!, sectionkey:String): Section
@@ -40,7 +40,7 @@ type StudentSchool
   notes: [StudentNote]
 }
 type StudentNote {
-  studentnotekey: String
+  studentnotekey: Int
   note: String
   studentschoolkey: String
   staffkey: Int

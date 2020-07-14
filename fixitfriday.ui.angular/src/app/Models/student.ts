@@ -48,8 +48,11 @@ export class Sibling {
 }
 
 export class Note {
-  id: number;
+  studentnotekey: number;
+  studentschoolkey: string;
   note: string;
-  date: Date;
-  teacher: string;
+  dateadded: Date;
+  staffkey: number;
+  staffFullName?: string;
+  staffEMail?: string;
 }

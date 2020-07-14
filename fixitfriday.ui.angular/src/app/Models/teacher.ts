@@ -1,11 +1,9 @@
 import { Section } from './section';
 
 export class Teacher {
-  id: string;
   sections: Section[];
 
-  staffid: string;
-  staffkey: string;
+  staffkey: number;
   personaltitleprefix: string;
   lastsurname: string;
   firstname: string;
