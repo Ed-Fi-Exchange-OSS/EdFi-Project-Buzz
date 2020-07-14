@@ -66,7 +66,7 @@
         <div class="card-body">
           <div class="alert alert-primary" lang="en" style="text-align: justify; font-weight: bold; hyphens: auto;">All notes are part of the student permanent record.</div>
           <ol class="list-group">
-            <li *ngFor="let note of student.notes; let index = index" class="list-group-item">
+            <li *ngFor="let note of student.notes; let index = index; trackBy: note?.studentnotekey " class="list-group-item">
 
               <ng-container *ngIf="index == editingNote">
                 <textarea #noteInput [(ngModel)]="note.note" onclick="this.select();" rows="2"
@@ -81,7 +81,7 @@
                 <span (click)="deleteNote(note.id)" class="btn btn-danger btn-delete-note ion-md-trash"></span>
                 <div>
                   {{note.note}}<br>
-                  <div class="text-secondary text-right note-info">{{note.teacher}} - {{note.date | date:getDateFormat(note.date)}}</div>
+                  <div class="text-secondary text-right note-info"><a [attr.href]="note.staffEMail ? 'mailto:'+note.staffEMail : null">{{ getNoteAuthor(note) }}</a> - {{note.dateadded | date:getDateFormat(note.dateadded)}}</div>
                 </div>
               </ng-container>
             </li>

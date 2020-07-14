@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Route, ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
-import { Student } from 'src/app/Models';
+import { Student, Teacher, Note } from 'src/app/Models';
 import { NgModel } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ export class StudentDetailComponent implements OnInit {
   student: Student;
   studentId: string;
   editingNote: number;
-  currentTeacher: string;
+  currentTeacher: Teacher;
 
   siblingsIsCollapsed: boolean;
 
@@ -24,7 +24,7 @@ export class StudentDetailComponent implements OnInit {
 
   constructor(private api: ApiService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.editingNote = -1;
-    this.currentTeacher = 'Kathie Dillon';
+    this.currentTeacher = this.api.authentication.currentUserValue.teacher;
     this.siblingsIsCollapsed = true;
     this.isSurveysVisible = true;
     this.isNotesVisible = false;
@@ -49,8 +49,13 @@ export class StudentDetailComponent implements OnInit {
       this.student.notes = [];
     }
     this.editingNote = 0;
-    const newId = this.student.notes.length > 0 ? Math.max(...this.student.notes.map(el => el.id)) + 1 : 1;
-    this.student.notes.unshift({ id: newId, note: `New note: ${newId}`, date: new Date(), teacher: this.currentTeacher });
+    const newId = this.student.notes.length > 0 ? Math.max(...this.student.notes.map(el => el.studentnotekey)) + 1 : 1;
+    this.student.notes.unshift({
+      studentnotekey: newId,
+      note: `New note: ${newId}`,
+      dateadded: new Date(),
+      staffkey: this.currentTeacher.staffkey
+    });
     window.setTimeout( () => {
       this.noteInput.nativeElement.focus();
       this.noteInput.nativeElement.select();
@@ -84,12 +89,30 @@ export class StudentDetailComponent implements OnInit {
 
   getDateFormat(date: string) {
     const today = new Date();
-    const checkDate = new Date(date);
+    const nticks = parseInt(date);
+    /* if is a number, use as ticks */
+    const checkDate = nticks ? new Date(nticks) : new Date(date);
     if (today.getDate() === checkDate.getDate()
         && today.getMonth() === checkDate.getMonth()
         && today.getFullYear() === checkDate.getFullYear()) {
-      return 'h:mma';
+      return "'Today'";
     } else { return 'MM/dd/yyyy'; }
+  }
+
+  getNoteAuthor(note:Note){
+    const currentStaffKey = this.currentTeacher.staffkey;
+    if(note.staffkey === currentStaffKey){
+      return 'Me';
+    }else{
+      if(note.staffFullName){
+        return note.staffFullName;
+      }
+      this.api.teacher.getStaffNameByKey(note.staffkey)
+        .then(staff => {
+          note.staffFullName = staff.lastsurname + ' ' + staff.firstname;
+          note.staffEMail = staff.electronicmailaddress;
+        });
+    }
   }
 
 }

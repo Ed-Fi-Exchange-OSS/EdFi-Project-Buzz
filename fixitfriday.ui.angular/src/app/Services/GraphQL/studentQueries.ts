@@ -58,7 +58,9 @@ query($staffkey: ID!, $studentschoolkey: String!) {
     },
     notes{
       studentnotekey,
-      note
+      note,
+      staffkey,
+      dateadded
     },
     studentsurveys {
       surveykey,

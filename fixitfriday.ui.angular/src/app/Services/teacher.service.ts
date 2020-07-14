@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Teacher } from '../Models/teacher';
-import { getStaffById } from './GraphQL/staffQueries';
+import { getStaffById, getStaffNameById } from './GraphQL/staffQueries';
 import { Apollo } from 'apollo-angular';
 
 
@@ -14,6 +14,15 @@ export class TeacherApiService {
   async getTeacher(): Promise<Teacher> {
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getStaffById, variables: { staffkey: 56 } });
+    const staff = data.staffbyid;
+    const teacher: Teacher = <Teacher>staff;
+
+    return teacher;
+  }
+
+  async getStaffNameByKey(staffKey:number){
+    const client = this.apollo.getClient();
+    const { data } = await client.query({ query: getStaffNameById, variables: { staffkey: staffKey } });
     const staff = data.staffbyid;
     const teacher: Teacher = <Teacher>staff;
 

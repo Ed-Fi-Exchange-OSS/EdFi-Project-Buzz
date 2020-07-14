@@ -103,6 +103,7 @@ export default class SectionService {
         `studentnotes.studentschoolkey = ss.studentschoolkey and ss.studentschoolkey='${studentschoolkey}'`,
       )
       .where({ studentschoolkey })
+      .orderBy('studentnotekey', 'DESC')
       .getMany();
   }
 }
