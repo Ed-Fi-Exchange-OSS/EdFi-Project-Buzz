@@ -25,14 +25,11 @@ Setup Instructions for Development
 
 1. Download the repository
 2. Open a PowerShell window and Navigate to the UI folder C:\projects\Fix-It-Fridays\UI\
-3. Open PowerShell as an "Administrator" and run npm install
-4. In the same Powershell window type "ng serve"
+3. If is not installed, install yarn with ```npm install --global yarn```
+3. Open PowerShell as an "Administrator" and run ```yarn install```
+4. In the same Powershell window type ```ng serve```
 5. Open a browser (Chrome) and navigate to http://localhost:4200/
-6. Others???
 
-```PowerShell
-C:\temp\ed-fi\> .\BinaryInstall.ps1
-```
 
 ## Development server
 
