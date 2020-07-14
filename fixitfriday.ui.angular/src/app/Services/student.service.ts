@@ -40,7 +40,7 @@ export class StudentApiService {
             return mappedGuardian;
           }
         );
-        const notes: string[] = [student.contacts[0].contactnotes];
+        const notes: string[] = student && student.contacts && student.contacts.length > 0 ? [student.contacts[0].contactnotes] : [];
         const typedStudent: Student = {
           studentkey: student.studentkey,
           studentschoolkey: student.studentschoolkey,

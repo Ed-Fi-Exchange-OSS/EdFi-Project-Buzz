@@ -19,15 +19,16 @@
       </div>
     </div>
     <div [ngClass]="{collapse:isCollapsed}">
-      <span class="text-muted">
+      <span *ngIf="student.guardians && student.guardians.length > 0" class="text-muted">
         {{student.guardians[0].relationship}}: {{student.guardians[0].name}}
         <a class="inline-block" href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a>
       </span>
+      <div *ngIf="student.guardians && student.guardians.length === 0" class="alert alert-primary">Student have no contacts</div>
     </div>
     <div class="collapse" [ngClass]="{show:isCollapsed}">
       <hr />
       <h3>Primary Contact</h3>
-      <p class="m-l-10">
+      <p *ngIf="student.guardians && student.guardians.length > 0" class="m-l-10">
         <span class="text-muted block">{{student.guardians[0].name}} ({{student.guardians[0].relationship}})</span>
         <i class="icon ion-md-mail"></i>&nbsp;<a class="m-b-2 "
           href="mailto:{{student.guardians[0].email}}">{{student.guardians[0].email}}</a>
@@ -35,6 +36,7 @@
             href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a></span>
         <span class="text-muted block">{{student.guardians[0].address}}</span>
       </p>
+      <div *ngIf="student.guardians && student.guardians.length === 0" class="alert alert-primary">Student have no contacts</div>
       <h4>Preferred Contact Method: <span class="text-muted">{{student.preferredContactMethod}}</span></h4>
 
       <h4>Best time to contact: <span class="text-muted">{{student.contactTime}}</span></h4>
