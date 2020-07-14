@@ -1,3 +1,6 @@
+type Mutation {
+  addstudentnote(staffkey: Int!, studentschoolkey: String!, note: String!): StudentNote
+}
 type Query{
   staffbyemail: Staff
   staffbyid(staffkey: ID!): Staff

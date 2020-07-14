@@ -3,11 +3,11 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ schema: 'fif', name: 'studentnote', synchronize: false })
 export default class StudentNoteEntity {
-  @PrimaryColumn() studentnotekey: string;
+  @PrimaryGeneratedColumn() studentnotekey: string;
 
   @Column() note: string;
 
@@ -15,5 +15,5 @@ export default class StudentNoteEntity {
 
   @Column() staffkey: number;
 
-  @Column() dateadded: string;
+  @Column() dateadded?: string;
 }

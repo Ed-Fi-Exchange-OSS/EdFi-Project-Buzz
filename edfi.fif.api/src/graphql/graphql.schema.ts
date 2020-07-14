@@ -32,6 +32,10 @@ export class ContactPerson {
     contactnotes?: string;
 }
 
+export abstract class IMutation {
+    abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
+}
+
 export abstract class IQuery {
     abstract staffbyemail(): StaffInformation | Promise<StaffInformation>;
 

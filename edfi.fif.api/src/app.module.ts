@@ -12,6 +12,7 @@ import AppService from './app.service';
 import SectionModule from './graphql/modules/section.module';
 import StaffModule from './graphql/modules/staff.module';
 import StudentSchoolModule from './graphql/modules/studentschool.module';
+import StudentNoteModule from './graphql/modules/studentnote.module';
 import SurveySummaryModule from './graphql/modules/surveysummary.module';
 import SurveySummaryQuestionsModule from './graphql/modules/surveysummaryquestions.module';
 import StudentSurveyModule from './graphql/modules/studentsurvey.module';
@@ -28,7 +29,7 @@ config({ path: `${__dirname}/.env` });
       password: process.env.FIF_DB_PASSWORD,
       database: process.env.FIF_DB_DATABASE,
       entities: [`${__dirname}/**/*.entity.js`],
-      synchronize: true,
+      synchronize: true
     }),
     GraphQLModule.forRoot({
       typePaths: [`${__dirname}/**/*.graphql`],
@@ -38,6 +39,7 @@ config({ path: `${__dirname}/.env` });
     SectionModule,
     StaffModule,
     StudentSchoolModule,
+    StudentNoteModule,
     StudentSurveyModule,
     SurveySummaryModule,
     SurveySummaryQuestionsModule,
