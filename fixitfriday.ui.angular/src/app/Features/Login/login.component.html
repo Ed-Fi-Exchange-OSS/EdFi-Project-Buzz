@@ -11,8 +11,6 @@
           <h1 class=" text-center m-t-25">TOD - Teacher Observation Dashboard</h1>
           <div class="text-center m-t-20">
             <a (click)="signIn()" class="btn btn-primary">SSO Login</a>
-            <br />
-            <span class="link-text cursor-pointer" (click)="useMockCredentials()">Use mock credentials</span>
             <p class="m-t-30" *ngIf="model.loggedIn">
               Currently logged in as: {{model.user.name}}
               <br />
@@ -24,16 +22,6 @@
           <span class="text-left">
             <a ui-sref="app.privacypolicy"><i class="icon ion-md-lock"></i> Privacy Policy</a>
           </span>
-          <!--<div class="dropdown login-feedback-button">
-            <a class="btn btn-fill-help"
-               id="dropdown"
-               data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false"
-               tooltip-placement="bottom">
-              <i class="ion ion-md-help"></i>
-            </a>
-          </div>-->
           <div class="float-right">0.0.1</div>
         </div>
       </div>
