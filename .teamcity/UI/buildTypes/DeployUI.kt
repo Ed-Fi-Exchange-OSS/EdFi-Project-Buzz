@@ -43,7 +43,7 @@ object DeployUIBuild : BuildType ({
                 content = """
                     ${"$"}packages = Get-ChildItem -Path %teamcity.build.checkoutDir% -Filter *pre*.nupkg -Recurse
                     ${"$"}packageName = ${"$"}packages[0].Name
-                    ${"$"}packageName -Match "fixitfriday\.ui\.(.+)\.nupkg"
+                    ${"$"}packageName -Match "buzz\.ui\.(.+)\.nupkg"
                     ${"$"}packageVersion = ${"$"}Matches[1]
                     Write-Host "##teamcity[setParameter name='octopus.release.version' value='${"$"}packageVersion']"
                 """.trimIndent()

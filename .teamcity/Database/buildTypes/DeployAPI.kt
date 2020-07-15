@@ -43,7 +43,7 @@ object DeployDatabaseBuild : BuildType ({
                 content = """
                     ${"$"}packages = Get-ChildItem -Path %teamcity.build.checkoutDir% -Filter *pre*.nupkg -Recurse
                     ${"$"}packageName = ${"$"}packages[0].Name
-                    ${"$"}packageName -Match "fixitfriday\.database\.(.+)\.nupkg"
+                    ${"$"}packageName -Match "buzz\.database\.(.+)\.nupkg"
                     ${"$"}packageVersion = ${"$"}Matches[1]
                     Write-Host "##teamcity[setParameter name='octopus.release.version' value='${"$"}packageVersion']"
                 """.trimIndent()

@@ -3,7 +3,7 @@ version: '3.2'
 
 services:
     postgresql:
-        container_name: fif-pg
+        container_name: edfi-buzz-pg
         image: postgres
         restart: always
         environment:
@@ -11,10 +11,10 @@ services:
         ports:
             - 5432:5432
         volumes:
-            - fif-pg-data:/var/lib/postgresql/data
+            - edfi-buzz-pg-data:/var/lib/postgresql/data
             - type: bind
-              source: ./init-fixitfriday-db.sh
-              target: /docker-entrypoint-initdb.d/init-fixitfriday-db.sh
+              source: ./init-edfi-buzz-db.sh
+              target: /docker-entrypoint-initdb.d/init-edfi-buzz-db.sh
 
 volumes:
-    fif-pg-data:
+    edfi-buzz-pg-data:

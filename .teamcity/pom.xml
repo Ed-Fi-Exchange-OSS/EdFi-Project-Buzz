@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <name>EdFi_AnalyticsTeam_FixItFriday Config DSL Script</name>
-  <groupId>EdFi_AnalyticsTeam_FixItFriday</groupId>
-  <artifactId>EdFi_AnalyticsTeam_FixItFriday_dsl</artifactId>
+  <name>EdFi_AnalyticsTeam_Buzz Config DSL Script</name>
+  <groupId>EdFi_AnalyticsTeam_Buzz</groupId>
+  <artifactId>EdFi_AnalyticsTeam_Buzz_dsl</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <parent>

@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{47554359-D5E3-4CEB-B53B-EA9C7FD3A5FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4AA7BE42-3354-4CB2-937D-78D318FFC666}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdFi.Buzz.Core", "src\EdFi.Buzz.Core\EdFi.Buzz.Core.csproj", "{739E4A6E-9592-4976-A394-CF2340868E4E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdFi.Buzz.Data", "src\EdFi.Buzz.Data\EdFi.Buzz.Data.csproj", "{E56F7566-E71F-432A-B196-5A349C6F40F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdFi.Buzz.Database", "src\EdFi.Buzz.Database\EdFi.Buzz.Database.csproj", "{C7350004-0A57-426F-8FC5-18D732DAA565}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdFi.Buzz.GraphQL", "src\EdFi.Buzz.GraphQL\EdFi.Buzz.GraphQL.csproj", "{5287FDBB-92D3-4681-A9C7-FBDD88CCEAC0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdFi.Buzz.Data.Tests", "test\EdFi.Buzz.Data.Tests\EdFi.Buzz.Data.Tests.csproj", "{758DA4A8-3192-40C0-AB74-049D27D9B455}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{739E4A6E-9592-4976-A394-CF2340868E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739E4A6E-9592-4976-A394-CF2340868E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739E4A6E-9592-4976-A394-CF2340868E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739E4A6E-9592-4976-A394-CF2340868E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E56F7566-E71F-432A-B196-5A349C6F40F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E56F7566-E71F-432A-B196-5A349C6F40F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E56F7566-E71F-432A-B196-5A349C6F40F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E56F7566-E71F-432A-B196-5A349C6F40F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7350004-0A57-426F-8FC5-18D732DAA565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7350004-0A57-426F-8FC5-18D732DAA565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7350004-0A57-426F-8FC5-18D732DAA565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7350004-0A57-426F-8FC5-18D732DAA565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5287FDBB-92D3-4681-A9C7-FBDD88CCEAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5287FDBB-92D3-4681-A9C7-FBDD88CCEAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5287FDBB-92D3-4681-A9C7-FBDD88CCEAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5287FDBB-92D3-4681-A9C7-FBDD88CCEAC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758DA4A8-3192-40C0-AB74-049D27D9B455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758DA4A8-3192-40C0-AB74-049D27D9B455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758DA4A8-3192-40C0-AB74-049D27D9B455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758DA4A8-3192-40C0-AB74-049D27D9B455}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{739E4A6E-9592-4976-A394-CF2340868E4E} = {47554359-D5E3-4CEB-B53B-EA9C7FD3A5FA}
+		{E56F7566-E71F-432A-B196-5A349C6F40F9} = {47554359-D5E3-4CEB-B53B-EA9C7FD3A5FA}
+		{C7350004-0A57-426F-8FC5-18D732DAA565} = {47554359-D5E3-4CEB-B53B-EA9C7FD3A5FA}
+		{5287FDBB-92D3-4681-A9C7-FBDD88CCEAC0} = {47554359-D5E3-4CEB-B53B-EA9C7FD3A5FA}
+		{758DA4A8-3192-40C0-AB74-049D27D9B455} = {4AA7BE42-3354-4CB2-937D-78D318FFC666}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBCE4864-43E2-4EB9-9EC0-DD6DAE11785E}
+	EndGlobalSection
+EndGlobal

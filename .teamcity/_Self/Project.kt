@@ -7,8 +7,8 @@ package _self
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
-object FixItFridayProject : Project({
-    description = "Fix-it-Friday Build Configurations"
+object BuzzProject : Project({
+    description = "Buzz Build Configurations"
 
     params {
         param("build.feature.freeDiskSpace", "2gb")

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <OutputType>Library</OutputType>
+      <TargetFramework>netcoreapp3.1</TargetFramework>
+      <IsPackable>true</IsPackable>
+      <RestorePackages>true</RestorePackages>
+      <Title>Ed-Fi Buzz Core Business Logic</Title>
+      <Authors>Ed-Fi Alliance, LLC, and contributors</Authors>
+      <Copyright>(c) 2020, Ed-Fi Alliance, LLC, and contributors</Copyright>
+      <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <RepositoryUrl>https://github.com/Ed-Fi-Alliance-OSS/Buzz</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentModelBuilder.Relational" Version="1.5.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EdFi.Buzz.Core\EdFi.Buzz.Core.csproj" />
+  </ItemGroup>
+
+</Project>

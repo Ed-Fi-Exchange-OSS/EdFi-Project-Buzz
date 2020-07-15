@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>edfi.buzz.ui</id>
+    <version>$version$</version>
+    <title>Ed-Fi Buzz UI</title>
+    <authors>Ed-Fi Alliance, LLC and contributors</authors>
+    <projectUrl>https://github.com/Ed-Fi-Alliance-OSS/Buzz</projectUrl>
+    <copyright>Copyright © 2020, Ed-Fi Alliance, LLC and contributors.</copyright>
+    <license type="expression">Apache-2.0</license>
+    <summary>Ed-Fi Buzz end-user web site</summary>
+    <description>Ed-Fi Buzz end-user web site</description>
+  </metadata>
+  <files>
+    <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
+    <file src="..\build\**" target="build" />
+    <file src="windows\**" target="windows" />
+    <file src="nginx.conf" />
+  </files>
+</package>

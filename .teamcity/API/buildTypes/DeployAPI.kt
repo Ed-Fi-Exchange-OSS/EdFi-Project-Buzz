@@ -43,7 +43,7 @@ object DeployAPIBuild : BuildType ({
                 content = """
                     ${"$"}packages = Get-ChildItem -Path %teamcity.build.checkoutDir% -Filter *pre*.nupkg -Recurse
                     ${"$"}packageName = ${"$"}packages[0].Name
-                    ${"$"}packageName -Match "fixitfriday\.api\.(.+)\.nupkg"
+                    ${"$"}packageName -Match "buzz\.api\.(.+)\.nupkg"
                     ${"$"}packageVersion = ${"$"}Matches[1]
                     Write-Host "##teamcity[setParameter name='octopus.release.version' value='${"$"}packageVersion']"
                 """.trimIndent()

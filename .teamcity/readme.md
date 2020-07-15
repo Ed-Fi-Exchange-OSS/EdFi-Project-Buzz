@@ -15,8 +15,8 @@ To apply these build configuration settings on a new TeamCity environment:
     If pull from an organization, use that organization's name. Else use own
     GitHub user name to pull from your fork.
 
-1. Create the sub-project `Fix-it-Friday`.
-1. Set these parameters in `Fix-it-Friday`:
+1. Create the sub-project `Buzz`.
+1. Set these parameters in `Buzz`:
 
     ```none
     git.branch.default = development
@@ -26,8 +26,8 @@ To apply these build configuration settings on a new TeamCity environment:
 
 1. Create a VCS Root:
     * Type: `Git`
-    * Name: `Fix-it-Friday`
-    * Fetch Url: `https://github.com/%github.organization%/Fix-It-Friday`
+    * Name: `Buzz`
+    * Fetch Url: `https://github.com/%github.organization%/Buzz`
     * Default Branch: `%git.branch.default%`
     * Branch Specification: `%git.branch.specification%`
     * Authentication method: `password`
@@ -35,7 +35,7 @@ To apply these build configuration settings on a new TeamCity environment:
     * Password: `%github.accessToken%`
 1. Turn on Versioned Settings:
     * Synchronization enabled: `true`
-    * Project settings VCS root: `Fix-it-Friday`
+    * Project settings VCS root: `Buzz`
     * When build starts: `use settings from VCS`
     * Store secure values outside of VCS: `true`
     * Settings format: `kotlin`

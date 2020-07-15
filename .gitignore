@@ -1,10 +1,10 @@
-﻿.vs/
+.vs/
 obj/
 bin/
 tools/
 downloads/
 dist/
-
+.history/
 
 # dependencies
 node_modules

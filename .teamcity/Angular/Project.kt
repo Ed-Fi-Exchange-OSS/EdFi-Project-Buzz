@@ -8,15 +8,15 @@ package angular
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
 object AngularProject : Project({
-    id("FixItFriday_UI_Angular")
+    id("Buzz_UI_Angular")
     name = "Angular"
-    description = "Fix-it-Friday User Interface - Angular"
+    description = "Buzz User Interface - Angular"
 
     buildType(angular.buildTypes.PullRequestAngularBuild)
     buildType(angular.buildTypes.BranchAngularBuild)
 
     params{
-        param("project.directory", "./fixitfriday.ui.angular");
+        param("project.directory", "./EdFi.Buzz.UI.Angular");
         param("vcs.checkout.rules","""
         +:.teamcity => .teamcity
         +:%project.directory% => %project.directory%

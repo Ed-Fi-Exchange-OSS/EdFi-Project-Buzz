@@ -8,9 +8,9 @@ package database
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
 object DatabaseProject : Project({
-    id("FixItFriday_Database")
+    id("Buzz_Database")
     name = "Database"
-    description = "Fix-it-Friday Database"
+    description = "Buzz Database"
 
     buildType(database.buildTypes.PullRequestDatabaseBuild)
     buildType(database.buildTypes.BranchDatabaseBuild)
@@ -18,9 +18,9 @@ object DatabaseProject : Project({
     // buildType(database.buildTypes.DeployDatabaseBuild)
 
     params{
-        param("project.directory", "./edfi.fif.database");
+        param("project.directory", "./edfi.buzz.database");
         param("octopus.release.version","<placeholder value>")
-        param("octopus.release.project", "Fix-it-Friday Database")
+        param("octopus.release.project", "Buzz Database")
         param("octopus.project.id", "Projects-111")
         // Include the root - giving us license, notices.md, and .teamcity.
         // Then exclude the other projects.

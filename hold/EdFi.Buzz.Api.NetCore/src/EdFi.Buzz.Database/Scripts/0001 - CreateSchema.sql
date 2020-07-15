@@ -1,0 +1,2 @@
+CREATE SCHEMA [buzz];
+GO

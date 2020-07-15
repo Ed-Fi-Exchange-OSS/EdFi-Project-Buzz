@@ -8,18 +8,18 @@ package ui
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
 object UIProject : Project({
-    id("FixItFriday_UI")
+    id("Buzz_UI")
     name = "UI"
-    description = "Fix-it-Friday User Interface"
+    description = "Buzz User Interface"
 
     buildType(ui.buildTypes.PullRequestUIBuild)
     buildType(ui.buildTypes.BranchUIBuild)
     buildType(ui.buildTypes.DeployUIBuild)
 
     params{
-        param("project.directory", "./hold/fixitfriday.ui");
+        param("project.directory", "./hold/EdFi.Buzz.UI");
         param("octopus.release.version","<placeholder value>")
-        param("octopus.release.project", "Fix-it-Friday UI")
+        param("octopus.release.project", "Buzz UI")
         param("octopus.project.id", "Projects-112")
         param("vcs.checkout.rules","""
             +:.teamcity => .teamcity

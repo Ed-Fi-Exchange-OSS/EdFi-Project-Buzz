@@ -1,10 +1,10 @@
-# Fix-It-Friday
+# Ed-Fi Buzz
 
 _Project overview will go here..._
 
 ## Installation
 
-* [User Interface - Windows Installation](fixitfriday.ui/eng/windows/install.md)
+* [User Interface - Windows Installation](edfi.buzz.ui.angular/eng/windows/install.md)
 
 ## Legal Information
 
