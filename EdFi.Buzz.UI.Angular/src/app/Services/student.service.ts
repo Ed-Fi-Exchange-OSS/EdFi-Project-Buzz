@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { Injectable } from '@angular/core';
-import { Student, Guardian, Note } from '../Models/';
+import { Student, Guardian, StudentNote } from '../Models/';
 import { getStudentsBySection, getStudentById } from './GraphQL/studentQueries';
 import { Apollo } from 'apollo-angular';
 import { AuthenticationService } from './authentication.service';
@@ -19,7 +19,6 @@ export class StudentApiService {
   constructor(private apollo: Apollo, private auth: AuthenticationService) { }
 
   public save() {
-    localStorage.setItem('studentList', JSON.stringify(this.students));
   }
 
   public async get(section?: string, name?: string) {
@@ -51,7 +50,6 @@ export class StudentApiService {
             return mappedGuardian;
           }
         );
-        const notes: string[] = student && student.contacts && student.contacts.length > 0 ? [student.contacts[0].contactnotes] : [];
         const typedStudent: Student = {
           studentkey: student.studentkey,
           studentschoolkey: student.studentschoolkey,
@@ -68,7 +66,7 @@ export class StudentApiService {
           siblings: [],
           surveys: [],
           pictureurl: '/assets/studentImage.jpg',
-          notes
+          notes: student.notes
         };
 
         return typedStudent;
@@ -80,12 +78,12 @@ export class StudentApiService {
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  public async getById(id: string) {
-    console.log('student.service:' + id);
+  public async getById(studentSchoolKey: string) {
+    console.log('student.service:' + studentSchoolKey);
     let student: Student;
 
     const client = this.apollo.getClient();
-    const queryparams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: id };
+    const queryparams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: studentSchoolKey };
     await client.query({ query: getStudentById, variables: queryparams }).then(response => {
       // No mapping =)
       student = response.data.studentbystaff;

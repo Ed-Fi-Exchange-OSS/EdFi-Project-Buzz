@@ -10,6 +10,7 @@ import { TeacherApiService } from './teacher.service';
 import { SurveyAnalyticsApiService } from './surveyAnalytics.service';
 import { SectionApiService } from './section.service';
 import { AuthenticationService } from './authentication.service';
+import { StudentNotesApiService } from './studentNotes.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +19,7 @@ export class ApiService {
   constructor(
     // public oauth: OAuthApiService,
     public student: StudentApiService,
+    public studentNotesApiService: StudentNotesApiService,
     public teacher: TeacherApiService,
     public surveyAnalytics: SurveyAnalyticsApiService,
     public section: SectionApiService,

@@ -6,7 +6,7 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Route, ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
-import { Student, Teacher, Note } from 'src/app/Models';
+import { Student, Teacher, StudentNote } from 'src/app/Models';
 import { NgModel } from '@angular/forms';
 
 @Component({
@@ -57,9 +57,10 @@ export class StudentDetailComponent implements OnInit {
     const newId = this.student.notes.length > 0 ? Math.max(...this.student.notes.map(el => el.studentnotekey)) + 1 : 1;
     this.student.notes.unshift({
       studentnotekey: newId,
+      studentschoolkey: this.student.studentschoolkey,
+      staffkey: this.currentTeacher.staffkey,
       note: `New note: ${newId}`,
-      dateadded: new Date(),
-      staffkey: this.currentTeacher.staffkey
+      dateadded: new Date()
     });
     window.setTimeout( () => {
       this.noteInput.nativeElement.focus();
@@ -69,14 +70,18 @@ export class StudentDetailComponent implements OnInit {
   }
   saveNote() {
     this.editingNote = -1;
-    this.api.student.save();
+    this.api.studentNotesApiService
+      .addStudentNote(this.currentTeacher.staffkey, this.student.studentschoolkey, this.student.notes[0].note)
+      .then(result => {
+        this.student.notes[0].studentnotekey = result.studentnotekey;
+      }) ;
   }
   cancelAddNote() {
     this.editingNote = -1;
     this.student.notes.splice(0, 1);
   }
-  deleteNote(id: number) {
-    const idx = this.student.notes.findIndex(el => el.id === id);
+  deleteNote(studentNoteKey: number) {
+    const idx = this.student.notes.findIndex(el => el.studentnotekey === studentNoteKey);
     if (idx > -1) {
       this.student.notes.splice(idx, 1);
     }
@@ -104,7 +109,7 @@ export class StudentDetailComponent implements OnInit {
     } else { return 'MM/dd/yyyy'; }
   }
 
-  getNoteAuthor(note: Note) {
+  getNoteAuthor(note: StudentNote) {
     const currentStaffKey = this.currentTeacher.staffkey;
     if (note.staffkey === currentStaffKey) {
       return 'Me';
