@@ -30,11 +30,11 @@ export class Student {
   siblingscount?: number;
   siblings?: Student[];
 
+  notes?: StudentNote[];
 
   // to Depreicate: These will be removed soon
   section?: string;
   surveys?: any[];
-  notes?: any[];
   guardians?: any[];
 
   constructor() {
@@ -52,12 +52,13 @@ export class Sibling {
   schoolName: string;
 }
 
-export class Note {
+export class StudentNote {
   studentnotekey: number;
   studentschoolkey: string;
+  staffkey: number;
   note: string;
   dateadded: Date;
-  staffkey: number;
+
   staffFullName?: string;
   staffEMail?: string;
 }
