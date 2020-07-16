@@ -15,37 +15,42 @@
       <div class="flex-grow-1 overflow-hidden">
         <h3 class="m-b-2 d-flex">{{student.name}}</h3>
         <p class="text-muted m-b-1">{{student.studentkey}}</p>
-        <a class="m-b-2 text-ellipsis" href="mailto:{{student.primaryemailaddress}}" title="{{student.primaryemailaddress}}">{{student.primaryemailaddress}}</a>
+        <a *ngIf="student.primaryemailaddress" class="m-b-2 text-ellipsis" href="mailto:{{student.primaryemailaddress}}" title="{{student.primaryemailaddress}}">{{student.primaryemailaddress}}</a>
+        <p *ngIf="!student.primaryemailaddress" class="alert alert-primary">No email</p>
       </div>
     </div>
     <div [ngClass]="{collapse:isCollapsed}">
-      <span *ngIf="student.guardians && student.guardians.length > 0" class="text-muted">
-        {{student.guardians[0].relationship}}: {{student.guardians[0].name}}
-        <a class="inline-block" href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a>
+      <span *ngIf="student.contacts && student.contacts.length > 0" class="text-muted">
+        {{student.contacts[0].relationshiptostudent}}: {{student.contacts[0].contactlastname}}, {{student.contacts[0].contactfirstname}}
+        <a class="inline-block" href="tel:{{student.contacts[0].phone}}">{{student.contacts[0].phonenumber}}</a>
       </span>
-      <div *ngIf="student.guardians && student.guardians.length === 0" class="alert alert-primary">Student have no contacts</div>
+      <div *ngIf="student.contacts && student.contacts.length === 0" class="alert alert-primary">Student have no contacts</div>
     </div>
     <div class="collapse" [ngClass]="{show:isCollapsed}">
       <hr />
       <h3>Primary Contact</h3>
-      <p *ngIf="student.guardians && student.guardians.length > 0" class="m-l-10">
-        <span class="text-muted block">{{student.guardians[0].name}} ({{student.guardians[0].relationship}})</span>
+      <p *ngIf="student.contacts && student.contacts.length > 0" class="m-l-10">
+        <span class="text-muted block">{{student.contacts[0].contactlastname}}, {{student.contacts[0].contactfirstname}} ({{student.contacts[0].relationshiptostudent}})</span>
         <i class="icon ion-md-mail"></i>&nbsp;<a class="m-b-2 "
-          href="mailto:{{student.guardians[0].email}}">{{student.guardians[0].email}}</a>
+          href="mailto:{{student.contacts[0].primaryemailaddress}}">{{student.contacts[0].primaryemailaddress}}</a>
         <br><i class="icon ion-md-phone-portrait"></i>&nbsp;<span class="text-muted"><a
-            href="tel:{{student.guardians[0].phone}}">{{student.guardians[0].phone}}</a></span>
-        <span class="text-muted block">{{student.guardians[0].address}}</span>
+            href="tel:{{student.contacts[0].phonenumber}}">{{student.contacts[0].phonenumber}}</a></span>
+        <span class="text-muted block">{{student.contacts[0].streetnumbername}}  {{apartmentroomsuitenumber}}</span>
       </p>
-      <div *ngIf="student.guardians && student.guardians.length === 0" class="alert alert-primary">Student have no contacts</div>
-      <h4>Preferred Contact Method: <span class="text-muted">{{student.preferredContactMethod}}</span></h4>
+      <div *ngIf="student.contacts && student.contacts.length === 0" class="alert alert-primary">Student have no contacts</div>
 
-      <h4>Best time to contact: <span class="text-muted">{{student.contactTime}}</span></h4>
+      <ng-container *ngIf="student.contacts && student.contacts.length > 0">
+      <h4>Preferred Contact Method: <span class="text-muted">{{student.contacts[0].preferredcontactmethod}}</span></h4>
+      <h4>Best time to contact: <span class="text-muted">{{student.contacts[0].besttimetocontact}}</span></h4>
+      </ng-container>
 
       <a [routerLink]="['/app/studentDetail', student.studentschoolkey]"
         class="btn btn-block btn-outline-primary btn-rounded mt-3">Survey Results</a>
       <hr />
       <h3>Notes</h3>
-      <p *ngFor="let note of student.contactNotes" class="text-muted m-b-2">{{note}}</p>
+      <ng-container *ngIf="student.contacts && student.contacts.length > 0">
+      <p  *ngFor="let note of student.contacts[0].contactnotes" class="text-muted m-b-2">{{note}}</p>
+      </ng-container>
     </div>
   </div>
   <div class="card-footer">

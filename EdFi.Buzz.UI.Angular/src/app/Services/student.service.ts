@@ -21,6 +21,21 @@ export class StudentApiService {
   public save() {
   }
 
+  private setDefaultValues(student: Student): Student {
+    if (student) {
+      student.name = `${student.studentlastname || ''}, ${student.studentfirstname || ''}${( student.studentmiddlename ? ' ' + student.studentmiddlename : '' )}`;
+
+      if (!student.pictureurl) {
+        student.pictureurl = '/assets/studentImage.jpg';
+      }
+
+      if (!student.primaryemailaddress) {
+        student.primaryemailaddress = `${student.studentfirstname.toLocaleLowerCase()}@grandbend.com`;
+      }
+    }
+    return student;
+  }
+
   public async get(section?: string, name?: string) {
     if (!section || section === 'null') {
       this.students = [];
@@ -35,70 +50,26 @@ export class StudentApiService {
       }
     });
 
-    this.students = data.sectionbystaff.students.map(
-      (student: any) => {
-        const guardians: Guardian[] = student.contacts.map(
-          (contact) => {
-            const mappedGuardian: Guardian = {
-              name: `${contact.contactfirstname || ''} ${contact.contactlastname || ''}`,
-              relationship: contact.relationshiptostudent,
-              email: contact.primaryemailaddress,
-              phone: contact.phonenumber,
-              address: `${contact.streetnumbername}, ${contact.apartmentroomsuitenumber}`,
-              isPrimaryContact: contact.isprimarycontact
-            };
-            return mappedGuardian;
-          }
-        );
-        const typedStudent: Student = {
-          studentkey: student.studentkey,
-          studentschoolkey: student.studentschoolkey,
-          name: `${student.studentfirstname || ''} ${student.studentmiddlename || ''} ${student.studentlastname || ''}`,
-          schoolname: 'Grand Bend High',
-          primaryemailaddress: 'test@mail.com',
-          gradelevel: student.gradelevel,
-          section: data.sessionname,
-          contacts: student.contacts,
-          // preferredContactMethod: student.contacts[0].preferredcontactmethod,
-          // contactTime: student.contacts[0].besttimetocontact,
-          // contactNotes: notes,
-          guardians: guardians,
-          siblings: [],
-          surveys: [],
-          pictureurl: '/assets/studentImage.jpg',
-          notes: student.notes
-        };
-
-        return typedStudent;
-      }
-    );
+    this.students = data.sectionbystaff.students;
 
     return this.students
+      .map(s => this.setDefaultValues(s))
       .filter(s => name ? s.name.toUpperCase().includes(name.toUpperCase()) : true)
       .sort((a, b) => a.name.localeCompare(b.name));
   }
+
+
+
 
   public async getById(studentSchoolKey: string) {
     let student: Student;
 
     const client = this.apollo.getClient();
     const queryParams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: studentSchoolKey };
-    await client.query({ query: getStudentById, variables: queryParams }).then(response => {
-      // No mapping =)
-      student = response.data.studentbystaff;
-
-      // OK I lied... but just a little =P
-      if (student) {
-        student.name = `${student.studentlastname || ''}, ${student.studentfirstname || ''} ${student.studentmiddlename || ''}`;
-
-        if (!student.primaryemailaddress) {
-          student.primaryemailaddress = `${student.studentfirstname}@grandbend.com`;
-        }
-
-        if (!student.pictureurl) {
-          student.pictureurl = '/assets/studentImage.jpg';
-        }
-      }
+    await client.query({ query: getStudentById, variables: queryParams })
+      .then(response => {
+        student = response.data.studentbystaff;
+        this.setDefaultValues(student);
     });
 
     return student;
