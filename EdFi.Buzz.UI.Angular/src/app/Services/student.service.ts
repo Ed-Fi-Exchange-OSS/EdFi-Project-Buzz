@@ -83,7 +83,7 @@ export class StudentApiService {
     let student: Student;
 
     const client = this.apollo.getClient();
-    const queryparams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: studentSchoolKey };
+    const queryParams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: studentSchoolKey };
     await client.query({ query: getStudentById, variables: queryparams }).then(response => {
       // No mapping =)
       student = response.data.studentbystaff;
