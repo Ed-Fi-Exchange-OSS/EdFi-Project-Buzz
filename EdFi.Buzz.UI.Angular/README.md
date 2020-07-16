@@ -25,10 +25,11 @@ Setup Instructions for Development
 
 1. Download the repository
 2. Open a PowerShell window and Navigate to the UI folder C:\projects\Ed-Fi-Buzz\UI\
-3. Open PowerShell as an "Administrator" and run npm install
-4. In the same Powershell window type "ng serve"
-5. Open a browser (Chrome) and navigate to http://localhost:4200/
-6. Others???
+3. Open PowerShell as an "Administrator" and run yarn install
+4. Duplicate the [environment.example.json](src/assets/environment.example.json) file, and rename the copy to environment.json, then replace its contents with the correct values for your environment
+5. In the same Powershell window type "yarn start"
+6. Open a browser (Chrome) and navigate to http://localhost:4200/
+
 
 ```PowerShell
 C:\temp\ed-fi\> .\BinaryInstall.ps1
@@ -36,7 +37,7 @@ C:\temp\ed-fi\> .\BinaryInstall.ps1
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `yarn start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -44,7 +45,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `yarn build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Legal Information
 

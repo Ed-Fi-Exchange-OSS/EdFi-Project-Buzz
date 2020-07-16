@@ -17,9 +17,23 @@ const providers = [
   { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
 ];
 
-if (environment.production) {
-  enableProdMode();
-}
+// Angular don't have async factory support, so we need to do this async task before starting the app
+fetch('assets/environment.json')
+  .then(async response => {
+    return await response.json();
+  })
+  .then(config => {
+      if (!config) {
+        console.error('Error loading environment variables');
+          return;
+      }
+      window['tempConfigStorage'] = config;
 
-platformBrowserDynamic(providers).bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+      if (environment.production) {
+        enableProdMode();
+      }
+
+      platformBrowserDynamic(providers).bootstrapModule(AppModule)
+        .catch((err: any) => console.log(err));
+  })
+  .catch(console.error);
