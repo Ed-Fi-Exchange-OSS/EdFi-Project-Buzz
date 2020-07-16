@@ -1,4 +1,4 @@
-# Windows Installation Instructions
+# Windows Installation Instructions for the Buzz API
 
 ## Overview
 

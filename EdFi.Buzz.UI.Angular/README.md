@@ -1,4 +1,4 @@
-Ed-Fi Buzz TOD - Teacher Observation Dashboards
+Ed-Fi Buzz UI
 ============
 
 These scripts were made possible thanks to the Ed-Fi Alliance and the Michael and Susan Dell Foundation.

@@ -1,10 +1,10 @@
-# Buzz TOD - Teacher Observation Dashboards
+# Ed-Fi Buzz - ETL
 
 These scripts were made possible thanks to the Ed-Fi Alliance and the Michael and Susan Dell Foundation.
 
 ## Description
 
-This application provides two ETL modules to load Google Form Survey data to the BUZZ database, and to port data from the ODS data sources to Postgres.
+This application provides two ETL modules to load Google Form Survey data to the Buzz database, and to port data from the ODS data sources to Postgres.
 
 ## Prerequisites
 
@@ -15,12 +15,11 @@ We recommend that the following prerequisites are installed on the machine that 
 
 That is it =)
 
-
 ## Setup Instructions for ETL
 
 1. Download the repository.
 2. Setup database using edfi.buzz.database if needed (Edit its database.json config file and run `yarn migrate`).
-3. Install dependencies with `npm install`.
+3. Install dependencies with `yarn install`.
 4. To configure the database, rename sample.env to .env and update the values to match your database configuration.
 
 ## How to run Survey ETL
@@ -28,7 +27,6 @@ That is it =)
 For testing with the survey sample data:
     1. Use edfi.buzz.etl/surveySampleData/InsertSampleStudentData.sql to insert buzz.studentschool
     2. edfi.buzz.etl/surveySampleData/* are example csv's to import that have studentkeys references to surveySampleData/InsertSampleStudentData.sql.
-
 
 ```bash
 $ cd edfi.buzz.etl
@@ -47,7 +45,7 @@ The database ETL module (./src/dbETL.js) is executed directly by node.
 
 ### Running the Database ETL
 
-To run the database, navigate to the EdFi.buzz.Etl directory, and execute ./src/dbEtl.js with node. Your output should look something like the following.
+To run the database, navigate to the EdFi.Buzz.Etl directory, and execute ./src/dbEtl.js with node. Your output should look something like the following.
 
 ```powershell
 PS C:\dev\Ed-Fi\Buzz\edfi.buzz.etl> node ./src/dbEtl.js
@@ -84,7 +82,7 @@ finished loading entities
 
 ### .env File
 
-> NOTE: You will need a .env file in the edfi.buzz.etl directory with the following parameters. As mentioned above, you should rename the sample.env to .env, and change any database names user names, ports or passwords that do not match your local configuration.
+> NOTE: You will need a .env file in the Edfi.Buzz.Etl directory with the following parameters. As mentioned above, you should rename the sample.env to .env, and change any database names user names, ports or passwords that do not match your local configuration.
 
 > IMPORTANT: BUZZ_SQLSOURCE values should be either ods or amt. If you have Analytics Middle Tier with an analytics schema and views, it is recommended that you use amt for BUZZ_SQLSOURCE.
 
@@ -94,7 +92,7 @@ BUZZ_DBSERVER=127.0.0.1
 BUZZ_PORT=5432
 BUZZ_USER=postgres
 BUZZ_PASSWORD=pa55w0rd
-BUZZ_DBNAME=Buzz
+BUZZ_DBNAME=EdFi_Buzz
 BUZZ_MAX=20
 BUZZ_IDLETIMEOUTMILLIS=5000
 BUZZ_CONNECTIONTIMEOUTMILLIS=2000
@@ -109,7 +107,7 @@ ODS_ENCRYPT=false
 ```
 
 ```powershell
-$ cd edfi.buzz.etl
+$ cd EdFi.Buzz.Etl
 $ node ./src/dbETL.js
 ```
 

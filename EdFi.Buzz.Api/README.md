@@ -6,9 +6,10 @@ GraphQL-based API for supporting the Ed-Fi Buzz solution.
 
 ## Installation
 
-```bash
-yarn install
-```
+1. Download the repository.
+2. Rename .env.example to .env
+3. Edit this file to configure your database access.
+4. Install dependencies with `yarn install`.
 
 ## Running the app
 
