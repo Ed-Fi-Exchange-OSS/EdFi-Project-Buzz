@@ -28,7 +28,13 @@ export class StudentApiService {
       return this.students;
     }
     const client = this.apollo.getClient();
-    const { data } = await client.query({ query: getStudentsBySection, variables: { sectionKey: section, staffkey: this.auth.currentUserValue.teacher.staffkey } });
+    const { data } = await client.query({
+      query: getStudentsBySection,
+      variables: {
+        sectionKey: section,
+        staffkey: this.auth.currentUserValue.teacher.staffkey
+      }
+    });
 
     this.students = data.sectionbystaff.students.map(
       (student: any) => {
