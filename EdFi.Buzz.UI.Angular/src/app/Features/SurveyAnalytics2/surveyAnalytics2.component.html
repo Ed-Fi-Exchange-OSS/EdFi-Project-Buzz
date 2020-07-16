@@ -13,7 +13,7 @@
         <div class="input-group">
 
           <select class="form-control" name="" id="sectionsSelect" [(ngModel)]="currentSectionKey" (change)="search()">
-            <option [value]="null">All Sections</option>
+            <option [value]="null">Select a section</option>
             <option *ngFor="let section of teacher.sections" [value]="section.sectionkey">{{section.sectionkey}}</option>
           </select>
 
