@@ -79,15 +79,13 @@ export class StudentApiService {
   }
 
   public async getById(studentSchoolKey: string) {
-    console.log('student.service:' + studentSchoolKey);
     let student: Student;
 
     const client = this.apollo.getClient();
     const queryParams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: studentSchoolKey };
-    await client.query({ query: getStudentById, variables: queryparams }).then(response => {
+    await client.query({ query: getStudentById, variables: queryParams }).then(response => {
       // No mapping =)
       student = response.data.studentbystaff;
-      console.log(student);
 
       // OK I lied... but just a little =P
       if (student) {
