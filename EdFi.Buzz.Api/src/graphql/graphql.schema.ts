@@ -37,7 +37,7 @@ export abstract class IMutation {
 }
 
 export abstract class IQuery {
-    abstract staffbyemail(): StaffInformation | Promise<StaffInformation>;
+    abstract staffbyemail(): Staff | Promise<Staff>;
 
     abstract staffbyid(staffkey: string): Staff | Promise<Staff>;
 
@@ -102,7 +102,7 @@ export class StaffInformation {
 }
 
 export class StudentNote {
-    studentnotekey?: string;
+    studentnotekey?: number;
     note?: string;
     studentschoolkey?: string;
     staffkey?: number;
