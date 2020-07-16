@@ -28,7 +28,6 @@ import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angul
 import { LoginComponent } from './Features/Login/login.component';
 import { ChartsModule } from 'ng2-charts';
 import { SurveyAnalytics2Component } from './Features/SurveyAnalytics2/surveyAnalytics2.component';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 
@@ -67,7 +66,6 @@ export function provideConfig() {
     HttpLinkModule,
     FormsModule,
     ChartsModule,
-    TooltipModule,
     RouterModule.forRoot([
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar

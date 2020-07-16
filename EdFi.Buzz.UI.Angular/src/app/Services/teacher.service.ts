@@ -25,7 +25,7 @@ export class TeacherApiService {
     return teacher;
   }
 
-  async getStaffNameByKey(staffKey:number){
+  async getStaffNameByKey(staffKey: number) {
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getStaffNameById, variables: { staffkey: staffKey } });
     const staff = data.staffbyid;

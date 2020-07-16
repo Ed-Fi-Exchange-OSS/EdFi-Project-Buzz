@@ -94,22 +94,22 @@ export class StudentDetailComponent implements OnInit {
 
   getDateFormat(date: string) {
     const today = new Date();
-    const nticks = parseInt(date);
+    const nticks = parseInt(date, 10);
     /* if is a number, use as ticks */
     const checkDate = nticks ? new Date(nticks) : new Date(date);
     if (today.getDate() === checkDate.getDate()
         && today.getMonth() === checkDate.getMonth()
         && today.getFullYear() === checkDate.getFullYear()) {
-      return "'Today'";
+      return '\'Today\'';
     } else { return 'MM/dd/yyyy'; }
   }
 
-  getNoteAuthor(note:Note){
+  getNoteAuthor(note: Note) {
     const currentStaffKey = this.currentTeacher.staffkey;
-    if(note.staffkey === currentStaffKey){
+    if (note.staffkey === currentStaffKey) {
       return 'Me';
-    }else{
-      if(note.staffFullName){
+    } else {
+      if (note.staffFullName) {
         return note.staffFullName;
       }
       this.api.teacher.getStaffNameByKey(note.staffkey)
