@@ -3,7 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -92,7 +92,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: AuthServiceConfig, useFactory: provideAuthServiceConfig, deps: [EnvironmentService] },
-    { provide: APOLLO_OPTIONS, useFactory: provideApolloConfig, deps: [EnvironmentService, HttpLink] }
+    { provide: APOLLO_OPTIONS, useFactory: provideApolloConfig, deps: [EnvironmentService, HttpLink] },
+    Title
   ],
   bootstrap: [AppComponent]
 })
