@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
@@ -9,6 +9,7 @@ import { Teacher, Section } from 'src/app/Models';
 
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-survey-analytics2',
@@ -40,7 +41,8 @@ export class SurveyAnalytics2Component implements OnInit {
   sortSurveyByColumnAsc = true;
   sortedSurveyStudentAnswers: any[];
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private title: Title) {
+    title.setTitle('Buzz Survey Analytics');
     this.showSearchResults = false;
     this.showSurvey = false;
 

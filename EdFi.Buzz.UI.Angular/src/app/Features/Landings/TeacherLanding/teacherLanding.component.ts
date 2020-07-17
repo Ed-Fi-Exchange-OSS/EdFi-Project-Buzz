@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
@@ -6,6 +6,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../Services/api.service';
 import { Student, Teacher, Section } from 'src/app/Models';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-teacher-landing',
@@ -23,7 +24,8 @@ export class TeacherLandingComponent implements OnInit {
   view: string;
 
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private title: Title) {
+    title.setTitle('Buzz Class Roster');
     this.students = [];
     this.searchByStudentName = null;
     this.currentSection = null;

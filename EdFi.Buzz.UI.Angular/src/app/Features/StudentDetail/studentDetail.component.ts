@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
@@ -8,6 +8,7 @@ import { Route, ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
 import { Student, Teacher, StudentNote } from 'src/app/Models';
 import { NgModel } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-student-detail',
@@ -27,7 +28,13 @@ export class StudentDetailComponent implements OnInit {
 
   @ViewChild('noteInput', {static: false}) noteInput: ElementRef;
 
-  constructor(private api: ApiService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(
+    private api: ApiService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private title: Title
+  ) {
+    title.setTitle('Buzz Student Detail');
     this.editingNote = -1;
     this.currentTeacher = this.api.authentication.currentUserValue.teacher;
     this.siblingsIsCollapsed = true;

@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 import { ApiService } from 'src/app/Services/api.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,11 @@ export class LoginComponent implements OnInit {
     private socialAuthService: AuthService,
     private api: ApiService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private title: Title
+  ) {
+    title.setTitle('Buzz Login');
+  }
 
   ngOnInit() {
     this.model.user = null;
