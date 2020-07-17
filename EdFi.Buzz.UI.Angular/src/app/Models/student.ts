@@ -32,17 +32,13 @@ export class Student {
 
   notes?: StudentNote[];
 
-  // to Depreicate: These will be removed soon
-  section?: string;
-  surveys?: any[];
-  guardians?: any[];
+  studentsurveys?: any[];
 
   constructor() {
     this.contacts = [];
     this.siblings = [];
-    this.surveys = [];
+    this.studentsurveys = [];
     this.notes = [];
-    this.guardians = [];
   }
 }
 
