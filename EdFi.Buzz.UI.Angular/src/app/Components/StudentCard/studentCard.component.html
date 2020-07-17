@@ -24,7 +24,7 @@
         {{student.contacts[0].relationshiptostudent}}: {{student.contacts[0].contactlastname}}, {{student.contacts[0].contactfirstname}}
         <a class="inline-block" href="tel:{{student.contacts[0].phone}}">{{student.contacts[0].phonenumber}}</a>
       </span>
-      <div *ngIf="student.contacts && student.contacts.length === 0" class="alert alert-primary">Student have no contacts</div>
+      <div *ngIf="!student.contacts || student.contacts.length === 0" class="alert alert-primary">Student have no contacts</div>
     </div>
     <div class="collapse" [ngClass]="{show:isCollapsed}">
       <hr />
@@ -37,7 +37,7 @@
             href="tel:{{student.contacts[0].phonenumber}}">{{student.contacts[0].phonenumber}}</a></span>
         <span class="text-muted block">{{student.contacts[0].streetnumbername}}  {{apartmentroomsuitenumber}}</span>
       </p>
-      <div *ngIf="student.contacts && student.contacts.length === 0" class="alert alert-primary">Student have no contacts</div>
+      <div *ngIf="!student.contacts || student.contacts.length === 0" class="alert alert-primary">Student have no contacts</div>
 
       <ng-container *ngIf="student.contacts && student.contacts.length > 0">
       <h4>Preferred Contact Method: <span class="text-muted">{{student.contacts[0].preferredcontactmethod}}</span></h4>
