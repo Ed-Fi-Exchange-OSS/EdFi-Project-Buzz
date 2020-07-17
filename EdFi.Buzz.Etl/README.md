@@ -18,9 +18,8 @@ That is it =)
 ## Setup Instructions for ETL
 
 1. Download the repository.
-2. Setup database using edfi.buzz.database if needed (Edit its database.json config file and run `yarn migrate`).
-3. Install dependencies with `yarn install`.
-4. To configure the database, rename sample.env to .env and update the values to match your database configuration.
+2. Install dependencies with `yarn install`.
+3. To configure the database, rename sample.env to .env and update the values to match your database configuration.
 
 ## How to run Survey ETL
 
