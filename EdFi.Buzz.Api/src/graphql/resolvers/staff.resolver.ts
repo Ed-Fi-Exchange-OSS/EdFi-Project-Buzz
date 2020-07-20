@@ -53,6 +53,7 @@ export default class StaffResolvers {
   }
 
   @Query('studentsbystaff')
+  @UseGuards(ValidateStaffIdGuard)
   async findStudentsByStaff(
     @Args('staffkey')
     staffkey: number,
@@ -61,6 +62,7 @@ export default class StaffResolvers {
   }
 
   @Query('studentbystaff')
+  @UseGuards(ValidateStaffIdGuard)
   async findStudentByStaff(
     @Args('staffkey')
     staffkey: number,
