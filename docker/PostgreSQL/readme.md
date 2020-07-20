@@ -5,7 +5,7 @@ It maps the standard PostgreSQL port 5432 for access by the localhost, with user
 
 * Container name: `edfi-buzz-pg`
 * Volume name: `edfi-buzz-pg-data`
-* Database name: `EdFi_Buzz`
+* Database name: `edfi_buzz`
 
 Windows users: setup file sharing before starting the container, as there is a script in this directory that needs to run inside the container.
 

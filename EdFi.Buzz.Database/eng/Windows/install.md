@@ -12,7 +12,7 @@ You will need to provide the following parameters
 
 * Host name (default: `localhost`)
 * Port number (default: 5432)
-* Database name (default: `EdFi_Buzz`)
+* Database name (default: `edfi_buzz`)
 * User name (default: `postgres`)
 * Password (no default value)
 
@@ -32,7 +32,7 @@ $params = @{
     DbPort = 5430
     DbUserName = "super"
     DbPassword = "myPassword"
-    DbName = "EdFi_Buzz"
+    DbName = "edfi_buzz"
 }
 .\install.ps1 @params
 ```
