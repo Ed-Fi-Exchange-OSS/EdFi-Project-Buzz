@@ -24,6 +24,7 @@ export default class StaffResolvers {
   }
 
   @Query('staffbyid')
+  @UseGuards(ValidateStaffIdGuard)
   async staffById(
     @Args('staffkey')
     staffkey: number,
