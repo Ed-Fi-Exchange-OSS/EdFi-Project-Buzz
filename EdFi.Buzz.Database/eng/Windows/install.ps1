@@ -21,7 +21,7 @@ param(
   $DbPassword,
 
   [string]
-  $DbName = "EdFi_Buzz"
+  $DbName = "edfi_buzz"
 )
 $InstallPath = "$PSScriptRoot/../dist"
 if (-not(Test-Path $InstallPath)) {
