@@ -24,6 +24,8 @@ export default class StaffEntity {
 
   @Column() electronicmailaddress: string;
 
+  @Column() isadminsurveyloader: boolean;
+
   @ManyToMany(() => SectionEntity, section => section.sectionkey)
   @JoinTable()
   sections?: SectionEntity[];
