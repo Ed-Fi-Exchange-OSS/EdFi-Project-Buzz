@@ -30,11 +30,11 @@ type GoogleJwks = {
 };
 
 type JwtHeader = {
-  kid: string;
+  kid?: string;
 };
 
 type JwtToken = {
-  header: JwtHeader;
+  header?: JwtHeader;
 };
 
 @Injectable()
@@ -61,26 +61,44 @@ export default class AuthGuard implements CanActivate {
 
   // eslint-disable-next-line
   async createPem(token: string): Promise<string> {
-    const googleDiscoDoc: GoogleDisco = await this.getJsonData<GoogleDisco>(process.env.GOOGLE_DISCOVERY);
-    // eslint-disable-next-line
-    const jwks: GoogleJwks = await this.getJsonData<GoogleJwks>(googleDiscoDoc.jwks_uri);
-    const decodedToken: JwtToken = jwt.decode(token, { complete: true, json: true }) as JwtToken;
-    const keyId = decodedToken.header.kid;
-    const jwk = jwks.keys.filter(k => k.kid === keyId)[0];
-    return jwkToPem({ n: jwk.n, kty: jwk.kty, e: jwk.e });
+      const googleDiscoDoc: GoogleDisco = await this.getJsonData<GoogleDisco>(process.env.GOOGLE_DISCOVERY);
+      if (googleDiscoDoc === null) {
+        throw new Error('Google Discovery document could not be retrieved');
+      }
+
+      // eslint-disable-next-line
+      const jwks: GoogleJwks = await this.getJsonData<GoogleJwks>(googleDiscoDoc.jwks_uri);
+      if (jwks === null) {
+        throw new Error('Google JSON Web Key Store could not be retrieved');
+      }
+
+      const decodedToken: JwtToken = jwt.decode(token, { complete: true, json: true }) as JwtToken;
+      if (decodedToken === null) {
+        throw new Error('Invalid token');
+      }
+
+      const keyId = decodedToken?.header?.kid;
+
+      if (keyId === null) {
+        throw new Error('The key ID for the token was not found');
+      }
+
+      const jwk = jwks.keys.filter(k => k.kid === keyId)[0];
+
+      return jwkToPem({ n: jwk.n, kty: jwk.kty, e: jwk.e });
   }
 
   // eslint-disable-next-line
   async validateToken(auth: string): Promise<string|object> {
     if (auth.split(' ')[0] !== 'Bearer') {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('No authorization header', HttpStatus.UNAUTHORIZED);
     }
     const token: string = auth.split(' ')[1];
     try {
       const pem = await this.createPem(token);
       return jwt.verify(token, pem);
     } catch (err) {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(err.message, HttpStatus.UNAUTHORIZED);
     }
   }
 }
