@@ -4,5 +4,6 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 export const environment = {
-  production: true
+  production: true,
+  NODE_TLS_REJECT_UNAUTHORIZED: '1'
 };

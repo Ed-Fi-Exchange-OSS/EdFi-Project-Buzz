@@ -29,9 +29,11 @@ fetch('assets/environment.json')
       }
       window['tempConfigStorage'] = config;
 
-      if (environment.production) {
-        enableProdMode();
-      }
+    if (environment.production) {
+      enableProdMode();
+    }
+
+    console.log(`NODE_TLS_REJECT_UNAUTHORIZED := ${environment.NODE_TLS_REJECT_UNAUTHORIZED}`);
 
       platformBrowserDynamic(providers).bootstrapModule(AppModule)
         .catch((err: any) => console.log(err));
