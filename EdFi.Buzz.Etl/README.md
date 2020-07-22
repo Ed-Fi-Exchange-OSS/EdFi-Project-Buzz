@@ -21,7 +21,7 @@ That is it =)
 2. Install dependencies with `yarn install`.
 3. To configure the database, rename sample.env to .env and update the values to match your database configuration.
 
-## How to run Survey ETL
+## How to run Survey ETL file directly in Node
 
 For testing with the survey sample data:
     1. Use edfi.buzz.etl/surveySampleData/InsertSampleStudentData.sql to insert buzz.studentschool
@@ -30,6 +30,33 @@ For testing with the survey sample data:
 ```bash
 $ cd edfi.buzz.etl
 $ node ./src/surveyETL.js ./surveySampleData/InternetAccessSurvey.csv "Internet Access"
+```
+
+## How to run a Graphile Worker as a service to load Surveys
+
+Graphile Worker allows the ETL to run as a service. It will watch the graphile-worker jobs table for new jobs. The initial execution creates the required database schema objects needed to manage jobs. In production, the Project Buzz API will manage creating new survey jobs to process. Use the testing step below to add an individual survey for processing.
+
+```bash
+$ cd edfi.buzz.etl
+$ npx graphile-worker -c "postgres://user:password@database.url:port/edfi_buzz"
+```
+
+### Testing the Survey Runner task manually
+
+The surveyRunner task can execute a survey job manuall. Run the following SQL and replace the example staffkey,  survey name and file path location.
+Once the graphile-worker is running, add a job using the following SQL in the edfi_buzz PostgreSQL database.
+
+```sql
+SELECT graphile_worker.add_job('surveyLoader', json_build_object('staffkey', '1030', 'filename', 'Contact Survey', 'path', 'file://c/dev/some.file'), NULL,NULL,NULL,'asdklasdklasd');
+```
+
+The output should resemble the following:
+
+```
+$ npx graphile-worker -c "postgresql://postgres:pa55w0rd@localhost/edfi_buzz"
+[core] INFO: Worker connected and looking for jobs... (task names: 'surveyLoader')
+[job(worker-e7fec78d77f1c43645: surveyLoader{19})] INFO: Running the Survey loader for 1030 to load the Contact Survey located at file://c/dev/some.file
+[worker(worker-e7fec78d77f1c43645)] INFO: Completed task 19 (surveyLoader) with success (0.76ms)
 ```
 
 ## How to run Database ETL
