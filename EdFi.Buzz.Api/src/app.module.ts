@@ -13,6 +13,7 @@ import SectionModule from './graphql/modules/section.module';
 import StaffModule from './graphql/modules/staff.module';
 import StudentSchoolModule from './graphql/modules/studentschool.module';
 import StudentNoteModule from './graphql/modules/studentnote.module';
+import TaskItemModule from './graphql/modules/taskitem.module';
 import SurveySummaryModule from './graphql/modules/surveysummary.module';
 import SurveySummaryQuestionsModule from './graphql/modules/surveysummaryquestions.module';
 import StudentSurveyModule from './graphql/modules/studentsurvey.module';
@@ -43,6 +44,7 @@ config({ path: `${__dirname}/.env` });
     StudentSurveyModule,
     SurveySummaryModule,
     SurveySummaryQuestionsModule,
+    TaskItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],

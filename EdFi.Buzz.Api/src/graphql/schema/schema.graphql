@@ -4,6 +4,7 @@
 # See the LICENSE and NOTICES files in the project root for more information.
 
 type Mutation {
+  addtaskitem(taskitem: TaskItem) : String
   addstudentnote(staffkey: Int!, studentschoolkey: String!, note: String!): StudentNote
 }
 type Query{
@@ -182,4 +183,10 @@ type School{
   stateeducationagencykey: Int
   educationservicecentername: String
   educationservicecenterkey: Int
+}
+
+input TaskItem{
+  staffkey: String
+  filename: String
+  path: String
 }
