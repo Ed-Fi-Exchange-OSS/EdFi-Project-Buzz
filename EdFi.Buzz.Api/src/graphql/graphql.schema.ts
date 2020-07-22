@@ -5,6 +5,12 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export class TaskItem {
+    staffkey?: string;
+    filename?: string;
+    path?: string;
+}
+
 export class AnswersByStudent {
     surveykey?: string;
     surveyquestionkey?: string;
@@ -33,6 +39,8 @@ export class ContactPerson {
 }
 
 export abstract class IMutation {
+    abstract addtaskitem(taskitem?: TaskItem): string | Promise<string>;
+
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
 }
 
