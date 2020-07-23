@@ -79,7 +79,7 @@ async function getOrSaveStudentSurvey(surveykey, studentAnswers, db) {
   const date = studentAnswers[SURVEY_DATE_FIELD];
   const studentkey = studentAnswers[STUDENT_SCHOOL_KEY_FIELD];
   const studentSchoolKeyRow = await db.query('SELECT studentschoolkey FROM buzz.studentschool s WHERE studentkey = $1', [studentkey]);
-  if (studentSchoolKeyRow.rows.length == 0) {
+  if (studentSchoolKeyRow.rows.length === 0) {
     console.error(`ERROR: StudentUniqueId (${studentkey}) not found `);
     return null;
   }
