@@ -26,6 +26,6 @@ export default class SurveyFileResolvers {
   ): Promise<string> {
     const taskItem = this.surveyFileService.writeFile(staffkey.toString(), content);
     taskItem.title = title;
-    return (await this.taskItemService.addTaskItem(taskItem)).id;
+    return (await this.taskItemService.addTaskItem(taskItem)).key;
   }
 }
