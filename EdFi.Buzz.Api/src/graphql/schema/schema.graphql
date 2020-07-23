@@ -184,9 +184,3 @@ type School{
   educationservicecentername: String
   educationservicecenterkey: Int
 }
-
-input TaskItem{
-  staffkey: String
-  filename: String
-  path: String
-}
