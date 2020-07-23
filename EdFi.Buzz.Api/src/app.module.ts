@@ -17,6 +17,7 @@ import TaskItemModule from './graphql/modules/taskitem.module';
 import SurveySummaryModule from './graphql/modules/surveysummary.module';
 import SurveySummaryQuestionsModule from './graphql/modules/surveysummaryquestions.module';
 import StudentSurveyModule from './graphql/modules/studentsurvey.module';
+import SurveyFileModule from './graphql/modules/surveyfile.module';
 
 config({ path: `${__dirname}/.env` });
 
@@ -45,6 +46,7 @@ config({ path: `${__dirname}/.env` });
     SurveySummaryModule,
     SurveySummaryQuestionsModule,
     TaskItemModule,
+    SurveyFileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
