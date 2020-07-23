@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 // import { UseGuards } from '@nestjs/common';
-import { Args, Resolver, Mutation } from '@nestjs/graphql';
+import { Args, Resolver } from '@nestjs/graphql';
 import { TaskItem } from '../graphql.schema';
 import TaskItemService from '../services/taskitem.service';
 

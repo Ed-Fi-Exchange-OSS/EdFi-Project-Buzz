@@ -40,6 +40,8 @@ export class ContactPerson {
 
 export abstract class IMutation {
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
+
+    abstract uploadsurvey(staffkey: string, title: string, content: string): string | Promise<string>;
 }
 
 export abstract class IQuery {
