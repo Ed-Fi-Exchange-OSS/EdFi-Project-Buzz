@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -5,12 +6,6 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class TaskItem {
-    staffkey?: string;
-    filename?: string;
-    path?: string;
-}
-
 export class AnswersByStudent {
     surveykey?: string;
     surveyquestionkey?: string;
