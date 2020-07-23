@@ -5,6 +5,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { makeWorkerUtils, Job } from 'graphile-worker';
+import { v4 as uuidv4 } from 'uuid';
 import TaskItem from '../entities/queues/taskitem.entity';
 
 @Injectable()
@@ -20,6 +21,6 @@ export default class TaskItemService {
     const workerUtils = await makeWorkerUtils({
       connectionString: `${this.connectionString}`,
     });
-    return workerUtils.addJob(this.queueName, JSON.stringify(taskItem));
+    return workerUtils.addJob(this.queueName, JSON.stringify(taskItem), { jobKey: uuidv4() });
   }
 }

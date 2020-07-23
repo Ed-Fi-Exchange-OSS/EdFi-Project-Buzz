@@ -5,7 +5,7 @@
 
 // import { UseGuards } from '@nestjs/common';
 import { Args, Resolver } from '@nestjs/graphql';
-import { TaskItem } from '../graphql.schema';
+import TaskItem from '../entities/queues/taskitem.entity';
 import TaskItemService from '../services/taskitem.service';
 
 @Resolver('TaskItem')
