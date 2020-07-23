@@ -10,20 +10,6 @@ import TaskItemService from '../services/taskitem.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([])],
-  providers: [
-    TaskItemService,
-    TaskItemResolvers,
-    {
-      provide: 'WORKER_CONNECTIONSTRING',
-      useValue: `postgres://postgres:${process.env.BUZZ_API_DB_PASSWORD}@${process.env.BUZZ_API_DB_HOST}:${parseInt(
-        process.env.BUZZ_API_DB_PORT,
-        10,
-      )}/${process.env.BUZZ_API_DB_DATABASE}?ssl=0`,
-    },
-    {
-      provide: 'WORKER_QUEUE_NAME',
-      useValue: process.env.BUZZ_WORKER_JOB_NAME,
-    },
-  ],
+  providers: [TaskItemService, TaskItemResolvers],
 })
 export default class TaskItemModule {}
