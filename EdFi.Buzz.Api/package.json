@@ -34,6 +34,7 @@
     "class-transformer": "0.2.3",
     "class-validator": "0.12.2",
     "dotenv": "^8.2.0",
+    "graphile-worker": "^0.6.0",
     "graphql": "14.5.0",
     "graphql-tools": "6.0.9",
     "jsonwebtoken": "^8.5.1",
@@ -43,7 +44,8 @@
     "pg": "^8.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.2.25",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

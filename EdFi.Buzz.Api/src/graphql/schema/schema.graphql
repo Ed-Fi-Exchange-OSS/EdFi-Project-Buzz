@@ -5,6 +5,7 @@
 
 type Mutation {
   addstudentnote(staffkey: Int!, studentschoolkey: String!, note: String!): StudentNote
+  uploadsurvey(staffkey: ID!, title: String!, content: String!): String
 }
 type Query{
   staffbyemail: Staff
