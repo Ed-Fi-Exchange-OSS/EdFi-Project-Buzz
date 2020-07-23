@@ -4,12 +4,13 @@
     "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js"
   },
   "dependencies": {
-    "csv-parser": "^2.3.3",
     "babel-eslint": "^10.1.0",
+    "csv-parser": "^2.3.3",
     "dotenv": "^8.2.0",
     "eslint": "^7.3.1",
     "etl": "^0.6.12",
     "fs": "^0.0.1-security",
+    "graphile-worker": "^0.6.0",
     "msnodesqlv8": "^1.1.6",
     "mssql": "^6.2.0",
     "path": "^0.12.7",
