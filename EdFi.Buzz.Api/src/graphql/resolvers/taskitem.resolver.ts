@@ -13,7 +13,6 @@ export default class TaskItemResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly taskItemService: TaskItemService) {}
 
-  @Mutation('addtaskitem')
   async addtaskitem(@Args('taskitem') taskItem: TaskItem): Promise<string> {
     return (await this.taskItemService.addTaskItem(taskItem)).id;
   }
