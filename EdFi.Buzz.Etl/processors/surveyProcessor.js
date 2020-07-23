@@ -25,6 +25,14 @@ async function getDB() {
   return client;
 }
 
+async function isAdminSurveyLoader(staffkey, db) {
+  return db
+    .query('SELECT isadminsurveyloader FROM buzz.staff where staffkey = $1;', [staffkey])
+    .then(async (result) => {
+      return Boolean(result.rows[0]);
+    });
+}
+
 async function Extract(fileName) {
   let questions = null;
   const answers = [];
@@ -124,7 +132,7 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
   return Promise.allSettled(promises);
 }
 
-async function saveAllStudentsAnswers(surveykey, questions,
+async function saveAllStudentsAnswers(staffkey, surveykey, questions,
   studentSurveyAnswers, db, surveyProfile) {
   const questionKeyMap = {};
   questions.forEach((element) => {
@@ -133,14 +141,14 @@ async function saveAllStudentsAnswers(surveykey, questions,
   const promises = [];
   for (let i = 0; i < studentSurveyAnswers.length; i += 1) {
     const currentAnswer = studentSurveyAnswers[i];
-    promises.push(getOrSaveStudentSurvey(surveykey, currentAnswer, db)
+    promises.push(getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db)
       .then((studentsurvey) => saveStudentAnswers(studentsurvey, questionKeyMap,
         currentAnswer, db, surveyProfile)));
   }
   return Promise.allSettled(promises);
 }
 
-async function Load(surveytitle, questions, answers, db) {
+async function Load(staffkey, surveytitle, questions, answers, db) {
   const survey = await getOrSaveSurvey(surveytitle, db);
   const surveyProfile = {
     survey,
@@ -151,15 +159,21 @@ async function Load(surveytitle, questions, answers, db) {
     },
   };
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
-  await saveAllStudentsAnswers(survey.surveykey, survey.questions, answers, db, surveyProfile);
+  await saveAllStudentsAnswers(
+    staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile,
+  );
   await db.end();
   return surveyProfile;
 }
 
-const process = async (surveytitle, filename) => {
-  const data = await Extract(filename);
+const process = async (staffkey, surveytitle, filename) => {
   const db = await getDB();
-  const result = await Load(surveytitle, data.questions, data.answers, db);
+  if (!(await isAdminSurveyLoader(staffkey, db))) {
+    throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
+  }
+
+  const data = await Extract(filename);
+  const result = await Load(staffkey, surveytitle, data.questions, data.answers, db);
   console.log('result:', {
     survey: {
       surveykey: result.survey.surveykey,

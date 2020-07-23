@@ -7,5 +7,5 @@ const surveyProcessor = require('../processors/surveyProcessor');
 module.exports = async (payload, helpers) => {
   const { staffkey, filename, path } = payload;
   helpers.logger.info(`Running the Survey loader for ${staffkey} to load the ${filename} located at ${path}`);
-  await surveyProcessor.process(filename, path);
+  await surveyProcessor.process(staffkey, filename, path);
 };
