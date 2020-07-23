@@ -4,4 +4,6 @@ export default class TaskItem {
   filename?: string;
 
   path?: string;
+
+  title?: string;
 }
