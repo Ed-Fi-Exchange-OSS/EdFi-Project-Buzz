@@ -83,6 +83,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
         ],
         canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard]
       },
       { path: 'login', component: LoginComponent },
       // when security and auth guards applied change it to redirect to '' then auth guard login will redirect to login if necessary.

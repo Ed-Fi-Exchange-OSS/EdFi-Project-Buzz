@@ -14,6 +14,7 @@ query($staffkey:ID!){
     firstname
     middlename
     electronicmailaddress
+    isadminsurveyloader
     sections{
       sectionkey
       localcoursecode
@@ -33,6 +34,7 @@ query($staffkey:ID!){
     firstname
     middlename
     electronicmailaddress
+    isadminsurveyloader
   }
 }
 `;
@@ -46,6 +48,7 @@ query {
     firstname
     middlename
     electronicmailaddress
+    isadminsurveyloader
     sections {
       sectionkey
       localcoursecode
