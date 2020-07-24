@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
@@ -25,12 +25,12 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  async validateSocialUser(socialUser: SocialUser): Promise<boolean> {
+  async validateSocialUser(email: string, idToken: string): Promise<boolean> {
     // TODO: Get user profile data from graphql.  Waiting implementation
     const teacher = await this.teacherService.getTeacher();
     const user: User = {
-      email: socialUser.email,
-      token: socialUser.idToken,
+      email: email,
+      token: idToken,
       teacher: teacher
     };
     this.storage.setItem('currentUser', JSON.stringify(user));

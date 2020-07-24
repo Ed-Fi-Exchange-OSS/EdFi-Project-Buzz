@@ -34,7 +34,7 @@ export class StudentDetailComponent implements OnInit {
     private router: Router,
     private title: Title
   ) {
-    title.setTitle('Buzz Student Detail');
+    this.title.setTitle('Buzz Student Detail');
     this.editingNote = -1;
     this.currentTeacher = this.api.authentication.currentUserValue.teacher;
     this.siblingsIsCollapsed = true;

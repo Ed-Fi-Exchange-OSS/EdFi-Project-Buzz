@@ -40,11 +40,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.model.user = null;
     this.socialAuthService.authState.subscribe(async (user) => {
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-
-      console.log('trace this');
-      console.log(sessionStorage.getItem('currentUser'));
-      console.log(user);
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
       if (!user) {
         return;
@@ -57,8 +53,10 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('validatingToken', user.idToken);
 
       // authenticationService
-      if (await this.api.authentication.validateSocialUser(user)) {
-        this.router.navigate([this.returnUrl]);
+      const isUserValid = await this.api.authentication.validateSocialUser(user.email, user.idToken);
+      sessionStorage.removeItem('validatingToken');
+      if (isUserValid) {
+        this.router.navigate([returnUrl]);
       }
     });
   }
