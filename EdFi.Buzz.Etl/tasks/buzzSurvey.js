@@ -5,17 +5,16 @@
 const surveyProcessor = require('../processors/surveyProcessor');
 
 module.exports = async (payload, helpers) => {
-  const {
-    staffkey,
-    title,
-    filename,
-    path,
-  } = payload;
-  helpers.logger.info(`Running the Survey loader for ${staffkey} to load '${title}', filename: ${filename}, path: ${path}`);
   try {
+    const {
+      staffkey, title, filename, path,
+    } = JSON.parse(payload);
+    helpers.logger.info(
+      `Running the Survey loader for ${staffkey} to load '${title}', filename: ${filename}, path: ${path}`,
+    );
     await surveyProcessor.process(staffkey, title, filename, path);
+    helpers.logger.info(`Finished processing task for ${staffkey} ${title} ${filename} ${path}`);
   } catch (error) {
     helpers.logger.error(error);
   }
-  helpers.logger.info(`Finished processing task for ${staffkey} ${title} ${filename} ${path}`);
 };
