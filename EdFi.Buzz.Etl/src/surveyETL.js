@@ -14,6 +14,7 @@ function getArgs(argv) {
   const args = {
     debug: true,
     help: false,
+    staffkey: null,
     filename: '../surveySampleData/InternetAccessSurvey.csv',
     surveyTitle: 'Internet Access',
   };
@@ -23,12 +24,12 @@ function getArgs(argv) {
     return args;
   }
 
-  if (argv.length > 4 || argv.length < 4) {
-    args.help = !args.debug && argv.length < 4;
+  if (argv.length > 5 || argv.length < 5) {
+    args.help = !args.debug && argv.length < 5;
     return args;
   }
 
-  [, , args.filename, args.surveyTitle] = argv;
+  [, , args.staffkey, args.filename, args.surveyTitle] = argv;
 
   return args;
 }
@@ -42,7 +43,7 @@ async function main() {
   }
 
   console.time('Load survey time');
-  await surveyProcessor.process(args.surveyTitle, args.filename);
+  await surveyProcessor.process(args.staffkey, args.surveyTitle, args.filename);
   console.timeEnd('Load survey time');
 }
 
