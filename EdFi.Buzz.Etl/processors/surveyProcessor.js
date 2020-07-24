@@ -8,6 +8,7 @@ const dotnet = require('dotenv');
 
 dotnet.config();
 const csv = require('csv-parser');
+const path = require('path');
 const fs = require('fs');
 const { Client } = require('pg');
 const { pgConfig } = require('../config/dbs');
@@ -41,8 +42,9 @@ async function isAdminSurveyLoader(staffkey, db) {
 async function Extract(fileName) {
   let questions = null;
   const answers = [];
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     fs.createReadStream(fileName)
+      .on('error', (err) => reject(err))
       .pipe(csv())
       .on('headers', (headers) => {
         questions = headers;
@@ -191,13 +193,13 @@ async function Load(staffkey, surveytitle, questions, answers, db) {
   return surveyProfile;
 }
 
-const process = async (staffkey, surveytitle, filename) => {
+const process = async (staffkey, surveytitle, filename, filePath) => {
   const db = await getDB();
   if (!(await isAdminSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 
-  const data = await Extract(filename);
+  const data = await Extract(path.join(filePath, filename));
   const result = await Load(staffkey, surveytitle, data.questions, data.answers, db);
   console.log('result:', {
     survey: {
