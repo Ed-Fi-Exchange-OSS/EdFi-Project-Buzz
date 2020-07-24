@@ -65,16 +65,16 @@ export default class SectionService {
       .innerJoin(
         ContactPersonEntity,
         'cpsibling',
-        `cpsibling.uniquekey = siblingcontact.contactkey and students.studentkey=cpsibling.studentkey`,
+        'cpsibling.uniquekey = siblingcontact.contactkey and students.studentkey=cpsibling.studentkey',
       )
-      .innerJoin(ContactPersonEntity, 'cpcurrentstudent', `cpcurrentstudent.contactpersonkey = cpsibling.contactpersonkey`)
+      .innerJoin(ContactPersonEntity, 'cpcurrentstudent', 'cpcurrentstudent.contactpersonkey = cpsibling.contactpersonkey')
       .innerJoin(
         StudentContactEntity,
         'currentstudentcontact',
         `currentstudentcontact.studentschoolkey = '${studentschoolkey}' AND cpcurrentstudent.uniquekey = currentstudentcontact.contactkey`,
       )
       .where(
-        `(cpcurrentstudent.RelationshipToStudent like :father or cpcurrentstudent.RelationshipToStudent like :mother) AND (cpsibling.RelationshipToStudent like :father or cpsibling.RelationshipToStudent like :mother)`,
+        '(cpcurrentstudent.RelationshipToStudent like :father or cpcurrentstudent.RelationshipToStudent like :mother) AND (cpsibling.RelationshipToStudent like :father or cpsibling.RelationshipToStudent like :mother)',
         { father: `${this.fatherText}%`, mother: `${this.motherText}%` },
       )
       .getMany();

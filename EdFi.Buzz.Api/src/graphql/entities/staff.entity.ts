@@ -3,7 +3,9 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity, Column, PrimaryColumn, ManyToMany, JoinTable,
+} from 'typeorm';
 import { config } from 'dotenv';
 import SectionEntity from './section.entity';
 
@@ -26,7 +28,7 @@ export default class StaffEntity {
 
   @Column() isadminsurveyloader: boolean;
 
-  @ManyToMany(() => SectionEntity, section => section.sectionkey)
+  @ManyToMany(() => SectionEntity, (section) => section.sectionkey)
   @JoinTable()
   sections?: SectionEntity[];
 }

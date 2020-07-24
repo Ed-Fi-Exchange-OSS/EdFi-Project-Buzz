@@ -3,7 +3,9 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { Args, Parent, Query, Resolver, ResolveProperty } from '@nestjs/graphql';
+import {
+  Args, Parent, Query, Resolver, ResolveProperty,
+} from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { Staff, Section, StudentSchool } from '../graphql.schema';
@@ -25,50 +27,35 @@ export default class StaffResolvers {
 
   @Query('staffbyid')
   @UseGuards(ValidateStaffIdGuard)
-  async staffById(
-    @Args('staffkey')
-    staffkey: number,
-  ): Promise<Staff> {
+  async staffById(@Args('staffkey') staffkey: number): Promise<Staff> {
     return this.staffService.findOneById(staffkey);
   }
 
   @Query('sectionbystaff')
   @UseGuards(ValidateStaffIdGuard)
-  async findSectionByStaff(
-    @Args('staffkey')
-    staffkey: number,
-    @Args('sectionkey')
-    sectionkey: string,
-  ): Promise<Section> {
+  async findSectionByStaff(@Args('staffkey') staffkey: number,
+    @Args('sectionkey') sectionkey: string): Promise<Section> {
     return this.staffService.findSectionByStaff(staffkey, sectionkey);
   }
 
   @Query('sectionsbystaff')
   @UseGuards(ValidateStaffIdGuard)
-  async findSectionsByStaff(
-    @Args('staffkey')
-    staffkey: number,
-  ): Promise<Section[]> {
+  async findSectionsByStaff(@Args('staffkey') staffkey: number): Promise<Section[]> {
     return this.staffService.findSectionsByStaff(staffkey);
   }
 
   @Query('studentsbystaff')
   @UseGuards(ValidateStaffIdGuard)
   async findStudentsByStaff(
-    @Args('staffkey')
-    staffkey: number,
+    @Args('staffkey') staffkey: number,
   ): Promise<StudentSchool[]> {
     return this.staffService.findStudentsByStaff(staffkey);
   }
 
   @Query('studentbystaff')
   @UseGuards(ValidateStaffIdGuard)
-  async findStudentByStaff(
-    @Args('staffkey')
-    staffkey: number,
-    @Args('studentschoolkey')
-    studentschoolkey: string,
-  ): Promise<StudentSchool> {
+  async findStudentByStaff(@Args('staffkey') staffkey: number,
+    @Args('studentschoolkey') studentschoolkey: string): Promise<StudentSchool> {
     return this.staffService.findStudentByStaff(staffkey, studentschoolkey);
   }
 
@@ -80,11 +67,8 @@ export default class StaffResolvers {
 
   @ResolveProperty('section')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async section(
-    @Parent() parent,
-    @Args('sectionkey')
-    sectionkey: string,
-  ): Promise<Section> {
+  async section(@Parent() parent,
+    @Args('sectionkey') sectionkey: string): Promise<Section> {
     return this.staffService.findSectionByStaff(parent.staffkey, sectionkey);
   }
 }

@@ -25,7 +25,7 @@ export default class SurveySummaryQuestionsService {
 
   async findAnswersByQuestion(sectionkey: string, surveyquestionkey: number): Promise<SurveySummaryAnswersEntity[]> {
     return this.BuzzAnswersRepository.createQueryBuilder('SurveySummaryAnswers')
-      .leftJoin(SurveySummaryQuestionsEntity, 'ss', `SurveySummaryAnswers.surveyquestionkey = ss.surveyquestionkey`)
+      .leftJoin(SurveySummaryQuestionsEntity, 'ss', 'SurveySummaryAnswers.surveyquestionkey = ss.surveyquestionkey')
       .where({ sectionkey, surveyquestionkey })
       .getMany();
   }

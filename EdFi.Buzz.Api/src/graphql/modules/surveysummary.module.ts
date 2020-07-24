@@ -16,7 +16,9 @@ import SurveySummaryQuestionsEntity from '../entities/survey/surveysummaryquesti
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SurveySummaryEntity, SurveySummaryQuestionsEntity, StaffEntity, SectionEntity, StudentEntity]),
+    TypeOrmModule.forFeature(
+      [SurveySummaryEntity, SurveySummaryQuestionsEntity, StaffEntity, SectionEntity, StudentEntity],
+    ),
   ],
   providers: [SurveySummaryService, StaffService, SurveySummaryResolvers],
 })

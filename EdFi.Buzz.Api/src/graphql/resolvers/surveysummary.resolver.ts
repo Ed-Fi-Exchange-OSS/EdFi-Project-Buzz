@@ -3,7 +3,9 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { Args, Query, Resolver, ResolveProperty, Parent } from '@nestjs/graphql';
+import {
+  Args, Query, Resolver, ResolveProperty, Parent,
+} from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { SurveySummary, SurveySummaryQuestions } from '../graphql.schema';
@@ -19,12 +21,10 @@ export default class SurveySummaryResolvers {
 
   @Query()
   @UseGuards(ValidateStaffIdGuard)
-  async surveysummary(
-    @Args('title', { nullable: false }) title: string,
+  async surveysummary(@Args('title', { nullable: false }) title: string,
     @Args('staffkey', { nullable: false }) staffkey: number,
     @Args('sectionkey', { nullable: false }) sectionkey: string,
-    @Args('surveykey', { nullable: true }) surveykey: number,
-  ): Promise<SurveySummary[]> {
+    @Args('surveykey', { nullable: true }) surveykey: number): Promise<SurveySummary[]> {
     return this.surveySummaryService.findAll(title, staffkey, sectionkey, surveykey);
   }
 

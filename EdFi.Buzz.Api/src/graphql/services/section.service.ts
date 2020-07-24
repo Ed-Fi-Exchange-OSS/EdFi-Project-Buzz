@@ -29,7 +29,7 @@ export default class SectionService {
 
   async findStudentBySection(sectionkey: string, studentschoolkey: string): Promise<StudentSchoolEntity> {
     return this.BuzzStudentSchoolRepository.createQueryBuilder('student')
-      .innerJoin(StudentSectionEntity, 'ss', `student.studentschoolkey = ss.studentschoolkey`)
+      .innerJoin(StudentSectionEntity, 'ss', 'student.studentschoolkey = ss.studentschoolkey')
       .where(`ss.studentschoolkey='${studentschoolkey}' and ss.sectionkey='${sectionkey}'`)
       .getOne();
   }

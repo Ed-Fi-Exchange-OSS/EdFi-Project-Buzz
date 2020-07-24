@@ -16,14 +16,13 @@ import TaskItemService from '../services/taskitem.service';
 @Resolver('SurveyFile')
 export default class SurveyFileResolvers {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly surveyFileService: SurveyFileService, private readonly taskItemService: TaskItemService) {}
+  constructor(private readonly surveyFileService: SurveyFileService,
+    private readonly taskItemService: TaskItemService) {}
 
   @Mutation('uploadsurvey')
-  async uploadsurvey(
-    @Args('staffkey') staffkey: number,
+  async uploadsurvey(@Args('staffkey') staffkey: number,
     @Args('content') content: string,
-    @Args('title') title: string,
-  ): Promise<string> {
+    @Args('title') title: string): Promise<string> {
     const taskItem = this.surveyFileService.writeFile(staffkey.toString(), content);
     taskItem.title = title;
     return (await this.taskItemService.addTaskItem(taskItem)).key;

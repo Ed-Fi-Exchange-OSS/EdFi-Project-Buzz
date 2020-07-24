@@ -3,7 +3,9 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { CanActivate, ExecutionContext, Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  CanActivate, ExecutionContext, Injectable, HttpException, HttpStatus,
+} from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import fetch from 'node-fetch';
 import * as jwkToPem from 'jwk-to-pem';
@@ -51,7 +53,7 @@ export default class AuthGuard implements CanActivate {
 
   // eslint-disable-next-line
    async getJsonData<T>(url: string): Promise<T> {
-    return fetch(url).then(response => {
+    return fetch(url).then((response) => {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
@@ -61,31 +63,31 @@ export default class AuthGuard implements CanActivate {
 
   // eslint-disable-next-line
   async createPem(token: string): Promise<string> {
-      const googleDiscoDoc: GoogleDisco = await this.getJsonData<GoogleDisco>(process.env.GOOGLE_DISCOVERY);
-      if (googleDiscoDoc === null) {
-        throw new Error('Google Discovery document could not be retrieved');
-      }
+    const googleDiscoDoc: GoogleDisco = await this.getJsonData<GoogleDisco>(process.env.GOOGLE_DISCOVERY);
+    if (googleDiscoDoc === null) {
+      throw new Error('Google Discovery document could not be retrieved');
+    }
 
-      // eslint-disable-next-line
+    // eslint-disable-next-line
       const jwks: GoogleJwks = await this.getJsonData<GoogleJwks>(googleDiscoDoc.jwks_uri);
-      if (jwks === null) {
-        throw new Error('Google JSON Web Key Store could not be retrieved');
-      }
+    if (jwks === null) {
+      throw new Error('Google JSON Web Key Store could not be retrieved');
+    }
 
-      const decodedToken: JwtToken = jwt.decode(token, { complete: true, json: true }) as JwtToken;
-      if (decodedToken === null) {
-        throw new Error('Invalid token');
-      }
+    const decodedToken: JwtToken = jwt.decode(token, { complete: true, json: true }) as JwtToken;
+    if (decodedToken === null) {
+      throw new Error('Invalid token');
+    }
 
-      const keyId = decodedToken?.header?.kid;
+    const keyId = decodedToken?.header?.kid;
 
-      if (keyId === null) {
-        throw new Error('The key ID for the token was not found');
-      }
+    if (keyId === null) {
+      throw new Error('The key ID for the token was not found');
+    }
 
-      const jwk = jwks.keys.filter(k => k.kid === keyId)[0];
+    const jwk = jwks.keys.filter((k) => k.kid === keyId)[0];
 
-      return jwkToPem({ n: jwk.n, kty: jwk.kty, e: jwk.e });
+    return jwkToPem({ n: jwk.n, kty: jwk.kty, e: jwk.e });
   }
 
   // eslint-disable-next-line
