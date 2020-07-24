@@ -21,6 +21,6 @@ export default class TaskItemService {
     const workerUtils = await makeWorkerUtils({
       connectionString: `${this.connectionString}`,
     });
-    return workerUtils.addJob(this.queueName, JSON.stringify(taskItem), { jobKey: uuidv4() });
+    return workerUtils.addJob(this.queueName, taskItem, { jobKey: uuidv4() });
   }
 }

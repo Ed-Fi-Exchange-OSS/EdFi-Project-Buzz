@@ -18,7 +18,7 @@ export default class SurveyFileService {
     };
     this.createDirectory(staffKey);
     const csvText = this.decodedFileContent(fileContent);
-    fs.writeFileSync(`${taskItem.path}${taskItem.filename}.csv`, csvText);
+    fs.writeFileSync(`${taskItem.path}${taskItem.filename}`, csvText);
     return taskItem;
   }
 
@@ -27,7 +27,7 @@ export default class SurveyFileService {
     const d = new Date();
     const datestring = `${d.getFullYear()}-${d.getMonth() +
       1}-${d.getDate()}-${d.getHours()}-${d.getMinutes()}-${d.getSeconds()}-${d.getMilliseconds()}`;
-    return filePrefix + datestring;
+    return filePrefix + datestring + '.csv';
   };
 
   decodedFileContent = (base64Text: string): string => {
