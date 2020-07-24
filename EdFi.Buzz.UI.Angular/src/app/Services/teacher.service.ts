@@ -18,7 +18,7 @@ export class TeacherApiService {
 
   async getTeacher(): Promise<Teacher> {
     const client = this.apollo.getClient();
-    const { data } = await client.query({ query: getStaffByEMail });
+    const { data } = await client.query({ query: getStaffByEMail, fetchPolicy: 'network-only' });
     const staff = data.staffbyemail;
     const teacher: Teacher = <Teacher>staff;
 
