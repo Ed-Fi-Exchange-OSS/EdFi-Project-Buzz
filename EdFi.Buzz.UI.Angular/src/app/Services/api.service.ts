@@ -11,6 +11,7 @@ import { SurveyAnalyticsApiService } from './surveyAnalytics.service';
 import { SectionApiService } from './section.service';
 import { AuthenticationService } from './authentication.service';
 import { StudentNotesApiService } from './studentNotes.service';
+import { SurveyService } from './survey.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -18,12 +19,13 @@ export class ApiService {
 
   constructor(
     // public oauth: OAuthApiService,
+    public authentication: AuthenticationService,
+    public section: SectionApiService,
     public student: StudentApiService,
     public studentNotesApiService: StudentNotesApiService,
-    public teacher: TeacherApiService,
     public surveyAnalytics: SurveyAnalyticsApiService,
-    public section: SectionApiService,
-    public authentication: AuthenticationService
-    ) { }
+    public teacher: TeacherApiService,
+    public survey: SurveyService
+  ) { }
 
 }

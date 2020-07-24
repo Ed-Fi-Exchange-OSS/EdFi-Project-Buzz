@@ -42,10 +42,6 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.authState.subscribe(async (user) => {
       const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-      console.log('trace this');
-      console.log(sessionStorage.getItem('currentUser'));
-      console.log(user);
-
       if (!user) {
         return;
       }

@@ -142,10 +142,8 @@ export class SurveyAnalytics2Component implements OnInit {
   scrollIntoView(elementId: string) {
     const element = document.getElementById(elementId);
     if (element) {
-      console.log(`${element.id} found, scrolling`);
       element.scrollIntoView();
     } else {
-      console.log(`${elementId} not found, waiting`);
       window.setTimeout(() => this.scrollIntoView(elementId), 500);
     }
   }

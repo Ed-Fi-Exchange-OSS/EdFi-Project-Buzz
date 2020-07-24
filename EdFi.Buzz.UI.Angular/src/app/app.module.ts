@@ -1,18 +1,17 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { ChartsModule } from 'ng2-charts';
 
@@ -31,7 +30,8 @@ import { SurveyAnalytics2Component } from './Features/SurveyAnalytics2/surveyAna
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
-import { HttpClient } from '@angular/common/http';
+import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.component';
+import { DndDirective } from './directives/dnd.directive';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -64,7 +64,9 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     SurveyCardComponent,
     StudentDetailComponent,
     SurveyAnalytics2Component,
-    LoginComponent
+    UploadSurveyComponent,
+    LoginComponent,
+    DndDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -75,12 +77,14 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     HttpLinkModule,
     FormsModule,
     ChartsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
           { path: '', component: TeacherLandingComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
+          { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard]
