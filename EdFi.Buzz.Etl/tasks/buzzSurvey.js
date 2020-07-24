@@ -8,7 +8,7 @@ module.exports = async (payload, helpers) => {
   try {
     const {
       staffkey, title, filename, path,
-    } = JSON.parse(payload);
+    } = payload;
     helpers.logger.info(
       `Running the Survey loader for ${staffkey} to load '${title}', filename: ${filename}, path: ${path}`,
     );
