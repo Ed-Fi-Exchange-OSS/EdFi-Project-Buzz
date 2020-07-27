@@ -6,8 +6,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Teacher } from '../Models';
-import { SocialUser } from 'angularx-social-login';
 import { TeacherApiService } from './teacher.service';
+import { Apollo } from 'apollo-angular';
+import { ApolloHelper} from '../Helpers/apollo.helper';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -15,7 +16,10 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
   readonly storage = window.sessionStorage;
 
-  constructor(private teacherService: TeacherApiService) {
+  constructor(
+    private teacherService: TeacherApiService,
+    private apollo: Apollo
+    ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -33,6 +37,7 @@ export class AuthenticationService {
       token: idToken,
       teacher: teacher
     };
+    ApolloHelper.clearApolloStorage(this.apollo.getClient());
     this.storage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     return true;
@@ -42,7 +47,10 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     this.storage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    // clear graphql cache
+    ApolloHelper.clearApolloStorage(this.apollo.getClient());
   }
+
 }
 
 export class User {

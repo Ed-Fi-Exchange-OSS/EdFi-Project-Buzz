@@ -31,7 +31,7 @@ import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
 import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.component';
-import { DndDirective } from './directives/dnd.directive';
+import { DndDirective } from './Directives/dnd.directive';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
