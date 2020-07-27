@@ -14,15 +14,15 @@ import { EnvironmentService } from './environment.service';
   providedIn: 'root'
 })
 export class SurveyService {
-  public readonly SURVEY_MAX_FILE_SIZE: number;
+  public readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
 
   constructor(private apollo: Apollo, private env: EnvironmentService) {
-    this.SURVEY_MAX_FILE_SIZE = this.env.environment.SURVEY_MAX_FILE_SIZE;
+    this.SURVEY_MAX_FILE_SIZE_BYTES = this.env.environment.SURVEY_MAX_FILE_SIZE_BYTES;
   }
 
   async uploadSurvey(staffKey: number, title: string, content: string) {
-    if (content.length > this.SURVEY_MAX_FILE_SIZE) {
-      return Promise.reject(`Encoded file size (${ (content.length / 1024.0).toFixed(2) }) must be less than ${ (this.SURVEY_MAX_FILE_SIZE / 1024.0).toFixed(2) } Kb`);
+    if (content.length > this.SURVEY_MAX_FILE_SIZE_BYTES) {
+      return Promise.reject(`Encoded file size (${ (content.length / 1024.0).toFixed(2) }) must be less than ${ (this.SURVEY_MAX_FILE_SIZE_BYTES / 1024.0).toFixed(2) } Kb`);
     }
     const client = this.apollo.getClient();
     return client

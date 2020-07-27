@@ -27,14 +27,14 @@ export class UploadSurveyComponent {
   isFileSelected = false;
   isFileUploading = false;
   message: FileStatus;
-  readonly SURVEY_MAX_FILE_SIZE: number;
+  readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
 
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
     private title: Title
   ) {
-    this.SURVEY_MAX_FILE_SIZE = this.api.survey.SURVEY_MAX_FILE_SIZE;
+    this.SURVEY_MAX_FILE_SIZE_BYTES = this.api.survey.SURVEY_MAX_FILE_SIZE_BYTES;
     this.currentUserStaffKey = this.api.authentication.currentUserValue.teacher.staffkey;
 
     this.title.setTitle('Buzz Upload Survey');
@@ -49,8 +49,8 @@ export class UploadSurveyComponent {
     if (!file) {
       return { fileName: '', status: 'ERROR', error: 'No file selected', isValid: false };
     }
-    if (file.size > this.SURVEY_MAX_FILE_SIZE) {
-      const error = `File size (${ (file.size / 1024.0).toFixed(2) } Kb) must be less than ${(this.SURVEY_MAX_FILE_SIZE / (1024)).toFixed(2)} Kb`;
+    if (file.size > this.SURVEY_MAX_FILE_SIZE_BYTES) {
+      const error = `File size (${ (file.size / 1024.0).toFixed(2) } Kb) must be less than ${(this.SURVEY_MAX_FILE_SIZE_BYTES / (1024)).toFixed(2)} Kb`;
       const message = { fileName: file.name, status: 'ERROR', error: error, isValid: false };
       return message;
     }
