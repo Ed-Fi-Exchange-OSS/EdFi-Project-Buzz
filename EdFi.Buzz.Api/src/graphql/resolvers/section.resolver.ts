@@ -4,7 +4,9 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { UseGuards } from '@nestjs/common';
-import { Args, Parent, Resolver, ResolveProperty } from '@nestjs/graphql';
+import {
+  Args, Parent, Resolver, ResolveProperty,
+} from '@nestjs/graphql';
 import { Section, StudentSchool } from '../graphql.schema';
 import SectionService from '../services/section.service';
 import AuthGuard from '../auth.guard';
@@ -19,20 +21,14 @@ export default class SectionResolvers {
     return this.sectionsService.findAll();
   }
 
-  async findOneById(
-    @Args('sectionkey')
-    sectionkey: string,
-  ): Promise<Section> {
+  async findOneById(@Args('sectionkey') sectionkey: string): Promise<Section> {
     return this.sectionsService.findOneById(sectionkey);
   }
 
   @ResolveProperty('student')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async student(
-    @Parent() parent,
-    @Args('studentschoolkey')
-    studentschoolkey: string,
-  ): Promise<StudentSchool> {
+  async student(@Parent() parent,
+    @Args('studentschoolkey') studentschoolkey: string): Promise<StudentSchool> {
     return this.sectionsService.findStudentBySection(parent.sectionkey, studentschoolkey);
   }
 

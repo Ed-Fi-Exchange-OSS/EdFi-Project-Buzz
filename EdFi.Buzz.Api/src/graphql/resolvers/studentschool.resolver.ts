@@ -4,8 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { UseGuards } from '@nestjs/common';
-import { Parent, Args, Resolver, ResolveProperty } from '@nestjs/graphql';
-import { StudentSchool, ContactPerson, StudentSurvey, StudentNote } from '../graphql.schema';
+import {
+  Parent, Args, Resolver, ResolveProperty,
+} from '@nestjs/graphql';
+import {
+  StudentSchool, ContactPerson, StudentSurvey, StudentNote,
+} from '../graphql.schema';
 import StudentSchoolService from '../services/studentschool.service';
 import AuthGuard from '../auth.guard';
 
@@ -21,8 +25,7 @@ export default class StudentSchoolResolvers {
   }
 
   async findOneById(
-    @Args('studentschoolkey')
-    studentschoolkey: string,
+    @Args('studentschoolkey') studentschoolkey: string,
   ): Promise<StudentSchool> {
     return this.studentschoolService.findOneById(studentschoolkey);
   }

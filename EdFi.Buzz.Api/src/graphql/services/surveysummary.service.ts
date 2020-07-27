@@ -18,7 +18,9 @@ export default class SurveySummaryService {
     private readonly BuzzQuestionsRepository: Repository<SurveySummaryQuestionsEntity>,
   ) {}
 
-  async findAll(title: string, staffkey: number, sectionkey: string, surveykey?: number): Promise<SurveySummaryEntity[]> {
+  async findAll(
+    title: string, staffkey: number, sectionkey: string, surveykey?: number,
+  ): Promise<SurveySummaryEntity[]> {
     const surveyTitleFilter = title ? ` AND LOWER(SurveySummary.title) like LOWER('%${title}%')` : '';
     const sectionKeyFilter = ` AND SurveySummary.sectionkey = '${sectionkey}'`;
     const surveyKeyFilter = surveykey ? ` AND SurveySummary.surveykey = ${surveykey}` : '';

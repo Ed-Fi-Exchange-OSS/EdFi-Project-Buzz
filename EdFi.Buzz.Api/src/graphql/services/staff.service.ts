@@ -41,14 +41,14 @@ export default class StaffService {
 
   async findSectionByStaff(staffkey: number, sectionkey: string): Promise<SectionEntity> {
     return this.BuzzSectionRepository.createQueryBuilder('section')
-      .innerJoin(StaffSectionAssociationEntity, 'ssa', `section.sectionkey = ssa.sectionkey`)
+      .innerJoin(StaffSectionAssociationEntity, 'ssa', 'section.sectionkey = ssa.sectionkey')
       .where(`section.sectionkey='${sectionkey}' and ssa.staffkey='${staffkey}'`)
       .getOne();
   }
 
   async findStudentsByStaff(staffkey: number): Promise<StudentEntity[]> {
     return this.BuzzStudentRepository.createQueryBuilder('student')
-      .innerJoin(StudentSectionEntity, 'studentsection', `studentsection.studentschoolkey = student.studentschoolkey`)
+      .innerJoin(StudentSectionEntity, 'studentsection', 'studentsection.studentschoolkey = student.studentschoolkey')
       .innerJoin(
         StaffSectionAssociationEntity,
         'ssa',
@@ -59,7 +59,7 @@ export default class StaffService {
 
   async findStudentByStaff(staffkey: number, studentschoolkey: string): Promise<StudentEntity> {
     return this.BuzzStudentRepository.createQueryBuilder('student')
-      .innerJoin(StudentSectionEntity, 'studentsection', `studentsection.studentschoolkey = student.studentschoolkey`)
+      .innerJoin(StudentSectionEntity, 'studentsection', 'studentsection.studentschoolkey = student.studentschoolkey')
       .innerJoin(
         StaffSectionAssociationEntity,
         'ssa',

@@ -25,9 +25,9 @@ export default class SurveyFileService {
   filename = (): string => {
     const filePrefix = 'surveyfile_';
     const d = new Date();
-    const datestring = `${d.getFullYear()}-${d.getMonth() +
-      1}-${d.getDate()}-${d.getHours()}-${d.getMinutes()}-${d.getSeconds()}-${d.getMilliseconds()}`;
-    return filePrefix + datestring + '.csv';
+    const datestring = `${d.getFullYear()}-${d.getMonth()
+      + 1}-${d.getDate()}-${d.getHours()}-${d.getMinutes()}-${d.getSeconds()}-${d.getMilliseconds()}`;
+    return `${filePrefix + datestring}.csv`;
   };
 
   decodedFileContent = (base64Text: string): string => {

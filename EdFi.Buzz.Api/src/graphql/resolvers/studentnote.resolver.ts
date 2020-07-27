@@ -16,11 +16,9 @@ export default class StudentNoteResolvers {
   constructor(private readonly studentNoteService: StudentNoteService) {}
 
   @Mutation('addstudentnote')
-  async addstudentnote(
-    @Args('staffkey') staffkey: number,
+  async addstudentnote(@Args('staffkey') staffkey: number,
     @Args('studentschoolkey') studentschoolkey: string,
-    @Args('note') note: string,
-  ): Promise<StudentNote> {
+    @Args('note') note: string): Promise<StudentNote> {
     return this.studentNoteService.addStudentNote({
       studentnotekey: null,
       note,

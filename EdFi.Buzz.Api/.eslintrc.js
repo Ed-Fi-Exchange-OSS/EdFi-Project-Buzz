@@ -4,37 +4,42 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 module.exports = {
-  extends: ["airbnb-typescript-prettier"],
+  extends: ["airbnb-typescript/base"],
+  parserOptions: {
+    project: './tsconfig.json',
+  },
   overrides: [
     {
       files: [
         "**/*.test.js",
-        "**/*.test.jsx",
         "**/*.test.ts",
-        "**/*.test.tsx",
         "**/*.spec.ts",
         "**/*.e2e-spec.ts",
       ],
       env: {
         jest: true
-      },
-      rules: {
-        "linebreak-style": [
-          "error",
-          "unix"
-        ],
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            "devDependencies": [
-              "**/*.test.ts",
-              "**/*.test.tsx",
-              "**/*.spec.ts",
-              "**/*.e2e-spec.ts"
-            ]
-          }
-        ]
       }
     }
-  ]
+  ],
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.spec.ts",
+          "**/*.e2e-spec.ts"
+        ]
+      }
+    ],
+    "max-len": ["error", 120,
+      {
+        "ignoreTemplateLiterals": true,
+        "ignoreStrings": true,
+      }]
+  }
 };
