@@ -74,6 +74,7 @@ export class SurveyAnalytics2Component implements OnInit {
   async search() {
     this.surveyMetadataList = await this.api.surveyAnalytics.getSurveyMetadata(this.currentSectionKey, this.searchInSurvey);
     this.showSearchResults = true;
+    this.showSurvey = false;
   }
 
   async selectSurvey(surveyKey: number, surveyTitle: string) {

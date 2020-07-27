@@ -36,8 +36,12 @@
 <h1 *ngIf="showSearchResults">Search Results</h1>
 
 <div *ngIf="showSearchResults" class="row" >
-  <div *ngFor="let surveyMetadata of surveyMetadataList; let i = index "
-    class="col-12 col-md-6">
+  <div *ngIf="surveyMetadataList.length === 0" class="col-12">
+    <div class="alert alert-warning">
+      No survey found.
+    </div>
+  </div>
+  <div *ngFor="let surveyMetadata of surveyMetadataList; let i = index " class="col-12 col-md-6">
     <div class="card survey-metadata" >
       <div class="card-body" [ngClass]="{'survey-selected' :  surveyMetadata.surveykey === currentQuestion.surveyId }">
         <div [ngStyle]="{'borderLeftColor': colorList[i % 6]}"
