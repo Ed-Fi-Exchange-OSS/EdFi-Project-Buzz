@@ -19,31 +19,22 @@ That is it =)
 
 1. Download the repository.
 2. Install dependencies with `yarn install`.
-3. To configure the database, rename sample.env to .env and update the values to match your database configuration.
+3. To configure the database, rename .env.example to .env and update the values to match your database configuration.
 
-## How to run Survey ETL file directly in Node
+## Executing Survey Loader as a service to load files
 
-For testing with the survey sample data:
-    1. Use edfi.buzz.etl/surveySampleData/InsertSampleStudentData.sql to insert buzz.studentschool
-    2. edfi.buzz.etl/surveySampleData/* are example csv's to import that have studentkeys references to surveySampleData/InsertSampleStudentData.sql.
+Graphile Worker allows the Survey Loader  to run as a service. It will watch the graphile-worker jobs table in the edfi_buzz database for new jobs. The initial execution creates the required database schema objects needed to manage jobs. In production, the Project Buzz API will manage creating new survey jobs to process. Use the testing step below to add an individual survey for processing.
 
-```bash
-$ cd edfi.buzz.etl
-$ node ./src/surveyETL.js ./surveySampleData/InternetAccessSurvey.csv "Internet Access"
-```
-
-## How to run a Graphile Worker as a service to load Surveys
-
-Graphile Worker allows the ETL to run as a service. It will watch the graphile-worker jobs table for new jobs. The initial execution creates the required database schema objects needed to manage jobs. In production, the Project Buzz API will manage creating new survey jobs to process. Use the testing step below to add an individual survey for processing.
+The ETL Survey Loader can run as a service using the `yarn start:survey` task.
 
 ```bash
 $ cd edfi.buzz.etl
-$ npx graphile-worker -c "postgres://user:password@database.url:port/edfi_buzz"
+$ yarn start:survey
 ```
 
-### Testing the Survey Runner task manually
+### Create a Survey Loader job manually
 
-The surveyRunner task can execute a survey job manuall. Run the following SQL and replace the example staffkey,  survey name and file path location.
+The survey loader task can also load individual files manually. Run the following SQL and replace the example staffkey,  survey name and file path location.
 Once the graphile-worker is running, add a job using the following SQL in the edfi_buzz PostgreSQL database.
 
 ```sql
@@ -53,28 +44,30 @@ SELECT graphile_worker.add_job('surveyLoader', json_build_object('staffkey', '10
 The output should resemble the following:
 
 ```
-$ npx graphile-worker -c "postgresql://postgres:pa55w0rd@localhost/edfi_buzz"
+$ yarn start:survey
 [core] INFO: Worker connected and looking for jobs... (task names: 'surveyLoader')
 [job(worker-e7fec78d77f1c43645: surveyLoader{19})] INFO: Running the Survey loader for 1030 to load the Contact Survey located at file://c/dev/some.file
 [worker(worker-e7fec78d77f1c43645)] INFO: Completed task 19 (surveyLoader) with success (0.76ms)
 ```
 
-## How to run Database ETL
+## Running the Database Loader
 
-The database ETL module (./src/dbETL.js) is executed directly by node.
+The ETL Database module (./src/dbETL.js) is executed by yarn via the start:db task, or directly by node.
 
 ### PRECONDITIONS:
 
 - You have created a .env file, or renamed the sample.env and edited it to match your configuration.
-- You have a SQL Server install with an EdFi database with AMT views. If you want to load ODS only - update the - - BUZZ_SQLSOURCE value to 'ods' in your your .env file.
+- You have a SQL Server install with an EdFi database with AMT views. If you want to load ODS only - update the - BUZZ_SQLSOURCE value to 'ods' in your your .env file.
 - You have a Postgres local database called Buzz. (Run db-migrate up in the database sub).
 
-### Running the Database ETL
+### Running the Database Loader
 
-To run the database, navigate to the EdFi.Buzz.Etl directory, and execute ./src/dbEtl.js with node. Your output should look something like the following.
+To run the database, navigate to the EdFi.Buzz.Etl directory, and execute `yarn start:db`. Alternatively, you can run the `./src/dbEtl.js` file directly with node.
+
+Your output should look something like the following.
 
 ```powershell
-PS C:\dev\Ed-Fi\Buzz\edfi.buzz.etl> node ./src/dbEtl.js
+PS C:\dev\Ed-Fi\Buzz\edfi.buzz.etl> yarn start:db
 loading records from amt
 [School] loading....
 [School] Loaded records: 45
@@ -134,7 +127,7 @@ ODS_ENCRYPT=false
 
 ```powershell
 $ cd EdFi.Buzz.Etl
-$ node ./src/dbETL.js
+$ yarn start:db
 ```
 
 
