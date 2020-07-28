@@ -3,12 +3,13 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
 import { Route, ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
 import { Student, Teacher, StudentNote } from 'src/app/Models';
 import { NgModel } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+declare var $:any;
 
 @Component({
   selector: 'app-student-detail',
@@ -25,6 +26,8 @@ export class StudentDetailComponent implements OnInit {
 
   isSurveysVisible: boolean;
   isNotesVisible: boolean;
+
+  noteToDelete:number;
 
   @ViewChild('noteInput', {static: false}) noteInput: ElementRef;
 
@@ -87,12 +90,22 @@ export class StudentDetailComponent implements OnInit {
     this.editingNote = -1;
     this.student.notes.splice(0, 1);
   }
-  deleteNote(studentNoteKey: number) {
-    const idx = this.student.notes.findIndex(el => el.studentnotekey === studentNoteKey);
-    if (idx > -1) {
-      this.student.notes.splice(idx, 1);
+  deleteNote() {
+    $('#deletenoteconfirmation').modal('hide')
+    if (this.noteToDelete) {
+    this.api.studentNotesApiService
+      .deleteStudentNote(this.currentTeacher.staffkey, this.noteToDelete)
+      .then(() => {
+        const idx = this.student.notes.findIndex(el => el.studentnotekey === this.noteToDelete);
+        if (idx > -1) {
+          this.student.notes.splice(idx, 1);
+        }
+        this.noteToDelete = null;
+      });
     }
-    this.api.student.save();
+  }
+  setNoteToDelete(studentNoteKey: number) {
+    this.noteToDelete = studentNoteKey;
   }
 
   viewSurveys() {
