@@ -2,7 +2,8 @@
   "scripts": {
     "lint": "eslint --fix \"./**/*.{js,jsx,ts,tsx}\"",
     "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js",
-    "start": "env-cmd -x npx graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\""
+    "start:survey": "env-cmd -x npx graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\"",
+    "start:db": "node -r .\\src\\dbEtl.js"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
