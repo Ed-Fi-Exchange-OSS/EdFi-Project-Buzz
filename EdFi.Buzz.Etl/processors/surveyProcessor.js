@@ -101,7 +101,7 @@ async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db) {
   const studentkey = studentAnswers[STUDENT_SCHOOL_KEY_FIELD];
 
   const studentSchoolKeyRow = await db.query(
-    'SELECT DISTINCT s.studentschoolkey FROM buzz.studentschool s INNER JOIN buzz.studentsection ss ON s.studentschoolkey = ss.studentschoolkey INNER JOIN buzz.staffsectionassociation ssa ON ss.sectionkey = ssa.sectionkey WHERE s.studentkey = $1 AND ssa.staffkey = $2',
+    'SELECT DISTINCT s.studentschoolkey FROM buzz.studentschool s INNER JOIN buzz.studentsection ss ON s.studentschoolkey = ss.studentschoolkey INNER JOIN buzz.staffsectionassociation ssa ON ss.sectionkey = ssa.sectionkey WHERE s.studentkey = $1 AND ssa.staffkey = $2 AND EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) UNION SELECT DISTINCT s.studentschoolkey FROM buzz.studentschool s INNER JOIN buzz.studentsection ss ON s.studentschoolkey = ss.studentschoolkey CROSS JOIN buzz.staff staff WHERE s.studentkey = $1 AND (staff.staffkey = $2 and staff.isadminsurveyloader = true)',
     [studentkey, staffkey],
   );
   if (studentSchoolKeyRow.rows.length === 0) {
