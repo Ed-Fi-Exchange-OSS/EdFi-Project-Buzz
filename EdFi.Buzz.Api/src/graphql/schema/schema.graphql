@@ -55,8 +55,6 @@ type StudentNote {
   studentschoolkey: String
   staffkey: Int
   dateadded: String
-  deletedat: String
-  deletedby: String
 }
 
 type StudentSurvey{
