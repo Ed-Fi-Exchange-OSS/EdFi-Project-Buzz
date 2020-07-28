@@ -3,7 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { Component, ElementRef, ViewChild, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Route, ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
 import { Student, Teacher, StudentNote } from 'src/app/Models';
