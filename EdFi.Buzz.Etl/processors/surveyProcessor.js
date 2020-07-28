@@ -33,10 +33,13 @@ async function getDB() {
   return client;
 }
 
-async function isAdminSurveyLoader(staffkey, db) {
+async function isSurveyLoader(staffkey, db) {
   return db
-    .query('SELECT isadminsurveyloader FROM buzz.staff where staffkey = $1;', [staffkey])
-    .then(async (result) => Boolean(result.rows[0]));
+    .query('SELECT isadminsurveyloader, isteachersurveyloader FROM buzz.staff where staffkey = $1;', [staffkey])
+    .then(async (result) => {
+      const { isadminsurveyloader, isteachersurveyloader } = result.rows[0];
+      return Boolean(isadminsurveyloader) || Boolean(isteachersurveyloader);
+    });
 }
 
 async function Extract(fileName) {
@@ -162,7 +165,10 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
   return Promise.allSettled(promises);
 }
 
-async function saveAllStudentsAnswers(staffkey, surveykey, questions, studentSurveyAnswers, db, surveyProfile) {
+async function saveAllStudentsAnswers(
+  staffkey, surveykey, questions,
+  studentSurveyAnswers, db, surveyProfile,
+) {
   const questionKeyMap = {};
   questions.forEach((element) => {
     questionKeyMap[element.question] = element.surveyquestionkey;
@@ -171,7 +177,10 @@ async function saveAllStudentsAnswers(staffkey, surveykey, questions, studentSur
   for (let i = 0; i < studentSurveyAnswers.length; i += 1) {
     const currentAnswer = studentSurveyAnswers[i];
     promises.push(
-      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db).then((studentsurvey) => saveStudentAnswers(studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile)),
+      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db)
+        .then((studentsurvey) => saveStudentAnswers(
+          studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile,
+        )),
     );
   }
   return Promise.allSettled(promises);
@@ -188,14 +197,16 @@ async function Load(staffkey, surveytitle, questions, answers, db) {
     },
   };
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
-  await saveAllStudentsAnswers(staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile);
+  await saveAllStudentsAnswers(
+    staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile,
+  );
   await db.end();
   return surveyProfile;
 }
 
 const process = async (staffkey, surveytitle, filename, filePath) => {
   const db = await getDB();
-  if (!(await isAdminSurveyLoader(staffkey, db))) {
+  if (!(await isSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 

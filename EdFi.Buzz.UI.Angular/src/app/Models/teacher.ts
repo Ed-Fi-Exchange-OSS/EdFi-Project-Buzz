@@ -15,6 +15,7 @@ export class Teacher {
   middlename: string;
   electronicmailaddress: string;
   isadminsurveyloader: boolean;
+  isteachersurveyloader: boolean;
 
   constructor() {
     this.sections = [];
