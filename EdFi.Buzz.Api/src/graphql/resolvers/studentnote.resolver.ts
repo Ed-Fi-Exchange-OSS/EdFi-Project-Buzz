@@ -26,4 +26,17 @@ export default class StudentNoteResolvers {
       staffkey,
     });
   }
+
+  @Mutation('deletestudentnote')
+  async deletestudentnote(@Args('staffkey') staffkey: number,
+    @Args('studentnotekey') studentnotekey: number): Promise<StudentNote> {
+    const deletedby = staffkey;
+    return this.studentNoteService.deleteStudentNote({
+      studentnotekey,
+      note: null,
+      studentschoolkey: null,
+      staffkey: null,
+      deletedby,
+    });
+  }
 }

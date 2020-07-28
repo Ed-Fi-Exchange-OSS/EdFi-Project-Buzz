@@ -102,7 +102,7 @@ export default class SectionService {
         'ss',
         `studentnotes.studentschoolkey = ss.studentschoolkey and ss.studentschoolkey='${studentschoolkey}'`,
       )
-      .where({ studentschoolkey })
+      .where('(studentnotes.deletedat IS NULL)')
       .orderBy('studentnotekey', 'DESC')
       .getMany();
   }
