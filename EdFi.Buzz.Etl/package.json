@@ -1,4 +1,7 @@
 {
+  "name":"edfi.buzz.etl",
+  "version": "0.1.0",
+  "private":true,
   "scripts": {
     "lint": "eslint --fix \"./**/*.{js,jsx,ts,tsx}\"",
     "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js",
