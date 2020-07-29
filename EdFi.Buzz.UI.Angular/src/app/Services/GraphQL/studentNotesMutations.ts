@@ -15,5 +15,13 @@ mutation ($staffkey: Int!, $studentschoolkey: String!, $note: String!) {
 }
 `;
 
-export { addStudentNote };
+const deleteStudentNote = gql`
+mutation ($staffkey: Int!, $studentnotekey: Int!) {
+  deletestudentnote(staffkey: $staffkey, studentnotekey: $studentnotekey){
+    studentnotekey
+  }
+}
+`;
+
+export { addStudentNote, deleteStudentNote };
 

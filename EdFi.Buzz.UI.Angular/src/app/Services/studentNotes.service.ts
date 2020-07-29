@@ -5,7 +5,7 @@
 
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { addStudentNote } from './GraphQL/StudentNotesMutations';
+import { addStudentNote, deleteStudentNote } from './GraphQL/StudentNotesMutations';
 import { StudentNote } from '../Models';
 
 @Injectable({ providedIn: 'root' })
@@ -21,4 +21,9 @@ export class StudentNotesApiService {
       .then(result =>  result.data.addstudentnote );
   }
 
+  async deleteStudentNote(staffKey: number, studentnotekey: number): Promise<StudentNote> {
+    const client = this.apollo.getClient();
+    return client.mutate({ mutation: deleteStudentNote, variables: { staffkey: staffKey , studentnotekey: studentnotekey } })
+      .then(result =>  result.data.deleteStudentNote);
+  }
 }
