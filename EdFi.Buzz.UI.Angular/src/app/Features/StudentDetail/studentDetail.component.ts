@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
 import { Student, Teacher, StudentNote } from 'src/app/Models';
 import { Title } from '@angular/platform-browser';
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-student-detail',
@@ -26,7 +26,7 @@ export class StudentDetailComponent implements OnInit {
   isSurveysVisible: boolean;
   isNotesVisible: boolean;
 
-  noteToDelete:number;
+  noteToDelete: number;
 
   @ViewChild('noteInput', {static: false}) noteInput: ElementRef;
 
