@@ -18,4 +18,13 @@ export default class StudentNoteService {
   async addStudentNote(note: StudentNoteEntity): Promise<StudentNoteEntity> {
     return this.BuzzStudentNotesRepository.save(note);
   }
+
+  async deleteStudentNote(note: StudentNoteEntity): Promise<StudentNoteEntity> {
+    const d = new Date();
+    const datestring = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    const noteToDelete = await this.BuzzStudentNotesRepository.findOne(note.studentnotekey);
+    noteToDelete.deletedby = note.deletedby;
+    noteToDelete.deletedat = datestring;
+    return this.BuzzStudentNotesRepository.save(noteToDelete);
+  }
 }

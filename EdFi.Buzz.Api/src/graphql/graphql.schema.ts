@@ -35,6 +35,8 @@ export class ContactPerson {
 export abstract class IMutation {
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
 
+    abstract deletestudentnote(staffkey: number, studentnotekey: number): StudentNote | Promise<StudentNote>;
+
     abstract uploadsurvey(staffkey: string, title: string, content: string): string | Promise<string>;
 }
 
@@ -89,6 +91,7 @@ export class Staff {
     lastsurname?: string;
     staffuniqueid?: string;
     electronicmailaddress?: string;
+    isadminsurveyloader?: boolean;
     section?: Section;
     sections?: Section[];
 }

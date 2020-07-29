@@ -18,4 +18,8 @@ export default class StudentNoteEntity {
   @Column() staffkey: number;
 
   @Column() dateadded?: string;
+
+  @Column() deletedat?: string;
+
+  @Column() deletedby?: number;
 }
