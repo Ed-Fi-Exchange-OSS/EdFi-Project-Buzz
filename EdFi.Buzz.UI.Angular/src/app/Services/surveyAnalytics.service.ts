@@ -52,8 +52,8 @@ export class SurveyAnalyticsApiService {
     if (data.surveysummary.length === 0) {
       return [];
     }
-    const surveysummary = data.surveysummary[0];
-    return surveysummary.questions.filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
+    const surveysummary = data.surveysummary[0].questions.filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
+    return surveysummary;
   }
   /*
   [

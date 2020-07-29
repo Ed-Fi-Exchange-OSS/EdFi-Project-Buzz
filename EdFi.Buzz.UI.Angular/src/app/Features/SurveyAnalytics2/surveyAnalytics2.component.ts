@@ -105,7 +105,7 @@ export class SurveyAnalytics2Component implements OnInit {
 
     this.surveyAnswers = await this.api.surveyAnalytics
       .getSurveyAnswers(this.currentQuestion.surveyId, this.currentQuestion.question, this.currentSectionKey);
-    this.surveyAnswersFiltered = this.surveyAnswers.answers;
+    this.surveyAnswersFiltered = this.surveyAnswers && this.surveyAnswers.answers ? this.surveyAnswers.answers : [];
 
     this.chartData = {
       options: {
