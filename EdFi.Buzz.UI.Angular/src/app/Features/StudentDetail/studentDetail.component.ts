@@ -4,10 +4,9 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { Route, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../Services/api.service';
 import { Student, Teacher, StudentNote } from 'src/app/Models';
-import { NgModel } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 declare var $:any;
 
@@ -91,7 +90,7 @@ export class StudentDetailComponent implements OnInit {
     this.student.notes.splice(0, 1);
   }
   deleteNote() {
-    $('#deletenoteconfirmation').modal('hide')
+    $('#deletenoteconfirmation').modal('hide');
     if (this.noteToDelete) {
     this.api.studentNotesApiService
       .deleteStudentNote(this.currentTeacher.staffkey, this.noteToDelete)
