@@ -1,16 +1,38 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-export class SurveyResult {
-  id: number;
-  name: string;
-  dateAnswered: Date;
-  items: SurveyItem[];
+export class SurveyMetadata {
+  surveyId: number;
+  surveyName: string;
+  questionCount: number;
+  totalStudents: number;
+  studentsAnswered: number;
 }
 
-export class SurveyItem {
+export class SurveyQuestionSummary {
+  surveykey: number;
   question: string;
+  answers: { label: string, count: number }[];
+}
+
+
+export class SurveyQuestionAnswers {
+  answers: SurveyQuestionAnswer[];
+  question: string;
+  surveyquestionkey: number;
+}
+
+export class SurveyQuestionAnswer {
   answer: string;
+  studentname: string;
+  studentschoolkey: string;
+}
+
+export class AllStudentAnswers {
+  studentname: string;
+  studentschoolkey: string;
+  questions: { [Key: number]: string };
+  answers: { [Key: number]: string };
 }
