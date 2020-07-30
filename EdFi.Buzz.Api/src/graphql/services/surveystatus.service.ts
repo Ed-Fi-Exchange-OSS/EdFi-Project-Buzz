@@ -7,12 +7,14 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
+import JobStatusEntity from '../entities/survey/jobstatus.entity';
 
 @Injectable()
 export default class SurveyStatusService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     @InjectRepository(SurveyStatusEntity) private readonly BuzzRepository: Repository<SurveyStatusEntity>,
+    @InjectRepository(JobStatusEntity) private readonly BuzzJobStatusRepository: Repository<JobStatusEntity>,
   ) {}
 
   async find(staffkey: number, jobkey: string): Promise<SurveyStatusEntity[]> {
@@ -21,6 +23,13 @@ export default class SurveyStatusService {
     }
 
     return this.BuzzRepository.find({ where: { staffkey } });
+  }
+
+  async findJobStatusByJobStatusKey(jobstatus: number): Promise<JobStatusEntity> {
+    return this.BuzzJobStatusRepository.createQueryBuilder('jobstatus')
+      .innerJoin(SurveyStatusEntity, 'sse', 'jobstatus.jobstatuskey = sse.jobstatuskey')
+      .where(`jobstatus.jobstatuskey=${jobstatus}`)
+      .getOne();
   }
 
   async addSurveyStatus(SurveyStatus: SurveyStatusEntity): Promise<SurveyStatusEntity> {

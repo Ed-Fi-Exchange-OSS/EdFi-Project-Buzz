@@ -32,6 +32,11 @@ export class ContactPerson {
     contactnotes?: string;
 }
 
+export class JobStatus {
+    jobstatuskey?: number;
+    description?: string;
+}
+
 export abstract class IMutation {
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
 
@@ -182,6 +187,7 @@ export class SurveyStatus {
     jobkey?: string;
     jobstatuskey?: number;
     resultsummary?: string;
+    jobstatus?: JobStatus;
 }
 
 export class SurveySummary {
