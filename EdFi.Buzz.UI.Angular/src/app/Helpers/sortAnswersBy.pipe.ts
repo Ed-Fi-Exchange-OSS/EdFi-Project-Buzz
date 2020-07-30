@@ -17,14 +17,14 @@ export class SortAnswersByPipe implements PipeTransform {
     const list = collection
       .sort((a, b) => {
         const firstField = this.compare(
-          this.getAnswerFromSurve(a, columnName),
-          this.getAnswerFromSurve(b, columnName),
+          this.getAnswerFromSurvey(a, columnName),
+          this.getAnswerFromSurvey(b, columnName),
           asc);
         if (firstField !== 0) {
           return firstField;
         }
-        return this.compare(this.getAnswerFromSurve(a, this.STUDENT_NAME_STRING),
-          this.getAnswerFromSurve(b, this.STUDENT_NAME_STRING),
+        return this.compare(this.getAnswerFromSurvey(a, this.STUDENT_NAME_STRING),
+          this.getAnswerFromSurvey(b, this.STUDENT_NAME_STRING),
           true);
       });
     return list;
@@ -36,7 +36,7 @@ export class SortAnswersByPipe implements PipeTransform {
       : (a === b ? 0 : ascValue * -1);
   }
 
-  getAnswerFromSurve(survey: any, question: string) {
+  getAnswerFromSurvey(survey: any, question: string) {
     if (!question) { return null; }
     const qUpper = question.toUpperCase();
     if (question === this.STUDENT_NAME_STRING) {
