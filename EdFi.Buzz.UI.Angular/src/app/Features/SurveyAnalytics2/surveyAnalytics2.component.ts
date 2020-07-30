@@ -39,7 +39,6 @@ export class SurveyAnalytics2Component implements OnInit {
   readonly STUDENT_NAME_STRING: string = 'Student Name';
   sortSurveyByColumn: string = this.STUDENT_NAME_STRING;
   sortSurveyByColumnAsc = true;
-  sortedSurveyStudentAnswers: any[];
 
   constructor(private api: ApiService, private title: Title) {
     title.setTitle('Buzz Survey Analytics');
@@ -150,47 +149,12 @@ export class SurveyAnalytics2Component implements OnInit {
   }
 
   changeSort(column: string) {
-    this.sortedSurveyStudentAnswers = null;
     if (this.sortSurveyByColumn === column) {
       this.sortSurveyByColumnAsc = !this.sortSurveyByColumnAsc;
     } else {
       this.sortSurveyByColumn = column;
       this.sortSurveyByColumnAsc = true;
     }
-  }
-  getAnswerFromSurve(survey: any, question: string) {
-    const qUpper = question.toUpperCase();
-    if (question === this.STUDENT_NAME_STRING) {
-      return survey.studentname;
-    }
-    const qMap = Object
-      .keys(survey.questions)
-      .reduce((acc, cur, arr) => { acc[survey.questions[cur].toUpperCase()] = cur; return acc; }, {});
-    return survey.answers[qMap[qUpper]];
-  }
-  compare(a: any, b: any, asc: boolean): number {
-    const ascValue: number = asc ? 1 : -1;
-    return a > b ? ascValue
-      : (a === b ? 0 : ascValue * -1);
-  }
-  sortSurveyBy(column: string) {
-    if (this.sortedSurveyStudentAnswers) { return this.sortedSurveyStudentAnswers; }
-
-    if (!this.allAnswersCurrentSurvey) { return []; }
-    const list = this.allAnswersCurrentSurvey
-      .sort((a, b) => {
-        const firstField = this.compare(this.getAnswerFromSurve(a, column),
-          this.getAnswerFromSurve(b, column),
-          this.sortSurveyByColumnAsc);
-        if (firstField !== 0) {
-          return firstField;
-        }
-        return this.compare(this.getAnswerFromSurve(a, this.STUDENT_NAME_STRING),
-          this.getAnswerFromSurve(b, this.STUDENT_NAME_STRING),
-          true);
-      });
-    this.sortedSurveyStudentAnswers = list;
-    return this.sortedSurveyStudentAnswers;
   }
 
 }

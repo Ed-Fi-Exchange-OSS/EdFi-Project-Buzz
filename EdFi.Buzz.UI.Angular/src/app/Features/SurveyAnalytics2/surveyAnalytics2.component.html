@@ -141,7 +141,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let student of sortSurveyBy(sortSurveyByColumn)">
+            <tr *ngFor="let student of allAnswersCurrentSurvey | sortAnswersBy : sortSurveyByColumn : sortSurveyByColumnAsc">
               <td>
                 <a [routerLink]="['/app/studentDetail', student.studentschoolkey]">
                   {{student.studentname}}
