@@ -32,7 +32,9 @@ export class AuthGuard implements CanActivate {
         const currentUser = this.authenticationService.currentUserValue;
         if (currentUser) {
             const roles = route.data && route.data.roles ? route.data.roles : [];
-            const userRol = currentUser.teacher && currentUser.teacher.isadminsurveyloader === true ? 'surveyUploader' : '';
+          const userRol = currentUser.teacher &&
+              (currentUser.teacher.isadminsurveyloader === true || currentUser.teacher.isteachersurveyloader === true) ?
+              'surveyUploader' : '';
             const allowed = roles.length === 0 || roles.includes(userRol);
             // logged in so return true
             return allowed;

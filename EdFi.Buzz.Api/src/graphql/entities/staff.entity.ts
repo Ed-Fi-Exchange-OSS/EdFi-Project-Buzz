@@ -28,6 +28,8 @@ export default class StaffEntity {
 
   @Column() isadminsurveyloader: boolean;
 
+  @Column() isteachersurveyloader: boolean;
+
   @ManyToMany(() => SectionEntity, (section) => section.sectionkey)
   @JoinTable()
   sections?: SectionEntity[];

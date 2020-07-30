@@ -9,7 +9,7 @@
           Welcome, {{teacher.firstname}} <i class="icon ion-md-person"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute;">
-          <a *ngIf="teacher.isadminsurveyloader" [routerLink]="['/app/uploadSurvey']" class="dropdown-item" ><i class="icon ion-md-cloud-upload"></i> Upload survey</a>
+          <a *ngIf="teacher.isadminsurveyloader || teacher.isteachersurveyloader" [routerLink]="['/app/uploadSurvey']" class="dropdown-item" ><i class="icon ion-md-cloud-upload"></i> Upload survey</a>
           <a class="dropdown-item" (click)="signOut();"><i class="icon ion-md-unlock"></i> Log out</a>
         </div>
       </li>

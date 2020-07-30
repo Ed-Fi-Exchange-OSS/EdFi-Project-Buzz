@@ -76,6 +76,7 @@ type Staff
   staffuniqueid: String
   electronicmailaddress: String
   isadminsurveyloader: Boolean
+  isteachersurveyloader: Boolean
   section(sectionkey:String!): Section
   sections: [Section]
 }
