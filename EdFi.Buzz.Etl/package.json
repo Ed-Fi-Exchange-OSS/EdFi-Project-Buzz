@@ -1,12 +1,15 @@
 {
-  "name":"edfi.buzz.etl",
+  "name": "edfi.buzz.etl",
   "version": "0.1.0",
-  "private":true,
+  "private": true,
+  "description": "File and database loader applications for Project Buzz",
   "scripts": {
     "lint": "eslint --fix \"./**/*.{js,jsx,ts,tsx}\"",
     "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js",
+    "build:clean": "rimraf dist",
+    "build": "node eng/build.js",
     "start:survey": "env-cmd -x npx graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\"",
-    "start:db": "node -r .\\src\\dbEtl.js"
+    "start:db": "node -r .\\src\\dbEtl.js",
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
@@ -24,6 +27,10 @@
     "tedious": "^8.3.0"
   },
   "devDependencies": {
+    "copyfile": "^0.1.2",
+    "copyfiles": "^2.3.0",
+    "del-cli": "^3.0.1",
+    "env-cmd": "^10.1.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -31,7 +38,10 @@
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "7.20.0",
-    "prettier": "^2.0.5"
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "synp": "^1.7.1"
   },
   "peerDependencies": {
     "eslint": "^7.3.1"
