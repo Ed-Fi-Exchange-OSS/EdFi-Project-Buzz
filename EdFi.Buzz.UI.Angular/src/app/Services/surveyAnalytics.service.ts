@@ -1,15 +1,14 @@
-﻿// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { Injectable } from '@angular/core';
-import { Student } from '../Models/student';
 import { StudentApiService } from './student.service';
-import { SurveyResult, Teacher } from '../Models';
 import { getSurveySummaryBySectionKey, getSurveyQuestionsSummary } from './GraphQL/surveyQueries';
 import { Apollo } from 'apollo-angular';
 import { AuthenticationService } from './authentication.service';
+import { SurveyMetadata, SurveyQuestionSummary, SurveyQuestionAnswers, AllStudentAnswers } from '../Models/survey';
 
 
 @Injectable({ providedIn: 'root' })
@@ -34,12 +33,12 @@ export class SurveyAnalyticsApiService {
         answer: string
         studentname: string
         studentschoolkey: string
-      }[]â€‹
+      }[];
       question: string
       surveyquestionkey: number
     }
    */
-  async getSurveyAnswers(surveyKey: number, question?: string, sectionKey?: string) {
+  async getSurveyAnswers(surveyKey: number, question?: string, sectionKey?: string): Promise<SurveyQuestionAnswers> {
     const client = this.apollo.getClient();
     const { data } = await client.query({
       query: getSurveyQuestionsSummary,
@@ -50,7 +49,7 @@ export class SurveyAnalyticsApiService {
       }
     });
     if (data.surveysummary.length === 0) {
-      return [];
+      return null;
     }
     const surveysummary = data.surveysummary[0].questions.filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
     return surveysummary;
@@ -66,7 +65,7 @@ export class SurveyAnalyticsApiService {
   ]
    */
 
-  async getAllSurveyAnswers(surveyKey: number, sectionKey?: string) {
+  async getAllSurveyAnswers(surveyKey: number, sectionKey?: string): Promise<AllStudentAnswers[]> {
     const client = this.apollo.getClient();
     const { data } = await client.query({
       query: getSurveyQuestionsSummary,
@@ -80,24 +79,25 @@ export class SurveyAnalyticsApiService {
       return [];
     }
 
-    const q = Object.values(data.surveysummary[0].questions.reduce((qacc, qcur) => {
-      return qcur.answers.reduce((aacc, acur) => {
-        let student = aacc[acur.studentschoolkey];
-        if (!student) {
-          student = {
-            studentname: acur.studentname,
-            studentschoolkey: acur.studentschoolkey,
-            questions: {},
-            answers: {}
-          };
-          aacc[acur.studentschoolkey] = student;
-        }
-        student.questions[qcur.surveyquestionkey] = qcur.question;
-        student.answers[qcur.surveyquestionkey] = acur.answer;
-        return aacc;
-      }, qacc);
-    }, {})
-    );
+    const q = Object.values(
+      data.surveysummary[0].questions.reduce((qacc, qcur) => {
+        return qcur.answers.reduce((aacc, acur) => {
+          let student = aacc[acur.studentschoolkey];
+          if (!student) {
+            student = {
+              studentname: acur.studentname,
+              studentschoolkey: acur.studentschoolkey,
+              questions: {},
+              answers: {}
+            };
+            aacc[acur.studentschoolkey] = student;
+          }
+          student.questions[qcur.surveyquestionkey] = qcur.question;
+          student.answers[qcur.surveyquestionkey] = acur.answer;
+          return aacc;
+        }, qacc);
+      }, {})
+    ) as AllStudentAnswers[];
     return q;
   }
 
@@ -109,7 +109,7 @@ export class SurveyAnalyticsApiService {
         studentsAnswered: number
       }]
   */
-  async getSurveyMetadata(sectionKey: string, filter: string) {
+  async getSurveyMetadata(sectionKey: string, filter: string): Promise<SurveyMetadata[]> {
     const client = this.apollo.getClient();
     const { data } = await client.query({
       query: getSurveySummaryBySectionKey,
@@ -132,7 +132,7 @@ export class SurveyAnalyticsApiService {
     ]
   }]
   */
-  async getSurveyQuestionSummaryList(surveyKey: number, sectionKey: string) {
+  async getSurveyQuestionSummaryList(surveyKey: number, sectionKey: string): Promise<SurveyQuestionSummary[]> {
     function calculateTopAnswers(answers: any[]) {
       const countAnswers = answers
         .reduce((aacc, acur) => {
@@ -155,8 +155,7 @@ export class SurveyAnalyticsApiService {
       variables: {
         staffkey: this.getTeacher().staffkey,
         sectionkey: sectionKey,
-        surveykey:
-        surveyKey
+        surveykey: surveyKey
       }
     });
 

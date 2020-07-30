@@ -10,6 +10,7 @@ import { Teacher, Section } from 'src/app/Models';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { Title } from '@angular/platform-browser';
+import { SurveyMetadata, SurveyQuestionSummary, SurveyQuestionAnswers, SurveyQuestionAnswer, AllStudentAnswers } from 'src/app/Models/survey';
 
 @Component({
   selector: 'app-survey-analytics2',
@@ -21,20 +22,19 @@ export class SurveyAnalytics2Component implements OnInit {
   showSurvey: boolean;
 
   teacher: Teacher;
-  surveyMetadataList: any;
-  surveyQuestionSummaryList: any;
+  surveyMetadataList: SurveyMetadata[];
+  surveyQuestionSummaryList: SurveyQuestionSummary[];
 
   searchInSurvey: string;
   currentSectionKey: string;
   currentQuestion: { surveyId: number, surveyName: string, question: string };
   answerFilter: string;
 
-  surveyAnalytics: any;
-  surveyAnswers: any;
-  allAnswersCurrentSurvey: any;
-  surveyAnswersFiltered: any;
+  surveyAnswers: SurveyQuestionAnswers;
+  allAnswersCurrentSurvey: AllStudentAnswers[];
+  surveyAnswersFiltered: SurveyQuestionAnswer[];
   chartData: { options: ChartOptions, type: ChartType, labels: Label[], data: ChartDataSets[] };
-  colorList: any = ['#03a9f4', '#4361ee', '#3a0ca3', '#7209b7', '#f72585', '#4cc9f0'];
+  colorList: string[] = ['#03a9f4', '#4361ee', '#3a0ca3', '#7209b7', '#f72585', '#4cc9f0'];
 
   readonly STUDENT_NAME_STRING: string = 'Student Name';
   sortSurveyByColumn: string = this.STUDENT_NAME_STRING;
@@ -97,11 +97,11 @@ export class SurveyAnalytics2Component implements OnInit {
 
     this.currentQuestion.question = question;
 
-    this.surveyAnalytics = {};
+    const surveyAnalytics = { labels: [], totals: [] };
     const selectedQuestionSummary = this.surveyQuestionSummaryList
       .filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
-    this.surveyAnalytics.labels = selectedQuestionSummary.answers.map(a => a.label);
-    this.surveyAnalytics.totals = selectedQuestionSummary.answers.map(a => a.count);
+    surveyAnalytics.labels = selectedQuestionSummary.answers.map(a => a.label);
+    surveyAnalytics.totals = selectedQuestionSummary.answers.map(a => a.count);
 
     this.surveyAnswers = await this.api.surveyAnalytics
       .getSurveyAnswers(this.currentQuestion.surveyId, this.currentQuestion.question, this.currentSectionKey);
@@ -117,11 +117,11 @@ export class SurveyAnalytics2Component implements OnInit {
         }
       },
       type: 'pie',
-      labels: this.surveyAnalytics.labels,
+      labels: surveyAnalytics.labels,
       data: [
-        { data: this.surveyAnalytics.totals, label: this.currentQuestion.question }
+        { data: surveyAnalytics.totals, label: this.currentQuestion.question }
       ]
-};
+    };
 
     if (scrollIntoChart) { this.scrollIntoView('chartCard'); }
   }
