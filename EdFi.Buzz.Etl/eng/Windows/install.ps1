@@ -32,8 +32,6 @@ param(
 
 )
 
-# TODO: insure this is run as an administrator
-
 # TODO: ensure node.js exists with minimum version
 
 # TODO: refactor to share functions instead of duplicate them
