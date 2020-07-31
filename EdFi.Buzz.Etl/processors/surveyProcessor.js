@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const { Client } = require('pg');
 const { pgConfig } = require('../config/dbs');
+const { jobStatusEnum } = require('../config/jobStatusEnum');
 
 const SURVEY_DATE_FIELD = 'Timestamp';
 const STUDENT_SCHOOL_KEY_FIELD = 'StudentUniqueId';
@@ -33,13 +34,10 @@ async function getDB() {
   return client;
 }
 
-async function isSurveyLoader(staffkey, db) {
+async function isAdminSurveyLoader(staffkey, db) {
   return db
-    .query('SELECT isadminsurveyloader, isteachersurveyloader FROM buzz.staff where staffkey = $1;', [staffkey])
-    .then(async (result) => {
-      const { isadminsurveyloader, isteachersurveyloader } = result.rows[0];
-      return Boolean(isadminsurveyloader) || Boolean(isteachersurveyloader);
-    });
+    .query('SELECT isadminsurveyloader FROM buzz.staff where staffkey = $1;', [staffkey])
+    .then(async (result) => Boolean(result.rows[0]));
 }
 
 async function Extract(fileName) {
@@ -57,6 +55,16 @@ async function Extract(fileName) {
         resolve({ questions, answers });
       });
   });
+}
+
+async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
+  return db
+    .query(`UPDATE buzz.surveystatus SET surveykey=$1, jobstatuskey=$2, resultsummary=$3 WHERE jobkey=$4;`, [surveykey, jobstatuskey, summary, jobkey])
+    .then((result) => result.rows)
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+      return null;
+    });
 }
 
 async function getOrSaveSurvey(surveytitle, db) {
@@ -101,7 +109,7 @@ async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db) {
   const studentkey = studentAnswers[STUDENT_SCHOOL_KEY_FIELD];
 
   const studentSchoolKeyRow = await db.query(
-    'SELECT DISTINCT s.studentschoolkey FROM buzz.studentschool s INNER JOIN buzz.studentsection ss ON s.studentschoolkey = ss.studentschoolkey INNER JOIN buzz.staffsectionassociation ssa ON ss.sectionkey = ssa.sectionkey WHERE s.studentkey = $1 AND ssa.staffkey = $2 AND EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) UNION SELECT DISTINCT s.studentschoolkey FROM buzz.studentschool s INNER JOIN buzz.studentsection ss ON s.studentschoolkey = ss.studentschoolkey CROSS JOIN buzz.staff staff WHERE s.studentkey = $1 AND (staff.staffkey = $2 and staff.isadminsurveyloader = true)',
+    'SELECT DISTINCT s.studentschoolkey FROM buzz.studentschool s INNER JOIN buzz.studentsection ss ON s.studentschoolkey = ss.studentschoolkey INNER JOIN buzz.staffsectionassociation ssa ON ss.sectionkey = ssa.sectionkey WHERE s.studentkey = $1 AND ssa.staffkey = $2',
     [studentkey, staffkey],
   );
   if (studentSchoolKeyRow.rows.length === 0) {
@@ -165,10 +173,7 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
   return Promise.allSettled(promises);
 }
 
-async function saveAllStudentsAnswers(
-  staffkey, surveykey, questions,
-  studentSurveyAnswers, db, surveyProfile,
-) {
+async function saveAllStudentsAnswers(staffkey, surveykey, questions, studentSurveyAnswers, db, surveyProfile) {
   const questionKeyMap = {};
   questions.forEach((element) => {
     questionKeyMap[element.question] = element.surveyquestionkey;
@@ -177,17 +182,14 @@ async function saveAllStudentsAnswers(
   for (let i = 0; i < studentSurveyAnswers.length; i += 1) {
     const currentAnswer = studentSurveyAnswers[i];
     promises.push(
-      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db)
-        .then((studentsurvey) => saveStudentAnswers(
-          studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile,
-        )),
+      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db).then((studentsurvey) => saveStudentAnswers(studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile)),
     );
   }
   return Promise.allSettled(promises);
 }
 
-async function Load(staffkey, surveytitle, questions, answers, db) {
-  const survey = await getOrSaveSurvey(surveytitle, db);
+async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
+  const survey = await getOrSaveSurvey(surveytitle, db);console.log(`dd ${db}`);
   const surveyProfile = {
     survey,
     answers: {
@@ -196,22 +198,29 @@ async function Load(staffkey, surveytitle, questions, answers, db) {
       alreadyLoaded: 0,
     },
   };
+  saveSurveyStatus(survey.surveykey, jobStatusEnum.PROCESSING, '', jobkey, db);
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
-  await saveAllStudentsAnswers(
-    staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile,
-  );
+  await saveAllStudentsAnswers(staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile);
+  const summary = `{ "result": {
+    "survey": {
+      "surveykey": ${survey.surveykey},
+      "title": ${survey.title},
+      "questions": ${survey.questions.length},
+    }, "process":
+     ${JSON.stringify(surveyProfile.answers)},
+  }}`;
+  await saveSurveyStatus(survey.surveykey, jobStatusEnum.COMPLETED, summary, jobkey, db);
   await db.end();
   return surveyProfile;
 }
 
-const process = async (staffkey, surveytitle, filename, filePath) => {
+const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
   const db = await getDB();
-  if (!(await isSurveyLoader(staffkey, db))) {
+  if (!(await isAdminSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
-
   const data = await Extract(path.join(filePath, filename));
-  const result = await Load(staffkey, surveytitle, data.questions, data.answers, db);
+  const result = await Load(staffkey, jobkey, surveytitle, data.questions, data.answers, db);
   console.log('result:', {
     survey: {
       surveykey: result.survey.surveykey,
