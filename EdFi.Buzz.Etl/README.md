@@ -32,24 +32,6 @@ $ cd edfi.buzz.etl
 $ yarn start:survey
 ```
 
-### Create a Survey Loader job manually
-
-The survey loader task can also load individual files manually. Run the following SQL and replace the example staffkey,  survey name and file path location.
-Once the graphile-worker is running, add a job using the following SQL in the edfi_buzz PostgreSQL database.
-
-```sql
-SELECT graphile_worker.add_job('surveyLoader', json_build_object('staffkey', '1030', 'filename', 'Contact Survey', 'path', 'file://c/dev/some.file'), NULL,NULL,NULL,'asdklasdklasd');
-```
-
-The output should resemble the following:
-
-```
-$ yarn start:survey
-[core] INFO: Worker connected and looking for jobs... (task names: 'surveyLoader')
-[job(worker-e7fec78d77f1c43645: surveyLoader{19})] INFO: Running the Survey loader for 1030 to load the Contact Survey located at file://c/dev/some.file
-[worker(worker-e7fec78d77f1c43645)] INFO: Completed task 19 (surveyLoader) with success (0.76ms)
-```
-
 ## Running the Database Loader
 
 The ETL Database module (./src/dbETL.js) is executed by yarn via the start:db task, or directly by node.
