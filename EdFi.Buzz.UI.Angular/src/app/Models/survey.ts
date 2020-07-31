@@ -36,3 +36,19 @@ export class AllStudentAnswers {
   questions: { [Key: number]: string };
   answers: { [Key: number]: string };
 }
+
+export class SurveyStatus {
+  surveystatuskey: number;
+  staffkey: number;
+  surveykey: number;
+  jobkey: string;
+  jobstatuskey: number;
+  resultsummary: string;
+  resultSummaryObj: any;
+  jobstatus: JobStatus;
+}
+
+export class JobStatus {
+  jobstatuskey: number;
+  description: string;
+}

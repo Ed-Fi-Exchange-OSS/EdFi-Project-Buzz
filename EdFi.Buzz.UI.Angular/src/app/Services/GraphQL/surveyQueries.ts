@@ -38,5 +38,21 @@ query($staffkey:ID!, $sectionkey:String!, $surveykey:Int){
 }
 `;
 
+const getSurveyStatus = gql`
+query ($staffKey:ID!, $jobKey:String) {
+  surveystatus(staffkey:$staffKey, jobkey:$jobKey){
+    surveystatuskey
+    staffkey
+    surveykey
+    jobkey
+    jobstatuskey
+    resultsummary
+    jobstatus{
+      jobstatuskey
+      description
+    }
+  }
+}
+`;
 
-export { getSurveySummaryBySectionKey, getSurveyQuestionsSummary };
+export { getSurveySummaryBySectionKey, getSurveyQuestionsSummary, getSurveyStatus };
