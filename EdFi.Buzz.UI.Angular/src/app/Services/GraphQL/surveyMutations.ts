@@ -10,7 +10,16 @@ import gql from 'graphql-tag';
 const uploadSurvey = gql`
 mutation ($staffkey: ID!, $content: String!, $title: String!) {
   uploadsurvey(staffkey: $staffkey, content: $content, title: $title) {
+    surveystatuskey
+    staffkey
+    surveykey
     jobkey
+    jobstatuskey
+    resultsummary
+    jobstatus {
+      jobstatuskey
+      description
+    }
   }
 }
 `;

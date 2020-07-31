@@ -43,11 +43,29 @@
             </div>
 
             <div *ngIf="message"
-              [ngClass]="{'alert-warning' : message && message.error, 'alert-success' : !message || !message.error }"
-              class="alert">
+              [ngClass]="{
+                'alert-warning' : message && message.error || (message.serverJobStatus && message.serverJobStatus.jobstatuskey !== 3),
+                'alert-success' : !message || (!message.error && message.serverJobStatus && message.serverJobStatus.jobstatuskey === 3)
+              }" class="alert">
+              <h3>File Upload <strong>{{message.status}}</strong></h3>
               File: {{message.fileName}}<br>
-              Status: {{message.status}}<br>
-              <p *ngIf="message.jobId">Job ID: {{message.jobId}}</p>
+              <ng-container *ngIf="message.serverJobStatus" >
+                <h3>Job is <strong>{{message.serverJobStatus.jobstatus.description}}</strong></h3>
+                Job Key: {{message.serverJobStatus.jobkey}}<br>
+                <ng-container *ngIf="message.serverJobStatus.resultSummaryObj">
+                  <h3>Job Results</h3>
+                  Survey Key:{{message.serverJobStatus.resultSummaryObj.survey.surveykey}}<br>
+                  Survey Title: {{message.serverJobStatus.resultSummaryObj.survey.title}}<br>
+                  Questions: {{message.serverJobStatus.resultSummaryObj.survey.questions}}<br>
+
+                  Answers Loaded: {{message.serverJobStatus.resultSummaryObj.answers.load}}<br>
+                  Answers Rejected: {{message.serverJobStatus.resultSummaryObj.answers.rejected}}<br>
+                  Answers Already Loaded: {{message.serverJobStatus.resultSummaryObj.answers.alreadyLoaded}}<br>
+                </ng-container>
+                <div *ngIf="!message.serverJobStatus.resultSummaryObj && message.serverJobStatus.resultsummary" class="alert">
+                  {{message.serverJobStatus.resultsummary}}
+                </div>
+              </ng-container>
               <p *ngIf="message.error">{{message.error}}</p>
             </div>
           </form>
@@ -58,8 +76,10 @@
 
   <div class="row">
     <div class="col">
-      <div class="card-body alert alert-primary text-justify" lang="en" style="hyphens: auto; margin-top: -1rem; padding-bottom: 0;">
-        <p>One column in the survey results must be the unique student identifier and must be called "StudentUniqueId". </p>
+      <div class="card-body alert alert-primary text-justify" lang="en"
+        style="hyphens: auto; margin-top: -1rem; padding-bottom: 0;">
+        <p>One column in the survey results must be the unique student identifier and must be called "StudentUniqueId".
+        </p>
 
         <p>Supports Google Forms and Survey Monkey formatted exports. You can also use Qualtrics survey exports by
           removing the first of the two headers.</p>

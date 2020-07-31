@@ -1,8 +1,10 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from 'src/app/Services/api.service';
+import { SurveyStatus } from 'src/app/Models/survey';
+import { Router, NavigationStart, Event } from '@angular/router';
 
 interface FileStatus {
   fileName: string;
@@ -10,6 +12,7 @@ interface FileStatus {
   status: string;
   error?: string;
   jobId?: string;
+  serverJobStatus?: SurveyStatus;
 }
 
 @Component({
@@ -17,7 +20,11 @@ interface FileStatus {
   templateUrl: './uploadSurvey.component.html',
   styleUrls: ['./uploadSurvey.component.css']
 })
-export class UploadSurveyComponent {
+export class UploadSurveyComponent implements OnInit {
+  readonly SURVEY_STATUS_QUERY_TIME_IN_MS = 1000;
+  readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
+  readonly storage: Storage;
+
   currentUserStaffKey: number;
 
   form: FormGroup;
@@ -27,13 +34,16 @@ export class UploadSurveyComponent {
   isFileSelected = false;
   isFileUploading = false;
   message: FileStatus;
-  readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
+
+  getJobStatusTimer: number;
 
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
-    private title: Title
+    private title: Title,
+    private router: Router
   ) {
+    this.storage = sessionStorage;
     this.SURVEY_MAX_FILE_SIZE_BYTES = this.api.survey.SURVEY_MAX_FILE_SIZE_BYTES;
     this.currentUserStaffKey = this.api.authentication.currentUserValue.teacher.staffkey;
 
@@ -42,15 +52,39 @@ export class UploadSurveyComponent {
       surveyName: [null, Validators.required],
       file: [null]
     });
+
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        /* clear if there is a timeout waiting */
+        if (this.getJobStatusTimer) {
+          clearTimeout(this.getJobStatusTimer);
+          this.getJobStatusTimer = null;
+        }
+      }
+    });
   }
 
+  ngOnInit() {
+    this.message = this.loadLastUploadedSurvey();
+  }
+
+  loadLastUploadedSurvey() {
+    const message = JSON.parse(this.storage.getItem('lastUploadedSurvey'));
+    if (message && message.serverJobStatus && !this.api.survey.JOB_STATUS_FINISH_IDS.includes(message.serverJobStatus.jobstatuskey)) {
+      this.GetJobStatus(message.serverJobStatus.staffkey, message.serverJobStatus.jobkey);
+    }
+    return message;
+  }
+  saveLastUploadedSurvey(message: FileStatus) {
+    this.storage.setItem('lastUploadedSurvey', JSON.stringify(message));
+  }
 
   CheckFileValid(file: File): FileStatus {
     if (!file) {
       return { fileName: '', status: 'ERROR', error: 'No file selected', isValid: false };
     }
     if (file.size > this.SURVEY_MAX_FILE_SIZE_BYTES) {
-      const error = `File size (${ (file.size / 1024.0).toFixed(2) } Kb) must be less than ${(this.SURVEY_MAX_FILE_SIZE_BYTES / (1024)).toFixed(2)} Kb`;
+      const error = `File size (${(file.size / 1024.0).toFixed(2)} Kb) must be less than ${(this.SURVEY_MAX_FILE_SIZE_BYTES / (1024)).toFixed(2)} Kb`;
       const message = { fileName: file.name, status: 'ERROR', error: error, isValid: false };
       return message;
     }
@@ -96,14 +130,39 @@ export class UploadSurveyComponent {
     this.api.survey
       .uploadSurvey(this.currentUserStaffKey, title, content)
       .then(value => {
-        this.message = { fileName: file.name, status: 'ACCEPTED', isValid: true, jobId: value.jobkey };
+        this.message = {
+          fileName: file.name,
+          status: 'ACCEPTED',
+          isValid: true,
+          serverJobStatus: value
+        };
         this.resetControls();
+        if (!this.api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
+          /* Job is not finished */
+          this.getJobStatusTimer = window.setTimeout(
+            () => this.GetJobStatus(value.staffkey, value.jobkey),
+            this.SURVEY_STATUS_QUERY_TIME_IN_MS);
+        }
       })
       .catch(reason => {
         this.message = { fileName: file.name, status: 'ERROR', error: reason, isValid: true };
         this.resetControls();
       });
   }
+
+  async GetJobStatus(staffkey: number, jobkey: string) {
+    const value = await this.api.survey.getSurveyStatus(staffkey, jobkey);
+    this.message.serverJobStatus = value;
+    this.saveLastUploadedSurvey(this.message);
+    this.getJobStatusTimer = null;
+    if (value && !this.api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
+      /* Job is not finished */
+      this.getJobStatusTimer = window.setTimeout(
+        () => this.GetJobStatus(value.staffkey, value.jobkey),
+        this.SURVEY_STATUS_QUERY_TIME_IN_MS);
+    }
+  }
+
   getFileContentAsBase64(file: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
