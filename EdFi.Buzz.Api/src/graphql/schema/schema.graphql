@@ -6,7 +6,7 @@
 type Mutation {
   addstudentnote(staffkey: Int!, studentschoolkey: String!, note: String!): StudentNote
   deletestudentnote(staffkey: Int!, studentnotekey: Int!): StudentNote
-  uploadsurvey(staffkey: ID!, title: String!, content: String!): String
+  uploadsurvey(staffkey: ID!, title: String!, content: String!): SurveyStatus
 }
 type Query{
   staffbyemail: Staff
@@ -16,6 +16,7 @@ type Query{
   studentbystaff(staffkey: ID!, studentschoolkey: String!): StudentSchool
   studentsbystaff(staffkey: ID!): [StudentSchool]
   surveysummary(staffkey: ID!, sectionkey: String, title: String, surveykey: Int): [SurveySummary]
+  surveystatus(staffkey: ID!, jobkey: String): [SurveyStatus]
 }
 type Section{
   sectionkey: String
@@ -186,4 +187,19 @@ type School{
   stateeducationagencykey: Int
   educationservicecentername: String
   educationservicecenterkey: Int
+}
+
+type SurveyStatus {
+  surveystatuskey: Int
+  staffkey: Int
+  surveykey: Int
+  jobkey: String
+  jobstatuskey: Int
+  resultsummary: String
+  jobstatus: JobStatus
+}
+
+type JobStatus {
+  jobstatuskey: Int
+  description: String  
 }

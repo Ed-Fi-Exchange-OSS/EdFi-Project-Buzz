@@ -32,12 +32,17 @@ export class ContactPerson {
     contactnotes?: string;
 }
 
+export class JobStatus {
+    jobstatuskey?: number;
+    description?: string;
+}
+
 export abstract class IMutation {
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
 
     abstract deletestudentnote(staffkey: number, studentnotekey: number): StudentNote | Promise<StudentNote>;
 
-    abstract uploadsurvey(staffkey: string, title: string, content: string): string | Promise<string>;
+    abstract uploadsurvey(staffkey: string, title: string, content: string): SurveyStatus | Promise<SurveyStatus>;
 }
 
 export abstract class IQuery {
@@ -54,6 +59,8 @@ export abstract class IQuery {
     abstract studentsbystaff(staffkey: string): StudentSchool[] | Promise<StudentSchool[]>;
 
     abstract surveysummary(staffkey: string, sectionkey?: string, title?: string, surveykey?: number): SurveySummary[] | Promise<SurveySummary[]>;
+
+    abstract surveystatus(staffkey: string, jobkey?: string): SurveyStatus[] | Promise<SurveyStatus[]>;
 }
 
 export class School {
@@ -171,6 +178,16 @@ export class SurveyQuestion {
     surveykey?: string;
     question?: string;
     studentanswer?: SurveySummaryAnswers;
+}
+
+export class SurveyStatus {
+    surveystatuskey?: number;
+    staffkey?: number;
+    surveykey?: number;
+    jobkey?: string;
+    jobstatuskey?: number;
+    resultsummary?: string;
+    jobstatus?: JobStatus;
 }
 
 export class SurveySummary {

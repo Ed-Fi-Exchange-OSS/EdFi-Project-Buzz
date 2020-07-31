@@ -96,7 +96,7 @@ export class UploadSurveyComponent {
     this.api.survey
       .uploadSurvey(this.currentUserStaffKey, title, content)
       .then(value => {
-        this.message = { fileName: file.name, status: 'ACCEPTED', isValid: true, jobId: value };
+        this.message = { fileName: file.name, status: 'ACCEPTED', isValid: true, jobId: value.jobkey };
         this.resetControls();
       })
       .catch(reason => {

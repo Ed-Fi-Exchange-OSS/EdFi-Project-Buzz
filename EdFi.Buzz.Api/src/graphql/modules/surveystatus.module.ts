@@ -5,16 +5,14 @@
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import SurveyFileService from '../services/surveyfile.service';
-import SurveyFileResolvers from '../resolvers/surveyfile.resolver';
-import TaskItemService from '../services/taskitem.service';
-import StaffService from '../services/staff.service';
-import StaffEntity from '../entities/staff.entity';
-import SectionEntity from '../entities/section.entity';
-import StudentSchoolEntity from '../entities/studentschool.entity';
 import SurveyStatusService from '../services/surveystatus.service';
 import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
+import SurveyStatusResolvers from '../resolvers/surveystatus.resolver';
 import JobStatusEntity from '../entities/survey/jobstatus.entity';
+import StaffEntity from '../entities/staff.entity';
+import StaffService from '../services/staff.service';
+import SectionEntity from '../entities/section.entity';
+import StudentSchoolEntity from '../entities/studentschool.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -24,6 +22,6 @@ import JobStatusEntity from '../entities/survey/jobstatus.entity';
     SurveyStatusEntity,
     JobStatusEntity,
   ])],
-  providers: [SurveyFileService, TaskItemService, StaffService, SurveyStatusService, SurveyFileResolvers],
+  providers: [StaffService, SurveyStatusService, SurveyStatusResolvers],
 })
-export default class SurveyFileModule {}
+export default class SurveyStatusModule {}
