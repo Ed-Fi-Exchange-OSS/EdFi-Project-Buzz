@@ -59,7 +59,7 @@ async function Extract(fileName) {
 
 async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
   return db
-    .query(`UPDATE buzz.surveystatus SET surveykey=$1, jobstatuskey=$2, resultsummary=$3 WHERE jobkey=$4;`, [surveykey, jobstatuskey, summary, jobkey])
+    .query('UPDATE buzz.surveystatus SET surveykey=$1, jobstatuskey=$2, resultsummary=$3 WHERE jobkey=$4;', [surveykey, jobstatuskey, summary, jobkey])
     .then((result) => result.rows)
     .catch((err) => {
       console.error(`ERROR: ${err} - ${err.detail}`);
@@ -173,7 +173,8 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
   return Promise.allSettled(promises);
 }
 
-async function saveAllStudentsAnswers(staffkey, surveykey, questions, studentSurveyAnswers, db, surveyProfile) {
+async function saveAllStudentsAnswers(staffkey, surveykey, questions,
+  studentSurveyAnswers, db, surveyProfile) {
   const questionKeyMap = {};
   questions.forEach((element) => {
     questionKeyMap[element.question] = element.surveyquestionkey;
@@ -182,14 +183,19 @@ async function saveAllStudentsAnswers(staffkey, surveykey, questions, studentSur
   for (let i = 0; i < studentSurveyAnswers.length; i += 1) {
     const currentAnswer = studentSurveyAnswers[i];
     promises.push(
-      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db).then((studentsurvey) => saveStudentAnswers(studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile)),
+      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db)
+        .then((studentsurvey) => saveStudentAnswers(studentsurvey,
+          questionKeyMap,
+          currentAnswer,
+          db,
+          surveyProfile)),
     );
   }
   return Promise.allSettled(promises);
 }
 
 async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
-  const survey = await getOrSaveSurvey(surveytitle, db);console.log(`dd ${db}`);
+  const survey = await getOrSaveSurvey(surveytitle, db);
   const surveyProfile = {
     survey,
     answers: {
@@ -200,7 +206,8 @@ async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
   };
   saveSurveyStatus(survey.surveykey, jobStatusEnum.PROCESSING, '', jobkey, db);
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
-  await saveAllStudentsAnswers(staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile);
+  await saveAllStudentsAnswers(staffkey, survey.surveykey,
+    survey.questions, answers, db, surveyProfile);
   const summary = `{ "result": {
     "survey": {
       "surveykey": ${survey.surveykey},
