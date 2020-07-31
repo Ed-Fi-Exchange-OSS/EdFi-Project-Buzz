@@ -21,7 +21,7 @@ interface FileStatus {
   styleUrls: ['./uploadSurvey.component.css']
 })
 export class UploadSurveyComponent implements OnInit {
-  readonly SURVEY_STATUS_QUERY_TIME_IN_MS = 1000;
+  readonly SURVEY_STATUS_QUERY_TIME_IN_MS = 5000; /* 5 seconts intervals */
   readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
   readonly storage: Storage;
 
