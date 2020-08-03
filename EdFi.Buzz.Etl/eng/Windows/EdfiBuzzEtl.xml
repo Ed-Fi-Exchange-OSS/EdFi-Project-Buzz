@@ -1,0 +1,11 @@
+<service>
+    <id>EdFi-Buzz-ETL</id>
+    <name>Ed-Fi Buzz Project Survey ETL</name>
+    <description>Runs Node.js as a service to host the Ed-Fi Buzz Survey Loader</description>
+    <env name="DATABASE_URL" value="postgres://{1}:{2}@{3}:{4}/{5}" />
+    <executable>powershell.exe</executable>
+    <arguments>npx graphile-worker</arguments>
+    <logpath>{0}\logs</logpath>
+    <logmode>rotate</logmode>
+    <workingdirectory>{6}</workingdirectory>
+</service>
