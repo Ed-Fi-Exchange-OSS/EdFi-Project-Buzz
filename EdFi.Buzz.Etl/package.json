@@ -9,14 +9,15 @@
     "build:clean": "rimraf dist",
     "build": "node eng/build.js",
     "start:survey": "env-cmd -x npx graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\"",
-    "start:db": "node -r .\\src\\dbEtl.js"
+    "start:db": "node -r .\\src\\dbEtl.js",
+    "test:ci": "echo There are no tests for this project"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
     "csv-parser": "^2.3.3",
     "dotenv": "^8.2.0",
     "env-cmd": "^10.1.0",
-    "eslint": "^7.3.1",
+    "eslint": "^7.6.0",
     "etl": "^0.6.12",
     "fs": "^0.0.1-security",
     "graphile-worker": "^0.6.0",
@@ -34,11 +35,12 @@
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-teamcity": "^3.0.1",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "synp": "^1.7.1"
