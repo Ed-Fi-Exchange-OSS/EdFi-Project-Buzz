@@ -7,29 +7,19 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import SurveyEntity from '../entities/survey/survey.entity';
-import SurveyQuestionEntity from '../entities/survey/surveyquestion.entity';
 
 @Injectable()
 export default class SurveyService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     @InjectRepository(SurveyEntity) private readonly BuzzRepository: Repository<SurveyEntity>,
-    @InjectRepository(SurveyQuestionEntity)
-    private readonly BuzzQuestionsRepository: Repository<SurveyQuestionEntity>,
   ) {}
 
-  async findAll(): Promise<SurveyEntity[]> {
-    return this.BuzzRepository.find();
-  }
-
-  async findOneById(id: string): Promise<SurveyEntity> {
-    return this.BuzzRepository.findOne({ where: { surveykey: id } });
-  }
-
-  async findQuestionBySurveyKey(surveykey: string): Promise<SurveyQuestionEntity[]> {
-    return this.BuzzQuestionsRepository.createQueryBuilder('Questions')
-      .innerJoin(SurveyEntity, 's', `Questions.surveykey = s.surveykey and s.surveykey=${surveykey}`)
-      .where({ surveykey })
-      .getMany();
+  async deleteSurvey(surveyKey: string): Promise<SurveyEntity> {
+    const d = new Date();
+    const datestring = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    const surveyToDelete = await this.BuzzRepository.findOne(surveyKey);
+    surveyToDelete.deletedat = datestring;
+    return this.BuzzRepository.save(surveyToDelete);
   }
 }

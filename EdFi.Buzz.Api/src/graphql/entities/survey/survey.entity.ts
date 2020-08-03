@@ -13,8 +13,14 @@ export default class SurveyEntity {
   @PrimaryColumn({ type: 'int', nullable: false })
   surveykey: number;
 
+  @Column({ type: 'int', nullable: false })
+  staffkey: number;
+
   @Column({ type: 'varchar', nullable: false })
   title: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  deletedat?: string;
 
   questions?: SurveyQuestionEntity[];
 }

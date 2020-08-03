@@ -20,7 +20,7 @@ export default class StudentSurveyService {
   ) {}
 
   async findSurvey(surveykey: string): Promise<SurveyEntity> {
-    return this.BuzzSurveyRepository.findOne({ where: { surveykey } });
+    return this.BuzzSurveyRepository.findOne({ where: { surveykey, deletedat: null } });
   }
 
   async findAnwsersByStudent(surveykey: number, studentschoolkey: string): Promise<AnswersByStudentEntity[]> {
@@ -30,6 +30,11 @@ export default class StudentSurveyService {
         'ss',
         `AnswersByStudent.surveykey = ss.surveykey and ss.surveykey='${surveykey}'
           and AnswersByStudent.studentschoolkey = ss.studentschoolkey and ss.studentschoolkey='${studentschoolkey}'`,
+      )
+      .innerJoin(
+        SurveyEntity,
+        'se',
+        'ss.surveykey = se.surveykey and se.deletedat IS NULL',
       )
       .getMany();
   }
