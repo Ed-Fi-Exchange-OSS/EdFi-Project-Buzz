@@ -58,9 +58,9 @@
                   Survey Title: {{message.serverJobStatus.resultSummaryObj.survey.title}}<br>
                   Questions: {{message.serverJobStatus.resultSummaryObj.survey.questions}}<br>
 
-                  Answers Loaded: {{message.serverJobStatus.resultSummaryObj.answers.load}}<br>
-                  Answers Rejected: {{message.serverJobStatus.resultSummaryObj.answers.rejected}}<br>
-                  Answers Already Loaded: {{message.serverJobStatus.resultSummaryObj.answers.alreadyLoaded}}<br>
+                  Answers Loaded: {{message.serverJobStatus.resultSummaryObj.process.load}}<br>
+                  Answers Rejected: {{message.serverJobStatus.resultSummaryObj.process.rejected}}<br>
+                  Answers Already Loaded: {{message.serverJobStatus.resultSummaryObj.process.alreadyLoaded}}<br>
                 </ng-container>
                 <div *ngIf="!message.serverJobStatus.resultSummaryObj && message.serverJobStatus.resultsummary" class="alert">
                   {{message.serverJobStatus.resultsummary}}
