@@ -1,12 +1,25 @@
 # Ed-Fi Buzz
 
-Project Buzz is a mobile tool that puts roster, contact information, and student survey results into the hands of teachers, just in time for back-to-school preparations.  The tool provides an educator with three views into their student’s data:
+Project Buzz is a mobile tool that puts roster, contact information, and student
+survey results into the hands of teachers, just in time for back-to-school
+preparations.  The tool provides an educator with three views into their
+student’s data:
 
-1. <b>Rostering.</b> This shows teachers all their students along with contact information like school email, primary guardian contact information, and contact notes, and can be filtered by class or student name.
-2. <b>Student Detail.</b> This view contains an expanded contact section containing siblings and other guardians. The student detail view also shows teachers how their students answered each survey.
-3. <b>Survey Results.</b> This allows teachers to look into a survey and see how their students responded. The survey viewer provides a quick summary of the results and an easy navigation to the individual student’s responses.
+1. **Rostering.** This shows teachers all their students along with contact
+   information like school email, primary guardian contact information, and
+   contact notes, and can be filtered by class or student name.
+2. **Student Detail.** This view contains an expanded contact section containing
+   siblings and other guardians. The student detail view also shows teachers how
+   their students answered each survey.
+3. **Survey Results.** This allows teachers to look into a survey and see how
+   their students responded. The survey viewer provides a quick summary of the
+   results and an easy navigation to the individual student’s responses.
 
-Project Buzz also provides a way for teachers to add notes/feedback on their students. This functionality provides an important way for teachers to include commentary and updates in conjunction with the contact information and student responses they are already working with. The note function can flag outdated survey information or add additional insight into how to reach the student.
+Project Buzz also provides a way for teachers to add notes/feedback on their
+students. This functionality provides an important way for teachers to include
+commentary and updates in conjunction with the contact information and student
+responses they are already working with. The note function can flag outdated
+survey information or add additional insight into how to reach the student.
 
 ## Installation
 
