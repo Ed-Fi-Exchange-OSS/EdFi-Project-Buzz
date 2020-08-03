@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const { Client } = require('pg');
 const { pgConfig } = require('../config/dbs');
+const { jobStatusEnum } = require('../config/jobStatusEnum');
 
 const SURVEY_DATE_FIELD = 'Timestamp';
 const STUDENT_SCHOOL_KEY_FIELD = 'StudentUniqueId';
@@ -57,6 +58,16 @@ async function Extract(fileName) {
         resolve({ questions, answers });
       });
   });
+}
+
+async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
+  return db
+    .query('UPDATE buzz.surveystatus SET surveykey=$1, jobstatuskey=$2, resultsummary=$3 WHERE jobkey=$4;', [surveykey, jobstatuskey, summary, jobkey])
+    .then((result) => result.rows)
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+      return null;
+    });
 }
 
 async function getOrSaveSurvey(surveytitle, db) {
@@ -186,7 +197,7 @@ async function saveAllStudentsAnswers(
   return Promise.allSettled(promises);
 }
 
-async function Load(staffkey, surveytitle, questions, answers, db) {
+async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
   const survey = await getOrSaveSurvey(surveytitle, db);
   const surveyProfile = {
     survey,
@@ -196,22 +207,27 @@ async function Load(staffkey, surveytitle, questions, answers, db) {
       alreadyLoaded: 0,
     },
   };
+  saveSurveyStatus(survey.surveykey, jobStatusEnum.PROCESSING, '', jobkey, db);
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
-  await saveAllStudentsAnswers(
-    staffkey, survey.surveykey, survey.questions, answers, db, surveyProfile,
-  );
+  await saveAllStudentsAnswers(staffkey, survey.surveykey,
+    survey.questions, answers, db, surveyProfile);
+  const summary =
+    `{"result": {"survey":{
+      "surveykey": ${survey.surveykey},"title": "${survey.title}","questions": ${survey.questions.length}},
+      "process":${JSON.stringify(surveyProfile.answers)}}}`;
+  await saveSurveyStatus(survey.surveykey, jobStatusEnum.COMPLETED, summary.replace(/\n/g, ' '), jobkey, db);
   await db.end();
   return surveyProfile;
 }
 
-const process = async (staffkey, surveytitle, filename, filePath) => {
+const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
   const db = await getDB();
   if (!(await isSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 
   const data = await Extract(path.join(filePath, filename));
-  const result = await Load(staffkey, surveytitle, data.questions, data.answers, db);
+  const result = await Load(staffkey, jobkey, surveytitle, data.questions, data.answers, db);
   console.log('result:', {
     survey: {
       surveykey: result.survey.surveykey,

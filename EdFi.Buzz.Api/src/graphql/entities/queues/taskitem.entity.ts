@@ -6,4 +6,6 @@ export default class TaskItem {
   path?: string;
 
   title?: string;
+
+  jobkey?: string;
 }
