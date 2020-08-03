@@ -14,11 +14,6 @@
   <files>
     <file src=".\Windows\*" target="windows" />
     <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
-    <file src="..\dist\*.json" target="dist" />
-    <file src="..\dist\config\**" target="dist/config" />
-    <file src="..\dist\processors\**" target="dist/processors" />
-    <file src="..\dist\sql\**" target="dist/src" />
-    <file src="..\dist\src\**" target="dist/src" />
-    <file src="..\dist\tasks\**" target="dist/tasks" />
+    <file src="..\dist\**" target="dist/" />
   </files>
 </package>

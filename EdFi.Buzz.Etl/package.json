@@ -9,7 +9,7 @@
     "build:clean": "rimraf dist",
     "build": "node eng/build.js",
     "start:survey": "env-cmd -x npx graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\"",
-    "start:db": "node -r .\\src\\dbEtl.js",
+    "start:db": "node -r .\\src\\dbEtl.js"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
