@@ -15,7 +15,7 @@ param(
   $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",
 
   [string]
-  $DbServer = "localhost",
+  $DbServer = "127.0.0.1",
 
   [int]
   $DbPort = 5432,
@@ -127,14 +127,23 @@ function New-DotEnvFile {
   New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
 
   $fileContents = @"
-BUZZ_ETL_DB_HOST = '$DbServer'
-BUZZ_ETL_DB_PORT = $DbPort
-BUZZ_ETL_DB_USERNAME ='$DbUserName'
-BUZZ_ETL_DB_PASSWORD = '$DbPassword'
-BUZZ_ETL_DB_DATABASE = '$DbName'
-BUZZ_MAX=20
-BUZZ_IDLETIMEOUTMILLIS=5000
-BUZZ_CONNECTIONTIMEOUTMILLIS=2000
+  BUZZ_SQLSOURCE=amt
+  BUZZ_DBSERVER=$DbServer
+  BUZZ_PORT=$DbPort
+  BUZZ_USER=$DbUsername
+  BUZZ_PASSWORD=$DbPassword
+  BUZZ_DBNAME=$DbName
+  BUZZ_MAX=20
+  BUZZ_IDLETIMEOUTMILLIS=5000
+  BUZZ_CONNECTIONTIMEOUTMILLIS=2000
+  ODS_DBNAME=EdFi_Application
+  ODS_SERVER=localhost
+  ODS_USER=ods_user
+  ODS_PASSWORD=P@ssw0rd
+  ODS_PORT=1433
+  ODS_TRUSTSERVERCERTIFICATE=false
+  ODS_ENABLEARITHABORT=true
+  ODS_ENCRYPT=false
 "@
   $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }
@@ -164,8 +173,8 @@ Write-Host "Begin Ed-Fi Buzz ETL installation..." -ForegroundColor Yellow
 
 New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
 $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
-New-DotEnvFile -installPath  $InstallPath
 Install-DistFiles -installPath $InstallPath
+New-DotEnvFile -installPath  "$InstallPath/dist"
 Install-NodeService -winSwVersion $winSwVersion
 
 Write-Host "End Ed-Fi Buzz ETL installation." -ForegroundColor Yellow
