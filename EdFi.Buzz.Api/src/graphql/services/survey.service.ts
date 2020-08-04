@@ -22,11 +22,11 @@ export default class SurveyService {
     return this.BuzzRepository.find();
   }
 
-  async findOneById(id: string): Promise<SurveyEntity> {
+  async findOneById(id: number): Promise<SurveyEntity> {
     return this.BuzzRepository.findOne({ where: { surveykey: id } });
   }
 
-  async findQuestionBySurveyKey(surveykey: string): Promise<SurveyQuestionEntity[]> {
+  async findQuestionBySurveyKey(surveykey: number): Promise<SurveyQuestionEntity[]> {
     return this.BuzzQuestionsRepository.createQueryBuilder('Questions')
       .innerJoin(SurveyEntity, 's', `Questions.surveykey = s.surveykey and s.surveykey=${surveykey}`)
       .where({ surveykey })

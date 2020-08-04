@@ -15,15 +15,27 @@ import StudentSchoolEntity from '../entities/studentschool.entity';
 import SurveyStatusService from '../services/surveystatus.service';
 import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
 import JobStatusEntity from '../entities/survey/jobstatus.entity';
+import SurveyEntity from '../entities/survey/survey.entity';
+import SurveyService from '../services/survey.service';
+import SurveyQuestionEntity from '../entities/survey/surveyquestion.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
     StaffEntity,
     SectionEntity,
     StudentSchoolEntity,
+    SurveyEntity,
     SurveyStatusEntity,
     JobStatusEntity,
+    SurveyQuestionEntity,
   ])],
-  providers: [SurveyFileService, TaskItemService, StaffService, SurveyStatusService, SurveyFileResolvers],
+  providers: [
+    SurveyFileService,
+    TaskItemService,
+    StaffService,
+    SurveyService,
+    SurveyStatusService,
+    SurveyFileResolvers,
+  ],
 })
 export default class SurveyFileModule {}
