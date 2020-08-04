@@ -40,7 +40,7 @@ export class SurveyService {
     const surveystatus: SurveyStatus = data.surveystatus.length > 0 ? data.surveystatus[0] : null;
     if (surveystatus) {
       try {
-        surveystatus.resultSummaryObj = JSON.parse(surveystatus.resultsummary);
+        surveystatus.resultSummaryObj = JSON.parse(surveystatus.resultsummary).result;
       } catch {}
     }
     return surveystatus;
