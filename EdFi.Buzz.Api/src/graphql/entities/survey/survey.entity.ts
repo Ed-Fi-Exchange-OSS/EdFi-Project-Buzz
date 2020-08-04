@@ -13,8 +13,7 @@ export default class SurveyEntity {
   @PrimaryColumn({ type: 'int', nullable: false })
   surveykey: number;
 
-  @Column({ type: 'int', nullable: false })
-  staffkey: number;
+  @Column() staffkey: number;
 
   @Column({ type: 'varchar', nullable: false })
   title: string;
