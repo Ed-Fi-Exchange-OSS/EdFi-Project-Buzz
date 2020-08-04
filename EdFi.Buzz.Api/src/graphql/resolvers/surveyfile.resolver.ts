@@ -38,13 +38,14 @@ export default class SurveyFileResolvers {
     const errorMessage = `You don't have access to update survey '${surveykey}'.`;
     const taskItem = this.surveyFileService.writeFile(staffkey.toString(), content);
     taskItem.title = title;
-    if (surveykey !== null) {
+    if (surveykey !== null && surveykey !== undefined) {
       const currentSurvey = (await this.surveyService.findOneById(surveykey));
 
-      if (currentSurvey !== null && (currentSurvey !== undefined || currentSurvey.staffkey !== staffkey)) {
+      if (currentSurvey !== null && (currentSurvey === undefined || currentSurvey.staffkey.valueOf() !== staffkey)) {
         throw new UnauthorizedException(errorMessage);
       }
       taskItem.updatesurvey = true;
+      taskItem.surveykey = surveykey;
     }
     return this.surveyStatusService.addSurveyStatus({
       surveystatuskey: null,
