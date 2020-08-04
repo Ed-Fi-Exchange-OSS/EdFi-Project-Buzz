@@ -34,15 +34,17 @@ export class SurveyService {
       .then(result => result.data.uploadsurvey);
   }
 
-  async getSurveyStatus(staffKey: number, jobKey: string): Promise<SurveyStatus> {
+  async getSurveyStatus(staffKey: number, jobKey: string): Promise<SurveyStatus[]> {
     const client = this.apollo.getClient();
     const { data } = await client.query({ query: getSurveyStatus, variables: { staffKey, jobKey }, fetchPolicy: 'network-only' });
-    const surveystatus: SurveyStatus = data.surveystatus.length > 0 ? data.surveystatus[0] : null;
-    if (surveystatus) {
-      try {
-        surveystatus.resultSummaryObj = JSON.parse(surveystatus.resultsummary).result;
-      } catch {}
-    }
-    return surveystatus;
+    const surveyStatusList: SurveyStatus[] = data.surveystatus ? data.surveystatus : [];
+    surveyStatusList.forEach((el, idx, arr) => {
+      if (surveyStatusList) {
+        try {
+          el.resultSummaryObj = JSON.parse(el.resultsummary).result;
+        } catch {}
+      }
+    });
+    return surveyStatusList;
   }
 }
