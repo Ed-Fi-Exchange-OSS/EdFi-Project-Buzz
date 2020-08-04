@@ -16,8 +16,7 @@ export default class SurveyStatusEntity {
   @Column({ type: 'int', nullable: false })
   staffkey: number;
 
-  @Column({ type: 'int', nullable: true })
-  surveykey: number;
+  @Column() surveykey: number;
 
   @Column({ type: 'varchar', nullable: false })
   jobkey: string;

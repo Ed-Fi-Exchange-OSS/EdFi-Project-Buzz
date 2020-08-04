@@ -60,7 +60,7 @@ type StudentNote {
 
 type StudentSurvey{
   studentsurveykey:String
-  surveykey: String
+  surveykey: Int
   studentschoolkey: String
   date: String
   survey: Survey
@@ -109,18 +109,18 @@ type StudentSection{
 
 
 type Survey {
-  surveykey: String
+  surveykey: Int
   title: String
   questions: [SurveyQuestion]
 }
 type SurveyQuestion {
   surveyquestionkey: String
-  surveykey: String
+  surveykey: Int
   question: String
   studentanswer: SurveySummaryAnswers
 }
 type AnswersByStudent {
-  surveykey: String
+  surveykey: Int
   surveyquestionkey: String
   question: String
   studentschoolkey: String
@@ -201,5 +201,5 @@ type SurveyStatus {
 
 type JobStatus {
   jobstatuskey: Int
-  description: String  
+  description: String
 }

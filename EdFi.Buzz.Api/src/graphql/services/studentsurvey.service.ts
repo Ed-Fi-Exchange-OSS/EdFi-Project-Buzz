@@ -23,7 +23,7 @@ export default class StudentSurveyService {
     return this.BuzzSurveyRepository.findOne({ where: { surveykey } });
   }
 
-  async findAnwsersByStudent(surveykey: string, studentschoolkey: string): Promise<AnswersByStudentEntity[]> {
+  async findAnwsersByStudent(surveykey: number, studentschoolkey: string): Promise<AnswersByStudentEntity[]> {
     return this.BuzzAnswersByStudentRepository.createQueryBuilder('AnswersByStudent')
       .innerJoin(
         StudentSurveyEntity,

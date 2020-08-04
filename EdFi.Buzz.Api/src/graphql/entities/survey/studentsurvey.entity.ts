@@ -14,8 +14,8 @@ export default class StudentSurveyEntity {
   @PrimaryColumn({ type: 'varchar', nullable: false })
   studentsurveykey: string;
 
-  @Column({ type: 'varchar', nullable: false })
-  surveykey: string;
+  @Column({ type: 'int', nullable: false })
+  surveykey: number;
 
   @Column({ type: 'varchar', nullable: false })
   studentschoolkey: string;

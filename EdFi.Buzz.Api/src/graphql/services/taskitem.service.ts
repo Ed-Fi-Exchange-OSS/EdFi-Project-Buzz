@@ -18,10 +18,12 @@ export default class TaskItemService {
   queueName = process.env.BUZZ_WORKER_JOB_NAME;
 
   async addTaskItem(taskItem: TaskItem): Promise<Job> {
+    const task = taskItem;
+    const taskUUID = uuidv4();
     const workerUtils = await makeWorkerUtils({
       connectionString: `${this.connectionString}`,
     });
-    taskItem.jobkey = uuidv4();
-    return workerUtils.addJob(this.queueName, taskItem, { jobKey: taskItem.jobkey });
+    task.jobkey = taskUUID;
+    return workerUtils.addJob(this.queueName, task, { jobKey: taskUUID });
   }
 }

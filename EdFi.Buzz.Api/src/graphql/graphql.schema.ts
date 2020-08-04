@@ -6,7 +6,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export class AnswersByStudent {
-    surveykey?: string;
+    surveykey?: number;
     surveyquestionkey?: string;
     question?: string;
     studentschoolkey?: string;
@@ -99,6 +99,7 @@ export class Staff {
     staffuniqueid?: string;
     electronicmailaddress?: string;
     isadminsurveyloader?: boolean;
+    isteachersurveyloader?: boolean;
     section?: Section;
     sections?: Section[];
 }
@@ -160,7 +161,7 @@ export class StudentSection {
 
 export class StudentSurvey {
     studentsurveykey?: string;
-    surveykey?: string;
+    surveykey?: number;
     studentschoolkey?: string;
     date?: string;
     survey?: Survey;
@@ -168,14 +169,14 @@ export class StudentSurvey {
 }
 
 export class Survey {
-    surveykey?: string;
+    surveykey?: number;
     title?: string;
     questions?: SurveyQuestion[];
 }
 
 export class SurveyQuestion {
     surveyquestionkey?: string;
-    surveykey?: string;
+    surveykey?: number;
     question?: string;
     studentanswer?: SurveySummaryAnswers;
 }

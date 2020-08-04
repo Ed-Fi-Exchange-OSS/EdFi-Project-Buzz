@@ -10,8 +10,8 @@ import SurveyQuestionEntity from './surveyquestion.entity';
 config({ path: `${__dirname}/../../../../.env` });
 @Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'survey', synchronize: false })
 export default class SurveyEntity {
-  @PrimaryColumn({ type: 'varchar', nullable: false })
-  surveykey: string;
+  @PrimaryColumn({ type: 'int', nullable: false })
+  surveykey: number;
 
   @Column({ type: 'varchar', nullable: false })
   title: string;
