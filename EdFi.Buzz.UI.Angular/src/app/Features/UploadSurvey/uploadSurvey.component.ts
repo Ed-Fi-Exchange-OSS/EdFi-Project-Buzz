@@ -56,12 +56,16 @@ export class UploadSurveyComponent implements OnInit {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         /* clear if there is a timeout waiting */
-        if (this.getJobStatusTimer) {
-          clearTimeout(this.getJobStatusTimer);
-          this.getJobStatusTimer = null;
-        }
+        this.cancelUploadStatusChecking();
       }
     });
+  }
+
+  private cancelUploadStatusChecking() {
+    if (this.getJobStatusTimer) {
+      clearTimeout(this.getJobStatusTimer);
+      this.getJobStatusTimer = null;
+    }
   }
 
   ngOnInit() {
@@ -92,6 +96,7 @@ export class UploadSurveyComponent implements OnInit {
   }
 
   prepareFilesList(files: any) {
+    this.cancelUploadStatusChecking();
     const file = files[0];
     const status = this.CheckFileValid(file);
     if (!status.isValid) {
@@ -152,6 +157,11 @@ export class UploadSurveyComponent implements OnInit {
 
   async GetJobStatus(staffkey: number, jobkey: string) {
     const value = await this.api.survey.getSurveyStatus(staffkey, jobkey);
+    if (!this.message) {
+      /* If message don't have value, don't try to check file status. Probably
+      the user selected a new file to upload. */
+      return;
+    }
     this.message.serverJobStatus = value;
     this.saveLastUploadedSurvey(this.message);
     this.getJobStatusTimer = null;
