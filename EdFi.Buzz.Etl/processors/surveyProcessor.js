@@ -211,8 +211,7 @@ async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
   await saveAllStudentsAnswers(staffkey, survey.surveykey,
     survey.questions, answers, db, surveyProfile);
-  const summary =
-    `{"result": {"survey":{
+  const summary = `{"result": {"survey":{
       "surveykey": ${survey.surveykey},"title": "${survey.title}","questions": ${survey.questions.length}},
       "process":${JSON.stringify(surveyProfile.answers)}}}`;
   await saveSurveyStatus(survey.surveykey, jobStatusEnum.COMPLETED, summary.replace(/\n/g, ' '), jobkey, db);
