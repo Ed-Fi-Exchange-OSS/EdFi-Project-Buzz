@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="position-relative p-t-10">
+    <a class="btn-outline-nav inline-block position-relative" style="top:-10px; left:0px;"
+      href="javascript:history.back(-1)">
+      <i class="ion ion-md-arrow-dropleft f-s-37 position-absolute" style="top:-1px; left:10px;"></i>
+    </a>
+    <h1 class="inline-block position-absolute" style="top:3px; left:44px;">Administrate <span>surveys</span></h1>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body d-flex form-group" style="margin-bottom: 0;">
+          <div class="input-group">
+            <input [(ngModel)]="searchInSurvey" (keyup)="search()" type="text" class="form-control" id="searchInputs"
+              placeholder="Search">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" (click)="search()"><label>Search</label><i
+                  class="ion ion-md-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="!surveyList ||  surveyList .length === 0">
+    <div class="col-12">
+      <div class="alert alert-warning">
+        No survey found.
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="surveyList && surveyList .length > 0">
+
+    <div *ngFor="let survey of surveyList; let i = index " class="col-12 col-md-6">
+      <div class="card survey-metadata">
+        <div class="card-body">
+          <div [ngStyle]="{'borderLeftColor': colorList[i % 6]}">
+            <h2>{{survey.resultSummaryObj.survey.title}}</h2>
+            <p><span>Survey Key:</span> {{survey.surveykey}} </p>
+            <p><span>Job Status:</span> {{survey.jobstatus.description}} </p>
+            <p><span>Questions:</span> {{survey.resultSummaryObj.survey.questions}} </p>
+            <p><span>Answers Load:</span> {{survey.resultSummaryObj.process.load}} </p>
+            <p><span>Answers Rejected:</span> {{survey.resultSummaryObj.process.rejected}} </p>
+            <p><span>Answers Already Loaded:</span> {{survey.resultSummaryObj.process.alreadyLoaded}} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

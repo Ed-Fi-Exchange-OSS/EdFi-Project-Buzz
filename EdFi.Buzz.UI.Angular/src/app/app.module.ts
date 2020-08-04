@@ -33,6 +33,7 @@ import { EnvironmentService } from './Services/environment.service';
 import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.component';
 import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
+import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -68,7 +69,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     UploadSurveyComponent,
     LoginComponent,
     DndDirective,
-    SortAnswersByPipe
+    SortAnswersByPipe,
+    AdminSurveyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -87,6 +89,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard]
