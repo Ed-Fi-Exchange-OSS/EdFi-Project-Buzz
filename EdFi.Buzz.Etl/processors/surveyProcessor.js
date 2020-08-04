@@ -70,13 +70,13 @@ async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
     });
 }
 
-async function getOrSaveSurvey(surveytitle, db) {
+async function getOrSaveSurvey(surveytitle, staffkey, db) {
   return db
-    .query('SELECT surveykey, title FROM buzz.survey where title = $1;', [surveytitle])
+    .query('SELECT surveykey, title FROM buzz.survey where title = $1 and staffkey = $2;', [surveytitle, staffkey])
     .then(async (result) => {
       if (result.rows.length === 0) {
         return db
-          .query('INSERT INTO buzz.survey (title) VALUES($1) RETURNING surveykey, title;', [surveytitle])
+          .query('INSERT INTO buzz.survey (title, staffkey) VALUES($1, $2) RETURNING surveykey, title, staffkey;', [surveytitle, staffkey])
           .then((resultInsert) => resultInsert.rows[0]);
       }
       return result.rows[0];
@@ -198,7 +198,7 @@ async function saveAllStudentsAnswers(
 }
 
 async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
-  const survey = await getOrSaveSurvey(surveytitle, db);
+  const survey = await getOrSaveSurvey(surveytitle, staffkey, db);
   const surveyProfile = {
     survey,
     answers: {
