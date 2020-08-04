@@ -24,4 +24,12 @@ mutation ($staffkey: ID!, $content: String!, $title: String!) {
 }
 `;
 
-export { uploadSurvey };
+const deleteSurvey = gql`
+mutation ($staffkey: ID!, $surveykey: Int!) {
+  deletesurvey(staffkey: $staffkey, surveykey: $surveykey){
+    surveykey
+  }
+}
+`;
+
+export { uploadSurvey, deleteSurvey };

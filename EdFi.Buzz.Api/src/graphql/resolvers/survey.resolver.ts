@@ -24,7 +24,7 @@ export default class SurveyResolvers {
 
   @Mutation('deletesurvey')
   async deletesurvey(
-    @Args('surveykey') surveykey: string,
+    @Args('surveykey') surveykey: number,
   ): Promise<Survey> {
     return this.surveyService.deleteSurvey(surveykey);
   }

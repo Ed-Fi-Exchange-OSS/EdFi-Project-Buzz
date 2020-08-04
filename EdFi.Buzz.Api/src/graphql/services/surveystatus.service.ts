@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
 import JobStatusEntity from '../entities/survey/jobstatus.entity';
+import SurveyEntity from '../entities/survey/survey.entity';
 
 @Injectable()
 export default class SurveyStatusService {
@@ -19,10 +20,29 @@ export default class SurveyStatusService {
 
   async find(staffkey: number, jobkey: string): Promise<SurveyStatusEntity[]> {
     if (jobkey) {
-      return this.BuzzRepository.find({ where: { staffkey, jobkey } });
+      return this.BuzzRepository.createQueryBuilder('SurveyStatus')
+      .innerJoin(
+        SurveyEntity,
+        'se',
+        `SurveyStatus.surveykey = se.surveykey AND se.deletedat IS NULL`
+      )
+      .where(`SurveyStatus.staffkey=${staffkey} AND SurveyStatus.jobkey='${jobkey}'`)
+      .getMany();
+
+      //return this.BuzzRepository.find({ where: { staffkey, jobkey } });
     }
 
-    return this.BuzzRepository.find({ where: { staffkey } });
+    
+    return this.BuzzRepository.createQueryBuilder('SurveyStatus')
+    .innerJoin(
+      SurveyEntity,
+      'se',
+      `SurveyStatus.surveykey = se.surveykey  AND se.deletedat IS NULL`
+    )
+    .where(`SurveyStatus.staffkey=${staffkey}`)
+    .getMany();
+
+    //return this.BuzzRepository.find({ where: { staffkey } });
   }
 
   async findJobStatusByJobStatusKey(jobstatus: number): Promise<JobStatusEntity> {

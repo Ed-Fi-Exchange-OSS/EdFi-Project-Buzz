@@ -15,7 +15,7 @@ export default class SurveyService {
     @InjectRepository(SurveyEntity) private readonly BuzzRepository: Repository<SurveyEntity>,
   ) {}
 
-  async deleteSurvey(surveyKey: string): Promise<SurveyEntity> {
+  async deleteSurvey(surveyKey: number): Promise<SurveyEntity> {
     const d = new Date();
     const datestring = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
     const surveyToDelete = await this.BuzzRepository.findOne(surveyKey);

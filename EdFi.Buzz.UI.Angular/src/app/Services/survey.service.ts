@@ -3,14 +3,13 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-
-
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { uploadSurvey } from './GraphQL/surveyMutations';
 import { EnvironmentService } from './environment.service';
-import { SurveyStatus } from '../Models/survey';
+import { SurveyStatus, Survey } from '../Models/survey';
 import { getSurveyStatus } from './GraphQL/surveyQueries';
+import { deleteSurvey } from './GraphQL/surveyMutations';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +45,11 @@ export class SurveyService {
       }
     });
     return surveyStatusList;
+  }
+
+  async deleteSurvey(staffKey: number, surveyKey: number): Promise<Survey> {
+    const client = this.apollo.getClient();
+    return client.mutate({ mutation: deleteSurvey, variables: { staffkey: staffKey , surveykey: surveyKey } })
+      .then(result =>  result.data.deletesurvey);
   }
 }
