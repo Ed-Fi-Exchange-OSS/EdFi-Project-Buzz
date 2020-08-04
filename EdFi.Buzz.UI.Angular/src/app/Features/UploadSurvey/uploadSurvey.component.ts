@@ -156,7 +156,8 @@ export class UploadSurveyComponent implements OnInit {
   }
 
   async GetJobStatus(staffkey: number, jobkey: string) {
-    const value = await this.api.survey.getSurveyStatus(staffkey, jobkey);
+    const values = await this.api.survey.getSurveyStatus(staffkey, jobkey);
+    const value = values.length > 0 ? values[0] : null;
     if (!this.message) {
       /* If message don't have value, don't try to check file status. Probably
       the user selected a new file to upload. */
