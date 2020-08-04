@@ -43,6 +43,8 @@ export abstract class IMutation {
     abstract deletestudentnote(staffkey: number, studentnotekey: number): StudentNote | Promise<StudentNote>;
 
     abstract uploadsurvey(staffkey: string, title: string, content: string): SurveyStatus | Promise<SurveyStatus>;
+
+    abstract deletesurvey(staffkey: string, surveykey: string): Survey | Promise<Survey>;
 }
 
 export abstract class IQuery {
@@ -170,7 +172,9 @@ export class StudentSurvey {
 
 export class Survey {
     surveykey?: number;
+    staffkey?: number;
     title?: string;
+    deletedat?: string;
     questions?: SurveyQuestion[];
 }
 

@@ -11,7 +11,7 @@ import SurveyEntity from '../entities/survey/survey.entity';
 import AnswersByStudentEntity from '../entities/survey/answersbystudent.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SurveyEntity, AnswersByStudentEntity])],
+  imports: [TypeOrmModule.forFeature([SurveyEntity, AnswersByStudentEntity, SurveyEntity])],
   providers: [StudentSurveyService, StudentSurveyResolvers],
 })
 export default class StudentSurveyModule {}
