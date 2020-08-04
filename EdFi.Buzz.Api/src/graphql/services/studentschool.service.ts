@@ -12,6 +12,7 @@ import StudentSchoolEntity from '../entities/studentschool.entity';
 import StudentContactEntity from '../entities/studentcontact.entity';
 import StudentSurveyEntity from '../entities/survey/studentsurvey.entity';
 import StudentNoteEntity from '../entities/studentnote.entity';
+import SurveyEntity from '../entities/survey/survey.entity';
 
 @Injectable()
 export default class SectionService {
@@ -90,6 +91,11 @@ export default class SectionService {
         StudentSchoolEntity,
         'ss',
         `studentsurvey.studentschoolkey = ss.studentschoolkey and ss.studentschoolkey='${studentschoolkey}'`,
+      )
+      .innerJoin(
+        SurveyEntity,
+        'se',
+        'studentsurvey.surveykey = se.surveykey and se.deletedat IS NULL',
       )
       .where({ studentschoolkey })
       .getMany();

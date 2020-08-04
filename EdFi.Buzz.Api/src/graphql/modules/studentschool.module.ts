@@ -13,6 +13,7 @@ import ContactPersonEntity from '../entities/contactperson.entity';
 import SchoolEntity from '../entities/school.entity';
 import StudentNoteEntity from '../entities/studentnote.entity';
 import StudentSurveyEntity from '../entities/survey/studentsurvey.entity';
+import SurveyEntity from '../entities/survey/survey.entity';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import StudentSurveyEntity from '../entities/survey/studentsurvey.entity';
       SchoolEntity,
       StudentSurveyEntity,
       StudentNoteEntity,
+      SurveyEntity,
     ]),
   ],
   providers: [StudentSchoolService, StudentSchoolResolvers],
