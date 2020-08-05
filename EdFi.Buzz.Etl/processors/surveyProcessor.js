@@ -26,11 +26,11 @@ const METADATA_FIELDS = [
   'StudentsELATeacher',
 ];
 
-async function getDB() {
+async function getDB(logger) {
   const connectionString = `postgres://${pgConfig.user}:${pgConfig.password}@${pgConfig.host}:${pgConfig.port}/${pgConfig.database}`;
 
   const client = new Client({ connectionString });
-  await client.connect().catch((e) => console.error(e));
+  await client.connect().catch((e) => logger.error(e));
   return client;
 }
 
@@ -60,12 +60,12 @@ async function Extract(fileName) {
   });
 }
 
-async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
+async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db, logger) {
   return db
     .query('UPDATE buzz.surveystatus SET surveykey=$1, jobstatuskey=$2, resultsummary=$3 WHERE jobkey=$4;', [surveykey, jobstatuskey, summary, jobkey])
     .then((result) => result.rows)
     .catch((err) => {
-      console.error(`ERROR: ${err} - ${err.detail}`);
+      logger.error(`ERROR: ${err} - ${err.detail}`);
       return null;
     });
 }
@@ -107,7 +107,7 @@ async function getOrSaveQuestions(questions, surveykey, db) {
   return db.query('SELECT * FROM buzz.surveyquestion sq where sq.surveykey = $1', [surveykey]).then((result) => result.rows);
 }
 
-async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db) {
+async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db, logger) {
   const surveyDateField = studentAnswers[SURVEY_DATE_FIELD];
   const studentkey = studentAnswers[STUDENT_SCHOOL_KEY_FIELD];
 
@@ -116,7 +116,7 @@ async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db) {
     [studentkey, staffkey],
   );
   if (studentSchoolKeyRow.rows.length === 0) {
-    console.error(`ERROR: StudentUniqueId (${studentkey}) not found as a valid student for staff (${staffkey}) `);
+    logger.error(`ERROR: StudentUniqueId (${studentkey}) not found as a valid student for staff (${staffkey}) `);
     return null;
   }
 
@@ -138,7 +138,7 @@ async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db) {
     ])
     .then((resultInsert) => resultInsert.rows[0])
     .catch((err) => {
-      console.error(`ERROR: ${err.detail}`);
+      logger.error(`ERROR: ${err.detail}`);
       return null;
     });
 }
@@ -178,7 +178,7 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
 
 async function saveAllStudentsAnswers(
   staffkey, surveykey, questions,
-  studentSurveyAnswers, db, surveyProfile,
+  studentSurveyAnswers, db, surveyProfile, logger,
 ) {
   const questionKeyMap = {};
   questions.forEach((element) => {
@@ -188,7 +188,7 @@ async function saveAllStudentsAnswers(
   for (let i = 0; i < studentSurveyAnswers.length; i += 1) {
     const currentAnswer = studentSurveyAnswers[i];
     promises.push(
-      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db)
+      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db, logger)
         .then((studentsurvey) => saveStudentAnswers(
           studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile,
         )),
@@ -197,7 +197,7 @@ async function saveAllStudentsAnswers(
   return Promise.allSettled(promises);
 }
 
-async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
+async function Load(staffkey, jobkey, surveykey, uploadsurvey, surveytitle, questions, answers, db, logger) {
   const survey = await getOrSaveSurvey(surveytitle, staffkey, db);
   const surveyProfile = {
     survey,
@@ -210,7 +210,7 @@ async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
   saveSurveyStatus(survey.surveykey, jobStatusEnum.PROCESSING, '', jobkey, db);
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
   await saveAllStudentsAnswers(staffkey, survey.surveykey,
-    survey.questions, answers, db, surveyProfile);
+    survey.questions, answers, db, surveyProfile, logger);
   const summary = `{"result": {"survey":{
       "surveykey": ${survey.surveykey},"title": "${survey.title}","questions": ${survey.questions.length}},
       "process":${JSON.stringify(surveyProfile.answers)}}}`;
@@ -219,15 +219,19 @@ async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
   return surveyProfile;
 }
 
-const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
-  const db = await getDB();
+const process = async (staffkey, surveykey, uploadsurvey, surveytitle, filename, filePath, jobkey, logger) => {
+  const db = await getDB(logger);
   if (!(await isSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 
   const data = await Extract(path.join(filePath, filename));
-  const result = await Load(staffkey, jobkey, surveytitle, data.questions, data.answers, db);
-  console.log('result:', {
+  const result = await Load(
+    staffkey, jobkey,
+    surveykey, uploadsurvey,
+    surveytitle, data.questions, data.answers, db, logger,
+  );
+  logger.info('result:', {
     survey: {
       surveykey: result.survey.surveykey,
       title: result.survey.title,
