@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import './teacherLandingReact.css';
+import './teacherLanding.css';
 import { ApiService } from 'src/app/Services/api.service';
 import { Student, Section } from 'src/app/Models'
 
-export interface IMyComponentProps {
+export interface TeacherLandingComponentProps {
   onClick?: () => void;
   api: ApiService;
 }
@@ -51,7 +51,7 @@ function StudentCard(props) {
 
       <div className="d-flex p-t-12">
         <div>
-          <a >
+          <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
             <div className="image-container img-avatar img-size">
               <img src={student.pictureurl} alt={`{student.name} Profile Picture`} />
             </div>
@@ -102,7 +102,7 @@ function StudentCard(props) {
           <h4>Preferred Contact Method: <span className="text-muted">{student.contacts[0].preferredcontactmethod}</span></h4> &&
           <h4>Best time to contact: <span className="text-muted">{student.contacts[0].besttimetocontact}</span></h4>}
 
-        <a /*[routerLink]="['/app/studentDetail', student.studentschoolkey]"*/
+        <a href={`#/app/studentDetail/${student.studentschoolkey}`}
           className="btn btn-block btn-outline-primary btn-rounded mt-3">Survey Results</a>
         <hr />
         <h3>Notes</h3>
@@ -121,7 +121,7 @@ function StudentCard(props) {
   </div >);
 }
 
-export const TeacherLandingReact: FunctionComponent<IMyComponentProps> = (props: IMyComponentProps) => {
+export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (props: TeacherLandingComponentProps) => {
 
   const [sectionList, setSections] = useState([] as Section[]);
   const [studentList, setStudentList] = useState([] as Student[]);

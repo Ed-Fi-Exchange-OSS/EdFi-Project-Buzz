@@ -11,7 +11,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { TeacherLandingReact } from './teacherLandingReact';
+import { TeacherLanding } from './teacherLanding';
 import * as React from 'react';
 
 import * as ReactDOM from 'react-dom';
@@ -22,7 +22,7 @@ const containerElementName = 'teacherLandingReactComponentContainer';
 @Component({
   selector: 'app-teacher-landing-react',
   template: `<span #${containerElementName}></span>`,
-  styleUrls: ['./teacherLandingReact.css'],
+  styleUrls: ['./teacherLanding.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
@@ -57,6 +57,6 @@ export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy
   private render() {
     const {counter} = this;
 
-    ReactDOM.render(<TeacherLandingReact api={this.api} onClick={this.handleDivClicked}/>, this.containerRef.nativeElement);
+    ReactDOM.render(<TeacherLanding api={this.api} onClick={this.handleDivClicked}/>, this.containerRef.nativeElement);
   }
 }
