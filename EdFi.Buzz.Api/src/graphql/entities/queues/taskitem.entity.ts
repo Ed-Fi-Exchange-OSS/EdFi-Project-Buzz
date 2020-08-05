@@ -8,4 +8,8 @@ export default class TaskItem {
   title?: string;
 
   jobkey?: string;
+
+  surveykey?: number;
+
+  updatesurvey?: boolean;
 }

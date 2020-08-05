@@ -6,7 +6,7 @@
 type Mutation {
   addstudentnote(staffkey: Int!, studentschoolkey: String!, note: String!): StudentNote
   deletestudentnote(staffkey: Int!, studentnotekey: Int!): StudentNote
-  uploadsurvey(staffkey: ID!, title: String!, content: String!): SurveyStatus
+  uploadsurvey(staffkey: ID!, title: String!, content: String!, surveykey: Int): SurveyStatus
   deletesurvey(staffkey: ID!, surveykey: String!): Survey
 }
 type Query{

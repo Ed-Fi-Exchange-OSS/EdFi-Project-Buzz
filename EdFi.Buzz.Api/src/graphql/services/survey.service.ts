@@ -22,4 +22,8 @@ export default class SurveyService {
     surveyToDelete.deletedat = datestring;
     return this.BuzzRepository.save(surveyToDelete);
   }
+
+  async findOneById(id: number): Promise<SurveyEntity> {
+    return this.BuzzRepository.findOne({ where: { surveykey: id } });
+  }
 }

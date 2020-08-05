@@ -42,7 +42,7 @@ export abstract class IMutation {
 
     abstract deletestudentnote(staffkey: number, studentnotekey: number): StudentNote | Promise<StudentNote>;
 
-    abstract uploadsurvey(staffkey: string, title: string, content: string): SurveyStatus | Promise<SurveyStatus>;
+    abstract uploadsurvey(staffkey: string, title: string, content: string, surveykey?: number): SurveyStatus | Promise<SurveyStatus>;
 
     abstract deletesurvey(staffkey: string, surveykey: string): Survey | Promise<Survey>;
 }
