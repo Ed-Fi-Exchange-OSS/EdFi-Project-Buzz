@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": "./",
     "module": "esnext",
     "outDir": "./dist/out-tsc",
