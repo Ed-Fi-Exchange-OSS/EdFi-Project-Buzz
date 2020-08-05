@@ -10,7 +10,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute;">
           <a *ngIf="teacher.isadminsurveyloader || teacher.isteachersurveyloader" [routerLink]="['/app/uploadSurvey']" class="dropdown-item" ><i class="icon ion-md-cloud-upload"></i> Upload survey</a>
-          <a *ngIf="teacher.isadminsurveyloader || teacher.isteachersurveyloader" [routerLink]="['/app/adminSurvey']" class="dropdown-item" ><i class="icon ion-md-build"></i> Admin. surveys</a>
+          <a *ngIf="teacher.isadminsurveyloader" [routerLink]="['/app/adminSurvey']" class="dropdown-item" ><i class="icon ion-md-build"></i> Admin. surveys</a>
           <a class="dropdown-item" (click)="signOut();"><i class="icon ion-md-unlock"></i> Log out</a>
         </div>
       </li>
