@@ -166,8 +166,6 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
           .then((result) => {
             if (result.rowCount > 0) {
               surveyProfile.answers.load += 1;
-            } else {
-              surveyProfile.answers.alreadyLoaded += 1;
             }
           }),
       );
@@ -276,6 +274,25 @@ async function deleteSurveyAnswers(db, surveytitle, staffkey) {
     });
 }
 
+async function getAlreadyLoadedStudentAnswers(db, surveytitle, staffkey) {
+  return db.query(`
+ SELECT COUNT(*) as alreadyloaded
+   FROM buzz.studentsurvey
+   INNER JOIN buzz.studentsurveyanswer USING (studentsurveykey)
+   INNER JOIN buzz.survey USING (surveykey)
+   WHERE
+     survey.title=$1 AND
+     survey.staffkey=$2 AND
+ survey.deletedat IS NULL;
+`,
+  [surveytitle, staffkey])
+    .then((result) => result.rows[0])
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+      return null;
+    });
+}
+
 const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
   const db = await getDB();
   if (!(await isSurveyLoader(staffkey, db))) {
@@ -285,12 +302,15 @@ const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
   let alreadyLoaded = 0;
   const { updatesurvey } = await getExistingSurvey(db, staffkey, surveytitle);
   if (updatesurvey) {
+    const studentAnswers = await getAlreadyLoadedStudentAnswers(db, surveytitle, staffkey);
+    alreadyLoaded = parseInt(studentAnswers.alreadyloaded, 10);
     await deleteSurvey(db, surveytitle, staffkey);
-    alreadyLoaded = await deleteSurveyAnswers(db, surveytitle, staffkey);
+    await deleteSurveyAnswers(db, surveytitle, staffkey);
   }
 
   const data = await Extract(path.join(filePath, filename));
   data.answers.alreadyLoaded = alreadyLoaded;
+
   const result = await Load(
     staffkey, jobkey,
     surveytitle, data.questions, data.answers, db,
