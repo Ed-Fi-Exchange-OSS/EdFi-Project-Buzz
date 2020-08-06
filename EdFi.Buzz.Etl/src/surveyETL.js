@@ -14,9 +14,13 @@ function getArgs(argv) {
   const args = {
     debug: true,
     help: false,
-    staffkey: null,
-    filename: '../surveySampleData/InternetAccessSurvey.csv',
-    surveyTitle: 'Internet Access',
+    staffkey: 1030,
+    surveykey: 1,
+    uploadsurvey: false,
+    surveytitle: 'Contact',
+    filename: 'staffkey-1030-ContactSurvey.csv',
+    filePath: '../surveySampleData/',
+    jobkey: '123456789abcdef',
   };
 
   if (argv[2] === '--help' || argv[2] === '-h') {
@@ -24,12 +28,15 @@ function getArgs(argv) {
     return args;
   }
 
-  if (argv.length > 5 || argv.length < 5) {
-    args.help = !args.debug && argv.length < 5;
+  if (argv.length > 9 || argv.length < 9) {
+    args.help = !args.debug && argv.length < 9;
     return args;
   }
 
-  [, , args.staffkey, args.filename, args.surveyTitle] = argv;
+  [, , args.staffkey, args.surveykey,
+    args.uploadsurvey, args.surveytitle,
+    args.filename, args.filePath,
+    args.jobkey] = argv;
 
   return args;
 }
@@ -43,7 +50,9 @@ async function main() {
   }
 
   console.time('Load survey time');
-  await surveyProcessor.process(args.staffkey, args.surveyTitle, args.filename);
+  await surveyProcessor.process(args.staffkey, args.surveykey,
+    args.uploadsurvey, args.surveytitle, args.filename, args.filePath,
+    args.jobkey, console);
   console.timeEnd('Load survey time');
 }
 

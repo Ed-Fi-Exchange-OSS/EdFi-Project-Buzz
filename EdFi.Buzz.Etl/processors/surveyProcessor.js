@@ -26,11 +26,11 @@ const METADATA_FIELDS = [
   'StudentsELATeacher',
 ];
 
-async function getDB(logger) {
+async function getDB() {
   const connectionString = `postgres://${pgConfig.user}:${pgConfig.password}@${pgConfig.host}:${pgConfig.port}/${pgConfig.database}`;
 
   const client = new Client({ connectionString });
-  await client.connect().catch((e) => logger.error(e));
+  await client.connect().catch((e) => console.error(e));
   return client;
 }
 
@@ -60,19 +60,19 @@ async function Extract(fileName) {
   });
 }
 
-async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db, logger) {
+async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
   return db
     .query('UPDATE buzz.surveystatus SET surveykey=$1, jobstatuskey=$2, resultsummary=$3 WHERE jobkey=$4;', [surveykey, jobstatuskey, summary, jobkey])
     .then((result) => result.rows)
     .catch((err) => {
-      logger.error(`ERROR: ${err} - ${err.detail}`);
+      console.error(`ERROR: ${err} - ${err.detail}`);
       return null;
     });
 }
 
 async function getOrSaveSurvey(surveytitle, staffkey, db) {
   return db
-    .query('SELECT surveykey, title FROM buzz.survey where title = $1 and staffkey = $2;', [surveytitle, staffkey])
+    .query('SELECT surveykey, title FROM buzz.survey where deletedat IS NULL AND title = $1 and staffkey = $2;', [surveytitle, staffkey])
     .then(async (result) => {
       if (result.rows.length === 0) {
         return db
@@ -107,7 +107,7 @@ async function getOrSaveQuestions(questions, surveykey, db) {
   return db.query('SELECT * FROM buzz.surveyquestion sq where sq.surveykey = $1', [surveykey]).then((result) => result.rows);
 }
 
-async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db, logger) {
+async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db, console) {
   const surveyDateField = studentAnswers[SURVEY_DATE_FIELD];
   const studentkey = studentAnswers[STUDENT_SCHOOL_KEY_FIELD];
 
@@ -116,7 +116,7 @@ async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db, l
     [studentkey, staffkey],
   );
   if (studentSchoolKeyRow.rows.length === 0) {
-    logger.error(`ERROR: StudentUniqueId (${studentkey}) not found as a valid student for staff (${staffkey}) `);
+    console.error(`ERROR: StudentUniqueId (${studentkey}) not found as a valid student for staff (${staffkey}) `);
     return null;
   }
 
@@ -138,7 +138,7 @@ async function getOrSaveStudentSurvey(staffkey, surveykey, studentAnswers, db, l
     ])
     .then((resultInsert) => resultInsert.rows[0])
     .catch((err) => {
-      logger.error(`ERROR: ${err.detail}`);
+      console.error(`ERROR: ${err.detail}`);
       return null;
     });
 }
@@ -178,7 +178,7 @@ WHERE NOT EXISTS (SELECT FROM buzz.studentsurveyanswer WHERE studentsurveykey = 
 
 async function saveAllStudentsAnswers(
   staffkey, surveykey, questions,
-  studentSurveyAnswers, db, surveyProfile, logger,
+  studentSurveyAnswers, db, surveyProfile,
 ) {
   const questionKeyMap = {};
   questions.forEach((element) => {
@@ -188,7 +188,7 @@ async function saveAllStudentsAnswers(
   for (let i = 0; i < studentSurveyAnswers.length; i += 1) {
     const currentAnswer = studentSurveyAnswers[i];
     promises.push(
-      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db, logger)
+      getOrSaveStudentSurvey(staffkey, surveykey, currentAnswer, db)
         .then((studentsurvey) => saveStudentAnswers(
           studentsurvey, questionKeyMap, currentAnswer, db, surveyProfile,
         )),
@@ -197,20 +197,21 @@ async function saveAllStudentsAnswers(
   return Promise.allSettled(promises);
 }
 
-async function Load(staffkey, jobkey, surveykey, uploadsurvey, surveytitle, questions, answers, db, logger) {
+async function Load(staffkey, jobkey,
+  surveytitle, questions, answers, db) {
   const survey = await getOrSaveSurvey(surveytitle, staffkey, db);
   const surveyProfile = {
     survey,
     answers: {
       load: 0,
       rejected: 0,
-      alreadyLoaded: 0,
+      alreadyLoaded: answers.alreadyLoaded,
     },
   };
   saveSurveyStatus(survey.surveykey, jobStatusEnum.PROCESSING, '', jobkey, db);
   survey.questions = await getOrSaveQuestions(questions, survey.surveykey, db);
   await saveAllStudentsAnswers(staffkey, survey.surveykey,
-    survey.questions, answers, db, surveyProfile, logger);
+    survey.questions, answers, db, surveyProfile);
   const summary = `{"result": {"survey":{
       "surveykey": ${survey.surveykey},"title": "${survey.title}","questions": ${survey.questions.length}},
       "process":${JSON.stringify(surveyProfile.answers)}}}`;
@@ -219,19 +220,83 @@ async function Load(staffkey, jobkey, surveykey, uploadsurvey, surveytitle, ques
   return surveyProfile;
 }
 
-const process = async (staffkey, surveykey, uploadsurvey, surveytitle, filename, filePath, jobkey, logger) => {
-  const db = await getDB(logger);
+async function getExistingSurvey(db, staffkey, surveytitle) {
+  return db.query(`
+      SELECT false as updatesurvey
+      WHERE NOT EXISTS(SELECT surveykey
+      FROM buzz.survey
+      WHERE
+      staffkey=$1 AND deletedat IS NULL AND title = $2)
+      UNION
+      SELECT true as updatesurvey
+      FROM buzz.survey
+      WHERE
+      deletedat IS NULL AND
+      staffkey=$1 AND
+      title = $2`, [staffkey, surveytitle])
+    .then(async (result) => {
+      console.debug(`${JSON.stringify(result.rows[0])}`);
+      return result.rows[0];
+    })
+    .catch((err) => {
+      console.error(`ERROR: ${JSON.stringify(err)}`);
+      return null;
+    });
+}
+
+async function deleteSurvey(db, surveytitle, staffkey) {
+  const d = new Date();
+  const datestring = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  return db.query(`
+  UPDATE buzz.survey SET deletedat=$1 WHERE title=$2 AND staffkey=$3;`,
+  [datestring, surveytitle, staffkey])
+    .then((result) => result.result)
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+      return null;
+    });
+}
+
+async function deleteSurveyAnswers(db, surveytitle, staffkey) {
+  return db.query(`
+  UPDATE buzz.studentsurveyanswer
+  SET deletedat = buzz.survey.deletedat
+  FROM buzz.studentsurvey
+  JOIN buzz.survey USING (surveykey)
+  WHERE
+    survey.title=$1 AND
+    survey.staffkey=$2 AND
+    survey.deletedat IS NOT NULL AND
+    buzz.studentsurveyanswer.studentsurveykey = buzz.studentsurvey.studentsurveykey;`,
+  [surveytitle, staffkey])
+    .then((result) => result.rowCount)
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+      return null;
+    });
+}
+
+const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
+  const db = await getDB();
   if (!(await isSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 
+  let alreadyLoaded = 0;
+  const { updatesurvey } = await getExistingSurvey(db, staffkey, surveytitle);
+  if (updatesurvey) {
+    await deleteSurvey(db, surveytitle, staffkey);
+    alreadyLoaded = await deleteSurveyAnswers(db, surveytitle, staffkey);
+  }
+
   const data = await Extract(path.join(filePath, filename));
+  data.answers.alreadyLoaded = alreadyLoaded;
   const result = await Load(
     staffkey, jobkey,
-    surveykey, uploadsurvey,
-    surveytitle, data.questions, data.answers, db, logger,
+    surveytitle, data.questions, data.answers, db,
   );
-  logger.info('result:', {
+
+  console.info('result:', {
     survey: {
       surveykey: result.survey.surveykey,
       title: result.survey.title,
