@@ -44,7 +44,7 @@ export abstract class IMutation {
 
     abstract uploadsurvey(staffkey: string, title: string, content: string, surveykey?: number): SurveyStatus | Promise<SurveyStatus>;
 
-    abstract deletesurvey(staffkey: string, surveykey: string): Survey | Promise<Survey>;
+    abstract deletesurvey(staffkey: string, surveykey: number): Survey | Promise<Survey>;
 }
 
 export abstract class IQuery {

@@ -52,3 +52,10 @@ export class JobStatus {
   jobstatuskey: number;
   description: string;
 }
+
+export class Survey {
+  surveykey?: number;
+  staffkey?: number;
+  title?: string;
+  deletedat?: string;
+}
