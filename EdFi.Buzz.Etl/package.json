@@ -8,6 +8,7 @@
     "lint:ci": "eslint \"./**/*.{js,jsx,ts,tsx}\" --format ./node_modules/eslint-teamcity/index.js",
     "build:clean": "rimraf dist",
     "build": "node eng/build.js",
+    "debug:survey": "env-cmd -x npx --node-arg --inspect graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\"",
     "start:survey": "env-cmd -x npx graphile-worker -c \"postgresql://postgres:$BUZZ_PASSWORD@$BUZZ_DBSERVER/$BUZZ_DBNAME\"",
     "start:db": "node -r .\\src\\dbEtl.js",
     "test:ci": "echo There are no tests for this project"
