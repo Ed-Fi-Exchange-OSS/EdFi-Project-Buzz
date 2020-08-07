@@ -4,7 +4,7 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from 'src/app/Services/api.service';
 import { SurveyStatus } from 'src/app/Models/survey';
-import { Router, NavigationStart, Event } from '@angular/router';
+import { Router, NavigationStart, Event, ActivatedRoute } from '@angular/router';
 
 interface FileStatus {
   fileName: string;
@@ -27,6 +27,10 @@ export class UploadSurveyComponent implements OnInit {
 
   currentUserStaffKey: number;
 
+  private surveyList: SurveyStatus[];
+  
+  /// surveyToUpdate null indicates this is not an update, but a normal survey upload.
+  private surveyToUpdate: SurveyStatus = null;
   form: FormGroup;
   @ViewChild('UploadFileInput', { static: false }) uploadFileInput: ElementRef;
   @ViewChild('UploadFileLabel', { static: false }) uploadFileLabel: ElementRef;
@@ -41,7 +45,8 @@ export class UploadSurveyComponent implements OnInit {
     private fb: FormBuilder,
     private api: ApiService,
     private title: Title,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.storage = sessionStorage;
     this.SURVEY_MAX_FILE_SIZE_BYTES = this.api.survey.SURVEY_MAX_FILE_SIZE_BYTES;
@@ -68,8 +73,17 @@ export class UploadSurveyComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.message = this.loadLastUploadedSurvey();
+
+    this.surveyList = await this.api.survey.getSurveyStatus(
+      this.api.authentication.currentUserValue.teacher.staffkey, null);
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      if (params.get('id')) {
+        this.surveyToUpdate = this.surveyList.find(el => el.surveykey === +params.get('id'));
+      }
+    });
   }
 
   loadLastUploadedSurvey() {
@@ -133,7 +147,7 @@ export class UploadSurveyComponent implements OnInit {
     const content = await this.getFileContentAsBase64(file);
 
     this.api.survey
-      .uploadSurvey(this.currentUserStaffKey, title, content)
+      .uploadSurvey(this.currentUserStaffKey, title, content, this.surveyToUpdate ? this.surveyToUpdate.surveykey : null)
       .then(value => {
         this.message = {
           fileName: file.name,

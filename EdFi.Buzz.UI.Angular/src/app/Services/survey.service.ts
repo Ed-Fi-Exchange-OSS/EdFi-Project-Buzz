@@ -23,13 +23,13 @@ export class SurveyService {
     this.JOB_STATUS_FINISH_IDS = this.env.environment.JOB_STATUS_FINISH_IDS;
   }
 
-  async uploadSurvey(staffKey: number, title: string, content: string): Promise<SurveyStatus> {
+  async uploadSurvey(staffKey: number, title: string, content: string, surveykey: number): Promise<SurveyStatus> {
     if (content.length > this.SURVEY_MAX_FILE_SIZE_BYTES) {
       return Promise.reject(`Encoded file size (${(content.length / 1024.0).toFixed(2)}) must be less than ${(this.SURVEY_MAX_FILE_SIZE_BYTES / 1024.0).toFixed(2)} Kb`);
     }
     const client = this.apollo.getClient();
     return client
-      .mutate({ mutation: uploadSurvey, variables: { staffkey: staffKey, content: content, title: title } })
+      .mutate({ mutation: uploadSurvey, variables: { staffkey: staffKey, content: content, title: title, surveykey: surveykey } })
       .then(result => result.data.uploadsurvey);
   }
 

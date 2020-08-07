@@ -89,6 +89,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'uploadSurvey/:id', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
