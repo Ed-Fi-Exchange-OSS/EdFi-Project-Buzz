@@ -6,16 +6,16 @@ const absolutePath = require('path');
 const fs = require('fs');
 
 module.exports = async (payload, helpers) => {
-   try {
-   const {
-      staffkey, title, filename, path, jobkey,
+  try {
+    const {
+      staffkey, title, filename, path,
     } = payload;
     const filePath = absolutePath.join(path, filename);
     helpers.logger.info(
       `Running the Survey clean up process for ${staffkey} to delete survey file '${title}', filename: ${filename}, path: ${path}`,
     );
     // delete file
-    fs.unlink(filePath, function (err) {
+    fs.unlink(filePath, (err) => {
       if (err) throw err;
       // if no error, file has been deleted successfully
       helpers.logger.info(`File ${filePath} deleted.`);

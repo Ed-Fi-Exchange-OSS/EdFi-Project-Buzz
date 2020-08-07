@@ -16,6 +16,7 @@ export default class TaskItemService {
   )}/${process.env.BUZZ_API_DB_DATABASE}?ssl=0`;
 
   queueName = process.env.BUZZ_WORKER_JOB_NAME;
+
   cleanUpQueueName = process.env.BUZZ_WORKER_CLEANUP_JOB_NAME;
 
   async addTaskItem(taskItem: TaskItem): Promise<Job> {
@@ -36,9 +37,9 @@ export default class TaskItemService {
     const workerUtils = await makeWorkerUtils({
       connectionString: `${this.connectionString}`,
     });
-    let runAt = new Date();
-    runAt.setDate(runAt.getDate()+retentionDays);
+    const runAt = new Date();
+    runAt.setDate(runAt.getDate() + retentionDays);
     task.jobkey = taskUUID;
-    return workerUtils.addJob(this.cleanUpQueueName, task, { runAt: runAt, jobKey: taskUUID });
+    return workerUtils.addJob(this.cleanUpQueueName, task, { runAt, jobKey: taskUUID });
   }
 }
