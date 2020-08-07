@@ -22,7 +22,7 @@ const containerElementName = 'teacherLandingReactComponentContainer';
 @Component({
   selector: 'app-teacher-landing-react',
   template: `<span #${containerElementName}></span>`,
-  styleUrls: ['./teacherLanding.css'],
+  styleUrls: ['./teacherLanding.css', './StudentTable.css', '../../../Components/StudentCardReact/StudentCard.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
