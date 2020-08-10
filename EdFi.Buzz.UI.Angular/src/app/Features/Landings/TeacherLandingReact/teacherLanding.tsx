@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import './teacherLanding.css';
 import { ApiService } from 'src/app/Services/api.service';
 import { Student, Section } from 'src/app/Models';
-import { SearchInSections } from './SearchInSections';
+import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/SearchInSections';
 import { StudentCard } from 'src/app/Components/StudentCardReact/StudentCard';
 import { StudentTable } from './StudentTable';
 
@@ -15,17 +15,15 @@ export interface TeacherLandingComponentProps {
 
 export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (props: TeacherLandingComponentProps) => {
 
-  const [sectionList, setSections] = useState([] as Section[]);
+  const teacher = props.api.authentication.currentUserValue.teacher;
+  const [sectionList, setSections] = useState(teacher.sections as Section[]);
   const [studentList, setStudentList] = useState([] as Student[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState(null as string);
   enum ViewType { Card, Grid }
   const [viewType, setViewType] = useState(ViewType.Card); /* CARDS, GRID */
 
-  if (!sectionList || sectionList.length === 0) {
-    props.api.section.getByTeacherId().then(sectionsValue => {
-      setSections(sectionsValue);
-      onSearchHandle(sectionsValue[0].sectionkey, null);
-    });
+  if (null === selectedSectionKey && sectionList && sectionList.length > 0) {
+    onSearchHandle(sectionList[0].sectionkey, null);
   }
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
