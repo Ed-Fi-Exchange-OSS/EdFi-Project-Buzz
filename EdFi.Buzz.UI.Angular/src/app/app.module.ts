@@ -33,6 +33,7 @@ import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
 import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
 import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
+import { SurveyAnalyticsReactWrapperComponent } from './Features/SurveyAnalyticsReact/surveyAnalyticsReactWrapper';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -68,7 +69,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     DndDirective,
     SortAnswersByPipe,
     AdminSurveyComponent,
-    TeacherLandingReactWrapperComponent
+    TeacherLandingReactWrapperComponent,
+    SurveyAnalyticsReactWrapperComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -83,10 +85,10 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     RouterModule.forRoot([
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
-          // { path: '', component: TeacherLandingComponent },
           { path: '', component: TeacherLandingReactWrapperComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
+          { path: 'surveyAnalyticsReact', component: SurveyAnalyticsReactWrapperComponent },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'uploadSurvey/:id', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
