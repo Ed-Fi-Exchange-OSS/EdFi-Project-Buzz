@@ -5,6 +5,8 @@ import { ApiService } from 'src/app/Services/api.service';
 import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/SearchInSections';
 import { Section, SurveyMetadata } from 'src/app/Models';
 
+import { SurveyMetadataUI } from './surveyMetadataUI';
+
 export interface SurveyAnalyticsComponentProps {
   api: ApiService;
 }
@@ -27,6 +29,9 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       });
   }
 
+  function OnsurveySelectedHandler(surveyMetadata: SurveyMetadata){
+    alert(`Suvey selected: [${surveyMetadata.title}]`);
+  }
 
   return <main role='main' className='container'>
     <div className='position-relative p-t-10 back-button'>
@@ -41,6 +46,10 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
     {(!showSearchResults) && <h1>Click "Search" to Show Results</h1>}
     {(showSearchResults) && <h1>Search Results</h1>}
 
+    {(showSearchResults) && <div className="row" >
+      <SurveyMetadataUI surveyMetadataList={surveyMetadataList} onSurveySelected={OnsurveySelectedHandler} />
+    </div>
+    }
 
   </main>;
 };
