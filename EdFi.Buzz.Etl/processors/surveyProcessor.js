@@ -241,7 +241,8 @@ async function getAlreadyLoadedStudentAnswers(db, surveykey, staffkey) {
     });
 }
 
-async function Load(updatesurvey, surveykey, staffkey, jobkey, surveytitle, questions, answers, db) {
+async function Load(updatesurvey, surveykey, staffkey,
+  jobkey, surveytitle, questions, answers, db) {
   const { alreadyloaded } = await getAlreadyLoadedStudentAnswers(db, surveykey, staffkey);
   const survey = await getOrSaveSurvey(updatesurvey, surveykey, surveytitle, staffkey, db);
   const surveyProfile = {
@@ -264,14 +265,16 @@ async function Load(updatesurvey, surveykey, staffkey, jobkey, surveytitle, ques
   return surveyProfile;
 }
 
-const process = async (surveykey, updatesurvey, staffkey, surveytitle, filename, filePath, jobkey) => {
+const process = async (surveykey, updatesurvey, staffkey,
+  surveytitle, filename, filePath, jobkey) => {
   const db = await getDB();
   if (!(await isSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 
   const data = await Extract(path.join(filePath, filename));
-  const result = await Load(updatesurvey, surveykey, staffkey, jobkey, surveytitle, data.questions, data.answers, db);
+  const result = await Load(updatesurvey, surveykey,
+    staffkey, jobkey, surveytitle, data.questions, data.answers, db);
   console.log('result:', {
     survey: {
       surveykey: result.survey.surveykey,
