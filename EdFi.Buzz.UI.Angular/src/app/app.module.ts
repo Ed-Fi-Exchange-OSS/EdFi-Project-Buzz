@@ -17,8 +17,6 @@ import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Features/home/home.component';
-import { StudentCardComponent } from './Components/StudentCard/studentCard.component';
-import { TeacherLandingComponent } from './Features/Landings/TeacherLanding/teacherLanding.component';
 import { NavbarComponent } from './Features/navbar/navbar.component';
 import { GuardianCardComponent } from './Components/GuardianCard/guardianCard.component';
 import { StudentCardLiteComponent } from './Components/StudentCardLite/studentCardLite.component';
@@ -58,9 +56,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
   declarations: [
     AppComponent,
     HomeComponent,
-    TeacherLandingComponent,
     NavbarComponent,
-    StudentCardComponent,
     StudentCardLiteComponent,
     GuardianCardComponent,
     SiblingCardComponent,
@@ -87,8 +83,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     RouterModule.forRoot([
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
-          { path: '', component: TeacherLandingComponent },
-          { path: 'students', component: TeacherLandingReactWrapperComponent },
+          // { path: '', component: TeacherLandingComponent },
+          { path: '', component: TeacherLandingReactWrapperComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
