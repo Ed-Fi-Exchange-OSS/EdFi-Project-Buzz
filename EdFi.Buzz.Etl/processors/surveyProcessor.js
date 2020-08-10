@@ -220,14 +220,36 @@ async function saveAllStudentsAnswers(
   return Promise.allSettled(promises);
 }
 
+async function getAlreadyLoadedStudentAnswers(db, surveykey, staffkey) {
+  return db
+    .query(
+      `
+ SELECT COUNT(*) as alreadyloaded
+   FROM buzz.studentsurvey
+   INNER JOIN buzz.studentsurveyanswer USING (studentsurveykey)
+   INNER JOIN buzz.survey USING (surveykey)
+   WHERE
+     survey.surveykey=$1 AND
+     survey.staffkey=$2 AND
+ survey.deletedat IS NULL;
+`,
+      [surveykey, staffkey],
+    )
+    .then((result) => result.rows[0])
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+    });
+}
+
 async function Load(updatesurvey, surveykey, staffkey, jobkey, surveytitle, questions, answers, db) {
+  const { alreadyloaded } = await getAlreadyLoadedStudentAnswers(db, surveykey, staffkey);
   const survey = await getOrSaveSurvey(updatesurvey, surveykey, surveytitle, staffkey, db);
   const surveyProfile = {
     survey,
     answers: {
       load: 0,
       rejected: 0,
-      alreadyLoaded: 0,
+      alreadyLoaded: parseInt(alreadyloaded, 10),
     },
   };
   saveSurveyStatus(survey.surveykey, jobStatusEnum.PROCESSING, '', jobkey, db);
