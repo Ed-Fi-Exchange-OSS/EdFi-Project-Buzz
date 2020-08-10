@@ -7,12 +7,12 @@ const surveyProcessor = require('../processors/surveyProcessor');
 module.exports = async (payload, helpers) => {
   try {
     const {
-      staffkey, title, filename, path, jobkey,
+      surveykey, updatesurvey, staffkey, title, filename, path, jobkey,
     } = payload;
     helpers.logger.info(
       `Running the Survey loader for ${staffkey} to load '${title}', filename: ${filename}, path: ${path}`,
     );
-    await surveyProcessor.process(staffkey, title, filename, path, jobkey);
+    await surveyProcessor.process(surveykey, updatesurvey, staffkey, title, filename, path, jobkey);
     helpers.logger.info(`Finished processing task for ${staffkey} ${title} ${filename} ${path}`);
   } catch (error) {
     helpers.logger.error(error);

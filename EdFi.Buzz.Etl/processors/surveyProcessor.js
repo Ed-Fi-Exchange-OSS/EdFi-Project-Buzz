@@ -70,17 +70,40 @@ async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
     });
 }
 
-async function getOrSaveSurvey(surveytitle, staffkey, db) {
+// TODO add surveykey, updatesurvey to params
+async function getOrSaveSurvey(updatesurvey, surveykey, surveytitle, staffkey, db) {
+  // when updatesurvey is false exit early as we did originally
+  if (!updatesurvey) {
+    // soft-delete the existing survey
+    const d = new Date();
+    const deletedat = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    await db.query('UPDATE buzz.survey SET deletedat=$1 WHERE surveykey = $2 and staffkey = $3;', [deletedat, surveykey, staffkey]);
+    return db
+      .query('SELECT surveykey, title FROM buzz.survey where surveykey = $1 and staffkey = $2;', [surveykey, staffkey])
+      .then(async (result) => {
+        if (result.rows.length === 0) {
+          return db
+            .query('INSERT INTO buzz.survey (title, staffkey) VALUES($1, $2) RETURNING surveykey, title, staffkey;', [surveytitle, staffkey])
+            .then((resultInsert) => resultInsert.rows[0]);
+        }
+        return result.rows[0];
+      })
+      .catch((e) => console.error(e));
+  }
+
+  await db.query('DELETE FROM buzz.studentsurveyanswer WHERE studentsurveykey IN (SELECT studentsurveyanswer.studentsurveykey FROM buzz.studentsurveyanswer INNER JOIN buzz.studentsurvey USING (studentsurveykey) INNER JOIN buzz.survey USING (surveykey) WHERE survey.surveykey = $1 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isadminsurveyloader = TRUE)))', [surveykey, staffkey]);
+
+  await db.query('DELETE FROM buzz.surveyquestion WHERE surveykey IN (SELECT surveyquestion.surveykey FROM buzz.surveyquestion WHERE surveyquestion.surveykey = $1 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isadminsurveyloader = TRUE)))', [surveykey, staffkey]);
+
+  await db.query('DELETE FROM buzz.studentsurvey WHERE surveykey = $1 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isadminsurveyloader = TRUE))', [staffkey, surveykey]);
+
+  await db.query('UPDATE buzz.survey SET title = $1 WHERE surveykey = $2 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$3 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$3 AND staff.isadminsurveyloader = TRUE));', [surveytitle, surveykey, staffkey]);
+
+  // when updatesurvey is true. true we update the title and we delete the questions and answers
+  // TODO FIX THESE DELETE QUERIES TO PROPERLY FILTER FOR TEACHER AND ADMIN
   return db
-    .query('SELECT surveykey, title FROM buzz.survey where title = $1 and staffkey = $2;', [surveytitle, staffkey])
-    .then(async (result) => {
-      if (result.rows.length === 0) {
-        return db
-          .query('INSERT INTO buzz.survey (title, staffkey) VALUES($1, $2) RETURNING surveykey, title, staffkey;', [surveytitle, staffkey])
-          .then((resultInsert) => resultInsert.rows[0]);
-      }
-      return result.rows[0];
-    })
+    .query('SELECT surveykey, title, staffkey FROM buzz.survey where surveykey = $1 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isadminsurveyloader = TRUE));', [surveykey, staffkey])
+    .then((resultInsert) => resultInsert.rows[0])
     .catch((e) => console.error(e));
 }
 
@@ -197,8 +220,8 @@ async function saveAllStudentsAnswers(
   return Promise.allSettled(promises);
 }
 
-async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
-  const survey = await getOrSaveSurvey(surveytitle, staffkey, db);
+async function Load(updatesurvey, surveykey, staffkey, jobkey, surveytitle, questions, answers, db) {
+  const survey = await getOrSaveSurvey(updatesurvey, surveykey, surveytitle, staffkey, db);
   const surveyProfile = {
     survey,
     answers: {
@@ -219,14 +242,14 @@ async function Load(staffkey, jobkey, surveytitle, questions, answers, db) {
   return surveyProfile;
 }
 
-const process = async (staffkey, surveytitle, filename, filePath, jobkey) => {
+const process = async (surveykey, updatesurvey, staffkey, surveytitle, filename, filePath, jobkey) => {
   const db = await getDB();
   if (!(await isSurveyLoader(staffkey, db))) {
     throw new Error(`staffkey:${staffkey} is not allowed to upload surveys`);
   }
 
   const data = await Extract(path.join(filePath, filename));
-  const result = await Load(staffkey, jobkey, surveytitle, data.questions, data.answers, db);
+  const result = await Load(updatesurvey, surveykey, staffkey, jobkey, surveytitle, data.questions, data.answers, db);
   console.log('result:', {
     survey: {
       surveykey: result.survey.surveykey,
