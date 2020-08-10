@@ -1,0 +1,15 @@
+.back-button>a {
+  top: -10px;
+  left: 0px;
+}
+
+.back-button>a>i {
+  top: -1px;
+  left: 10px;
+}
+
+
+.back-button>h1 {
+  top: 3px;
+  left: 44px;
+}

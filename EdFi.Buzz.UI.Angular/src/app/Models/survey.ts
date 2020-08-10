@@ -4,11 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 export class SurveyMetadata {
-  surveyId: number;
-  surveyName: string;
-  questionCount: number;
-  totalStudents: number;
-  studentsAnswered: number;
+  surveykey: number;
+  sectionkey: string;
+  title: string;
+  numberofquestions: number;
+  studentsanswered: number;
+  totalstudents: number;
 }
 
 export class SurveyQuestionSummary {
