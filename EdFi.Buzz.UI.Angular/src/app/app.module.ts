@@ -17,8 +17,6 @@ import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Features/home/home.component';
-import { StudentCardComponent } from './Components/StudentCard/studentCard.component';
-import { TeacherLandingComponent } from './Features/Landings/TeacherLanding/teacherLanding.component';
 import { NavbarComponent } from './Features/navbar/navbar.component';
 import { GuardianCardComponent } from './Components/GuardianCard/guardianCard.component';
 import { StudentCardLiteComponent } from './Components/StudentCardLite/studentCardLite.component';
@@ -34,6 +32,7 @@ import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.comp
 import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
 import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
+import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -57,9 +56,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
   declarations: [
     AppComponent,
     HomeComponent,
-    TeacherLandingComponent,
     NavbarComponent,
-    StudentCardComponent,
     StudentCardLiteComponent,
     GuardianCardComponent,
     SiblingCardComponent,
@@ -70,7 +67,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     LoginComponent,
     DndDirective,
     SortAnswersByPipe,
-    AdminSurveyComponent
+    AdminSurveyComponent,
+    TeacherLandingReactWrapperComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,7 +83,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     RouterModule.forRoot([
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
-          { path: '', component: TeacherLandingComponent },
+          // { path: '', component: TeacherLandingComponent },
+          { path: '', component: TeacherLandingReactWrapperComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
