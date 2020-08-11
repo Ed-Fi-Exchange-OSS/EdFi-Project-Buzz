@@ -15,7 +15,9 @@ export class SurveyMetadata {
 export class SurveyQuestionSummary {
   surveykey: number;
   question: string;
+  surveyquestionkey: number;
   answers: { label: string, count: number }[];
+  totalAnswers: number;
 }
 
 

@@ -3,9 +3,10 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { ApiService } from 'src/app/Services/api.service';
 import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/SearchInSections';
-import { Section, SurveyMetadata } from 'src/app/Models';
+import { Section, SurveyMetadata, SurveyQuestionSummary } from 'src/app/Models';
 
 import { SurveyMetadataUI } from './surveyMetadataUI';
+import { SurveySummary } from './surveySummary';
 
 export interface SurveyAnalyticsComponentProps {
   api: ApiService;
@@ -18,6 +19,8 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   const [surveyMetadataList, setSurveyMetadataList] = useState([] as SurveyMetadata[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState(null as string);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [selectedSurveyMetadata, setSelectedSurveyMetadata] = useState(null as SurveyMetadata);
+  const [selectedSurveyQuestionSummaryList, setSelectedSurveyQuestionSummaryList] = useState(null as SurveyQuestionSummary[]);
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
     props.api.surveyAnalytics
@@ -29,8 +32,16 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       });
   }
 
-  function OnsurveySelectedHandler(surveyMetadata: SurveyMetadata){
-    alert(`Suvey selected: [${surveyMetadata.title}]`);
+  function onSurveySelectedHandler(surveyMetadata: SurveyMetadata) {
+    setSelectedSurveyMetadata(surveyMetadata);
+    props.api.surveyAnalytics
+      .getSurveyQuestionSummaryList(surveyMetadata.surveykey, surveyMetadata.sectionkey)
+      .then(response => setSelectedSurveyQuestionSummaryList(response));
+
+  }
+
+  function onSurveyQuestionSelectedHandler(surveyName: string, surveyQuestion: string) {
+    alert(`${surveyName}, ${surveyQuestion}`);
   }
 
   return <main role='main' className='container'>
@@ -46,10 +57,19 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
     {(!showSearchResults) && <h1>Click "Search" to Show Results</h1>}
     {(showSearchResults) && <h1>Search Results</h1>}
 
-    {(showSearchResults) && <div className="row" >
-      <SurveyMetadataUI surveyMetadataList={surveyMetadataList} onSurveySelected={OnsurveySelectedHandler} />
+    {(showSearchResults) && <div className='row' >
+      <SurveyMetadataUI surveyMetadataList={surveyMetadataList}
+        selectedSurveyKey={selectedSurveyMetadata ? selectedSurveyMetadata.surveykey : null}
+        onSurveySelected={onSurveySelectedHandler} />
     </div>
     }
+
+    {(selectedSurveyQuestionSummaryList) && <div className='row'>
+      <SurveySummary
+        surveyName={selectedSurveyMetadata.title}
+        surveyQuestionSummaryList={selectedSurveyQuestionSummaryList}
+        onSurveyQuestionSelected={onSurveyQuestionSelectedHandler} />
+    </div> }
 
   </main>;
 };
