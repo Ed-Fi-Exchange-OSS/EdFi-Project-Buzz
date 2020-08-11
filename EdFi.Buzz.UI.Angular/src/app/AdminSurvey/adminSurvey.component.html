@@ -48,7 +48,15 @@
             <p><span>Answers Already Loaded:</span> {{survey.resultSummaryObj.process.alreadyLoaded}} </p>
           </div>
         </div>
-        <span (click)="setSurveyToDelete(survey.surveykey)" class="btn btn-danger btn-delete-note ion-md-trash" data-toggle="modal" data-target="#deletesurveyconfirmation"></span>
+        <div class="row">
+          <div class="col-2 offset-8">
+            <span (click)="setSurveyToDelete(survey.surveykey)" class="btn btn-danger btn-delete-note ion-md-trash" data-toggle="modal" data-target="#deletesurveyconfirmation"></span>
+          </div>
+          <div class="col-2">
+            <a [routerLink]="['/app/uploadSurvey', survey.surveykey]" class="btn btn-primary ion-md-create"></a>
+            <!-- <a [routerLink]="['/app/studentDetail', student.studentschoolkey]"></a> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>

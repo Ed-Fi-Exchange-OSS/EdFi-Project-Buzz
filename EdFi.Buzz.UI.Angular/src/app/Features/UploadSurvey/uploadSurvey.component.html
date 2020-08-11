@@ -7,6 +7,16 @@
     <h1 class="inline-block position-absolute" style="top:3px; left:44px;">Upload <span>survey</span></h1>
   </div>
 
+  <div class="row" *ngIf="surveyToUpdate">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2>You are currently updating the {{surveyToUpdate.resultSummaryObj.survey.title}} survey</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col">
       <div class="card">
@@ -26,7 +36,7 @@
             </div>
 
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Survey Name" formControlName="surveyName">
+              <input type="text" class="form-control" placeholder="Survey Name" formControlName="surveyName" value="{{ surveyToUpdate ? surveyToUpdate.resultSummaryObj?.survey?.title : '' }}">
               <label *ngIf="form.get('surveyName').touched && form.get('surveyName').invalid"
                 class="label alert-danger text-justify w-100"> * Survey name is required </label>
             </div>
