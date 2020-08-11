@@ -1,7 +1,7 @@
 import { Student } from 'src/app/Models';
 import * as React from 'react';
 
-import './StudentTable.css';
+import './studentTable.css';
 
 export interface StudentTableComponentProps {
   studentList: Student[];

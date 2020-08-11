@@ -4,9 +4,9 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import './teacherLanding.css';
 import { ApiService } from 'src/app/Services/api.service';
 import { Student, Section } from 'src/app/Models';
-import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/SearchInSections';
-import { StudentCard } from 'src/app/Components/StudentCardReact/StudentCard';
-import { StudentTable } from './StudentTable';
+import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/searchInSections';
+import { StudentCard } from 'src/app/Components/StudentCardReact/studentCard';
+import { StudentTable } from './studentTable';
 
 export interface TeacherLandingComponentProps {
   onClick?: () => void;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { ApiService } from 'src/app/Services/api.service';
-import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/SearchInSections';
+import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/searchInSections';
 import { Section, SurveyMetadata, SurveyQuestionSummary } from 'src/app/Models';
 
 import { SurveyMetadataUI } from './surveyMetadataUI';
