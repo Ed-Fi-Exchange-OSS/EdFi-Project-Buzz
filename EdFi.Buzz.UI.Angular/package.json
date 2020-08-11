@@ -46,6 +46,8 @@
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.12.0",
     "rxjs": "^6.5.3",
+    "styled-components": "^5",
+    "typeface-work-sans": "^0.0.72",
     "zone.js": "0.9.1"
   },
   "devDependencies": {
@@ -58,6 +60,7 @@
     "@types/node": "~12.11.6",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "@types/styled-components": "^5.1.2",
     "codelyzer": "^5.2.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -75,5 +78,8 @@
     "protractor": "~5.4.2",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0"
+  },
+  "peerDependencies": {
+    "react-is": "^16.13.1"
   }
 }

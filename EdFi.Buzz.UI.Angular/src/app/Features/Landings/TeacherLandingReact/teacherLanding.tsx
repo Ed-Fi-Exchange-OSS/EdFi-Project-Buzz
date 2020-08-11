@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
-import './teacherLanding.css';
 import { ApiService } from 'src/app/Services/api.service';
 import { Student, Section } from 'src/app/Models';
 import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/searchInSections';
@@ -12,6 +12,37 @@ export interface TeacherLandingComponentProps {
   onClick?: () => void;
   api: ApiService;
 }
+
+const TeacherLandingMainStyle = styled.main`
+  font-family: 'Work Sans';
+  background-color: #ffffff;
+  padding: 15px;
+`;
+
+const YourStudentsSpan = styled.div`
+  height: 28px;
+  font-family: 'Work Sans Extra Bold';
+  font-size: 24px;
+  font-weight: 800;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #1b1c1d;
+`;
+
+const TotalStudentSpan = styled.div`
+  height: 16px;
+  font-family: 'Work Sans';
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #a2b6be;
+  padding-bottom: 2em;
+`;
 
 export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (props: TeacherLandingComponentProps) => {
 
@@ -35,15 +66,15 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
       });
   }
 
-  return <main role='main' className='container'>
-    <h1>Home, <span>class roster</span></h1>
+  return <TeacherLandingMainStyle role='main' className='container'>
+    <YourStudentsSpan>Your students</YourStudentsSpan>
+    <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
     <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
     {(studentList.length > 0) &&
       <div className='row align-items-center m-b-10'>
         <div className='col'>
           <div className='d-flex justify-content-between'>
-            <h2 className=''>Students: {studentList.length}</h2>
             <div className='d-flex' >
               <button className='btn btn-primary m-l-10'
                 onClick={(e) => setViewType(ViewType.Grid)}><i className='ion ion-md-grid'></i></button>
@@ -68,5 +99,5 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
       }
     </div>
 
-  </main>;
+  </TeacherLandingMainStyle>;
 };

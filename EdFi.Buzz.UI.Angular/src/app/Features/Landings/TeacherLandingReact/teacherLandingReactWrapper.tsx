@@ -11,6 +11,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+
 import { TeacherLanding } from './teacherLanding';
 import * as React from 'react';
 
@@ -18,6 +19,8 @@ import * as ReactDOM from 'react-dom';
 import { ApiService } from 'src/app/Services/api.service';
 
 const containerElementName = 'teacherLandingReactComponentContainer';
+
+import GlobalFonts from './../../../../fonts/font';
 
 @Component({
   selector: 'app-teacher-landing-react',
@@ -57,6 +60,6 @@ export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy
   private render() {
     const {counter} = this;
 
-    ReactDOM.render(<TeacherLanding api={this.api} onClick={this.handleDivClicked}/>, this.containerRef.nativeElement);
+    ReactDOM.render(<><GlobalFonts/><TeacherLanding api={this.api} onClick={this.handleDivClicked} /></>, this.containerRef.nativeElement);
   }
 }
