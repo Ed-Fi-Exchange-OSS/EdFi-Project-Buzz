@@ -36,7 +36,7 @@ export class AdminSurveyComponent implements OnInit {
     this.surveyFilteredList = this.surveyList
       .filter(s => (s.resultSummaryObj.survey.title as string).toUpperCase().includes(upperSearchText));
   }
-  
+
   deleteSurvey() {
     $('#deletesurveyconfirmation').modal('hide');
     if (this.surveyToDelete) {
@@ -48,9 +48,9 @@ export class AdminSurveyComponent implements OnInit {
           this.surveyList.splice(idx, 1);
         }
         if (this.searchText) {
-          const idx = this.surveyFilteredList.findIndex(el => el.surveykey === this.surveyToDelete);
-          if (idx > -1) {
-            this.surveyFilteredList.splice(idx, 1);
+          const idy = this.surveyFilteredList.findIndex(el => el.surveykey === this.surveyToDelete);
+          if (idy > -1) {
+            this.surveyFilteredList.splice(idy, 1);
           }
         }
         this.surveyToDelete = null;

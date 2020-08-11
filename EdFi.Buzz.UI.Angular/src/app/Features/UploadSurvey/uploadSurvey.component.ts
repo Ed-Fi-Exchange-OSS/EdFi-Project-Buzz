@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from 'src/app/Services/api.service';
 import { SurveyStatus } from 'src/app/Models/survey';
@@ -28,7 +27,7 @@ export class UploadSurveyComponent implements OnInit {
   currentUserStaffKey: number;
 
   private surveyList: SurveyStatus[];
-  
+
   /// surveyToUpdate null indicates this is not an update, but a normal survey upload.
   private surveyToUpdate: SurveyStatus = null;
   form: FormGroup;
