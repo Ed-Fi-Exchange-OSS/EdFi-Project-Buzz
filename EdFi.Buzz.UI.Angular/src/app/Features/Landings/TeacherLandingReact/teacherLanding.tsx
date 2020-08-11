@@ -28,7 +28,6 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
     });
   }
 
-
   function onSearchHandle(sectionKey: string, studentFilter: string) {
     props.api.student
       .get(sectionKey, studentFilter)
@@ -57,7 +56,6 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
         </div>
       </div>}
 
-
     <div className='row' >
       {(viewType === ViewType.Card) && studentList
         .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
@@ -74,5 +72,3 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
 
   </main>;
 };
-
-
