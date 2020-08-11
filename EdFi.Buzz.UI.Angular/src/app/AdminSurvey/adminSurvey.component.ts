@@ -48,9 +48,10 @@ export class AdminSurveyComponent implements OnInit {
           this.surveyList.splice(idx, 1);
         }
         if (this.searchText) {
-          const idy = this.surveyFilteredList.findIndex(el => el.surveykey === this.surveyToDelete);
-          if (idy > -1) {
-            this.surveyFilteredList.splice(idy, 1);
+ this.surveyFilteredList.splice(idy, 1);
+          const textIndex = this.surveyFilteredList.findIndex(el => el.surveykey === this.surveyToDelete);
+          if (textIndex > -1) {
+            this.surveyFilteredList.splice(textIndex, 1);
           }
         }
         this.surveyToDelete = null;

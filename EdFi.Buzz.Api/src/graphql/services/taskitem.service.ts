@@ -17,6 +17,8 @@ export default class TaskItemService {
 
   queueName = process.env.BUZZ_WORKER_JOB_NAME;
 
+  cleanUpQueueName = process.env.BUZZ_WORKER_CLEANUP_JOB_NAME;
+
   async addTaskItem(taskItem: TaskItem): Promise<Job> {
     const task = taskItem;
     const taskUUID = uuidv4();
@@ -24,6 +26,20 @@ export default class TaskItemService {
       connectionString: `${this.connectionString}`,
     });
     task.jobkey = taskUUID;
+    this.addCleanUpTaskItem(task);
     return workerUtils.addJob(this.queueName, task, { jobKey: taskUUID });
+  }
+
+  async addCleanUpTaskItem(taskItem: TaskItem): Promise<Job> {
+    const task = taskItem;
+    const taskUUID = uuidv4();
+    const retentionDays = +(process.env.SURVEY_FILES_RETENTION_DAYS);
+    const workerUtils = await makeWorkerUtils({
+      connectionString: `${this.connectionString}`,
+    });
+    const runAt = new Date();
+    runAt.setDate(runAt.getDate() + retentionDays);
+    task.jobkey = taskUUID;
+    return workerUtils.addJob(this.cleanUpQueueName, task, { runAt, jobKey: taskUUID });
   }
 }
