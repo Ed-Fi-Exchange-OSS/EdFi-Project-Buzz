@@ -4,7 +4,7 @@ import { SurveyQuestionSummary } from 'src/app/Models';
 export interface SurveySummaryComponentProps {
   surveyName: string;
   surveyQuestionSummaryList: SurveyQuestionSummary[];
-  onSurveyQuestionSelected?: (surveyName: string, surveyQuestion: string) => void;
+  onSurveyQuestionSelected?: (surveyName: string, surveyQuestion: SurveyQuestionSummary) => void;
 }
 
 export const SurveySummary: React.FunctionComponent<SurveySummaryComponentProps> = (props: SurveySummaryComponentProps) => {
@@ -12,7 +12,7 @@ export const SurveySummary: React.FunctionComponent<SurveySummaryComponentProps>
   function onClickHandle(event, question: SurveyQuestionSummary) {
     event.preventDefault();
     if (props.onSurveyQuestionSelected) {
-      props.onSurveyQuestionSelected(props.surveyName, question.question);
+      props.onSurveyQuestionSelected(props.surveyName, question);
     }
   }
 

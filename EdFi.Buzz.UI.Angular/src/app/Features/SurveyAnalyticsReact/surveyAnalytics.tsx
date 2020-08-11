@@ -7,6 +7,7 @@ import { Section, SurveyMetadata, SurveyQuestionSummary } from 'src/app/Models';
 
 import { SurveyMetadataUI } from './surveyMetadataUI';
 import { SurveySummary } from './surveySummary';
+import { SurveyChart } from './surveyChart';
 
 export interface SurveyAnalyticsComponentProps {
   api: ApiService;
@@ -21,6 +22,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [selectedSurveyMetadata, setSelectedSurveyMetadata] = useState(null as SurveyMetadata);
   const [selectedSurveyQuestionSummaryList, setSelectedSurveyQuestionSummaryList] = useState(null as SurveyQuestionSummary[]);
+  const [selectedQuestion, setSelectedQuestion] = useState(null as SurveyQuestionSummary);
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
     props.api.surveyAnalytics
@@ -40,8 +42,8 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
   }
 
-  function onSurveyQuestionSelectedHandler(surveyName: string, surveyQuestion: string) {
-    alert(`${surveyName}, ${surveyQuestion}`);
+  function onSurveyQuestionSelectedHandler(surveyName: string, surveyQuestion: SurveyQuestionSummary) {
+    setSelectedQuestion(surveyQuestion);
   }
 
   return <main role='main' className='container'>
@@ -69,7 +71,9 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
         surveyName={selectedSurveyMetadata.title}
         surveyQuestionSummaryList={selectedSurveyQuestionSummaryList}
         onSurveyQuestionSelected={onSurveyQuestionSelectedHandler} />
-    </div> }
+
+      {(selectedQuestion) && <SurveyChart question={selectedQuestion} />}
+    </div>}
 
   </main>;
 };

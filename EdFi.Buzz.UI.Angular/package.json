@@ -43,6 +43,7 @@
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
     "react": "^16.12.0",
+    "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.12.0",
     "rxjs": "^6.5.3",
     "zone.js": "0.9.1"
