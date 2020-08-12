@@ -21,6 +21,8 @@ import { ApiService } from 'src/app/Services/api.service';
 const containerElementName = 'teacherLandingReactComponentContainer';
 
 import GlobalFonts from './../../../../fonts/font';
+import { ThemeProvider } from 'styled-components';
+import BuzzTheme from '../../../../buzztheme';
 
 @Component({
   selector: 'app-teacher-landing-react',
@@ -58,8 +60,11 @@ export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy
   }
 
   private render() {
-    const {counter} = this;
-
-    ReactDOM.render(<><GlobalFonts/><TeacherLanding api={this.api} onClick={this.handleDivClicked} /></>, this.containerRef.nativeElement);
+    ReactDOM.render(<>
+        <GlobalFonts />
+        <ThemeProvider theme={BuzzTheme}>
+          <TeacherLanding api={this.api} onClick={this.handleDivClicked} />
+        </ThemeProvider>
+      </>, this.containerRef.nativeElement);
   }
 }

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 
 import { ApiService } from 'src/app/Services/api.service';
 import { Student, Section } from 'src/app/Models';
@@ -14,90 +14,119 @@ export interface TeacherLandingComponentProps {
 }
 
 const TeacherLandingMainStyle = styled.main`
-  font-family: 'Work Sans';
-  background-color: #ffffff;
+  font-family:  ${ props => props.theme.fonts.regular };
+  background-color: ${ props => props.theme.colors.white };
   padding: 15px;
 `;
 
 const YourStudentsSpan = styled.div`
   height: 28px;
-  font-family: 'Work Sans Extra Bold';
+  font-family:  ${ props => props.theme.fonts.bold };
   font-size: 24px;
   font-weight: 800;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #1b1c1d;
+  color: ${ props => props.theme.colors.darkgray};
 `;
 
 const TotalStudentSpan = styled.div`
   height: 16px;
-  font-family: 'Work Sans';
+  font-family:  ${ props => props.theme.fonts.regular };
   font-size: 14px;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #a2b6be;
+  color: ${ props => props.theme.colors.lightsteelblue };
   padding-bottom: 2em;
 `;
 
-export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (props: TeacherLandingComponentProps) => {
+const ListButtons = styled.div`
+  display: flex;
+  font-family:  ${ props => props.theme.fonts.regular };
+  justify-content: flex-end;
 
-  const teacher = props.api.authentication.currentUserValue.teacher;
-  const [sectionList, setSections] = useState(teacher.sections as Section[]);
+  & > button {
+    margin: 0px;
+    font-family:  ${ props => props.theme.fonts.regular };
+    background-color: ${ props => props.theme.colors.white };
+    border: none;
+    text-decoration:none;
+
+    :hover {
+      outline-width: 0px;
+      font-weight: 600;
+      text-decoration:underline;
+    }
+    :focus {
+      outline-width: 0px;
+    }
+  }
+`;
+
+export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
+  props: TeacherLandingComponentProps
+) => {
+  const [sectionList, setSections] = useState([] as Section[]);
   const [studentList, setStudentList] = useState([] as Student[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState(null as string);
-  enum ViewType { Card, Grid }
+  enum ViewType {
+    Card,
+    Grid,
+  }
   const [viewType, setViewType] = useState(ViewType.Card); /* CARDS, GRID */
 
-  if (null === selectedSectionKey && sectionList && sectionList.length > 0) {
-    onSearchHandle(sectionList[0].sectionkey, null);
+  if (!sectionList || sectionList.length === 0) {
+    props.api.section.getByTeacherId().then((sectionsValue) => {
+      setSections(sectionsValue);
+      onSearchHandle(sectionsValue[0].sectionkey, null);
+    });
   }
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
-    props.api.student
-      .get(sectionKey, studentFilter)
-      .then(studentsValue => {
-        setStudentList(studentsValue);
-        setSelectedSectionKey(sectionKey);
-      });
+    props.api.student.get(sectionKey, studentFilter).then((studentsValue) => {
+      setStudentList(studentsValue);
+      setSelectedSectionKey(sectionKey);
+    });
   }
 
-  return <TeacherLandingMainStyle role='main' className='container'>
-    <YourStudentsSpan>Your students</YourStudentsSpan>
-    <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
-    <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
+  return (
+    <TeacherLandingMainStyle role="main" className="container">
+      <YourStudentsSpan>Your students</YourStudentsSpan>
+      <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
+      <SearchInSections
+        sectionList={sectionList}
+        onSearch={onSearchHandle}
+        defaultValue={selectedSectionKey}
+      />
 
-    {(studentList.length > 0) &&
-      <div className='row align-items-center m-b-10'>
-        <div className='col'>
-          <div className='d-flex justify-content-between'>
-            <div className='d-flex' >
-              <button className='btn btn-primary m-l-10'
-                onClick={(e) => setViewType(ViewType.Grid)}><i className='ion ion-md-grid'></i></button>
-              <button className='btn btn-primary m-l-10'
-                onClick={(e) => setViewType(ViewType.Card)}><i className='ion ion-md-list'></i></button>
+      {studentList.length > 0 && (
+        <ListButtons>
+          <button onClick={(e) => setViewType(ViewType.Grid)}>Grid</button>|
+          <button onClick={(e) => setViewType(ViewType.Card)}>Cards</button>
+        </ListButtons>
+      )}
+
+      <div className="row">
+        {viewType === ViewType.Card &&
+          studentList
+            .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
+            .map((si) => (
+              <div className="col-lg-4" key={si.studentschoolkey}>
+                <StudentCard student={si} />
+              </div>
+            ))}
+        {viewType === ViewType.Grid && (
+          <div className="card" style={{ width: "100%" }}>
+            <div className="card-body table-responsive-md">
+              <StudentTable studentList={studentList} />
             </div>
           </div>
-        </div>
-      </div>}
-
-    <div className='row' >
-      {(viewType === ViewType.Card) && studentList
-        .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
-        .map(si => <div className='col-lg-4' key={si.studentschoolkey}><StudentCard student={si} /></div>)
-      }
-      {(viewType === ViewType.Grid) &&
-        <div className='card' style={{ 'width': '100%' }}>
-          <div className='card-body table-responsive-md'>
-            <StudentTable studentList={studentList} />
-          </div>
-        </div>
-      }
-    </div>
-
-  </TeacherLandingMainStyle>;
+        )}
+      </div>
+    </TeacherLandingMainStyle>
+  );
 };

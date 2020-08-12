@@ -11,12 +11,10 @@ export interface SearchInSectionsComponentProps {
   defaultValue?: string;
 }
 
-const FilterContainer = styled.div``;
-
 const FilterByClassLabel = styled.label`
-  color: #1b1c1d;
+  color: ${ props => props.theme.colors.darkgray };
   height: 16px;
-  font-family: "Work Sans";
+  font-family: ${ props => props.theme.fonts.regular };
   font-size: 14px;
   font-weight: 600;
   font-stretch: normal;
@@ -30,7 +28,7 @@ const StyledTextParent = styled.div`
   height: 44px;
   width: 100%;
   overflow: hidden;
-  border: solid 2px #ced5d8;
+  border: solid 2px ${ props => props.theme.colors.lightgray };
   border-radius: 4px;
   margin-bottom: 5px;
   display: flex;
@@ -39,7 +37,7 @@ const StyledTextParent = styled.div`
   justify-content: center;
 
   :focus-within {
-      border-color: #f8992e !important;
+      border-color: ${ props => props.theme.colors.steelblue } !important;
   }
 
   & > img {
@@ -84,18 +82,18 @@ const StyledSelectParent = styled.div`
   display: flex;
   width: 100%;
   overflow: hidden;
-  border: solid 2px #ced5d8;
+  border: ${ props => props.theme.border };
   border-radius: 4px;
   margin-bottom: 5px;
 
   :focus-within {
-      border-color: #f8992e !important;
+      border-color: ${ props => props.theme.colors.steelblue } !important;
   }
 
   & > select {
-    font-family: "Work Sans Extra Bold";
+    font-family: ${ props => props.theme.fonts.bold };
     font-weight: bold;
-    color: #1378be;
+    color: ${ props => props.theme.colors.steelblue };
     text-indent: 1px;
     text-overflow: "";
     width: 100%;
@@ -108,9 +106,9 @@ const StyledSelectParent = styled.div`
   }
 
   & > select > option {
-    font-family: "Work Sans";
+    font-family: ${ props => props.theme.fonts.regular };
     font-weight: normal;
-    color: #727d94;
+    color: ${ props => props.theme.colors.gray};
   }
 `;
 
@@ -126,7 +124,7 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
   }
 
   return (
-    <FilterContainer>
+    <div>
       <div>
         <div>
           <div>
@@ -163,6 +161,6 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
           </div>
         </div>
       </div>
-    </FilterContainer>
+    </div>
   );
 }
