@@ -70,11 +70,8 @@ async function saveSurveyStatus(surveykey, jobstatuskey, summary, jobkey, db) {
     });
 }
 
-// TODO add surveykey, updatesurvey to params
 async function getOrSaveSurvey(updatesurvey, surveykey, surveytitle, staffkey, db) {
-  // when updatesurvey is false exit early as we did originally
   if (!updatesurvey) {
-    // soft-delete the existing survey
     const d = new Date();
     const deletedat = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
     await db.query('UPDATE buzz.survey SET deletedat=$1 WHERE surveykey = $2 and staffkey = $3;', [deletedat, surveykey, staffkey]);
@@ -99,8 +96,6 @@ async function getOrSaveSurvey(updatesurvey, surveykey, surveytitle, staffkey, d
 
   await db.query('UPDATE buzz.survey SET title = $1 WHERE surveykey = $2 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$3 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$3 AND staff.isadminsurveyloader = TRUE));', [surveytitle, surveykey, staffkey]);
 
-  // when updatesurvey is true. true we update the title and we delete the questions and answers
-  // TODO FIX THESE DELETE QUERIES TO PROPERLY FILTER FOR TEACHER AND ADMIN
   return db
     .query('SELECT surveykey, title, staffkey FROM buzz.survey where surveykey = $1 AND (EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isteachersurveyloader = TRUE) OR EXISTS(SELECT staff.isteachersurveyloader FROM buzz.staff WHERE staff.staffkey=$2 AND staff.isadminsurveyloader = TRUE));', [surveykey, staffkey])
     .then((resultInsert) => resultInsert.rows[0])
