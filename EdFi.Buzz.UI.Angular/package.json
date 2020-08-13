@@ -9,7 +9,7 @@
     "build:ssr": "ng run EdFi.Buzz.Web:server:dev",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
-    "lint": "ng lint",
+    "lint": "ng lint --fix",
     "lint:ci": "ng lint --format tslint-teamcity-reporter",
     "e2e": "ng e2e"
   },
