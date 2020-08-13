@@ -1,9 +1,9 @@
-import { Section } from "src/app/Models/section";
-import * as React from "react";
-import styled from "styled-components";
+import { Section } from 'src/app/Models/section';
+import * as React from 'react';
+import styled from 'styled-components';
 
-import OrangeChevron from "../../../../assets/chevron-orange.png";
-import OrangeSearch from "../../../../assets/search.png";
+import OrangeChevron from '../../../../assets/chevron-orange.png';
+import OrangeSearch from '../../../../assets/search.png';
 
 export interface SearchInSectionsComponentProps {
   sectionList: Section[];
@@ -115,7 +115,7 @@ const StyledSelectParent = styled.div`
 export function SearchInSections(props: SearchInSectionsComponentProps) {
   const sectionSelectionRef = React.createRef<HTMLSelectElement>();
   const studentFilterRef = React.createRef<HTMLInputElement>();
-  const defaultValue = props.defaultValue || "";
+  const defaultValue = props.defaultValue || '';
 
   function searchEventHandler(e) {
     const studentFilter = studentFilterRef.current.value;
@@ -129,17 +129,17 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
         <div>
           <div>
             <FilterByClassLabel>Filter by Class</FilterByClassLabel>
-            <div className="input-group">
-              <StyledSelectParent id="sectionsSelectParent">
+            <div className='input-group'>
+              <StyledSelectParent id='sectionsSelectParent'>
                 <select
-                  className="form-control"
-                  name="repeatSelect"
-                  id="sectionsSelect"
+                  className='form-control'
+                  name='repeatSelect'
+                  id='sectionsSelect'
                   value={defaultValue}
                   ref={sectionSelectionRef}
                   onChange={searchEventHandler}
                 >
-                  <option value="null">Select a section</option>
+                  <option value='null'>Select a section</option>
                   {props.sectionList.map((si) => (
                     <option value={si.sectionkey} key={si.sectionkey}>
                       {si.sessionname}
@@ -150,9 +150,9 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
               <StyledTextParent>
                 <img src={OrangeSearch} />
                 <input
-                  type="text"
-                  id="studentNameInputs"
-                  placeholder="Search by Student Name"
+                  type='text'
+                  id='studentNameInputs'
+                  placeholder='Search by Student Name'
                   ref={studentFilterRef}
                   onKeyUp={searchEventHandler}
                 />

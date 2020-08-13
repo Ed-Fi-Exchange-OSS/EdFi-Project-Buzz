@@ -1,6 +1,6 @@
-import * as React from "react";
-import { FunctionComponent, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import * as React from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { ApiService } from 'src/app/Services/api.service';
 import { Student, Section } from 'src/app/Models';
@@ -94,7 +94,7 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
   }
 
   return (
-    <TeacherLandingMainStyle role="main" className="container">
+    <TeacherLandingMainStyle role='main' className='container'>
       <YourStudentsSpan>Your students</YourStudentsSpan>
       <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
       <SearchInSections
@@ -110,18 +110,18 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
         </ListButtons>
       )}
 
-      <div className="row">
+      <div className='row'>
         {viewType === ViewType.Card &&
           studentList
             .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
             .map((si) => (
-              <div className="col-lg-4" key={si.studentschoolkey}>
+              <div className='col-lg-4' key={si.studentschoolkey}>
                 <StudentCard student={si} />
               </div>
             ))}
         {viewType === ViewType.Grid && (
-          <div className="card" style={{ width: "100%" }}>
-            <div className="card-body table-responsive-md">
+          <div className='card' style={{ width: '100%' }}>
+            <div className='card-body table-responsive-md'>
               <StudentTable studentList={studentList} />
             </div>
           </div>
