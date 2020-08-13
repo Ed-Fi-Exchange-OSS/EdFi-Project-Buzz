@@ -15,8 +15,6 @@ export default createGlobalStyle`
       src: local('Work Sans'), local('WorkSans'),
       url(${WorkSansWoff2}) format('woff2'),
       url(${WorkSansWoff}) format('woff');
-      font-weight: 400;
-      font-style: normal;
   }
 
   @font-face {
@@ -24,7 +22,5 @@ export default createGlobalStyle`
       src: local('Work Sans Extra Bold'), local('WorkSansExtraBold'),
       url(${WorkSansExtraBoldWoff2}) format('woff2'),
       url(${WorkSansExtraBoldWoff}) format('woff');
-      font-weight: 400;
-      font-style: normal;
   }
 `;

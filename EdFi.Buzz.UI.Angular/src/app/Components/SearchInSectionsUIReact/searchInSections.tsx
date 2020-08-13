@@ -2,7 +2,7 @@ import { Section } from 'src/app/Models/section';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import OrangeChevron from '../../../../assets/chevron-orange.png';
+import ChevronDown from '../../../../assets/chevron-down.png';
 import OrangeSearch from '../../../../assets/search.png';
 
 export interface SearchInSectionsComponentProps {
@@ -102,7 +102,7 @@ const StyledSelectParent = styled.div`
     --moz-appearance: none;
     padding: 2px 2px 2px 3px;
     border: none;
-    background: transparent url(${OrangeChevron}) no-repeat 98% center;
+    background: transparent url(${ChevronDown}) no-repeat 98% center;
   }
 
   & > select > option {

@@ -6,9 +6,13 @@ import './StudentCard.css';
 
 import styled from 'styled-components';
 import Mail from '../../../assets/mail.png';
-import OrangeChevron from '../../../assets/chevron-orange.png';
+import Phone from '../../../assets/phone.png';
+import ChevronDown from '../../../assets/chevron-down.png';
+import ChevronUp from '../../../assets/chevron-up.png';
+import Star from '../../../assets/star.png';
 
 const StyledStudentCard = styled.div`
+  font-family: ${(props) => props.theme.fonts.regular} !important;
   font-size: 14px;
   background-color: ${(props) => props.theme.colors.lavender};
   border: ${(props) => props.theme.border};
@@ -22,8 +26,31 @@ const StyledStudentCard = styled.div`
   background-clip: border-box;
   border-radius: 4px;
 
+  .student-card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 0.6rem;
+  }
+
+
+  .primary-contact-label {
+    font-size: 16px;
+  }
+
+  .relationship {
+    font-size: 14px;
+  }
+
   :hover {
     outline-color: ${(props) => props.theme.colors.steelblue};
+  }
+
+  .d-flex {
+    display: flex !important;
+  }
+
+  & .overflow-hidden {
+    overflow: hidden !important;
   }
 
   & div.footer {
@@ -34,9 +61,11 @@ const StyledStudentCard = styled.div`
     font-family: ${(props) => props.theme.fonts.regular};
     font-weight: 600;
     color: ${(props) => props.theme.colors.steelblue};
+    background-color: ${(props) => props.theme.colors.lavender};
+    border-top: 1px solid ${(props) => props.theme.colors.lightgray};
 
-    & img.flip {
-      transform: scaleX(-1);
+    & div {
+      display: flex;
     }
 
     & img {
@@ -48,20 +77,27 @@ const StyledStudentCard = styled.div`
     }
   }
 
+  .bold {
+    font-size: 14px;
+    font-weight: 600 !important;
+    line-height: 18px;
+  }
+
   & div.primary-contact {
     display: flex;
     flex-direction: row;
-
-    div {
-      flex: 1;
-    }
+    margin: 5px 5px 5px 5px;
 
     div.primary-contact-name {
-      flex: 3;
+      flex: 2;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      line-height: 18px;
     }
 
     div.primary-contact-phone {
-      flex: 2;
+      white-space: nowrap;
+      flex: 1;
     }
   }
 
@@ -69,8 +105,20 @@ const StyledStudentCard = styled.div`
     color: ${(props) => props.theme.colors.steelblue};
   }
 
+  & img.star-image {
+    height: 16px;
+    width: 16px;
+    margin: 0px 5px 0px 0px;
+  }
+
   & img.email-image {
     height: 10px;
+    width: 16px;
+    margin: 0px 10px 0px 0px;
+  }
+
+  & img.phone-image {
+    height: 16px;
     width: 16px;
     margin: 0px 10px 0px 0px;
   }
@@ -87,8 +135,28 @@ const StyledStudentCard = styled.div`
   }
 
   & div.image-container {
-    height: 48px;
-    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 5px 5px 5px;
+
+    & > img {
+      height: 48px;
+      width: 48px;
+    }
+  }
+
+  div.outline-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3em;
+    border: solid 2px #1378be;
+    color: #1378be;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -100,116 +168,105 @@ export function StudentCard(props: StudentCardComponentProps) {
   const student = props.student;
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
-    <StyledStudentCard className='card'>
-      <div className='card-body p-t-0'>
-        <div className='d-flex p-t-12'>
-          <div>
-            <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
-              <div className='image-container'>
-                <img src={student.pictureurl} alt={`{student.name} Profile Picture`} />
-              </div>
-            </a>
-          </div>
-          <div className='flex-grow-1 overflow-hidden'>
-            <h3 className='m-b-2 d-flex'>{student.name}</h3>
+    <StyledStudentCard className="card">
+      <div className="student-card-body p-t-0">
+        <div className="d-flex p-t-12">
+          <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
+            <div className="image-container">
+              <img className="student-profile-pic" src={student.pictureurl} alt={`{student.name} Profile Picture`} />
+            </div>
+          </a>
+          <div className="flex-grow-1 overflow-hidden">
+            <h3 className="m-b-2 d-flex">{student.name}</h3>
             {student.primaryemailaddress && (
               <div>
-                <img className='email-image' src={Mail} />
+                <img className="email-image" src={Mail} />
                 <a
-                  className='m-b-2 text-ellipsis'
-                  href='mailto:{{student.primaryemailaddress}}'
-                  title='{{student.primaryemailaddress}}'
+                  className="m-b-2 text-ellipsis"
+                  href={`mailto:${student.primaryemailaddress}`}
+                  title={student.primaryemailaddress}
                 >
                   {student.primaryemailaddress}
                 </a>
               </div>
             )}
-            {!student.primaryemailaddress && <p className='alert alert-primary'>No email</p>}
+            {!student.primaryemailaddress && <p className="alert alert-primary">No email</p>}
           </div>
         </div>
 
         <div className={`${isCollapsed ? 'collapse' : ''}`}>
           {student.contacts && student.contacts.length > 0 && (
-            <div className='primary-contact'>
-              <div className='primary-contact-name'>
-                Primary Contact&nbsp;-&nbsp;
-                <i>{student.contacts[0].relationshiptostudent}</i> {student.contacts[0].contactlastname},{' '}
-                {student.contacts[0].contactfirstname}
+            <div className="primary-contact-container">
+              <div className="primary-contact-name-container">
+                <div className="bold">
+                  <img className="star-image" src={Star} />
+                  <span className="primary-contact-label">Primary Contact&nbsp;-&nbsp;</span>
+                  <i className="relationship">{student.contacts[0].relationshiptostudent}</i>
+                </div>
+                <div className="primary-contact-name">
+                  {student.contacts[0].contactlastname}, {student.contacts[0].contactfirstname}
+                </div>
               </div>
-              <div></div>
-              <div className='primary-contact-phone'>
-                <a className='inline-block' href='tel:{{student.contacts[0].phone}}'>
+              <div className="primary-contact-phone">
+                <img className="phone-image" src={Phone} />
+                <a className="inline-block" href={`tel:${student.contacts[0].phonenumber}`}>
                   {student.contacts[0].phonenumber}
                 </a>
               </div>
             </div>
           )}
           {(!student.contacts || student.contacts.length === 0) && (
-            <div className='alert alert-primary'>Student has no contacts</div>
+            <div className="alert alert-primary">Student has no contacts</div>
           )}
         </div>
 
         <div className={`collapse ${isCollapsed ? 'show' : ''}`}>
-          <hr />
-          <h3>Primary Contact</h3>
           {student.contacts && student.contacts.length > 0 && (
-            <p className='m-l-10'>
-              <span className='text-muted block'>
-                {student.contacts[0].contactlastname}, {student.contacts[0].contactfirstname}(
-                {student.contacts[0].relationshiptostudent})
-              </span>
-              <i className='icon ion-md-mail'></i>&nbsp;
-              <a className='m-b-2 ' href='mailto:{{student.contacts[0].primaryemailaddress}}'>
+            <div className="m-l-10">
+              <div className="bold">
+                <img className="star-image" src={Star} />
+                <span className="primary-contact-label">Primary Contact&nbsp;-&nbsp;</span>
+                <i className="relationship">{student.contacts[0].relationshiptostudent}</i>
+              </div>
+              <div>
+                {student.contacts[0].contactlastname}, {student.contacts[0].contactfirstname}
+              </div>
+              <img className="email-image" src={Mail} />
+              &nbsp;
+              <a className="m-b-2 " href={`mailto:${student.contacts[0].primaryemailaddress}`}>
                 {student.contacts[0].primaryemailaddress}
               </a>
               <br />
-              <i className='icon ion-md-phone-portrait'></i>&nbsp;
-              <span className='text-muted'>
-                <a href='tel:{{student.contacts[0].phonenumber}}'>{student.contacts[0].phonenumber}</a>
-              </span>
-              <span className='text-muted block'>
+              <img className="phone-image" src={Phone} />
+              &nbsp;
+              <a href={`tel:${student.contacts[0].phonenumber}`}>{student.contacts[0].phonenumber}</a>
+              <div>
                 {student.contacts[0].streetnumbername} {student.contacts[0].apartmentroomsuitenumber}
-              </span>
-            </p>
+              </div>
+              <div>
+                <div className="bold">Preferred contact method:</div>
+                <div>{student.contacts[0].preferredcontactmethod}</div>
+              </div>
+              <div>
+                <div className="bold">Best time to contact:</div>
+                <div>{student.contacts[0].besttimetocontact}</div>
+              </div>
+            </div>
           )}
           {(!student.contacts || student.contacts.length === 0) && (
-            <div className='alert alert-primary'>Student have no contacts</div>
+            <div className="alert alert-primary">Student have no contacts</div>
           )}
-
-          {student.contacts &&
-            student.contacts.length > 0 && (
-              <h4>
-                Preferred Contact Method: <span className='text-muted'>{student.contacts[0].preferredcontactmethod}</span>
-              </h4>
-            ) && (
-              <h4>
-                Best time to contact: <span className='text-muted'>{student.contacts[0].besttimetocontact}</span>
-              </h4>
-            )}
-
-          <a
-            href={`#/app/studentDetail/${student.studentschoolkey}`}
-            className='btn btn-block btn-outline-primary btn-rounded mt-3'
-          >
-            Survey Results
-          </a>
-          <hr />
-          <h3>Notes</h3>
-          {student.contacts &&
-            student.contacts.map((contact) => (
-              <p
-                className='text-muted m-b-2'
-                key={[student.studentschoolkey, contact.contactlastname, contact.contactfirstname].join()}
-              >
-                {contact.contactnotes}
-              </p>
-            ))}
+          <div className="outline-button">
+            <a href={`#/app/studentDetail/${student.studentschoolkey}`}>Student Details</a>
+          </div>
         </div>
       </div>
 
-      <div className='footer card-footer'>
-        <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
-        <img className={!isCollapsed ? '' : 'flip'} src={OrangeChevron} onClick={() => setIsCollapsed(!isCollapsed)} />
+      <div className="footer card-footer">
+        <div onClick={() => setIsCollapsed(!isCollapsed)}>
+          <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
+          <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} />
+        </div>
       </div>
     </StyledStudentCard>
   );
