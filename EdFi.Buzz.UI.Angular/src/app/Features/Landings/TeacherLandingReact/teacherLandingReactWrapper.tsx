@@ -20,7 +20,7 @@ import { ApiService } from 'src/app/Services/api.service';
 
 const containerElementName = 'teacherLandingReactComponentContainer';
 
-import GlobalFonts from './../../../../fonts/font';
+import GlobalFonts from '../../../../globalstyle';
 import { ThemeProvider } from 'styled-components';
 import BuzzTheme from '../../../../buzztheme';
 

@@ -5,11 +5,9 @@ import * as React from 'react';
 import './StudentCard.css';
 
 import styled from 'styled-components';
-import Mail from '../../../assets/mail.png';
-import Phone from '../../../assets/phone.png';
+import { EmailIcon, PhoneIcon, StarIcon } from '../../Features/common/Icons';
 import ChevronDown from '../../../assets/chevron-down.png';
 import ChevronUp from '../../../assets/chevron-up.png';
-import Star from '../../../assets/star.png';
 
 const StyledStudentCard = styled.div`
   font-family: ${(props) => props.theme.fonts.regular} !important;
@@ -30,11 +28,12 @@ const StyledStudentCard = styled.div`
     flex: 1 1 auto;
     min-height: 1px;
     padding: 0.6rem;
+    color: ${(props) => props.theme.colors.darkgray};
   }
-
 
   .primary-contact-label {
     font-size: 16px;
+    color: ${(props) => props.theme.colors.darkgray};
   }
 
   .relationship {
@@ -83,19 +82,24 @@ const StyledStudentCard = styled.div`
     line-height: 18px;
   }
 
-  & div.primary-contact {
+  .clickable {
+    cursor: pointer;
+  }
+
+  div.primary-contact-container {
     display: flex;
     flex-direction: row;
     margin: 5px 5px 5px 5px;
 
-    div.primary-contact-name {
+    div.primary-contact-name-container {
       flex: 2;
       font-size: 14px !important;
       font-weight: 600 !important;
       line-height: 18px;
+      max-width: 65%;
     }
 
-    div.primary-contact-phone {
+    div.primary-contact-phone-container {
       white-space: nowrap;
       flex: 1;
     }
@@ -105,22 +109,13 @@ const StyledStudentCard = styled.div`
     color: ${(props) => props.theme.colors.steelblue};
   }
 
-  & img.star-image {
-    height: 16px;
-    width: 16px;
+  img.email-icon,
+  img.phone-icon {
+    margin: 0px 10px 0px 0px;
+  }
+
+  & img.star-icon {
     margin: 0px 5px 0px 0px;
-  }
-
-  & img.email-image {
-    height: 10px;
-    width: 16px;
-    margin: 0px 10px 0px 0px;
-  }
-
-  & img.phone-image {
-    height: 16px;
-    width: 16px;
-    margin: 0px 10px 0px 0px;
   }
 
   & h3 {
@@ -157,6 +152,7 @@ const StyledStudentCard = styled.div`
     border-radius: 4px;
     margin-top: 20px;
     margin-bottom: 20px;
+    cursor: pointer;
   }
 `;
 
@@ -180,7 +176,7 @@ export function StudentCard(props: StudentCardComponentProps) {
             <h3 className="m-b-2 d-flex">{student.name}</h3>
             {student.primaryemailaddress && (
               <div>
-                <img className="email-image" src={Mail} />
+                <EmailIcon />
                 <a
                   className="m-b-2 text-ellipsis"
                   href={`mailto:${student.primaryemailaddress}`}
@@ -199,7 +195,7 @@ export function StudentCard(props: StudentCardComponentProps) {
             <div className="primary-contact-container">
               <div className="primary-contact-name-container">
                 <div className="bold">
-                  <img className="star-image" src={Star} />
+                  <StarIcon />
                   <span className="primary-contact-label">Primary Contact&nbsp;-&nbsp;</span>
                   <i className="relationship">{student.contacts[0].relationshiptostudent}</i>
                 </div>
@@ -208,10 +204,16 @@ export function StudentCard(props: StudentCardComponentProps) {
                 </div>
               </div>
               <div className="primary-contact-phone">
-                <img className="phone-image" src={Phone} />
-                <a className="inline-block" href={`tel:${student.contacts[0].phonenumber}`}>
-                  {student.contacts[0].phonenumber}
-                </a>
+                <PhoneIcon />
+                {student.contacts[0].phonenumber ? (
+                  <>
+                    <a className="inline-block" href={`tel:${student.contacts[0].phonenumber}`}>
+                      {student.contacts[0].phonenumber}
+                    </a>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           )}
@@ -224,20 +226,20 @@ export function StudentCard(props: StudentCardComponentProps) {
           {student.contacts && student.contacts.length > 0 && (
             <div className="m-l-10">
               <div className="bold">
-                <img className="star-image" src={Star} />
+                <StarIcon />
                 <span className="primary-contact-label">Primary Contact&nbsp;-&nbsp;</span>
                 <i className="relationship">{student.contacts[0].relationshiptostudent}</i>
               </div>
               <div>
                 {student.contacts[0].contactlastname}, {student.contacts[0].contactfirstname}
               </div>
-              <img className="email-image" src={Mail} />
+              <EmailIcon />
               &nbsp;
               <a className="m-b-2 " href={`mailto:${student.contacts[0].primaryemailaddress}`}>
                 {student.contacts[0].primaryemailaddress}
               </a>
               <br />
-              <img className="phone-image" src={Phone} />
+              <PhoneIcon />
               &nbsp;
               <a href={`tel:${student.contacts[0].phonenumber}`}>{student.contacts[0].phonenumber}</a>
               <div>
@@ -263,7 +265,7 @@ export function StudentCard(props: StudentCardComponentProps) {
       </div>
 
       <div className="footer card-footer">
-        <div onClick={() => setIsCollapsed(!isCollapsed)}>
+        <div className="clickable" onClick={() => setIsCollapsed(!isCollapsed)}>
           <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
           <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} />
         </div>

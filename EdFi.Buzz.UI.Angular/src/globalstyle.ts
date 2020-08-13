@@ -4,10 +4,10 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { createGlobalStyle } from 'styled-components';
-import WorkSansWoff from './WorkSans.woff';
-import WorkSansWoff2 from './WorkSans.woff2';
-import WorkSansExtraBoldWoff from './WorkSansExtraBold.woff';
-import WorkSansExtraBoldWoff2 from './WorkSansExtraBold.woff2';
+import WorkSansWoff from './fonts/WorkSans.woff';
+import WorkSansWoff2 from './fonts/WorkSans.woff2';
+import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
+import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
 
 export default createGlobalStyle`
   @font-face {
@@ -23,4 +23,23 @@ export default createGlobalStyle`
       url(${WorkSansExtraBoldWoff2}) format('woff2'),
       url(${WorkSansExtraBoldWoff}) format('woff');
   }
+
+  .email-icon {
+    height: 10px;
+    width: 16px;
+    margin: 0px 10px 0px 0px;
+  }
+
+  .phone-icon {
+    height: 16px;
+    width: 16px;
+    margin: 0px 10px 0px 0px;
+  }
+
+  .star-image {
+    height: 16px;
+    width: 16px;
+    margin: 0px 5px 0px 0px;
+  }
+
 `;
