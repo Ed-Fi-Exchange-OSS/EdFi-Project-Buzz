@@ -39,10 +39,27 @@ BUZZ_DB_HOST = '$DbServer'
 BUZZ_DB_PORT = $DbPort
 BUZZ_DB_USERNAME ='$DbUserName'
 BUZZ_DB_PASSWORD = '$DbPassword'
-BUZZ_DB_DATABASE = '$DbName'
 "@
 
   $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
+}
+
+function Add-Database-DotEnvFile {
+    $fileContents = @"
+BUZZ_DB_HOST = '$DbServer'
+BUZZ_DB_PORT = $DbPort
+BUZZ_DB_USERNAME ='$DbUserName'
+BUZZ_DB_PASSWORD = '$DbPassword'
+BUZZ_DB_DATABASE = '$DbName'
+"@
+
+    $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
+  }
+
+function Install-Migrations{
+    Add-Database-DotEnvFile
+    Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
+    &npm run migrate
 }
 
 function Install-Database {
@@ -50,8 +67,22 @@ function Install-Database {
     Write-Host "Executing: npm install --production" -ForegroundColor Magenta
     &npm install --production
 
-    Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
-    &npm run migrate
+    Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
+    $output = &npm run init-db $DbName 2>&1
+
+    if ($LASTEXITCODE -ne 0)
+    {
+        $err = $output.Where{$PSItem -match 'already exists'}
+        if($err.Length -gt 0){
+            Install-Migrations
+        }
+        else{
+            Write-Host "Error: Unable to connect to the database '$($DbName)'." -ForegroundColor Red
+        }
+    }
+    else{
+        Install-Migrations
+    }
     Pop-Location
 }
 
