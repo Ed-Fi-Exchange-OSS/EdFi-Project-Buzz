@@ -23,6 +23,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   const [selectedSurveyMetadata, setSelectedSurveyMetadata] = useState(null as SurveyMetadata);
   const [selectedSurveyQuestionSummaryList, setSelectedSurveyQuestionSummaryList] = useState(null as SurveyQuestionSummary[]);
   const [selectedQuestion, setSelectedQuestion] = useState(null as SurveyQuestionSummary);
+  const [selectedAnswer, setSelectedAnswer] = useState(null as string);
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
     props.api.surveyAnalytics
@@ -44,6 +45,10 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
   function onSurveyQuestionSelectedHandler(surveyName: string, surveyQuestion: SurveyQuestionSummary) {
     setSelectedQuestion(surveyQuestion);
+  }
+
+  function onAnswerSelectionChangedHandler(answer: string){
+    setSelectedAnswer(answer);
   }
 
   return <main role='main' className='container'>
@@ -72,7 +77,9 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
         surveyQuestionSummaryList={selectedSurveyQuestionSummaryList}
         onSurveyQuestionSelected={onSurveyQuestionSelectedHandler} />
 
-      {(selectedQuestion) && <SurveyChart question={selectedQuestion} />}
+      {(selectedQuestion) && <SurveyChart question={selectedQuestion} afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />}
+
+      {(selectedAnswer) && <div>Selected answer {selectedAnswer}</div>}
     </div>}
 
   </main>;
