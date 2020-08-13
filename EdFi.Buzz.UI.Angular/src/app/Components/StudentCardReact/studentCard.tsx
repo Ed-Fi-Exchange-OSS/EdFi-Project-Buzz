@@ -164,21 +164,21 @@ export function StudentCard(props: StudentCardComponentProps) {
   const student = props.student;
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
-    <StyledStudentCard className="card">
-      <div className="student-card-body p-t-0">
-        <div className="d-flex p-t-12">
+    <StyledStudentCard className='card'>
+      <div className='student-card-body p-t-0'>
+        <div className='d-flex p-t-12'>
           <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
-            <div className="image-container">
-              <img className="student-profile-pic" src={student.pictureurl} alt={`{student.name} Profile Picture`} />
+            <div className='image-container'>
+              <img className='student-profile-pic' src={student.pictureurl} alt={`{student.name} Profile Picture`} />
             </div>
           </a>
-          <div className="flex-grow-1 overflow-hidden">
-            <h3 className="m-b-2 d-flex">{student.name}</h3>
+          <div className='flex-grow-1 overflow-hidden'>
+            <h3 className='m-b-2 d-flex'>{student.name}</h3>
             {student.primaryemailaddress && (
               <div>
                 <EmailIcon />
                 <a
-                  className="m-b-2 text-ellipsis"
+                  className='m-b-2 text-ellipsis'
                   href={`mailto:${student.primaryemailaddress}`}
                   title={student.primaryemailaddress}
                 >
@@ -186,28 +186,28 @@ export function StudentCard(props: StudentCardComponentProps) {
                 </a>
               </div>
             )}
-            {!student.primaryemailaddress && <p className="alert alert-primary">No email</p>}
+            {!student.primaryemailaddress && <p className='alert alert-primary'>No email</p>}
           </div>
         </div>
 
         <div className={`${isCollapsed ? 'collapse' : ''}`}>
           {student.contacts && student.contacts.length > 0 && (
-            <div className="primary-contact-container">
-              <div className="primary-contact-name-container">
-                <div className="bold">
+            <div className='primary-contact-container'>
+              <div className='primary-contact-name-container'>
+                <div className='bold'>
                   <StarIcon />
-                  <span className="primary-contact-label">Primary Contact&nbsp;-&nbsp;</span>
-                  <i className="relationship">{student.contacts[0].relationshiptostudent}</i>
+                  <span className='primary-contact-label'>Primary Contact&nbsp;-&nbsp;</span>
+                  <i className='relationship'>{student.contacts[0].relationshiptostudent}</i>
                 </div>
-                <div className="primary-contact-name">
+                <div className='primary-contact-name'>
                   {student.contacts[0].contactlastname}, {student.contacts[0].contactfirstname}
                 </div>
               </div>
-              <div className="primary-contact-phone">
+              <div className='primary-contact-phone'>
                 <PhoneIcon />
                 {student.contacts[0].phonenumber ? (
                   <>
-                    <a className="inline-block" href={`tel:${student.contacts[0].phonenumber}`}>
+                    <a className='inline-block' href={`tel:${student.contacts[0].phonenumber}`}>
                       {student.contacts[0].phonenumber}
                     </a>
                   </>
@@ -218,24 +218,24 @@ export function StudentCard(props: StudentCardComponentProps) {
             </div>
           )}
           {(!student.contacts || student.contacts.length === 0) && (
-            <div className="alert alert-primary">Student has no contacts</div>
+            <div className='alert alert-primary'>Student has no contacts</div>
           )}
         </div>
 
         <div className={`collapse ${isCollapsed ? 'show' : ''}`}>
           {student.contacts && student.contacts.length > 0 && (
-            <div className="m-l-10">
-              <div className="bold">
+            <div className='m-l-10'>
+              <div className='bold'>
                 <StarIcon />
-                <span className="primary-contact-label">Primary Contact&nbsp;-&nbsp;</span>
-                <i className="relationship">{student.contacts[0].relationshiptostudent}</i>
+                <span className='primary-contact-label'>Primary Contact&nbsp;-&nbsp;</span>
+                <i className='relationship'>{student.contacts[0].relationshiptostudent}</i>
               </div>
               <div>
                 {student.contacts[0].contactlastname}, {student.contacts[0].contactfirstname}
               </div>
               <EmailIcon />
               &nbsp;
-              <a className="m-b-2 " href={`mailto:${student.contacts[0].primaryemailaddress}`}>
+              <a className='m-b-2 ' href={`mailto:${student.contacts[0].primaryemailaddress}`}>
                 {student.contacts[0].primaryemailaddress}
               </a>
               <br />
@@ -246,26 +246,26 @@ export function StudentCard(props: StudentCardComponentProps) {
                 {student.contacts[0].streetnumbername} {student.contacts[0].apartmentroomsuitenumber}
               </div>
               <div>
-                <div className="bold">Preferred contact method:</div>
+                <div className='bold'>Preferred contact method:</div>
                 <div>{student.contacts[0].preferredcontactmethod}</div>
               </div>
               <div>
-                <div className="bold">Best time to contact:</div>
+                <div className='bold'>Best time to contact:</div>
                 <div>{student.contacts[0].besttimetocontact}</div>
               </div>
             </div>
           )}
           {(!student.contacts || student.contacts.length === 0) && (
-            <div className="alert alert-primary">Student have no contacts</div>
+            <div className='alert alert-primary'>Student have no contacts</div>
           )}
-          <div className="outline-button">
+          <div className='outline-button'>
             <a href={`#/app/studentDetail/${student.studentschoolkey}`}>Student Details</a>
           </div>
         </div>
       </div>
 
-      <div className="footer card-footer">
-        <div className="clickable" onClick={() => setIsCollapsed(!isCollapsed)}>
+      <div className='footer card-footer'>
+        <div className='clickable' onClick={() => setIsCollapsed(!isCollapsed)}>
           <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
           <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} />
         </div>
