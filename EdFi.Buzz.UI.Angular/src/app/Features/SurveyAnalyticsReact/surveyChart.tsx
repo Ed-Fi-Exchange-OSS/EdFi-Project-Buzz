@@ -127,24 +127,20 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
     }
   }
 
-  return <div className="col-12 col-md-6">
-    <div id="chartCard" className="card">
-      <div className="card-body">
-        <h2>Analysing Question: "{props.question.question}"</h2>
-        <div className="row">
-          <div className="col-12">
-            <HorizontalBar
-              data={chartData.data}
-              height={chartData.height}
-              options={chartData.options}
-              legend={chartData.legend}
-              getElementAtEvent={onClickHandler}
-              plugins={chartData.plugins}
-              key={question.surveyquestionkey}
-            />
-          </div>
-        </div>
+  return <>
+    <h2>Analysing Question: "{props.question.question}"</h2>
+    <div className="row">
+      <div className="col-12">
+        <HorizontalBar
+          data={chartData.data}
+          height={chartData.height}
+          options={chartData.options}
+          legend={chartData.legend}
+          getElementAtEvent={onClickHandler}
+          plugins={chartData.plugins}
+          key={question.surveyquestionkey}
+        />
       </div>
     </div>
-  </div>
+  </>;
 }

@@ -22,7 +22,7 @@ const containerElementName = 'surveyAnalyticsReactComponentContainer';
 @Component({
   selector: 'app-survey-analytics-react',
   template: `<span #${containerElementName}></span>`,
-  styleUrls: ['./surveyAnalytics.css', './surveyMetadataUI.css'],
+  styleUrls: ['./surveyAnalytics.css', './surveyMetadataUI.css', '../../Components/DataTable/dataTable.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class SurveyAnalyticsReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {

@@ -8,6 +8,9 @@ import { Section, SurveyMetadata, SurveyQuestionSummary } from 'src/app/Models';
 import { SurveyMetadataUI } from './surveyMetadataUI';
 import { SurveySummary } from './surveySummary';
 import { SurveyChart } from './surveyChart';
+import { DataTable, ColumnOption } from 'src/app/Components/DataTable/dataTable';
+import { AllStudentAnswers } from 'src/app/Models/survey';
+import { VariablesAreInputTypesRule } from 'graphql';
 
 export interface SurveyAnalyticsComponentProps {
   api: ApiService;
@@ -24,6 +27,8 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   const [selectedSurveyQuestionSummaryList, setSelectedSurveyQuestionSummaryList] = useState(null as SurveyQuestionSummary[]);
   const [selectedQuestion, setSelectedQuestion] = useState(null as SurveyQuestionSummary);
   const [selectedAnswer, setSelectedAnswer] = useState(null as string);
+  const [selectedSurveyAnswers, setSelectedSurveyAnswers] = useState(null as AllStudentAnswers[]);
+  const [viewAnswersByStudent, setViewAnswersByStudent] = useState(false);
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
     props.api.surveyAnalytics
@@ -37,19 +42,56 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
   function onSurveySelectedHandler(surveyMetadata: SurveyMetadata) {
     setSelectedSurveyMetadata(surveyMetadata);
+    setSelectedSurveyQuestionSummaryList(null);
+    setSelectedQuestion(null);
+    setSelectedAnswer(null);
+    setSelectedSurveyAnswers(null);
+
     props.api.surveyAnalytics
       .getSurveyQuestionSummaryList(surveyMetadata.surveykey, surveyMetadata.sectionkey)
-      .then(response => setSelectedSurveyQuestionSummaryList(response));
+      .then(response => { setSelectedSurveyQuestionSummaryList(response); });
 
+    props.api.surveyAnalytics
+      .getAllSurveyAnswers(surveyMetadata.surveykey, surveyMetadata.sectionkey)
+      .then(response => setSelectedSurveyAnswers(response));
   }
 
   function onSurveyQuestionSelectedHandler(surveyName: string, surveyQuestion: SurveyQuestionSummary) {
     setSelectedQuestion(surveyQuestion);
   }
 
-  function onAnswerSelectionChangedHandler(answer: string){
+  function onAnswerSelectionChangedHandler(answer: string) {
     setSelectedAnswer(answer);
   }
+
+
+  function getSurveyAnswersLabels(surveyQuestionSummaryList: SurveyQuestionSummary[], questionFilter?: string): ColumnOption[] {
+    return [{ label: 'studentschoolkey', hide: true } as ColumnOption, { label: 'Student', linkColumnIndex: 0 } as ColumnOption]
+      .concat(surveyQuestionSummaryList
+        .filter(question => !questionFilter || question.question === questionFilter)
+        .map((question, index) => {
+          return { label: `${questionFilter ? '' : `${index + 1}.`} ${question.question}` }
+        })
+      )
+  }
+  function getSurveyAnswersDataset(
+    surveyAnswersList: AllStudentAnswers[],
+    surveyQuestionSummaryList: SurveyQuestionSummary[],
+    questionFilter?: string
+  ): any[][] {
+    return surveyAnswersList
+      .map(student => [student.studentschoolkey, student.studentname]
+        .concat(surveyQuestionSummaryList
+          .filter(question => !questionFilter || question.question === questionFilter)
+          .map(question => student.answers[question.surveyquestionkey])
+        )
+      );
+  }
+  function getSurveyQuetionSummaryIndex(surveyQuestion: SurveyQuestionSummary) {
+    const index = selectedSurveyQuestionSummaryList.findIndex(value => value.question === surveyQuestion.question);
+    return index;
+  }
+
 
   return <main role='main' className='container'>
     <div className='position-relative p-t-10 back-button'>
@@ -71,16 +113,63 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
     </div>
     }
 
-    {(selectedSurveyQuestionSummaryList) && <div className='row'>
-      <SurveySummary
-        surveyName={selectedSurveyMetadata.title}
-        surveyQuestionSummaryList={selectedSurveyQuestionSummaryList}
-        onSurveyQuestionSelected={onSurveyQuestionSelectedHandler} />
+    {(selectedSurveyQuestionSummaryList) &&
+      <div className='row'>
+        <SurveySummary
+          surveyName={selectedSurveyMetadata.title}
+          surveyQuestionSummaryList={selectedSurveyQuestionSummaryList}
+          onSurveyQuestionSelected={onSurveyQuestionSelectedHandler} />
 
-      {(selectedQuestion) && <SurveyChart question={selectedQuestion} afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />}
+        {(selectedQuestion) &&
+          <div className="col-12 col-md-6">
+            <div id="chartCard" className="card">
+              <div className="card-body">
+                <SurveyChart question={selectedQuestion} afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
 
-      {(selectedAnswer) && <div>Selected answer {selectedAnswer}</div>}
-    </div>}
+                <div onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
+                  View answers by student <span className={viewAnswersByStudent ? 'ion-md-arrow-dropup-circle' : 'ion-md-arrow-dropdown-circle'}></span>
+                </div>
 
+                {(viewAnswersByStudent && selectedQuestion) && <DataTable
+                  columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList, selectedQuestion.question)}
+                  dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList, selectedQuestion.question)}
+                  linkBaseURL={'/#/app/studentDetail/'}
+                  defaultSort={1}
+                  alwaysSortLastByColumn={1}
+                  filterByColumn={selectedAnswer ? { columnIndex: 2, filter: selectedAnswer } : null}
+                  key={selectedQuestion.question}
+                />
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    {(selectedSurveyQuestionSummaryList && selectedSurveyAnswers) && <>
+      <div>
+        <h1>Survey Details</h1>
+      </div>
+      <div className="row">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-body table-responsive-md">
+              <DataTable
+                columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
+                dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}
+                linkBaseURL={'/#/app/studentDetail/'}
+                defaultSort={1}
+                highlightFilterByColumn={selectedAnswer ? {
+                  columnIndex: getSurveyQuetionSummaryIndex(selectedQuestion) + 2/* account for added columns */
+                  , filter: selectedAnswer
+                } : null}
+                key={selectedSurveyMetadata.surveykey}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>}
   </main>;
 };

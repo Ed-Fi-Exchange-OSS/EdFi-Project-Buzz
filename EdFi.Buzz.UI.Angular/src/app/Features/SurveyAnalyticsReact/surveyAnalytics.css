@@ -13,3 +13,8 @@
   top: 3px;
   left: 44px;
 }
+
+.view-answers-by-student {
+  color: #1378be;
+  cursor: pointer;
+}
