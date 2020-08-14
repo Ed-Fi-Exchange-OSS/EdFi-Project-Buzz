@@ -32,7 +32,7 @@ const StyledStudentCard = styled.div`
   }
 
   .primary-contact-label {
-    font-size: 16px;
+    font-size: 14px;
     color: ${(props) => props.theme.colors.darkgray};
   }
 
@@ -195,7 +195,6 @@ export function StudentCard(props: StudentCardComponentProps) {
             <div className='primary-contact-container'>
               <div className='primary-contact-name-container'>
                 <div className='bold'>
-                  <StarIcon />
                   <span className='primary-contact-label'>Primary Contact&nbsp;-&nbsp;</span>
                   <i className='relationship'>{student.contacts[0].relationshiptostudent}</i>
                 </div>
