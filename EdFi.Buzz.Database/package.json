@@ -9,6 +9,7 @@
     "db-migrate-pg": "^1.2.2"
   },
   "scripts": {
+    "init-db": "db-migrate db:create",
     "migrate": "db-migrate up",
     "build:clean": "rimraf dist",
     "build": "node eng/build.js"
