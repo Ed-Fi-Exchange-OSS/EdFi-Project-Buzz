@@ -1,6 +1,7 @@
 {
   "name": "edfi.buzz.etl",
   "version": "0.1.0",
+  "license": "APACHE-2.0",
   "private": true,
   "description": "File and database loader applications for Project Buzz",
   "scripts": {

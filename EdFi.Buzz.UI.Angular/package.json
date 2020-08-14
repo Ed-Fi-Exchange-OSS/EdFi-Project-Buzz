@@ -1,6 +1,7 @@
 {
   "name": "edfi.buzz.web",
   "version": "0.1.0",
+  "license": "APACHE-2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
