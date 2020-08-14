@@ -1,6 +1,7 @@
 {
   "name": "EdFi.Buzz.UI",
   "version": "0.1.0",
+  "license": "APACHE-2.0",
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
