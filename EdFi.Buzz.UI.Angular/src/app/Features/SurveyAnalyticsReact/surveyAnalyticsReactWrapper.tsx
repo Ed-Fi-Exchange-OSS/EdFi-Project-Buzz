@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnChanges,
   OnDestroy,
   Output,
@@ -28,7 +27,6 @@ const containerElementName = 'surveyAnalyticsReactComponentContainer';
 export class SurveyAnalyticsReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;
 
-  @Input() public counter = 100;
   @Output() public componentClick = new EventEmitter<void>();
 
   constructor(private api: ApiService) {
@@ -47,8 +45,6 @@ export class SurveyAnalyticsReactWrapperComponent implements OnChanges, OnDestro
   }
 
   private render() {
-    const {counter} = this;
-
     ReactDOM.render(<SurveyAnalytics api={this.api} />, this.containerRef.nativeElement);
   }
 }
