@@ -30,7 +30,17 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   const [selectedSurveyAnswers, setSelectedSurveyAnswers] = useState(null as AllStudentAnswers[]);
   const [viewAnswersByStudent, setViewAnswersByStudent] = useState(false);
 
+
+  function resetSelectedSurvey(){
+    setSelectedSurveyMetadata(null);
+    setSelectedSurveyQuestionSummaryList(null);
+    setSelectedSurveyAnswers(null);
+    setSelectedQuestion(null);
+    setSelectedAnswer(null);
+  }
+
   function onSearchHandle(sectionKey: string, studentFilter: string) {
+    resetSelectedSurvey();
     props.api.surveyAnalytics
       .getSurveyMetadata(sectionKey, studentFilter)
       .then(result => {
@@ -41,15 +51,15 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   }
 
   function onSurveySelectedHandler(surveyMetadata: SurveyMetadata) {
+    resetSelectedSurvey();
     setSelectedSurveyMetadata(surveyMetadata);
-    setSelectedSurveyQuestionSummaryList(null);
-    setSelectedQuestion(null);
-    setSelectedAnswer(null);
-    setSelectedSurveyAnswers(null);
 
     props.api.surveyAnalytics
       .getSurveyQuestionSummaryList(surveyMetadata.surveykey, surveyMetadata.sectionkey)
-      .then(response => { setSelectedSurveyQuestionSummaryList(response); });
+      .then(response => {
+        setSelectedSurveyQuestionSummaryList(response);
+        setSelectedQuestion(response[0]);
+      });
 
     props.api.surveyAnalytics
       .getAllSurveyAnswers(surveyMetadata.surveykey, surveyMetadata.sectionkey)
