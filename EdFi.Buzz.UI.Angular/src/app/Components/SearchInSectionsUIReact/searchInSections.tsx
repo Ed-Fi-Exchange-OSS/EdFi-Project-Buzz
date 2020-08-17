@@ -1,5 +1,5 @@
-import { Section } from 'src/app/Models';
 import * as React from 'react';
+import { Section } from 'src/app/Models/section';
 
 export interface SearchInSectionsComponentProps {
   sectionList: Section[];

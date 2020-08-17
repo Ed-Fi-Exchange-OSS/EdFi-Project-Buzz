@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnChanges,
   OnDestroy,
   Output,
@@ -11,35 +10,26 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { TeacherLanding } from './teacherLanding';
 import * as React from 'react';
 
 import * as ReactDOM from 'react-dom';
 import { ApiService } from 'src/app/Services/api.service';
+import { SurveyAnalytics } from './surveyAnalytics';
 
-const containerElementName = 'teacherLandingReactComponentContainer';
+const containerElementName = 'surveyAnalyticsReactComponentContainer';
 
 @Component({
-  selector: 'app-teacher-landing-react',
+  selector: 'app-survey-analytics-react',
   template: `<span #${containerElementName}></span>`,
-  styleUrls: ['./teacherLanding.css', './studentTable.css', '../../../Components/StudentCardReact/studentCard.css'],
+  styleUrls: ['./surveyAnalytics.css', './surveyMetadataUI.css', '../../Components/DataTable/dataTable.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
+export class SurveyAnalyticsReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;
 
-  @Input() public counter = 100;
   @Output() public componentClick = new EventEmitter<void>();
 
   constructor(private api: ApiService) {
-    this.handleDivClicked = this.handleDivClicked.bind(this);
-  }
-
-  public handleDivClicked() {
-    if (this.componentClick) {
-      this.componentClick.emit();
-      this.render();
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -55,8 +45,6 @@ export class TeacherLandingReactWrapperComponent implements OnChanges, OnDestroy
   }
 
   private render() {
-    const {counter} = this;
-
-    ReactDOM.render(<TeacherLanding api={this.api} onClick={this.handleDivClicked}/>, this.containerRef.nativeElement);
+    ReactDOM.render(<SurveyAnalytics api={this.api} />, this.containerRef.nativeElement);
   }
 }
