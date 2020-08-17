@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './dataTable.css'
+import './dataTable.css';
 import { isRegExp } from 'util';
 
 
@@ -11,17 +11,17 @@ export interface ColumnOption {
 }
 
 function isColumnOption(column: any): column is ColumnOption {
-  return column && typeof column == 'object' && 'label' in column;
+  return column && typeof column === 'object' && 'label' in column;
 }
 
 export interface SortOption {
   columnIndex: number;
-  desc: boolean
+  desc: boolean;
 }
 
 function convertToSortOption(sortBy: number | SortOption, desc?: boolean): SortOption {
-  if (!sortBy) return null;
-  if (typeof sortBy === 'object' && 'columnIndex' in sortBy) { return sortBy }
+  if (!sortBy) { return null; }
+  if (typeof sortBy === 'object' && 'columnIndex' in sortBy) { return sortBy; }
   return { columnIndex: sortBy, desc: desc != null ? desc : false };
 }
 
@@ -41,7 +41,7 @@ export interface DataTableComponentProps {
 }
 
 export const DataTable: React.FunctionComponent<DataTableComponentProps> = (props: DataTableComponentProps) => {
-  const [sortByColIndex, setSortByColIndex] = React.useState(null as number)
+  const [sortByColIndex, setSortByColIndex] = React.useState(null as number);
   const [sortDirection, sortDirectionDispatch] = React.useReducer((state, action) => {
     switch (action) {
       case 'toggle':
@@ -56,28 +56,28 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
   const sortedDataset = props.dataSet
     .filter(row => {
       if (!props.filterByColumn) { return true; }
-      return row[props.filterByColumn.columnIndex] === props.filterByColumn.filter
+      return row[props.filterByColumn.columnIndex] === props.filterByColumn.filter;
     })
     .sort((a, b) => {
-      const sortByCol = convertToSortOption(sortByColIndex, sortDirection.Descending)
+      const sortByCol = convertToSortOption(sortByColIndex, sortDirection.Descending);
       const currentSortBy = sortByCol ? sortByCol : convertToSortOption(props.defaultSort);
 
       const firstColSort = compareColumns(a, b, currentSortBy);
-      if (firstColSort != 0) { return firstColSort; }
+      if (firstColSort !== 0) { return firstColSort; }
 
       const alwaysSortLastByColumn = convertToSortOption(props.alwaysSortLastByColumn);
       return compareColumns(a, b, alwaysSortLastByColumn);
-    })
+    });
 
   function compareColumns(a: any[], b: any[], sortOption: SortOption) {
-    if (!sortOption) { return 0 }
+    if (!sortOption) { return 0; }
     return (sortOption && a[sortOption.columnIndex] > b[sortOption.columnIndex] ? 1
       : sortOption && a[sortOption.columnIndex] < b[sortOption.columnIndex] ? -1
         : 0) * (sortOption.desc ? -1 : 1);
   }
 
   function sortByEventHandler(colIndex: number) {
-    if (sortByColIndex != colIndex) {
+    if (sortByColIndex !== colIndex) {
       setSortByColIndex(colIndex);
       sortDirectionDispatch('reset');
     } else {
@@ -86,7 +86,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
   }
 
   return (
-    <table lang="en" style={{ "hyphens": "auto" }} className="full-survey-table table table-bordered table-striped verticle-middle text-center first-td-left dataTable">
+    <table lang='en' style={{ 'hyphens': 'auto' }} className='full-survey-table table table-bordered table-striped verticle-middle text-center first-td-left dataTable'>
       <thead>
         <tr>
           {(props.columns as any).map((column, index) => {
@@ -98,7 +98,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
             }
             return <th
               onClick={() => sortByEventHandler(index)}
-              className={(index != sortByColIndex ? 'sorting ' : '') +
+              className={(index !== sortByColIndex ? 'sorting ' : '') +
                 (index === sortByColIndex && !sortDirection.Descending ? 'sorting_asc ' : '') +
                 (index === sortByColIndex && sortDirection.Descending ? 'sorting_desc' : '')}
               key={label}>
@@ -112,7 +112,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
         {sortedDataset.map(row => <tr
           key={row.join('-')}
           className={props.highlightFilterByColumn
-            && row[props.highlightFilterByColumn.columnIndex] == props.highlightFilterByColumn.filter
+            && row[props.highlightFilterByColumn.columnIndex] === props.highlightFilterByColumn.filter
             ? 'highlight' : ''} >
           {row.map((column, colIdx) => {
             const labelColumn = props.columns[colIdx];
@@ -130,4 +130,4 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
 
     </table>
   );
-}
+};

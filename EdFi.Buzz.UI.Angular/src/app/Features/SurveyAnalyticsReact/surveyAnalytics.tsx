@@ -31,7 +31,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   const [viewAnswersByStudent, setViewAnswersByStudent] = useState(false);
 
 
-  function resetSelectedSurvey(){
+  function resetSelectedSurvey() {
     setSelectedSurveyMetadata(null);
     setSelectedSurveyQuestionSummaryList(null);
     setSelectedSurveyAnswers(null);
@@ -80,9 +80,9 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       .concat(surveyQuestionSummaryList
         .filter(question => !questionFilter || question.question === questionFilter)
         .map((question, index) => {
-          return { label: `${questionFilter ? '' : `${index + 1}.`} ${question.question}` }
+          return { label: `${questionFilter ? '' : `${index + 1}.`} ${question.question}` };
         })
-      )
+      );
   }
   function getSurveyAnswersDataset(
     surveyAnswersList: AllStudentAnswers[],
@@ -131,10 +131,12 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
           onSurveyQuestionSelected={onSurveyQuestionSelectedHandler} />
 
         {(selectedQuestion) &&
-          <div className="col-12 col-md-6">
-            <div id="chartCard" className="card">
-              <div className="card-body">
-                <SurveyChart question={selectedQuestion} afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
+          <div className='col-12 col-md-6'>
+            <div id='chartCard' className='card'>
+              <div className='card-body'>
+                <SurveyChart title={`Selected Question: ${selectedQuestion.question}`}
+                  question={selectedQuestion}
+                  afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
 
                 <div onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
                   View answers by student <span className={viewAnswersByStudent ? 'ion-md-arrow-dropup-circle' : 'ion-md-arrow-dropdown-circle'}></span>
@@ -161,10 +163,10 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       <div>
         <h1>Survey Details</h1>
       </div>
-      <div className="row">
-        <div className="col-12">
-          <div className="card">
-            <div className="card-body table-responsive-md">
+      <div className='row'>
+        <div className='col-12'>
+          <div className='card'>
+            <div className='card-body table-responsive-md'>
               <DataTable
                 columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
                 dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}

@@ -1,27 +1,28 @@
 import * as React from 'react';
-import { Bar, ChartComponentProps, HorizontalBar } from 'react-chartjs-2';
+import { ChartComponentProps, HorizontalBar } from 'react-chartjs-2';
 import { SurveyQuestionSummary } from 'src/app/Models';
-import { plugins, Easing } from 'chart.js';
+import { Easing } from 'chart.js';
 
 
 export interface SurveyChartComponentProps {
   question: SurveyQuestionSummary;
+  title?: string | React.ReactElement;
   afterSelectionChangedHandler?: (newSelection: string) => void;
 }
 
 function generateHslaColors(saturation, lightness, alphaBG, alphaBr, alphaHv, amount) {
-  let colors = { backgroundColor: [], borderColor: [], hoverBackgroundColor: [], selectedBackgroundColor: [] };
-  let huedelta = Math.trunc(360 / amount)
+  const colors = { backgroundColor: [], borderColor: [], hoverBackgroundColor: [], selectedBackgroundColor: [] };
+  const huedelta = Math.trunc(360 / amount);
 
   for (let i = 0; i < amount; i++) {
-    let hue = i * huedelta
-    colors.backgroundColor.push(`hsla(${hue},${saturation}%,${lightness}%,${alphaBG})`)
-    colors.hoverBackgroundColor.push(`hsla(${hue},${saturation}%,${lightness}%,${alphaHv})`)
-    colors.selectedBackgroundColor.push(`hsla(${hue},${saturation}%,${lightness * 0.80}%,${alphaBr})`)
-    colors.borderColor.push(`hsla(${hue},${saturation}%,${lightness * 0.80}%,${alphaBG * 1.2})`)
+    const hue = i * huedelta;
+    colors.backgroundColor.push(`hsla(${hue},${saturation}%,${lightness}%,${alphaBG})`);
+    colors.hoverBackgroundColor.push(`hsla(${hue},${saturation}%,${lightness}%,${alphaHv})`);
+    colors.selectedBackgroundColor.push(`hsla(${hue},${saturation}%,${lightness * 0.80}%,${alphaBr})`);
+    colors.borderColor.push(`hsla(${hue},${saturation}%,${lightness * 0.80}%,${alphaBG * 1.2})`);
   }
 
-  return colors
+  return colors;
 }
 
 export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (props: SurveyChartComponentProps) => {
@@ -35,8 +36,8 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
     data: (canvas) => {
       const bgs = colors.backgroundColor.map((color, idx) => {
         if (selectedAnswer && question.answers[idx].label === selectedAnswer) {
-          return colors.selectedBackgroundColor[idx]
-        };
+          return colors.selectedBackgroundColor[idx];
+        }
         return color;
       });
 
@@ -81,26 +82,26 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
           const steps = chartInstance.data.labels.length;
           const stepH = heigth / steps;
 
-          const fontNormal = "normal 12px \"Helvetica Neue\", \"Helvetica\", \"Arial\", sans-serif";
-          const fontSelected = "bold 14px \"Helvetica Neue\", \"Helvetica\", \"Arial\", sans-serif";
+          const fontNormal = 'normal 12px "Helvetica Neue", "Helvetica", "Arial", sans-serif';
+          const fontSelected = 'bold 14px "Helvetica Neue", "Helvetica", "Arial", sans-serif';
 
           ctx.save();
-          ctx.shadowBlur = 3
-          ctx.shadowColor = "#FFFFFF"
-          ctx.shadowOffsetX = 1
-          ctx.shadowOffsetY = 1
-          ctx.fillStyle = "black"
+          ctx.shadowBlur = 3;
+          ctx.shadowColor = '#FFFFFF';
+          ctx.shadowOffsetX = 1;
+          ctx.shadowOffsetY = 1;
+          ctx.fillStyle = 'black';
 
-          const fontSize = ctx.measureText("M").width;
+          const fontSize = ctx.measureText('M').width;
           const textX = left + fontSize;
 
           const totalData = chartInstance.data.datasets[0].data.reduce((a, b) => a + b, 0);
-          const selectedAnswer = chartInstance.options.plugins.legendOnBar.selectdBarLegend();
+          const selectedLegend = chartInstance.options.plugins.legendOnBar.selectdBarLegend();
           for (let i = 0; i < chartInstance.data.labels.length; i++) {
-            ctx.font = chartInstance.data.labels[i] === selectedAnswer ? fontSelected : fontNormal;
+            ctx.font = chartInstance.data.labels[i] === selectedLegend ? fontSelected : fontNormal;
             const textY = (i * stepH) + ((stepH + fontSize) / 2);
             const text = chartInstance.data.labels[i] as string;
-            const percent = Math.floor((100 * chartInstance.data.datasets[0].data[i]) / totalData)
+            const percent = Math.floor((100 * chartInstance.data.datasets[0].data[i]) / totalData);
             chartInstance.ctx.fillText(`[${percent}%] ${text}`, textX, textY, width);
           }
           chartInstance.ctx.restore();
@@ -115,8 +116,8 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
     const chart = point._chart.config;
     const datasetIndex = point._datasetIndex;
     const dataIndex = point._index;
-    var label = chart.data.labels[dataIndex];
-    //var value = chart.data.datasets[datasetIndex].data[dataIndex];
+    const label = chart.data.labels[dataIndex];
+    // var value = chart.data.datasets[datasetIndex].data[dataIndex];
     chart.data.datasets[datasetIndex].backgroundColor[dataIndex] =
       selectedAnswer !== label ? colors.selectedBackgroundColor[dataIndex] : colors.backgroundColor[dataIndex];
 
@@ -128,9 +129,9 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
   }
 
   return <>
-    <h2>Analysing Question: "{props.question.question}"</h2>
-    <div className="row">
-      <div className="col-12">
+    {(props.title) && <h2>{props.title}</h2>}
+    <div className='row'>
+      <div className='col-12'>
         <HorizontalBar
           data={chartData.data}
           height={chartData.height}
@@ -143,4 +144,4 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
       </div>
     </div>
   </>;
-}
+};
