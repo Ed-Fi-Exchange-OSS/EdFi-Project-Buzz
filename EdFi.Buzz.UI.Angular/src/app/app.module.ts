@@ -24,7 +24,6 @@ import { SiblingCardComponent } from './Components/SiblingCard/siblingCard.compo
 import { SurveyCardComponent } from './Components/SurveyCard/surveyCard.component';
 import { StudentDetailComponent } from './Features/StudentDetail/studentDetail.component';
 import { LoginComponent } from './Features/Login/login.component';
-import { SurveyAnalytics2Component } from './Features/SurveyAnalytics2/surveyAnalytics2.component';
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
@@ -63,7 +62,6 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     SiblingCardComponent,
     SurveyCardComponent,
     StudentDetailComponent,
-    SurveyAnalytics2Component,
     UploadSurveyComponent,
     LoginComponent,
     DndDirective,
@@ -87,8 +85,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
           { path: '', component: TeacherLandingReactWrapperComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
-          { path: 'surveyAnalytics2', component: SurveyAnalytics2Component },
-          { path: 'surveyAnalyticsReact', component: SurveyAnalyticsReactWrapperComponent },
+          { path: 'surveyAnalytics', component: SurveyAnalyticsReactWrapperComponent },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'uploadSurvey/:id', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
