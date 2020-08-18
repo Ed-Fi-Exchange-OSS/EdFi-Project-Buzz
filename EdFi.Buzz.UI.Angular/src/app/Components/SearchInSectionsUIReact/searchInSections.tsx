@@ -39,6 +39,7 @@ const FilterByClassLabel = styled.div`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
+  margin: 0 0 1rem 0;
 `;
 
 const StyledTextParent = styled.div`

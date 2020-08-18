@@ -2,7 +2,7 @@ import { Student } from 'src/app/Models';
 import { useState } from 'react';
 import * as React from 'react';
 
-import './StudentCard.css';
+import './studentCard.css';
 
 import styled from 'styled-components';
 import { EmailIcon, PhoneIcon, StarIcon } from '../../Features/common/Icons';

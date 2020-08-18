@@ -55,6 +55,7 @@ const TotalStudentSpan = styled.div`
     flex: 1;
     flex-direction: column;
   }
+  margin: 0 0 1.5rem 0;
   font-family: ${(props) => props.theme.fonts.bold};
   font-size: 14px;
   font-weight: 400;
@@ -132,7 +133,7 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
   }
 
   return (
-    <TeacherLandingMainStyle role="main" className="container">
+    <TeacherLandingMainStyle role='main' className='container'>
       <TeacherHeadline>
         <YourStudentsSpan className={'h1-desktop'}>Your students</YourStudentsSpan>
         <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
@@ -149,18 +150,18 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
         </ListButtons>
       )}
 
-      <div className="row">
+      <div className='row'>
         {viewType === ViewType.Card &&
           studentList
             .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
             .map((si) => (
-              <div className="col-lg-4" key={si.studentschoolkey}>
+              <div className='col-lg-4' key={si.studentschoolkey}>
                 <StudentCard student={si} />
               </div>
             ))}
         {viewType === ViewType.Grid && (
-          <div className="card" style={{ width: '100%' }}>
-            <div className="card-body table-responsive-md">
+          <div className='card' style={{ width: '100%' }}>
+            <div className='card-body table-responsive-md'>
               <StudentTable studentList={studentList} />
             </div>
           </div>
