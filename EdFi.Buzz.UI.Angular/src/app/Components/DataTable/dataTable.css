@@ -101,7 +101,9 @@ table.dataTable.table-sm .sorting_desc:after {
 }
 
 /*For highlight */
-table.dataTable tbody .highlight {
+table.dataTable tbody .row-highlight {
+  border-bottom: 2px solid #65bcaa;
+}
+table.dataTable tbody .col-highlight {
   font-weight: bold;
-  border-bottom: 2px solid black;
 }
