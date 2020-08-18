@@ -122,7 +122,6 @@ const StyledStudentCard = styled.div`
     color: ${(props) => props.theme.colors.darkgray};
     font-family: ${(props) => props.theme.fonts.bold};
     font-size: 18px;
-    font-weight: 600;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -173,7 +172,7 @@ export function StudentCard(props: StudentCardComponentProps) {
             </div>
           </a>
           <div className='flex-grow-1 overflow-hidden'>
-            <h3 className='h2-desktop m-b-2 d-flex'>{student.name}</h3>
+            <span className='h2-desktop'>{student.name}</span>
             {student.primaryemailaddress && (
               <div>
                 <EmailIcon />

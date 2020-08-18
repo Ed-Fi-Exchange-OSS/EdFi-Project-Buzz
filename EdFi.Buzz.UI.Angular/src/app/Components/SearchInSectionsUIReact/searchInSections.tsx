@@ -2,8 +2,8 @@ import { Section } from 'src/app/Models/section';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import ChevronDown from '../../../../assets/chevron-down.png';
-import OrangeSearch from '../../../../assets/search.png';
+import ChevronDown from '../../../assets/chevron-down.png';
+import OrangeSearch from '../../../assets/search.png';
 
 export interface SearchInSectionsComponentProps {
   sectionList: Section[];
@@ -40,7 +40,7 @@ const StyledTextParent = styled.div`
   }
   @media (min-width: 769px) {
     max-width: 22rem;
-    margin: .5rem .5rem .5rem .5rem;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   }
   flex: 1;
   overflow: hidden;
@@ -97,11 +97,11 @@ const StyledTextParent = styled.div`
 const StyledSelectParent = styled.div`
   @media (max-width: 768px) {
     width: 100%;
-    margin: 0 0 0 0;
+    margin: 0 0 0.5rem 0;
   }
   @media (min-width: 769px) {
     max-width: 22rem;
-    margin: .5rem .5rem .5rem 0;
+    margin: 0.5rem 0.5rem 0.5rem 0;
   }
   flex: 1;
   overflow: hidden;
@@ -116,7 +116,6 @@ const StyledSelectParent = styled.div`
   & > select {
     height: 3em;
     font-family: ${(props) => props.theme.fonts.bold};
-    font-weight: bold;
     color: ${(props) => props.theme.colors.steelblue};
     text-indent: 1px;
     text-overflow: '';
@@ -130,6 +129,7 @@ const StyledSelectParent = styled.div`
   }
 
   & > select > option {
+    font: ${(props) => props.theme.fonts.regular};
     font-family: ${(props) => props.theme.fonts.regular};
     font-weight: normal;
     color: ${(props) => props.theme.colors.gray};

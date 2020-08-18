@@ -37,10 +37,13 @@ export default createGlobalStyle`
       url(${WorkSansExtraBoldWoff}) format('woff');
   }
 
+  *{
+    text-rendering: optimizeLegibility;
+  }
+
   .h1-desktop{
     font-family: 'Work Sans Extra Bold';
     font-size: 32px;
-    font-weight: 800;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -62,7 +65,6 @@ export default createGlobalStyle`
   .h2-desktop{
     font-family: 'Work Sans Extra Bold';
     font-size: 20px;
-    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
