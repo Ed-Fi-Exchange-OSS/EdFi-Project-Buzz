@@ -28,11 +28,11 @@ Fully customized:
 
 ```powershell
 $params = @{
-    DbServer = "myPostgresHost"
-    DbPort = 5430
-    DbUserName = "super"
-    DbPassword = "myPassword"
-    DbName = "edfi_buzz"
+    "DbServer" = "myPostgresHost";
+    "DbPort" = 5430;
+    "DbUserName" = "super";
+    "DbPassword" = "myPassword";
+    "DbName" = "edfi_buzz"
 }
 .\install.ps1 @params
 ```
