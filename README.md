@@ -21,10 +21,24 @@ commentary and updates in conjunction with the contact information and student
 responses they are already working with. The note function can flag outdated
 survey information or add additional insight into how to reach the student.
 
-## Installation
+## Developer READMEs
 
-* [Database - Windows Installation](EdFi.Buzz.Database/eng/Windows/install.md)
+Developer information for each Project Buzz application is outlined in a README within their respective root folders. The READMEs contain instructions for running the applications for debugging, or other tasks.
+
+* [API - Developer README](EdFi.Buzz.Api/README.md)
+* [Database -  Developer README](EdFi.Buzz.Database/README.md)
+* [ETL -  Developer README](EdFi.Buzz.ETL/README.md)
+* [User Interface -  Developer README](EdFi.Buzz.UI.Angular/README.md)
+
+## End-User Installation
+
+Deployment artifacts are created for each application with a build-package PowerShell script in the eng folders (/eng/build-package.ps1). The install scripts can also be employed in continuous deployment scenarios that support PowerShell scripting.
+
+Each archive will contain end-user installation instructions in a install markdown file in the Windows deployment folder (/eng/Windows/install.md). Users can follow these instructions for deployment to their environments.
+
 * [API - Windows Installation](EdFi.Buzz.Api/eng/Windows/install.md)
+* [Database - Windows Installation](EdFi.Buzz.Database/eng/Windows/install.md)
+* [ETL - Windows Installation](EdFi.Buzz.ETL/eng/Windows/install.md)
 * [User Interface - Windows Installation](EdFi.Buzz.UI.Angular/eng/windows/install.md)
 
 ## Legal Information
