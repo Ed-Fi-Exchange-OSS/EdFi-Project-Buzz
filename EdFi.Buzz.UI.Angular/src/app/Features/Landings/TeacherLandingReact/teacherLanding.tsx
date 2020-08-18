@@ -13,9 +13,7 @@ export interface TeacherLandingComponentProps {
   api: ApiService;
 }
 
-const StyledSearchInSections = styled(SearchInSections)`
-  flex: 2;
-`;
+const StyledSearchInSections = styled(SearchInSections)``;
 
 const TeacherHeadline = styled.div`
   display: flex;
@@ -70,9 +68,8 @@ const TotalStudentSpan = styled.div`
 const FilterRow = styled.div`
   display: flex;
 
-  &:first-child {
-    background-color: aliceblue;
-    flex: 2;
+  & > label {
+    display: block;
   }
 
   & > div {
@@ -135,35 +132,35 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
   }
 
   return (
-    <TeacherLandingMainStyle role='main' className='container'>
+    <TeacherLandingMainStyle role="main" className="container">
       <TeacherHeadline>
         <YourStudentsSpan className={'h1-desktop'}>Your students</YourStudentsSpan>
         <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
       </TeacherHeadline>
       <FilterRow>
         <StyledSearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
-
-        {studentList.length > 0 && (
-          <ListButtons>
-            <span>View Style:</span>
-            <button onClick={(e) => setViewType(ViewType.Grid)}>Grid</button>|
-            <button onClick={(e) => setViewType(ViewType.Card)}>Cards</button>
-          </ListButtons>
-        )}
       </FilterRow>
 
-      <div className='row'>
+      {studentList.length > 0 && (
+        <ListButtons>
+          <span>View Style:</span>
+          <button onClick={(e) => setViewType(ViewType.Grid)}>Grid</button>|
+          <button onClick={(e) => setViewType(ViewType.Card)}>Cards</button>
+        </ListButtons>
+      )}
+
+      <div className="row">
         {viewType === ViewType.Card &&
           studentList
             .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
             .map((si) => (
-              <div className='col-lg-4' key={si.studentschoolkey}>
+              <div className="col-lg-4" key={si.studentschoolkey}>
                 <StudentCard student={si} />
               </div>
             ))}
         {viewType === ViewType.Grid && (
-          <div className='card' style={{ width: '100%' }}>
-            <div className='card-body table-responsive-md'>
+          <div className="card" style={{ width: '100%' }}>
+            <div className="card-body table-responsive-md">
               <StudentTable studentList={studentList} />
             </div>
           </div>

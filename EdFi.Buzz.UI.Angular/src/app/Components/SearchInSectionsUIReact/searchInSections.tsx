@@ -11,6 +11,13 @@ export interface SearchInSectionsComponentProps {
   defaultValue?: string;
 }
 
+const SearchInSectionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-items: flex-start;
+`;
+
 const SearchContainer = styled.div`
   display: flex;
   @media (max-width: 768px) {
@@ -22,7 +29,7 @@ const SearchContainer = styled.div`
   }
 `;
 
-const FilterByClassLabel = styled.label`
+const FilterByClassLabel = styled.div`
   color: ${(props) => props.theme.colors.darkgray};
   height: 16px;
   font-family: ${(props) => props.theme.fonts.regular};
@@ -148,7 +155,7 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
   }
 
   return (
-    <div>
+    <SearchInSectionsContainer>
       <FilterByClassLabel>Filter by Class</FilterByClassLabel>
       <SearchContainer className='input-group'>
         <StyledSelectParent id='sectionsSelectParent'>
@@ -178,6 +185,6 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
           />
         </StyledTextParent>
       </SearchContainer>
-    </div>
+    </SearchInSectionsContainer>
   );
 }
