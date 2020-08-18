@@ -11,10 +11,21 @@ export interface SearchInSectionsComponentProps {
   defaultValue?: string;
 }
 
+const SearchContainer = styled.div`
+  display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+  @media (min-width: 769px) {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+`;
+
 const FilterByClassLabel = styled.label`
-  color: ${ props => props.theme.colors.darkgray };
+  color: ${(props) => props.theme.colors.darkgray};
   height: 16px;
-  font-family: ${ props => props.theme.fonts.regular };
+  font-family: ${(props) => props.theme.fonts.regular};
   font-size: 14px;
   font-weight: 600;
   font-stretch: normal;
@@ -24,11 +35,16 @@ const FilterByClassLabel = styled.label`
 `;
 
 const StyledTextParent = styled.div`
-  display: flex;
-  height: 44px;
-  width: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (min-width: 769px) {
+    max-width: 22rem;
+    margin: .5rem .5rem .5rem .5rem;
+  }
+  flex: 1;
   overflow: hidden;
-  border: solid 2px ${ props => props.theme.colors.lightgray };
+  border: solid 2px ${(props) => props.theme.colors.lightgray};
   border-radius: 4px;
   margin-bottom: 5px;
   display: flex;
@@ -37,7 +53,7 @@ const StyledTextParent = styled.div`
   justify-content: center;
 
   :focus-within {
-      border-color: ${ props => props.theme.colors.steelblue } !important;
+    border-color: ${(props) => props.theme.colors.steelblue} !important;
   }
 
   & > img {
@@ -49,7 +65,7 @@ const StyledTextParent = styled.div`
   & > input {
     height: 100%;
     padding: 2px 2px 2px 2px;
-    border:none;
+    border: none;
     position: relative;
     box-sizing: border-box;
     width: 100%;
@@ -79,23 +95,31 @@ const StyledTextParent = styled.div`
 `;
 
 const StyledSelectParent = styled.div`
-  display: flex;
-  width: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0 0 0 0;
+  }
+  @media (min-width: 769px) {
+    max-width: 22rem;
+    margin: .5rem .5rem .5rem 0;
+  }
+  flex: 1;
   overflow: hidden;
-  border: ${ props => props.theme.border };
+  border: ${(props) => props.theme.border};
   border-radius: 4px;
   margin-bottom: 5px;
 
   :focus-within {
-      border-color: ${ props => props.theme.colors.steelblue } !important;
+    border-color: ${(props) => props.theme.colors.steelblue} !important;
   }
 
   & > select {
-    font-family: ${ props => props.theme.fonts.bold };
+    height: 3em;
+    font-family: ${(props) => props.theme.fonts.bold};
     font-weight: bold;
-    color: ${ props => props.theme.colors.steelblue };
+    color: ${(props) => props.theme.colors.steelblue};
     text-indent: 1px;
-    text-overflow: "";
+    text-overflow: '';
     width: 100%;
     appearance: none;
     --webkit-appearance: none;
@@ -106,9 +130,9 @@ const StyledSelectParent = styled.div`
   }
 
   & > select > option {
-    font-family: ${ props => props.theme.fonts.regular };
+    font-family: ${(props) => props.theme.fonts.regular};
     font-weight: normal;
-    color: ${ props => props.theme.colors.gray};
+    color: ${(props) => props.theme.colors.gray};
   }
 `;
 
@@ -125,42 +149,35 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
 
   return (
     <div>
-      <div>
-        <div>
-          <div>
-            <FilterByClassLabel>Filter by Class</FilterByClassLabel>
-            <div className='input-group'>
-              <StyledSelectParent id='sectionsSelectParent'>
-                <select
-                  className='form-control'
-                  name='repeatSelect'
-                  id='sectionsSelect'
-                  value={defaultValue}
-                  ref={sectionSelectionRef}
-                  onChange={searchEventHandler}
-                >
-                  <option value='null'>Select a section</option>
-                  {props.sectionList.map((si) => (
-                    <option value={si.sectionkey} key={si.sectionkey}>
-                      {si.sessionname}
-                    </option>
-                  ))}
-                </select>
-              </StyledSelectParent>
-              <StyledTextParent>
-                <img src={OrangeSearch} />
-                <input
-                  type='text'
-                  id='studentNameInputs'
-                  placeholder='Search by Student Name'
-                  ref={studentFilterRef}
-                  onKeyUp={searchEventHandler}
-                />
-              </StyledTextParent>
-            </div>
-          </div>
-        </div>
-      </div>
+      <FilterByClassLabel>Filter by Class</FilterByClassLabel>
+      <SearchContainer className='input-group'>
+        <StyledSelectParent id='sectionsSelectParent'>
+          <select
+            name='repeatSelect'
+            id='sectionsSelect'
+            value={defaultValue}
+            ref={sectionSelectionRef}
+            onChange={searchEventHandler}
+          >
+            <option value='null'>Select a section</option>
+            {props.sectionList.map((si) => (
+              <option value={si.sectionkey} key={si.sectionkey}>
+                {si.sessionname}
+              </option>
+            ))}
+          </select>
+        </StyledSelectParent>
+        <StyledTextParent>
+          <img src={OrangeSearch} />
+          <input
+            type='text'
+            id='studentNameInputs'
+            placeholder='Search by Student Name'
+            ref={studentFilterRef}
+            onKeyUp={searchEventHandler}
+          />
+        </StyledTextParent>
+      </SearchContainer>
     </div>
   );
 }

@@ -10,6 +10,19 @@ import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
 import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
 
 export default createGlobalStyle`
+
+  :root {
+    --dark-grey: #1b1c1d;
+    --white: #ffffff;
+    --lavender: #f5f7fc;
+    --lightsteelblue: #a2b6be;
+    --steelblue: #1378be;
+    --orange: #f8992e;
+    --darkgray: #1b1c1d;
+    --gray: #727d94;
+    --lightgray: #ced5d8;
+  }
+
   @font-face {
       font-family: 'Work Sans';
       src: local('Work Sans'), local('WorkSans'),
@@ -22,6 +35,50 @@ export default createGlobalStyle`
       src: local('Work Sans Extra Bold'), local('WorkSansExtraBold'),
       url(${WorkSansExtraBoldWoff2}) format('woff2'),
       url(${WorkSansExtraBoldWoff}) format('woff');
+  }
+
+  .h1-desktop{
+    font-family: 'Work Sans Extra Bold';
+    font-size: 32px;
+    font-weight: 800;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--dark-grey);
+  }
+
+  .h1-headline{
+    font-family: 'Work Sans';
+    font-size: 24px;
+    font-weight: 800;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--dark-grey);
+  }
+
+  .h2-desktop{
+    font-family: 'Work Sans Extra Bold';
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--dark-grey);
+  }
+
+  .h2-headline{
+    font-family: 'Work Sans';
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--dark-grey);
   }
 
   .email-icon {

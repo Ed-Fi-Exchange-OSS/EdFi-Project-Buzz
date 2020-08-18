@@ -13,53 +13,88 @@ export interface TeacherLandingComponentProps {
   api: ApiService;
 }
 
+const TeacherHeadline = styled.div`
+  display: flex;
+  align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  @media (min-width: 769px) {
+    flex-direction: row;
+  }
+`;
+
 const TeacherLandingMainStyle = styled.main`
-  font-family:  ${ props => props.theme.fonts.regular };
-  background-color: ${ props => props.theme.colors.white };
+  font-family: ${(props) => props.theme.fonts.regular};
+  background-color: ${(props) => props.theme.colors.white};
   padding: 15px;
 `;
 
 const YourStudentsSpan = styled.div`
-  height: 28px;
-  font-family:  ${ props => props.theme.fonts.bold };
+  flex: 0 0 auto;
+  margin-right: 2rem;
+  font-family: ${(props) => props.theme.fonts.bold};
   font-size: 24px;
   font-weight: 800;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${ props => props.theme.colors.darkgray};
+  color: ${(props) => props.theme.colors.darkgray};
 `;
 
 const TotalStudentSpan = styled.div`
-  height: 16px;
-  font-family:  ${ props => props.theme.fonts.regular };
+  @media (min-width: 769px) {
+    flex: 3;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  @media (max-width: 768px) {
+    flex: 1;
+    flex-direction: column;
+  }
+  font-family: ${(props) => props.theme.fonts.bold};
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${ props => props.theme.colors.lightsteelblue };
-  padding-bottom: 2em;
+  color: ${(props) => props.theme.colors.lightsteelblue};
+`;
+
+const FilterRow = styled.div`
+  display: flex;
+
+  & div {
+    flex: 1;
+  }
 `;
 
 const ListButtons = styled.div`
-  display: flex;
-  font-family:  ${ props => props.theme.fonts.regular };
-  justify-content: flex-end;
+  @media (min-width: 769px) {
+    flex: 1;
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 
   & > button {
     margin: 0px;
-    font-family:  ${ props => props.theme.fonts.regular };
-    background-color: ${ props => props.theme.colors.white };
+    font-family: ${(props) => props.theme.fonts.regular};
+    background-color: ${(props) => props.theme.colors.white};
     border: none;
-    text-decoration:none;
+    text-decoration: none;
 
     :hover {
       outline-width: 0px;
       font-weight: 600;
-      text-decoration:underline;
+      text-decoration: underline;
     }
     :focus {
       outline-width: 0px;
@@ -67,9 +102,7 @@ const ListButtons = styled.div`
   }
 `;
 
-export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
-  props: TeacherLandingComponentProps
-) => {
+export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (props: TeacherLandingComponentProps) => {
   const [sectionList, setSections] = useState([] as Section[]);
   const [studentList, setStudentList] = useState([] as Student[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState(null as string);
@@ -95,20 +128,21 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
 
   return (
     <TeacherLandingMainStyle role='main' className='container'>
-      <YourStudentsSpan>Your students</YourStudentsSpan>
-      <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
-      <SearchInSections
-        sectionList={sectionList}
-        onSearch={onSearchHandle}
-        defaultValue={selectedSectionKey}
-      />
+      <TeacherHeadline>
+        <YourStudentsSpan className={'h1-desktop'}>Your students</YourStudentsSpan>
+        <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
+      </TeacherHeadline>
+      <FilterRow>
+        <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
-      {studentList.length > 0 && (
-        <ListButtons>
-          <button onClick={(e) => setViewType(ViewType.Grid)}>Grid</button>|
-          <button onClick={(e) => setViewType(ViewType.Card)}>Cards</button>
-        </ListButtons>
-      )}
+        {studentList.length > 0 && (
+          <ListButtons>
+            <span>View Style:</span>
+            <button onClick={(e) => setViewType(ViewType.Grid)}>Grid</button>|
+            <button onClick={(e) => setViewType(ViewType.Card)}>Cards</button>
+          </ListButtons>
+        )}
+      </FilterRow>
 
       <div className='row'>
         {viewType === ViewType.Card &&

@@ -173,7 +173,7 @@ export function StudentCard(props: StudentCardComponentProps) {
             </div>
           </a>
           <div className='flex-grow-1 overflow-hidden'>
-            <h3 className='m-b-2 d-flex'>{student.name}</h3>
+            <h3 className='h2-desktop m-b-2 d-flex'>{student.name}</h3>
             {student.primaryemailaddress && (
               <div>
                 <EmailIcon />
