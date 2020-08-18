@@ -13,6 +13,10 @@ export interface TeacherLandingComponentProps {
   api: ApiService;
 }
 
+const StyledSearchInSections = styled(SearchInSections)`
+  flex: 2;
+`;
+
 const TeacherHeadline = styled.div`
   display: flex;
   align-items: center;
@@ -36,7 +40,6 @@ const YourStudentsSpan = styled.div`
   margin-right: 2rem;
   font-family: ${(props) => props.theme.fonts.bold};
   font-size: 24px;
-  font-weight: 800;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
@@ -67,7 +70,12 @@ const TotalStudentSpan = styled.div`
 const FilterRow = styled.div`
   display: flex;
 
-  & div {
+  &:first-child {
+    background-color: aliceblue;
+    flex: 2;
+  }
+
+  & > div {
     flex: 1;
   }
 `;
@@ -133,7 +141,7 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
         <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
       </TeacherHeadline>
       <FilterRow>
-        <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
+        <StyledSearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
         {studentList.length > 0 && (
           <ListButtons>
