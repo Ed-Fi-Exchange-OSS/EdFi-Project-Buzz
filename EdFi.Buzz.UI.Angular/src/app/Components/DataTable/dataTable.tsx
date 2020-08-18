@@ -113,13 +113,18 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
           key={row.join('-')}
           className={props.highlightFilterByColumn
             && row[props.highlightFilterByColumn.columnIndex] === props.highlightFilterByColumn.filter
-            ? 'highlight' : ''} >
+            ? 'row-highlight' : ''} >
           {row.map((column, colIdx) => {
             const labelColumn = props.columns[colIdx];
 
             if (isColumnOption(labelColumn) && labelColumn.hide === true) { return null; }
 
-            return <td key={row.join('-') + colIdx}>
+            return <td key={row.join('-') + colIdx}
+              className={props.highlightFilterByColumn
+                && row[props.highlightFilterByColumn.columnIndex] === props.highlightFilterByColumn.filter
+                && colIdx === props.highlightFilterByColumn.columnIndex
+                ? 'col-highlight' : ''
+              }>
               {(isColumnOption(labelColumn) && labelColumn.linkColumnIndex >= 0)
                 ? <a href={`${props.linkBaseURL}${row[labelColumn.linkColumnIndex]}`} >{column}</a>
                 : <>{column}</>}
@@ -128,6 +133,6 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
         </tr>)}
       </tbody>
 
-    </table>
+    </table >
   );
 };
