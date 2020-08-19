@@ -164,10 +164,7 @@ type ContactPerson{
   contactfirstname: String
   contactlastname: String
   relationshiptostudent: String
-  streetnumbername: String
-  apartmentroomsuitenumber: String
-  state: String
-  postalcode: String
+  contactaddress: String
   phonenumber: String
   primaryemailaddress: String
   isprimarycontact: Boolean

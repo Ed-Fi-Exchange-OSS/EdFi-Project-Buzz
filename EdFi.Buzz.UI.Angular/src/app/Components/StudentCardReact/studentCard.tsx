@@ -241,7 +241,7 @@ export function StudentCard(props: StudentCardComponentProps) {
               &nbsp;
               <a href={`tel:${student.contacts[0].phonenumber}`}>{student.contacts[0].phonenumber}</a>
               <div>
-                {student.contacts[0].streetnumbername} {student.contacts[0].apartmentroomsuitenumber}
+                {student.contacts[0].contactaddress}
               </div>
               <div>
                 <div className='bold'>Preferred contact method:</div>

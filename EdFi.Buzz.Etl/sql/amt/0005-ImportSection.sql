@@ -10,4 +10,4 @@ SELECT DISTINCT
     s.sessionname,
     s.sectionidentifier,
     s.schoolyear
-FROM edfi.Section s
+FROM edfi.SectionClassPeriod s

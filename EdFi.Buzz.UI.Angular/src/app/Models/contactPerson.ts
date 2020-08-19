@@ -14,10 +14,7 @@ export class ContactPerson {
     relationshiptostudent: string;
 
     // Address
-    streetnumbername: string;
-    apartmentroomsuitenumber: string;
-    state: string;
-    postalcode: string;
+    contactaddress
 
     phonenumber: string;
     primaryemailaddress: string;

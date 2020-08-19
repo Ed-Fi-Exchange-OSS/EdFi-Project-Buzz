@@ -21,13 +21,7 @@ export default class ContactPersonEntity {
 
   @Column() relationshiptostudent: string;
 
-  @Column() streetnumbername: string;
-
-  @Column() apartmentroomsuitenumber: string;
-
-  @Column() state: string;
-
-  @Column() postalcode: string;
+  @Column() contactaddress: string;
 
   @Column() phonenumber: string;
 
