@@ -12,7 +12,7 @@ import ChevronUp from '../../../assets/chevron-up.png';
 const StyledStudentCard = styled.div`
   font-family: ${(props) => props.theme.fonts.regular} !important;
   font-size: 14px;
-  background-color: ${(props) => props.theme.colors.lavender};
+  background-color: var(--white-lilac);
   border: ${(props) => props.theme.border};
   min-height: 175px;
   margin-bottom: 30px;
@@ -28,12 +28,12 @@ const StyledStudentCard = styled.div`
     flex: 1 1 auto;
     min-height: 1px;
     padding: 0.6rem;
-    color: ${(props) => props.theme.colors.darkgray};
+    color: var(--iron);
   }
 
   .primary-contact-label {
     font-size: 14px;
-    color: ${(props) => props.theme.colors.darkgray};
+    color: var(--iron);
   }
 
   .relationship {
@@ -41,7 +41,7 @@ const StyledStudentCard = styled.div`
   }
 
   :hover {
-    outline-color: ${(props) => props.theme.colors.steelblue};
+    outline-color: var(--denim);
   }
 
   .d-flex {
@@ -59,9 +59,9 @@ const StyledStudentCard = styled.div`
     align-content: center;
     font-family: ${(props) => props.theme.fonts.regular};
     font-weight: 600;
-    color: ${(props) => props.theme.colors.steelblue};
-    background-color: ${(props) => props.theme.colors.lavender};
-    border-top: 1px solid ${(props) => props.theme.colors.lightgray};
+    color: var(--denim);
+    background-color: var(--white-lilac);
+    border-top: ${(props) => props.theme.border};
 
     & div {
       display: flex;
@@ -106,7 +106,7 @@ const StyledStudentCard = styled.div`
   }
 
   & a {
-    color: ${(props) => props.theme.colors.steelblue};
+    color: var(--denim);
   }
 
   img.email-icon,
@@ -119,7 +119,7 @@ const StyledStudentCard = styled.div`
   }
 
   & h3 {
-    color: ${(props) => props.theme.colors.darkgray};
+    color: var(--shark);
     font-family: ${(props) => props.theme.fonts.bold};
     font-size: 18px;
     font-stretch: normal;
@@ -145,8 +145,8 @@ const StyledStudentCard = styled.div`
     justify-content: center;
     align-items: center;
     height: 3em;
-    border: solid 2px #1378be;
-    color: #1378be;
+    border: solid 2px var(--iron);
+    color:  var(--iron);
     font-weight: 600;
     border-radius: 4px;
     margin-top: 20px;

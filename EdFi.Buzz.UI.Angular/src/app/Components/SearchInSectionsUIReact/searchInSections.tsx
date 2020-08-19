@@ -16,9 +16,8 @@ const SearchInSectionsContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-items: flex-start;
-  padding: 1em;
   margin-bottom: 1em;
-  background-color: ${(props) => props.theme.colors.white};
+  background-color: var(--white);
 `;
 
 const SearchContainer = styled.div`
@@ -33,7 +32,7 @@ const SearchContainer = styled.div`
 `;
 
 const FilterByClassLabel = styled.div`
-  color: ${(props) => props.theme.colors.darkgray};
+  color: var(--shark);
   height: 16px;
   font-family: ${(props) => props.theme.fonts.regular};
   font-size: 14px;
@@ -55,7 +54,7 @@ const StyledTextParent = styled.div`
   }
   flex: 1;
   overflow: hidden;
-  border: solid 2px ${(props) => props.theme.colors.lightgray};
+  border: ${(props) => props.theme.border };
   border-radius: 4px;
   margin-bottom: 5px;
   display: flex;
@@ -64,7 +63,7 @@ const StyledTextParent = styled.div`
   justify-content: center;
 
   :focus-within {
-    border-color: ${(props) => props.theme.colors.steelblue} !important;
+    border-color: var(--denim) !important;
   }
 
   & > img {
@@ -121,13 +120,13 @@ const StyledSelectParent = styled.div`
   margin-bottom: 5px;
 
   :focus-within {
-    border-color: ${(props) => props.theme.colors.steelblue} !important;
+    border-color: var(--denim) !important;
   }
 
   & > select {
     height: 3em;
     font-family: ${(props) => props.theme.fonts.bold};
-    color: ${(props) => props.theme.colors.steelblue};
+    color: var(--denim);
     text-indent: 1px;
     text-overflow: '';
     width: 100%;
@@ -143,7 +142,7 @@ const StyledSelectParent = styled.div`
     font: ${(props) => props.theme.fonts.regular};
     font-family: ${(props) => props.theme.fonts.regular};
     font-weight: normal;
-    color: ${(props) => props.theme.colors.gray};
+    color: var(--slate-gray);
   }
 `;
 

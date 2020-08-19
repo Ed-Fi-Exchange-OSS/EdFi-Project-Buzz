@@ -12,15 +12,21 @@ import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
 export default createGlobalStyle`
 
   :root {
-    --dark-grey: #1b1c1d;
     --white: #ffffff;
-    --lavender: #f5f7fc;
-    --lightsteelblue: #a2b6be;
-    --steelblue: #1378be;
-    --orange: #f8992e;
-    --darkgray: #1b1c1d;
-    --gray: #727d94;
-    --lightgray: #ced5d8;
+    --picton-blue: #17b6ea;
+    --denim: #1378be;
+    --shark: #1b1c1d;
+    --tower-gray: #a2b6be;
+    --sunglow: #ffc62d;
+    --white-lilac: #f5f7fc;
+    --athens-gray: #ecf0f2;
+    --sea-buckthorn1: #f8992e;
+    --hit-gray: #a6b1ba;
+    --nevada: #5a6b72;
+    --slate-gray: #727d94;
+    --sea-buckthorn2: #faa823;
+    --mystic: #ebf1f3;
+    --iron: #ced5d8,
   }
 
   @font-face {
@@ -37,7 +43,7 @@ export default createGlobalStyle`
       url(${WorkSansExtraBoldWoff}) format('woff');
   }
 
-  *{
+  * {
     text-rendering: optimizeLegibility;
   }
 
@@ -48,7 +54,7 @@ export default createGlobalStyle`
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: var(--dark-grey);
+    color: var(--shark);
   }
 
   .h1-headline{
@@ -59,7 +65,7 @@ export default createGlobalStyle`
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: var(--dark-grey);
+    color: var(--shark);
   }
 
   .h2-desktop{
@@ -69,7 +75,7 @@ export default createGlobalStyle`
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: var(--dark-grey);
+    color: var(--shark);
   }
 
   .h2-headline{
@@ -80,7 +86,7 @@ export default createGlobalStyle`
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: var(--dark-grey);
+    color: var(--shark);
   }
 
   .email-icon {

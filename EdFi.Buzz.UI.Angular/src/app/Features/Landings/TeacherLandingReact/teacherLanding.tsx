@@ -29,7 +29,7 @@ const TeacherHeadline = styled.div`
 
 const TeacherLandingMainStyle = styled.main`
   font-family: ${(props) => props.theme.fonts.regular};
-  background-color: ${(props) => props.theme.colors.white};
+  background-color: var(--white);
   padding: 15px;
 `;
 
@@ -42,7 +42,7 @@ const YourStudentsSpan = styled.div`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${(props) => props.theme.colors.darkgray};
+  color: var(--shark);
 `;
 
 const TotalStudentSpan = styled.div`
@@ -63,7 +63,7 @@ const TotalStudentSpan = styled.div`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${(props) => props.theme.colors.lightsteelblue};
+  color: var(--iron);
 `;
 
 const FilterRow = styled.div`
@@ -93,7 +93,7 @@ const ListButtons = styled.div`
   & > button {
     margin: 0px;
     font-family: ${(props) => props.theme.fonts.regular};
-    background-color: ${(props) => props.theme.colors.white};
+    background-color: var(--white);
     border: none;
     text-decoration: none;
 
@@ -133,10 +133,12 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
   }
 
   return (
-    <TeacherLandingMainStyle role='main' className='container'>
+    <TeacherLandingMainStyle role="main" className="container">
       <TeacherHeadline>
         <YourStudentsSpan className={'h1-desktop'}>Your students</YourStudentsSpan>
-        <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
+        <TotalStudentSpan>
+          <div>Total {studentList.length}</div>
+        </TotalStudentSpan>
       </TeacherHeadline>
       <FilterRow>
         <StyledSearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
@@ -150,18 +152,18 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
         </ListButtons>
       )}
 
-      <div className='row'>
+      <div className="row">
         {viewType === ViewType.Card &&
           studentList
             .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
             .map((si) => (
-              <div className='col-lg-4' key={si.studentschoolkey}>
+              <div className="col-lg-4" key={si.studentschoolkey}>
                 <StudentCard student={si} />
               </div>
             ))}
         {viewType === ViewType.Grid && (
-          <div className='card' style={{ width: '100%' }}>
-            <div className='card-body table-responsive-md'>
+          <div className="card" style={{ width: '100%' }}>
+            <div className="card-body table-responsive-md">
               <StudentTable studentList={studentList} />
             </div>
           </div>
