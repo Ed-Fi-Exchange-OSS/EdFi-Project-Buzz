@@ -32,7 +32,7 @@ Developer information for each Project Buzz application is outlined in a README 
 
 ## End-User Installation
 
-Deployment artifacts are created for each application with a build-package PowerShell script in the eng folders (/eng/build-package.ps1). The install scripts can also be employed in continuous deployment scenarios that support PowerShell scripting.
+Deployment artifacts are created for each application with a build-package PowerShell script in the eng folders (/eng/build-package.ps1), and the installation infrastructure in the /eng/Windows/ folder. The install scripts (/eng/Windows/install.ps1) can be employed in continuous deployment scenarios that support PowerShell scripting.
 
 Each archive will contain end-user installation instructions in a install markdown file in the Windows deployment folder (/eng/Windows/install.md). Users can follow these instructions for deployment to their environments.
 
