@@ -16,6 +16,9 @@ const SearchInSectionsContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-items: flex-start;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: ${(props) => props.theme.colors.white};
 `;
 
 const SearchContainer = styled.div`
