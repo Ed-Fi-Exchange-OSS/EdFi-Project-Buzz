@@ -8,13 +8,16 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import * as React from 'react';
 
 import * as ReactDOM from 'react-dom';
 import { ApiService } from 'src/app/Services/api.service';
 import { SurveyAnalytics } from './surveyAnalytics';
+import { ThemeProvider } from 'styled-components';
+import BuzzTheme from 'src/buzztheme';
+import GlobalFonts from '../../../globalstyle';
 
 const containerElementName = 'surveyAnalyticsReactComponentContainer';
 
@@ -25,12 +28,11 @@ const containerElementName = 'surveyAnalyticsReactComponentContainer';
   encapsulation: ViewEncapsulation.None,
 })
 export class SurveyAnalyticsReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
-  @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;
+  @ViewChild(containerElementName, { static: false }) containerRef: ElementRef;
 
   @Output() public componentClick = new EventEmitter<void>();
 
-  constructor(private api: ApiService) {
-  }
+  constructor(private api: ApiService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.render();
@@ -45,6 +47,14 @@ export class SurveyAnalyticsReactWrapperComponent implements OnChanges, OnDestro
   }
 
   private render() {
-    ReactDOM.render(<SurveyAnalytics api={this.api} />, this.containerRef.nativeElement);
+    ReactDOM.render(
+      <>
+        <GlobalFonts />
+        <ThemeProvider theme={BuzzTheme}>
+          <SurveyAnalytics api={this.api} />
+        </ThemeProvider>
+      </>,
+      this.containerRef.nativeElement,
+    );
   }
 }
