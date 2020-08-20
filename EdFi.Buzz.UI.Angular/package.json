@@ -32,6 +32,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
     "aspnet-prerendering": "^3.0.1",
+    "bluebird": "^3.7.2",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.9.3",
     "core-js": "^3.3.3",
