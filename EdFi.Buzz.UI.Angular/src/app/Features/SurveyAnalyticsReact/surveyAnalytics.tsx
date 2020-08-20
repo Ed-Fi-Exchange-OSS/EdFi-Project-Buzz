@@ -22,6 +22,16 @@ export interface SurveyAnalyticsComponentProps {
   api: ApiService;
 }
 
+const SurveyTitle = styled.div`
+    font-size: 14px;
+    color: var(--slate-gray);
+    font-family: ${(props) => props.theme.fonts.bold};
+
+    .questionIndex {
+      color: var(--picton-blue);
+    }
+`;
+
 export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> = (props: SurveyAnalyticsComponentProps) => {
   const teacher = props.api.authentication.currentUserValue.teacher;
   const [sectionList, setSections] = useState(teacher.sections as Section[]);
@@ -105,7 +115,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
   return <MainContainer role='main' className='container'>
       <HeadlineContainer>
-        <TitleSpanContainer>Survey</TitleSpanContainer>
+        <TitleSpanContainer>Surveys</TitleSpanContainer>
       <TotalRecordsContainer>Total {surveyMetadataList.length}</TotalRecordsContainer>
       </HeadlineContainer>
       <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
@@ -136,10 +146,10 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
                       )}
                       question={question}
                       title={
-                        <>
+                        <SurveyTitle>
                           <span className={'questionIndex'}>{index + 1}) </span>
                           {question.question}
-                        </>
+                        </SurveyTitle>
                       }
                       afterSelectionChangedHandler={(answer: string) => onSurveyAnswerSelected(answer, index)}
                     />
@@ -153,9 +163,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
       {selectedSurveyQuestionSummaryList && selectedSurveyAnswers && (
         <>
-          <div>
-            <h1>Survey Details</h1>
-          </div>
+          <div className="h2-desktop">Survey Details</div>
           <div className='row'>
             <div className='col-12'>
               <div className='card'>

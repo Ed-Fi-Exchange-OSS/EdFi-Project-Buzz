@@ -13,11 +13,19 @@ interface ColoredBarProps {
   color: string;
 }
 
-const SurveyStyledCard = styled(StyledCard)<ColoredBarProps>`
+const SurveyStyledCardContainer = styled.div`
+`;
+
+const SurveyStyledCard = styled(StyledCard) <ColoredBarProps>`
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  :active, .survey-selected {
+    border: 2px solid var(--denim);
+  }
+
 
   & div.card-body {
     display: flex;
@@ -53,14 +61,14 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
       )}
       {props.surveyMetadataList.map((surveyMetadata, idx) => {
         return (
-          <div
-            className='col-12 col-md-6'
+          <SurveyStyledCardContainer
+            className={`col-12 col-md-6 ${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
             key={surveyMetadata.surveykey}
             onClick={() => props.onSurveySelected(surveyMetadata)}
           >
             <SurveyStyledCard className='card survey-metadata' color={colorList[(idx % 6)]}>
               <div
-                className={`card-body ${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
+                className={`card-body`}
               >
                 <div className={'survey-card-container survey-metadata-container'}>
                   <div className='h2-desktop'>{surveyMetadata.title}</div>
@@ -74,7 +82,7 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
                 </div>
               </div>
             </SurveyStyledCard>
-          </div>
+          </SurveyStyledCardContainer>
         );
       })}
     </>
