@@ -23,7 +23,6 @@ import { StudentCardLiteComponent } from './Components/StudentCardLite/studentCa
 import { SiblingCardComponent } from './Components/SiblingCard/siblingCard.component';
 import { SurveyCardComponent } from './Components/SurveyCard/surveyCard.component';
 import { StudentDetailComponent } from './Features/StudentDetail/studentDetail.component';
-import { LoginComponent } from './Features/Login/login.component';
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
@@ -33,6 +32,7 @@ import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
 import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
 import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
 import { SurveyAnalyticsReactWrapperComponent } from './Features/SurveyAnalyticsReact/surveyAnalyticsReactWrapper';
+import { LoginReactWrapperComponent } from './Features/LoginReact/LoginReactWrapper';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -63,7 +63,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     SurveyCardComponent,
     StudentDetailComponent,
     UploadSurveyComponent,
-    LoginComponent,
+    LoginReactWrapperComponent,
     DndDirective,
     SortAnswersByPipe,
     AdminSurveyComponent,
@@ -93,7 +93,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard]
       },
-      { path: 'login', component: LoginComponent },
+      { path: 'login', component: LoginReactWrapperComponent },
       // when security and auth guards applied change it to redirect to '' then auth guard login will redirect to login if necessary.
       { path: '**', redirectTo: 'app' }
     ], { useHash: true, scrollPositionRestoration: 'enabled' })
