@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sqlSourceDir = `./../sql/${process.env.BUZZ_SQLSOURCE || 'amt'}/`;
+const dbDataStandard = `${process.env.BUZZ_DB_DS || 'ds3'}/`;
 
 const schoolSource = `${sqlSourceDir}/0001-ImportSchool.sql`;
 const studentSchoolSource = `${sqlSourceDir}/0002-ImportStudentSchool.sql`;
@@ -14,7 +15,7 @@ const contactPersonSource = `${sqlSourceDir}/0003-ImportContactPerson.sql`;
 const studentContactSource = `${sqlSourceDir}/0004-ImportStudentContact.sql`;
 const sectionSource = `${sqlSourceDir}/0005-ImportSection.sql`;
 const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
-const staffSectioNSource = `${sqlSourceDir}/0007-ImportStaffSectionAssociation.sql`;
+const staffSectioNSource = `${sqlSourceDir}/${dbDataStandard}/0007-ImportStaffSectionAssociation.sql`;
 const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
 
 const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');

@@ -4,10 +4,10 @@
 -- See the LICENSE and NOTICES files in the project root for more information.
 
 SELECT DISTINCT
-    CAST(s.SchoolId AS NVARCHAR) + '-' + s.LocalCourseCode + '-' + CAST(s.SchoolYear AS NVARCHAR) + '-' + s.SectionIdentifier + '-' + s.SessionName AS sectionkey,
+    s.sectionkey,
     s.schoolid as schoolkey,
     s.localcoursecode,
     s.sessionname,
     s.sectionidentifier,
     s.schoolyear
-FROM edfi.SectionClassPeriod s
+FROM analytics.ClassPeriodDim s
