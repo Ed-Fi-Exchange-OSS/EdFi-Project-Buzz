@@ -30,17 +30,6 @@ Developer information for each Project Buzz application is outlined in a README 
 * [ETL -  Developer README](EdFi.Buzz.ETL/README.md)
 * [User Interface -  Developer README](EdFi.Buzz.UI.Angular/README.md)
 
-## End-User Installation
-
-Deployment artifacts are created for each application with a build-package PowerShell script in the eng folders (/eng/build-package.ps1), and the installation infrastructure in the /eng/Windows/ folder. The install scripts (/eng/Windows/install.ps1) can be employed in continuous deployment scenarios that support PowerShell scripting.
-
-Each archive will contain end-user installation instructions in a install markdown file in the Windows deployment folder (/eng/Windows/install.md). Users can follow these instructions for deployment to their environments.
-
-* [API - Windows Installation](EdFi.Buzz.Api/eng/Windows/install.md)
-* [Database - Windows Installation](EdFi.Buzz.Database/eng/Windows/install.md)
-* [ETL - Windows Installation](EdFi.Buzz.ETL/eng/Windows/install.md)
-* [User Interface - Windows Installation](EdFi.Buzz.UI.Angular/eng/windows/install.md)
-
 ## Legal Information
 
 Copyright (c) 2020 Ed-Fi Alliance, LLC and contributors.
