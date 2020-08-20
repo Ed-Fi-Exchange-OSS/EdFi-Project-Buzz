@@ -55,6 +55,8 @@ const TotalStudentSpan = styled.div`
     flex: 1;
     flex-direction: column;
   }
+  align-items: center;
+  align-content: center;
   margin: 0 0 1.5rem 0;
   font-family: ${(props) => props.theme.fonts.bold};
   font-size: 14px;
@@ -64,6 +66,10 @@ const TotalStudentSpan = styled.div`
   line-height: normal;
   letter-spacing: normal;
   color: var(--iron);
+
+  & > div {
+    flex: 1;
+  }
 `;
 
 const FilterRow = styled.div`

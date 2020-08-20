@@ -18,10 +18,17 @@ const SearchInSectionsContainer = styled.div`
   justify-items: flex-start;
   margin-bottom: 1em;
   background-color: var(--white);
+  max-width: 100%;
 `;
 
 const SearchContainer = styled.div`
   display: flex;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -29,19 +36,40 @@ const SearchContainer = styled.div`
     flex-direction: row;
     justify-content: flex-start;
   }
+}
+`;
+
+const FilterByClassLabelDesktop = styled.span`
+  @media (max-width: 768px) {
+      display: none;
+  }
+
+  @media (min-width: 769px) {
+    min-width: 8rem;
+    color: var(--shark);
+    font-family: ${(props) => props.theme.fonts.regular};
+    font-weight: 600;
+  }
 `;
 
 const FilterByClassLabel = styled.div`
-  color: var(--shark);
-  height: 16px;
-  font-family: ${(props) => props.theme.fonts.regular};
-  font-size: 14px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  margin: 0 0 1rem 0;
+  @media (min-width: 769px) {
+      display: none;
+  }
+
+  @media (max-width: 768px) {
+    color: var(--shark);
+    width: fit-content;
+    height: 16px;
+    font-family: ${(props) => props.theme.fonts.regular};
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin: 0 0 1rem 0;
+  }
 `;
 
 const StyledTextParent = styled.div`
@@ -49,8 +77,9 @@ const StyledTextParent = styled.div`
     width: 100%;
   }
   @media (min-width: 769px) {
-    max-width: 22rem;
+    max-width: fit-content;
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    justify-content: center;
   }
   flex: 1;
   overflow: hidden;
@@ -60,9 +89,9 @@ const StyledTextParent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
 
   :focus-within {
+    outline: none !important;
     border-color: var(--denim) !important;
   }
 
@@ -78,10 +107,10 @@ const StyledTextParent = styled.div`
     border: none;
     position: relative;
     box-sizing: border-box;
-    width: 100%;
-    display: table-cell;
+    min-width: 15rem;
 
     :focus {
+      outline: none !important;
       outline-width: 0px;
     }
 
@@ -107,35 +136,44 @@ const StyledTextParent = styled.div`
 const StyledSelectParent = styled.div`
   @media (max-width: 768px) {
     width: 100%;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.5rem;
   }
   @media (min-width: 769px) {
-    max-width: 22rem;
     margin: 0.5rem 0.5rem 0.5rem 0;
   }
-  flex: 1;
+  height: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   overflow: hidden;
+  padding : 0 0 0.5rem 0;
   border: ${(props) => props.theme.border};
   border-radius: 4px;
-  margin-bottom: 5px;
 
   :focus-within {
+    outline: none !important;
     border-color: var(--denim) !important;
   }
 
   & > select {
-    height: 3em;
+    min-width: 18em;
+    width: 100%;
+    height: 3rem;
     font-family: ${(props) => props.theme.fonts.bold};
     color: var(--denim);
     text-indent: 1px;
     text-overflow: '';
-    width: 100%;
     appearance: none;
     --webkit-appearance: none;
     --moz-appearance: none;
     padding: 2px 2px 2px 3px;
     border: none;
     background: transparent url(${ChevronDown}) no-repeat 98% center;
+
+    :focus {
+      outline: none !important;
+    }
+
   }
 
   & > select > option {
@@ -160,8 +198,9 @@ export function SearchInSections(props: SearchInSectionsComponentProps) {
   return (
     <SearchInSectionsContainer>
       <FilterByClassLabel>Filter by Class</FilterByClassLabel>
-      <SearchContainer className='input-group'>
+      <SearchContainer>
         <StyledSelectParent id='sectionsSelectParent'>
+        <FilterByClassLabelDesktop>Filter by Class:</FilterByClassLabelDesktop>
           <select
             name='repeatSelect'
             id='sectionsSelect'

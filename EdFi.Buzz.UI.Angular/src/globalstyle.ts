@@ -27,6 +27,7 @@ export default createGlobalStyle`
     --sea-buckthorn2: #faa823;
     --mystic: #ebf1f3;
     --iron: #ced5d8,
+    --tradewind: #65bcaa;
   }
 
   @font-face {
