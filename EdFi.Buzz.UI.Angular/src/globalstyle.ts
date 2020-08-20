@@ -3,7 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import WorkSansWoff from './fonts/WorkSans.woff';
 import WorkSansWoff2 from './fonts/WorkSans.woff2';
 import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
@@ -88,6 +88,10 @@ export default createGlobalStyle`
     line-height: normal;
     letter-spacing: normal;
     color: var(--shark);
+  }
+
+  .bold {
+    font-weight: 600 !important;
   }
 
   .email-icon {

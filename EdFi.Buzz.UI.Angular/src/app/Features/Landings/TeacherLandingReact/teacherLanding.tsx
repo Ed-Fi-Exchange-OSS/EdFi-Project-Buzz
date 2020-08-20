@@ -7,82 +7,12 @@ import { Student, Section } from 'src/app/Models';
 import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/searchInSections';
 import { StudentCard } from 'src/app/Components/StudentCardReact/studentCard';
 import { StudentTable } from './studentTable';
+import { HeadlineContainer, MainContainer, TitleSpanContainer, TotalRecordsContainer } from '../../../../buzztheme';
 
 export interface TeacherLandingComponentProps {
   onClick?: () => void;
   api: ApiService;
 }
-
-const StyledSearchInSections = styled(SearchInSections)``;
-
-const TeacherHeadline = styled.div`
-  display: flex;
-  align-items: center;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  @media (min-width: 769px) {
-    flex-direction: row;
-  }
-`;
-
-const TeacherLandingMainStyle = styled.main`
-  font-family: ${(props) => props.theme.fonts.regular};
-  background-color: var(--white);
-  padding: 15px;
-`;
-
-const YourStudentsSpan = styled.div`
-  flex: 0 0 auto;
-  margin-right: 2rem;
-  font-family: ${(props) => props.theme.fonts.bold};
-  font-size: 24px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: var(--shark);
-`;
-
-const TotalStudentSpan = styled.div`
-  @media (min-width: 769px) {
-    flex: 3;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-  @media (max-width: 768px) {
-    flex: 1;
-    flex-direction: column;
-  }
-  align-items: center;
-  align-content: center;
-  margin: 0 0 1.5rem 0;
-  font-family: ${(props) => props.theme.fonts.bold};
-  font-size: 14px;
-  font-weight: 400;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: var(--iron);
-
-  & > div {
-    flex: 1;
-  }
-`;
-
-const FilterRow = styled.div`
-  display: flex;
-
-  & > label {
-    display: block;
-  }
-
-  & > div {
-    flex: 1;
-  }
-`;
 
 const ListButtons = styled.div`
   @media (min-width: 769px) {
@@ -139,16 +69,12 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
   }
 
   return (
-    <TeacherLandingMainStyle role="main" className="container">
-      <TeacherHeadline>
-        <YourStudentsSpan className={'h1-desktop'}>Your students</YourStudentsSpan>
-        <TotalStudentSpan>
-          <div>Total {studentList.length}</div>
-        </TotalStudentSpan>
-      </TeacherHeadline>
-      <FilterRow>
-        <StyledSearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
-      </FilterRow>
+    <MainContainer role='main' className='container'>
+      <HeadlineContainer>
+      <TitleSpanContainer>Your students</TitleSpanContainer>
+        <TotalRecordsContainer>Total {studentList.length}</TotalRecordsContainer>
+      </HeadlineContainer>
+      <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
       {studentList.length > 0 && (
         <ListButtons>
@@ -158,23 +84,23 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
         </ListButtons>
       )}
 
-      <div className="row">
+      <div className='row'>
         {viewType === ViewType.Card &&
           studentList
             .sort((a, b) => a.studentlastname.localeCompare(b.studentlastname))
             .map((si) => (
-              <div className="col-lg-4" key={si.studentschoolkey}>
+              <div className='col-lg-4' key={si.studentschoolkey}>
                 <StudentCard student={si} />
               </div>
             ))}
         {viewType === ViewType.Grid && (
-          <div className="card" style={{ width: '100%' }}>
-            <div className="card-body table-responsive-md">
+          <div className='card' style={{ width: '100%' }}>
+            <div className='card-body table-responsive-md'>
               <StudentTable studentList={studentList} />
             </div>
           </div>
         )}
       </div>
-    </TeacherLandingMainStyle>
+    </MainContainer>
   );
 };

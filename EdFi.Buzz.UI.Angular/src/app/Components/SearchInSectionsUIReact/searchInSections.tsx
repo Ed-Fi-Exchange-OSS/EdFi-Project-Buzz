@@ -140,13 +140,15 @@ const StyledSelectParent = styled.div`
   }
   @media (min-width: 769px) {
     margin: 0.5rem 0.5rem 0.5rem 0;
+    padding-left: 5px;
   }
+  padding-top: 2px;
+  padding-bottom: 7px;
   height: 3em;
   display: flex;
   flex-direction: row;
   align-items: center;
   overflow: hidden;
-  padding : 0 0 0.5rem 0;
   border: ${(props) => props.theme.border};
   border-radius: 4px;
 

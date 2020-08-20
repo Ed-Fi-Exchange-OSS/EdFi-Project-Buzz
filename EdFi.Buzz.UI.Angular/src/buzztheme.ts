@@ -3,6 +3,93 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+import styled from 'styled-components';
+
+export const MainContainer = styled.main`
+  font-family: ${(props) => props.theme.fonts.regular};
+  background-color: var(--white);
+  padding: 15px;
+`;
+
+export const HeadlineContainer = styled.div`
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  @media (min-width: 769px) {
+    flex-direction: row;
+  }
+`;
+
+export const TitleSpanContainer = styled.div`
+  flex: 0 0 auto;
+  margin-right: 2rem;
+  font-family: 'Work Sans Extra Bold';
+  font-size: 32px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--shark);
+`;
+
+export const TotalRecordsContainer = styled.div`
+
+  @media (min-width: 769px) {
+    flex-direction: row;
+  }
+
+  @media (max-width: 768px) {
+    flex: 1;
+    flex-direction: column;
+  }
+
+  font-family: ${(props) => props.theme.fonts.bold};
+  font-size: 14px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--tower-gray);
+
+  & div {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    align-content:center;
+    height: 100%;
+  }
+`;
+
+export const StyledCard = styled.div`
+  font-size: 14px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: var(--white-lilac);
+  border: ${(props) => props.theme.border};
+  margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border-radius: 4px;
+
+  .card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 0.6rem;
+    color: var(--shark);
+  }
+`;
+
 const BuzzTheme = {
   colors: {
     white: '#ffffff',
