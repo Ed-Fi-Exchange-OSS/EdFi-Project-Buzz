@@ -15,6 +15,17 @@ const StyledDataTable = styled.table`
     color: var(--white) !important;
   }
 
+  .col-highlight {
+    font-weight: 800;
+    color: var(--shark);
+  }
+
+  .row-highlight {
+    border-bottom-color: var(--sea-buckthorn1);
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+  }
+
   td,
   th {
     padding: 0.75rem;
