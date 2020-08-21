@@ -10,23 +10,33 @@ import Phone from '../../../assets/phone.png';
 import Star from '../../../assets/star.png';
 import Grid from '../../../assets/grid.png';
 import Table from '../../../assets/table.png';
+import ChevronDown from '../../../assets/chevron-down.png';
+import ChevronUp from '../../../assets/chevron-up.png';
 
-export function EmailIcon() {
+export const EmailIcon: React.FunctionComponent = () => {
   return (<img className='email-icon' src={Mail} />);
 }
 
-export function PhoneIcon() {
+export const PhoneIcon: React.FunctionComponent = () => {
   return (<img className='phone-icon' src={Phone} />);
 }
 
-export function StarIcon() {
+export const StarIcon: React.FunctionComponent = () => {
   return (<img className='star-icon' src={Star} />);
 }
 
-export function GridIcon() {
+export const GridIcon: React.FunctionComponent = () => {
   return (<img className='grid-icon' src={Grid} />);
 }
 
-export function TableIcon() {
+export const TableIcon: React.FunctionComponent = () => {
   return (<img className='table-icon' src={Table} />);
+}
+
+export const ChevronDownIcon: React.FunctionComponent = () => {
+  return (<img className='chevron-down-icon' src={ChevronDown} />);
+}
+
+export const ChevronUpIcon: React.FunctionComponent = () => {
+  return (<img className='chevron-up-icon' src={ChevronUp} />);
 }

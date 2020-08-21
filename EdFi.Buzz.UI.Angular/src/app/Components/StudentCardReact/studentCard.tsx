@@ -140,13 +140,14 @@ const StyledStudentCard = styled.div`
     }
   }
 
-  div.outline-button {
+  .outline-button {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 3em;
-    border: solid 2px var(--iron);
-    color:  var(--iron);
+    border-color: var(--denim) !important;
+    border-style: solid;
+    color:  var(--denim);
     font-weight: 600;
     border-radius: 4px;
     margin-top: 20px;

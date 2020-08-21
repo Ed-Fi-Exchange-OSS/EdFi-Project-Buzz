@@ -60,6 +60,8 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
               display: false
           },
           ticks: {
+            /** Fix to getting the minimum value as origin and thus not visible */
+            suggestedMin: Math.floor(Math.min.apply(null, question.answers.map(e => e.count)) * 0.90),
             display: false,
             maxTicksLimit: 3,
           }
