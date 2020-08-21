@@ -3,11 +3,11 @@
 -- The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 -- See the LICENSE and NOTICES files in the project root for more information.
 
-SELECT DISTINCT
-    s.sectionkey,
-    s.schoolid as schoolkey,
-    s.localcoursecode,
-    s.sessionname,
-    s.sectionidentifier,
-    s.schoolyear
-FROM analytics.ClassPeriodDim s
+ALTER TABLE buzz.ContactPerson
+  DROP COLUMN StreetNumberName,
+  DROP COLUMN ApartmentRoomSuiteNumber,
+  DROP COLUMN State,
+  DROP COLUMN PostalCode;
+  
+ALTER TABLE buzz.ContactPerson
+  ADD COLUMN ContactAddress varchar(303) NULL;

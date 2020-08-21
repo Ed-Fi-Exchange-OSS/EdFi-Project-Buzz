@@ -20,10 +20,7 @@ export class ContactPerson {
     contactfirstname?: string;
     contactlastname?: string;
     relationshiptostudent?: string;
-    streetnumbername?: string;
-    apartmentroomsuitenumber?: string;
-    state?: string;
-    postalcode?: string;
+    contactaddress?: string;
     phonenumber?: string;
     primaryemailaddress?: string;
     isprimarycontact?: boolean;

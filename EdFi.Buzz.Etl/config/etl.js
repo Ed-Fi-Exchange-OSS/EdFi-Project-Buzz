@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sqlSourceDir = `./../sql/${process.env.BUZZ_SQLSOURCE || 'amt'}/`;
+const dbDataStandard = `${process.env.BUZZ_DB_DS || 'ds3'}/`;
 
 const schoolSource = `${sqlSourceDir}/0001-ImportSchool.sql`;
 const studentSchoolSource = `${sqlSourceDir}/0002-ImportStudentSchool.sql`;
@@ -14,7 +15,7 @@ const contactPersonSource = `${sqlSourceDir}/0003-ImportContactPerson.sql`;
 const studentContactSource = `${sqlSourceDir}/0004-ImportStudentContact.sql`;
 const sectionSource = `${sqlSourceDir}/0005-ImportSection.sql`;
 const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
-const staffSectioNSource = `${sqlSourceDir}/0007-ImportStaffSectionAssociation.sql`;
+const staffSectioNSource = `${sqlSourceDir}/${dbDataStandard}/0007-ImportStaffSectionAssociation.sql`;
 const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
 
 const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');
@@ -79,8 +80,8 @@ exports.studentSchoolConfig = {
 exports.contactPersonConfig = {
   recordType: 'ContactPerson',
   selectSql: 'SELECT 1 FROM buzz.contactperson WHERE uniquekey=$1',
-  insertSql: 'INSERT INTO buzz.contactperson (uniquekey, contactpersonkey, studentkey, contactfirstname, contactlastname, relationshiptostudent, streetnumbername, apartmentroomsuitenumber, state, postalcode, phonenumber, primaryemailaddress, isprimarycontact, preferredcontactmethod, besttimetocontact, contactnotes) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text, $8::text, $9::text, $10::text, $11::text, $12::text, $13, $14::text, $15::text, $16::text)',
-  updateSql: 'UPDATE buzz.contactperson SET contactpersonkey=$2, studentkey=$3, contactfirstname=$4, contactlastname=$5, relationshiptostudent=$6, streetnumbername=$7, apartmentroomsuitenumber=$8, state=$9, postalcode=$10, phonenumber=$11, primaryemailaddress=$12, isprimarycontact=$13, preferredcontactmethod=$14, besttimetocontact=$15, contactnotes=$16 WHERE uniquekey= $1',
+  insertSql: 'INSERT INTO buzz.contactperson (uniquekey, contactpersonkey, studentkey, contactfirstname, contactlastname, relationshiptostudent, contactaddress, phonenumber, primaryemailaddress, isprimarycontact, preferredcontactmethod, besttimetocontact, contactnotes) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::text, $7::text, $8::text, $9::text, $10, $11::text, $12::text, $13::text)',
+  updateSql: 'UPDATE buzz.contactperson SET contactpersonkey=$2, studentkey=$3, contactfirstname=$4, contactlastname=$5, relationshiptostudent=$6, contactaddress=$7, phonenumber=$8, primaryemailaddress=$9, isprimarycontact=$10, preferredcontactmethod=$11, besttimetocontact=$12, contactnotes=$13 WHERE uniquekey= $1',
   sourceSql: contactPersonSourceSQL,
   keyIndex: 0,
   isEntityMap: false,
@@ -91,10 +92,7 @@ exports.contactPersonConfig = {
     row.contactfirstname,
     row.contactlastname,
     row.relationshiptostudent,
-    row.streetnumbername,
-    row.apartmentroomsuitenumber,
-    row.state,
-    row.postalcode,
+    row.contactaddress,
     row.phonenumber,
     row.primaryemailaddress,
     (row.isprimarycontact === 'true') ? 1 : 0,

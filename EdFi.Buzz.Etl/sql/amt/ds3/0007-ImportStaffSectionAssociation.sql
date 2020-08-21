@@ -9,4 +9,3 @@ SELECT DISTINCT
     ssa.begindate as begindate,
     ssa.enddate as enddate
 FROM edfi.StaffSectionAssociation ssa
-
