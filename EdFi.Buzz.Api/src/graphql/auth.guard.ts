@@ -15,20 +15,20 @@ import { config } from 'dotenv';
 
 config();
 
-type GoogleDisco = {
+type UriDisco = {
   // eslint-disable-next-line
     jwks_uri: string;
 };
 
-type GoogleJwk = {
+type UriJwk = {
   kid: string;
   kty: string;
   n: string;
   e: string;
 };
 
-type GoogleJwks = {
-  keys: Array<GoogleJwk>;
+type UriJwks = {
+  keys: Array<UriJwk>;
 };
 
 type JwtHeader = {
@@ -63,15 +63,15 @@ export default class AuthGuard implements CanActivate {
 
   // eslint-disable-next-line
   async createPem(token: string): Promise<string> {
-    const googleDiscoDoc: GoogleDisco = await this.getJsonData<GoogleDisco>(process.env.GOOGLE_DISCOVERY);
-    if (googleDiscoDoc === null) {
-      throw new Error('Google Discovery document could not be retrieved');
+    const uriDiscoDoc: UriDisco = await this.getJsonData<UriDisco>(process.env.URI_DISCOVERY);
+    if (uriDiscoDoc === null) {
+      throw new Error('Uri Discovery document could not be retrieved');
     }
 
     // eslint-disable-next-line
-      const jwks: GoogleJwks = await this.getJsonData<GoogleJwks>(googleDiscoDoc.jwks_uri);
+      const jwks: UriJwks = await this.getJsonData<UriJwks>(uriDiscoDoc.jwks_uri);
     if (jwks === null) {
-      throw new Error('Google JSON Web Key Store could not be retrieved');
+      throw new Error('JSON Web Key Store could not be retrieved');
     }
 
     const decodedToken: JwtToken = jwt.decode(token, { complete: true, json: true }) as JwtToken;
