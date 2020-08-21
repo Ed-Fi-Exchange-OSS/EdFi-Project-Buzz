@@ -160,9 +160,9 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
 
   return (
     <StyledDataTable
-      lang="en"
+      lang='en'
       style={{ hyphens: 'auto' }}
-      className="full-survey-table table table-bordered table-striped verticle-middle text-center first-td-left dataTable"
+      className='full-survey-table table table-bordered table-striped verticle-middle text-center first-td-left dataTable'
     >
       <thead>
         <tr>

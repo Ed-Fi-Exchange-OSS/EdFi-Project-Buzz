@@ -163,7 +163,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
       {selectedSurveyQuestionSummaryList && selectedSurveyAnswers && (
         <>
-          <div className="h2-desktop">Survey Details</div>
+          <div className='h2-desktop'>Survey Details</div>
           <div className='row'>
             <div className='col-12'>
               <div className='card'>

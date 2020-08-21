@@ -15,28 +15,28 @@ import ChevronUp from '../../../assets/chevron-up.png';
 
 export const EmailIcon: React.FunctionComponent = () => {
   return (<img className='email-icon' src={Mail} />);
-}
+};
 
 export const PhoneIcon: React.FunctionComponent = () => {
   return (<img className='phone-icon' src={Phone} />);
-}
+};
 
 export const StarIcon: React.FunctionComponent = () => {
   return (<img className='star-icon' src={Star} />);
-}
+};
 
 export const GridIcon: React.FunctionComponent = () => {
   return (<img className='grid-icon' src={Grid} />);
-}
+};
 
 export const TableIcon: React.FunctionComponent = () => {
   return (<img className='table-icon' src={Table} />);
-}
+};
 
 export const ChevronDownIcon: React.FunctionComponent = () => {
   return (<img className='chevron-down-icon' src={ChevronDown} />);
-}
+};
 
 export const ChevronUpIcon: React.FunctionComponent = () => {
   return (<img className='chevron-up-icon' src={ChevronUp} />);
-}
+};
