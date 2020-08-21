@@ -46,6 +46,7 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     this.storage.removeItem('currentUser');
+    this.storage.removeItem('lastUploadedSurvey');
     this.currentUserSubject.next(null);
     // clear graphql cache
     ApolloHelper.clearApolloStorage(this.apollo.getClient());
