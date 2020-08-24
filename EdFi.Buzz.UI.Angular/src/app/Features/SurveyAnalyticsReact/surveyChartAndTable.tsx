@@ -25,6 +25,11 @@ const StyledSurveyArea = styled.div`
       width: 14px;
       height: 8px;
     }
+
+    @media (max-width: 768px){
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--iron);
+    }
 `;
 
 export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps> = (props: ChartAndTableComponentProps) => {
@@ -46,7 +51,7 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
       afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
 
     <StyledSurveyArea onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
-      <div>View answers by student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} /></div>
+      <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} /></div>
     </StyledSurveyArea>
 
     {(viewAnswersByStudent && selectedQuestion) && <DataTable

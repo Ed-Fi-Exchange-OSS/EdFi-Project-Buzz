@@ -30,7 +30,7 @@ export const TitleSpanContainer = styled.div`
   flex: 0 0 auto;
   margin-right: 2rem;
   font-family: 'Work Sans Extra Bold';
-  font-size: 32px;
+  font-size: 24px;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
@@ -49,9 +49,9 @@ export const TotalRecordsContainer = styled.div`
     flex-direction: column;
   }
 
-  font-family: ${(props) => props.theme.fonts.bold};
+  font-family: ${(props) => props.theme.fonts.regular};
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;

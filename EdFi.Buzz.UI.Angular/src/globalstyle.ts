@@ -71,7 +71,7 @@ export default createGlobalStyle`
 
   .h2-desktop{
     font-family: 'Work Sans Extra Bold';
-    font-size: 20px;
+    font-size: 16px;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -87,7 +87,7 @@ export default createGlobalStyle`
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: var(--shark);
+    color: var(--tower-gray);
   }
 
   .bold {

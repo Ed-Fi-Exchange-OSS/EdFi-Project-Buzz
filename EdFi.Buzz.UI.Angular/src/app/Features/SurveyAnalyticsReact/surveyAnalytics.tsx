@@ -7,7 +7,6 @@ import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/sea
 import { Section, SurveyMetadata, SurveyQuestionSummary } from 'src/app/Models';
 
 import { SurveyMetadataUI } from './surveyMetadataUI';
-import { SurveySummary } from './surveySummary';
 import { DataTable, ColumnOption } from 'src/app/Components/DataTable/dataTable';
 import { AllStudentAnswers } from 'src/app/Models/survey';
 import { ChartAndTable } from './surveyChartAndTable';
@@ -24,6 +23,16 @@ const SurveyTitle = styled.div`
 
   .questionIndex {
     color: var(--picton-blue);
+  }
+`;
+
+const SurveyStyledCard = styled(StyledCard)`
+  & {
+    padding: 1rem 1rem 1rem 1rem;
+  }
+
+  & .h2-desktop {
+    padding-bottom: 1em;
   }
 `;
 
@@ -109,7 +118,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   }
 
   return (
-    <MainContainer role='main' className='container'>
+    <MainContainer role="main" className="container">
       <HeadlineContainer>
         <TitleSpanContainer>Surveys</TitleSpanContainer>
         <TotalRecordsContainer>Total {surveyMetadataList.length}</TotalRecordsContainer>
@@ -117,7 +126,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
       {showSearchResults && (
-        <div className='row'>
+        <div className="row">
           <SurveyMetadataUI
             surveyMetadataList={surveyMetadataList}
             selectedSurveyKey={selectedSurveyMetadata ? selectedSurveyMetadata.surveykey : null}
@@ -127,40 +136,43 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       )}
 
       {selectedSurveyQuestionSummaryList && (
-        <div className='row'>
-          {selectedSurveyQuestionSummaryList.map((question, index) => {
-            return (
-              <div className='col-12 col-md-6' key={question.surveyquestionkey}>
-                <div id='chartCard' className='card'>
-                  <div className='card-body'>
-                    <ChartAndTable
-                      columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList, question.question)}
-                      dataSet={getSurveyAnswersDataset(
-                        selectedSurveyAnswers,
-                        selectedSurveyQuestionSummaryList,
-                        question.question,
-                      )}
-                      question={question}
-                      title={
-                        <SurveyTitle>
-                          <span className={'questionIndex'}>{index + 1}) </span>
-                          {question.question}
-                        </SurveyTitle>
-                      }
-                      afterSelectionChangedHandler={(answer: string) => onSurveyAnswerSelected(answer, index)}
-                    />
+        <>
+          <div className="survey-questions-label h2-desktop">QUESTIONS</div>
+          <div className="row">
+            {selectedSurveyQuestionSummaryList.map((question, index) => {
+              return (
+                <div className="col-12 col-md-6" key={question.surveyquestionkey}>
+                  <div id="chartCard">
+                    <div className="card-body">
+                      <ChartAndTable
+                        columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList, question.question)}
+                        dataSet={getSurveyAnswersDataset(
+                          selectedSurveyAnswers,
+                          selectedSurveyQuestionSummaryList,
+                          question.question,
+                        )}
+                        question={question}
+                        title={
+                          <SurveyTitle>
+                            <span className={'questionIndex'}>{index + 1}) </span>
+                            {question.question}
+                          </SurveyTitle>
+                        }
+                        afterSelectionChangedHandler={(answer: string) => onSurveyAnswerSelected(answer, index)}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </>
       )}
 
       {selectedSurveyQuestionSummaryList && selectedSurveyAnswers && (
-        <StyledCard>
-          <div className='h2-desktop'>Survey Details by Student</div>
-          <div className='card-body table-responsive-md'>
+        <SurveyStyledCard>
+          <div className="h2-desktop">Survey Details by Student</div>
+          <div className="table-responsive-md">
             <DataTable
               columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
               dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}
@@ -177,7 +189,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
               key={selectedSurveyMetadata.surveykey}
             />
           </div>
-        </StyledCard>
+        </SurveyStyledCard>
       )}
     </MainContainer>
   );
