@@ -33,6 +33,7 @@ import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
 import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
 import { SurveyAnalyticsReactWrapperComponent } from './Features/SurveyAnalyticsReact/surveyAnalyticsReactWrapper';
 import { LoginReactWrapperComponent } from './Features/LoginReact/LoginReactWrapper';
+import { AdminSurveyReactWrapperComponent } from './AdminSurveyReact/adminSurveyWrapper';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -76,7 +77,8 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
     SortAnswersByPipe,
     AdminSurveyComponent,
     TeacherLandingReactWrapperComponent,
-    SurveyAnalyticsReactWrapperComponent
+    SurveyAnalyticsReactWrapperComponent,
+    AdminSurveyReactWrapperComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -96,7 +98,7 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
           { path: 'surveyAnalytics', component: SurveyAnalyticsReactWrapperComponent },
           { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'uploadSurvey/:id', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
-          { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'adminSurvey', component: AdminSurveyReactWrapperComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard]
