@@ -2,6 +2,9 @@ import * as React from 'react';
 import { SurveyChart } from './surveyChart';
 import { SurveyQuestionSummary } from 'src/app/Models';
 import { DataTable } from 'src/app/Components/DataTable/dataTable';
+import styled from 'styled-components';
+import ChevronDown from '../../../assets/chevron-down.png';
+import ChevronUp from '../../../assets/chevron-up.png';
 
 export interface ChartAndTableComponentProps {
   question: SurveyQuestionSummary;
@@ -10,6 +13,24 @@ export interface ChartAndTableComponentProps {
   title?: string | React.ReactElement;
   afterSelectionChangedHandler?: (newSelection: string) => void;
 }
+
+const StyledSurveyArea = styled.div`
+    cursor: pointer;
+    font-family: ${(props) => props.theme.fonts.bold} !important;
+    color: var(--picton-blue) !important;
+    & img {
+      justify-self: center;
+      align-self: center;
+      margin: 10px 10px 10px 10px;
+      width: 14px;
+      height: 8px;
+    }
+
+    @media (max-width: 768px){
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--iron);
+    }
+`;
 
 export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps> = (props: ChartAndTableComponentProps) => {
   const selectedQuestion = props.question;
@@ -29,9 +50,9 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
       question={selectedQuestion}
       afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
 
-    <div onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
-      View answers by student <span className={viewAnswersByStudent ? 'ion-md-arrow-dropup-circle' : 'ion-md-arrow-dropdown-circle'}></span>
-    </div>
+    <StyledSurveyArea onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
+      <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} /></div>
+    </StyledSurveyArea>
 
     {(viewAnswersByStudent && selectedQuestion) && <DataTable
       columns={props.columns}

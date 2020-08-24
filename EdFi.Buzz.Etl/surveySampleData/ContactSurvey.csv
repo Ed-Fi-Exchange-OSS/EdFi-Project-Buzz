@@ -1,161 +1,142 @@
-Timestamp,StudentUniqueId,FirstName,LastSurname, Preferred contact method,Best time to contact,Contact notes
-5/2/2020 9:36:00,604822,Lisa,Woods,Phone,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-4/17/2020 12:14:24,604823,Julie,Randolph,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/10/2020 15:07:12,604836,Allie,Combs,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/27/2020 13:26:24,604847,Fannie,Medina,EMail,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-5/8/2020 16:48:00,604849,Robert,Mckee,Phone,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-4/17/2020 16:33:36,604863,Mary,Archer,Phone,8 a.m. to 2 p.m.,Speaks mostly Spanish
-4/11/2020 16:33:36,604868,Hugh,Santana,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/6/2020 11:02:24,604874,Kyle,Hughes,EMail,8 a.m. to 2 p.m.,Speaks mostly Spanish
-4/16/2020 10:33:36,604880,Martha,Parrish,EMail,6 p.m. to 9 p.m.,Leave a message and they will call back
-5/7/2020 13:40:48,604881,Leonard,Mata,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/28/2020 12:00:00,604887,Heidi,Wallace,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/8/2020 18:00:00,604892,Katie,Camacho,EMail,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/5/2020 11:45:36,604897,Noreen,Page,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/12/2020 10:04:48,604905,Luz,Griffin,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-5/6/2020 16:33:36,604907,Jack,Berg,EMail,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-5/3/2020 15:50:24,604918,Peter,Nash,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/4/2020 17:31:12,604927,Larry,Mahoney,EMail,6 p.m. to 9 p.m.,Leave a message and they will call back
-5/8/2020 14:38:24,604928,Richard,Kidd,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/13/2020 10:48:00,604935,Paula,West,EMail,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/27/2020 17:16:48,604938,Roland,Phillips,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-5/4/2020 12:57:36,604940,Terrance,Rivers,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-5/5/2020 13:40:48,604956,Dana,Choi,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/6/2020 12:14:24,604968,Craig,Carney,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-5/3/2020 12:28:48,604969,Stephen,Caldwell,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/17/2020 11:45:36,604974,Olivia,Hardy,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/8/2020 13:40:48,604983,Caitlin,Schmidt,EMail,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-5/1/2020 14:24:00,605013,Jennifer,Wright,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/2/2020 17:31:12,605015,Micheal,Turner,Phone,6 p.m. to 9 p.m.,Speaks mostly Spanish
-4/7/2020 11:45:36,605031,Jim,Beltran,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/6/2020 16:19:12,605035,Sandy,Cowan,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-5/11/2020 16:33:36,605042,Sergio,Herman,EMail,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/6/2020 17:16:48,605043,Neil,Miranda,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/2/2020 14:38:24,605045,Jean,Mc Connell,Phone,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/29/2020 14:24:00,605047,Joanne,Lowe,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/14/2020 11:16:48,605054,Angel,Jefferson,EMail,8 a.m. to 2 p.m.,Speaks mostly Spanish
-4/1/2020 16:33:36,605058,Trisha,Turner,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/30/2020 9:50:24,605082,Bradley,Barton,EMail,6 p.m. to 9 p.m.,Speaks mostly Spanish
-5/10/2020 17:45:36,605088,Edward,Graves,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/29/2020 12:57:36,605090,Jamie,Bass,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/19/2020 17:45:36,605092,Daryl,Reese,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/13/2020 11:16:48,605103,Erik,Waters,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/4/2020 10:04:48,605119,Amy,Harmon,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/27/2020 17:45:36,605120,Brett,Frederick,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/2/2020 13:55:12,605124,Laura,Brady,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/18/2020 12:57:36,605129,Roberto,Holder,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/9/2020 17:02:24,605134,Henrietta,Marquez,EMail,8 a.m. to 2 p.m.,Speaks mostly Spanish
-4/8/2020 9:50:24,605135,Thomas,Mendoza,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/30/2020 13:55:12,605141,Lara,Dunlap,EMail,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/23/2020 17:45:36,605148,Adrian,Santos,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/16/2020 12:43:12,605168,Lorraine,Chapman,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/18/2020 17:45:36,605173,Rodney,Herman,EMail,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/9/2020 11:31:12,605176,Lara,Meza,Phone,6 p.m. to 9 p.m.,Speaks mostly Spanish
-4/17/2020 16:48:00,605195,Hannah,Franklin,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/9/2020 12:57:36,605199,Debbie,Olson,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/12/2020 11:45:36,605208,Julia,Banks,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/6/2020 17:31:12,605210,Rick,Case,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/29/2020 11:02:24,605223,Bridgett,Shaffer,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/7/2020 16:04:48,605227,Jaime,Conner,EMail,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/20/2020 14:24:00,605241,Sonya,Gross,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/17/2020 16:19:12,605250,Dawn,Ware,EMail,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/16/2020 11:02:24,605251,Martha,Poole,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/12/2020 10:19:12,605255,Russell,Avery,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/7/2020 14:24:00,605257,Heidi,Carney,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/11/2020 9:36:00,605261,Tasha,Jefferson,EMail,6 p.m. to 9 p.m.,Speaks mostly Spanish
-4/19/2020 13:40:48,605262,Whitney,Ryan,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/17/2020 17:31:12,605263,James,Winters,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/30/2020 15:21:36,605265,Jesse,Gordon,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/1/2020 14:38:24,605272,Eddie,Reese,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/2/2020 15:36:00,605274,Penelope,Roman,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/24/2020 10:04:48,605276,Jose,Gay,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/17/2020 12:00:00,605288,Frederick,Miles,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/5/2020 12:43:12,605296,Jeremy,Gardner,EMail,6 p.m. to 9 p.m.,Speaks mostly Spanish
-5/1/2020 13:55:12,605297,Katy,Merritt,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/6/2020 17:45:36,605301,Ramona,Levy,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/23/2020 12:43:12,605303,Shane,Bridges,EMail,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/14/2020 13:26:24,605309,Rene,Terrell,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/12/2020 16:19:12,605314,Imogene,Harvey,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/2/2020 11:16:48,605316,Christi,Cortez,Phone,6 p.m. to 9 p.m.,Speaks mostly Spanish
-5/8/2020 10:33:36,605317,Norman,Black,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/22/2020 13:12:00,605319,Tara,Abbott,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/1/2020 10:19:12,605322,Jonathan,Conner,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/12/2020 18:00:00,605328,Lillian,Ellison,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/25/2020 9:50:24,605332,Walter,Li,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/8/2020 14:09:36,605334,Norman,Montes,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/18/2020 11:31:12,605339,Dwight,Edwards,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-5/9/2020 17:16:48,605346,Theodore,Velazquez,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/30/2020 11:45:36,605349,Matilda,Wilkins,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-5/8/2020 13:40:48,605351,Bernadette,Vance,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/13/2020 12:14:24,605360,Kristina,Campos,Phone,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/20/2020 12:28:48,605363,Wanda,Bird,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/20/2020 15:50:24,605370,Lucile,Dickerson,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-5/11/2020 13:55:12,605374,Summer,Velasquez,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-5/3/2020 11:31:12,605380,Maura,Mayer,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/7/2020 17:45:36,605389,Iris,Whitehead,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-5/9/2020 10:19:12,605391,Troy,Choi,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-5/11/2020 17:31:12,605393,Julian,Tyler,Phone,9 a.m. to 12 p.m.,Speaks mostly Spanish
-5/8/2020 15:36:00,605407,Wilda,Mann,Phone,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/23/2020 14:38:24,605408,Kyle,Wilkerson,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/24/2020 17:02:24,605411,Neil,Curry,Phone,6 p.m. to 9 p.m.,Speaks mostly Spanish
-4/29/2020 17:02:24,605421,Alma,Graves,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/10/2020 12:14:24,605428,Rosalind,Hardin,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/8/2020 16:04:48,605433,Roxanne,Roach,EMail,6 p.m. to 9 p.m.,Leave a message and they will call back
-5/7/2020 14:52:48,605439,William,Padilla,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/3/2020 11:45:36,605446,Vernon,De Leon,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-5/6/2020 16:19:12,605447,Terrence,Davidson,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/22/2020 13:40:48,605449,Gregory,Conrad,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/7/2020 11:31:12,605455,Genevieve,Camacho,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/10/2020 17:02:24,605462,Kevin,Frost,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/8/2020 11:45:36,605476,Daniel,Hurst,Phone,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/25/2020 12:43:12,605477,Dave,Hahn,EMail,6 p.m. to 9 p.m.,Leave a message and they will call back
-5/7/2020 18:00:00,605481,Wallace,Ewing,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/8/2020 11:16:48,605483,Daphne,Frederick,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/1/2020 13:40:48,605486,Karin,Allison,EMail,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-5/9/2020 10:33:36,605504,Ross,Bernard,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/27/2020 16:33:36,605509,Daryl,Peters,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/8/2020 17:45:36,605512,Karen,Cordova,EMail,6 p.m. to 9 p.m.,Speaks mostly Spanish
-4/9/2020 13:40:48,605517,George,Ashley,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/14/2020 17:16:48,605530,Craig,Hurley,Phone,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/2/2020 11:16:48,605537,Adam,Griffin,EMail,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/1/2020 10:04:48,605539,Vickie,Esparza,EMail,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/20/2020 16:19:12,605548,Gabriel,Barton,Phone,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/27/2020 10:04:48,605550,Tim,Stuart,Phone,8 a.m. to 2 p.m.,Speaks mostly Spanish
-5/2/2020 9:36:00,605553,Bernard,Underwood,Phone,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/19/2020 16:19:12,605556,Blanca,Alvarez,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/27/2020 15:07:12,605567,George,Ewing,EMail,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-4/14/2020 12:28:48,605581,Carolina,Lindsey,Phone,8 a.m. to 2 p.m.,"Speak louder, has a hearing problem"
-4/18/2020 12:00:00,605588,Elnora,Ayala,EMail,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/28/2020 11:02:24,605601,Myrtle,Shelton,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/15/2020 13:26:24,605603,Alex,Nunez,EMail,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/22/2020 10:48:00,605609,Jimmie,Gardner,Phone,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/9/2020 16:33:36,605610,Adrian,Bartlett,EMail,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/25/2020 11:16:48,605614,Yolanda,Walls,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/18/2020 15:07:12,605620,Mary,Williamson,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/23/2020 17:31:12,605625,Earl,David,Phone,8 a.m. to 2 p.m.,Speaks mostly Spanish
-4/26/2020 16:33:36,605628,Kenneth,Mercado,EMail,8 a.m. to 2 p.m.,Speaks mostly Spanish
-5/6/2020 13:40:48,605629,Ashley,Salinas,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-5/10/2020 12:00:00,605637,Dale,Sexton,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-5/5/2020 17:45:36,605644,Tammi,Waller,Phone,8 a.m. to 2 p.m.,Leave a message and they will call back
-4/23/2020 16:48:00,605650,Alfred,Chase,Phone,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/17/2020 16:19:12,605661,Deborah,Juarez,EMail,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/28/2020 17:16:48,605663,Juliet,Estrada,Phone,8 a.m. to 2 p.m.,Speaks mostly Spanish
-5/10/2020 11:02:24,605682,Jeffrey,Clark,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-5/5/2020 14:52:48,605690,Clyde,Dougherty,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-5/11/2020 16:19:12,605694,Tracy,Alvarado,EMail,9 a.m. to 12 p.m.,Speaks mostly Spanish
-4/7/2020 9:36:00,605695,Vivian,Wilson,Phone,6 p.m. to 9 p.m.,Speaks mostly Spanish
-4/8/2020 16:48:00,605699,Camille,Brandt,Phone,5 p.m. to 9 p.m.,Leave a message and they will call back
-4/1/2020 14:24:00,605700,Henry,Walters,EMail,8 a.m. to 2 p.m.,Speaks mostly Spanish
-4/13/2020 17:16:48,605718,Chris,Molina,EMail,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/11/2020 15:36:00,605728,Imelda,Ford,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-5/4/2020 13:40:48,605736,Sherry,Stafford,EMail,6 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-5/11/2020 10:33:36,605739,Christian,Simpson,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/3/2020 14:38:24,605740,Joanne,Hendricks,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-5/2/2020 10:19:12,605746,Casey,Morse,EMail,5 p.m. to 9 p.m.,"Speak louder, has a hearing problem"
-4/27/2020 9:50:24,605752,Allen,Bass,EMail,9 a.m. to 12 p.m.,Leave a message and they will call back
-4/6/2020 17:45:36,605754,Kyle,Owen,Phone,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
-4/19/2020 17:45:36,605755,Alvin,Fields,Phone,6 p.m. to 9 p.m.,Leave a message and they will call back
-4/23/2020 14:38:24,605756,Derek,Friedman,Phone,5 p.m. to 9 p.m.,Speaks mostly Spanish
-4/12/2020 14:38:24,605774,Julio,Montoya,EMail,5 p.m. to 9 p.m.,Leave a message and they will call back
-5/5/2020 13:12:00,605775,Becky,Todd,Phone,9 a.m. to 12 p.m.,Speaks mostly Spanish
-5/6/2020 15:21:36,605777,Wade,Swanson,Phone,9 a.m. to 12 p.m.,"Speak louder, has a hearing problem"
+"Timestamp","StudentUniqueId","FirstName","LastSurname","Preferred contact method","Best time to contact","Contact notes"
+"2020-08-21 21:05:56.117571+00","190966","Michelle","Trejo","Phone","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","192300","George","Wooten","Email","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","192304","Ny'esha","Batiste","Email","Weeknights between 6PM and 9PM","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","195729","Aaron","Morales","Phone","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","195778","Aaron","Ott","Phone","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","195846","James","Dillard","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","196240","Richard","Gomez","Email","Weeknights between 6PM and 9PM","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","196696","Timothy","Stewart","SMS","During school hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","197093","Patricia","Keefe","Email","During school hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","197569","Jason","Jennings","SMS","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","197736","Dora","Keefe","Email","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","197854","Azania","Kenny","SMS","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","197996","Camaron","Medrano","Email","After dinner","Speak loudly"
+"2020-08-21 21:05:56.117571+00","198014","Kelley","Lopez","Phone","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","198143","Ira","Hatten","Phone","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","198158","Tracy","Halcomb","SMS","Weeknights between 6PM and 9PM","Works nights"
+"2020-08-21 21:05:56.117571+00","198217","Cody","Funderburke","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","198219","Christopher","Alonso","Phone","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","198260","Marisol","Mendoza","SMS","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","198338","Jose","Tran","Email","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","198362","Juana","Omalley","Phone","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","198387","Terry","Watts","SMS","Weeknights between 6PM and 9PM","Speak loudly"
+"2020-08-21 21:05:56.117571+00","198447","Seth","Mckillip","Email","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","198458","Christina","Lainhart","Email","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","198520","Michael","Flores","Phone","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","198522","Deanne","Haight","SMS","Weeknights between 6PM and 9PM","Speak loudly"
+"2020-08-21 21:05:56.117571+00","198524","Sirroderick","Rockwell","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","198556","Casey","Weir","SMS","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","198559","Justin","Mccray","Phone","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","198710","Jessica","Dangelo","SMS","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","198921","Daneska","Rocha","SMS","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","199110","Lakechia","Parchman","SMS","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","199174","Angeel","Chacon","Phone","Weeknights between 6PM and 9PM","Speak loudly"
+"2020-08-21 21:05:56.117571+00","199190","Rebecca","Valdez","SMS","During school hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","199211","Jeremiah","Scott","Phone","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","199327","Albert","Saldana","Phone","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","199464","Paul","Ates","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","199976","Bridgette","Dangelo","Phone","During school hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","200013","Jennifer","Wentz","Email","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","200151","Rebecca","Jude","SMS","After dinner","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200200","Graciela","Simpson","Email","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","200261","Baron","Peri","Email","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","200264","Jeanette","Bradford","SMS","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","200284","Marina","Ferrara","Email","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","200319","Charlotte","Chapa","Email","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200322","Robin","Wentz","Phone","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","200356","Heather","Flanders","SMS","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200431","Anwar","Hurst","Email","After dinner","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200533","Federica","Martins","SMS","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","200560","Andrew","Willis","Phone","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200603","Cynthia","Cloutier","Email","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200610","Marvin","Dodd","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","200690","Jorge","Hicks","Phone","Weeknights between 6PM and 9PM","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","200691","Gilbert","Gilmore","Email","After dinner","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200764","Heather","Norfleet","Phone","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","200882","Meisha","Edwards","SMS","Weeknights between 6PM and 9PM","Speak loudly"
+"2020-08-21 21:05:56.117571+00","200960","Martha","Walker","Phone","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","201136","Darwin","Williams","SMS","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","201160","Denise","Moulder","SMS","Weeknights between 6PM and 9PM","Works nights"
+"2020-08-21 21:05:56.117571+00","201230","Arieh","Doiron","Email","Weeknights between 6PM and 9PM","Works nights"
+"2020-08-21 21:05:56.117571+00","201269","Samantha","Herbert","Phone","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","201377","William","Townsend","SMS","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","201416","Erika","Byrnes","Phone","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","201468","Regina","Lott","SMS","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","201519","Loi","Parker","Email","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","201526","Jared","Jenkins","Email","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","201631","Alfredo","Kniss","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","201675","Russell","Thompson","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","201859","Jodi","Steffen","SMS","After dinner","Speak loudly"
+"2020-08-21 21:05:56.117571+00","201923","Missy","Manning","SMS","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","202081","Laura","Kenny","Phone","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","202193","Selena","Jessup","Email","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","202235","Danielle","Fullerton","Email","Weeknights between 6PM and 9PM","Works nights"
+"2020-08-21 21:05:56.117571+00","202239","Jovanic","Williams","SMS","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","202375","Chad","Hernandez","Email","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","202626","Jose","Lane","SMS","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","202708","David","Howard","SMS","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","202751","Robert","Cordova","Email","Weeknights between 6PM and 9PM","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","202753","Kelby","Whiddon","Phone","Weeknights between 6PM and 9PM","Speak loudly"
+"2020-08-21 21:05:56.117571+00","202759","Ruba","Woodard","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","202839","Alana","Garza","Email","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","203004","Francisco","Mckenzie","Email","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","203142","Jeremy","Chism","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","203297","Megan","Jude","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","203306","Julian","No","SMS","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","203390","Rogelio","Kallus","Phone","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","203701","Ted","Jeffreys","SMS","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","203782","Alyssa","Pena","Phone","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","203898","Sueanne","Demarco","Email","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","203928","Chianelda","Fullerton","Email","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","204067","Paula","Merchant","Phone","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","204299","Joshua","Toro","Phone","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","204540","Grant","Brown","SMS","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","204775","Laura","Ramos","SMS","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","204794","Carl","Worland","SMS","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","204875","Sharesa","Alaniz","Phone","Weeknights between 6PM and 9PM","Works nights"
+"2020-08-21 21:05:56.117571+00","205082","Sherica","Haight","Phone","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","205124","Emily","Rivera","Email","During school hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","205199","Vicente","Ehler","SMS","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","205218","Lori","Gillen","Email","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","205257","Daniel","Valles","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","205706","Kristi-Lynn","Labbe","Email","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","205724","Jason","Beserra","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","205840","Kictrick","Vajgrt","Email","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","206115","Roxanne","Devito","Email","After dinner","Speak loudly"
+"2020-08-21 21:05:56.117571+00","206200","Robert","Whitworth","Phone","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","206226","Kimberly","Santana","Email","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","206485","Gina","Bedard","SMS","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","206608","Cecil","Nam","Email","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","207978","Jeremiah","Murillo","Phone","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","207979","Cassie","Osullivan","Phone","During school hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","208325","Roland","Dotson","Email","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","208354","Steve","Kelley","Phone","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","208395","Alexander","Danner","SMS","Weeknights between 6PM and 9PM","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","208629","Suewilla","Dodge","SMS","After work hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","208709","Melanie","Lemay","SMS","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","208710","Chuki","Beals","SMS","After work hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","209485","Joe","Fetrow","Email","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","210127","Zachry","Scott","SMS","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","211228","Melinda","Omalley","Email","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","212035","Ebony","Parrish","SMS","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","212516","Hiram","Clinton","Email","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","214109","Diane","Ferguson","Email","After dinner","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","215229","Elijah","Campa","SMS","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","215271","Eureka","Cruz","Phone","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","216760","Scherryl","Cowley","SMS","Weeknights between 6PM and 9PM","Works nights"
+"2020-08-21 21:05:56.117571+00","217609","Samantha","Johnson","Email","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","217970","Amanda","Kerns","Phone","During school hours","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","218114","Niomi","Oleary","SMS","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","218187","Tiffinie","Omalley","SMS","After dinner","Works nights"
+"2020-08-21 21:05:56.117571+00","220434","Tiffiony","Schroeder","SMS","After dinner","Phone has issues"
+"2020-08-21 21:05:56.117571+00","220661","Gabriel","Fox","Phone","During school hours","Works nights"
+"2020-08-21 21:05:56.117571+00","221997","Thaddeus","Terrell","SMS","After work hours","Phone has issues"
+"2020-08-21 21:05:56.117571+00","224004","Omar","Shelburne","Phone","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","225420","Gerri","Santiago","Email","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","227200","Clifford","Avendano","SMS","During school hours","Speak loudly"
+"2020-08-21 21:05:56.117571+00","227454","James","Chaney","Email","Weeknights between 6PM and 9PM","Actually prefers email sometimes"
+"2020-08-21 21:05:56.117571+00","228179","Melody","Mowery","Email","Weeknights between 6PM and 9PM","Phone has issues"
+"2020-08-21 21:05:56.117571+00","228240","Leila","Haight","Email","After work hours","Works nights"
+"2020-08-21 21:05:56.117571+00","235299","Shirimira","Lash","SMS","Weeknights between 6PM and 9PM","Speak loudly"
+"2020-08-21 21:05:56.117571+00","236473","John","Clark","Email","After dinner","Speak loudly"
