@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { isRegExp } from 'util';
 import styled from 'styled-components';
 
 const StyledDataTable = styled.table`
@@ -26,6 +25,13 @@ const StyledDataTable = styled.table`
     border-bottom-width: 2px;
   }
 
+  & > td > a, & > th > a {
+    color: var(--denim);
+    :hover {
+      color: var(--sea-buckthorn1) !important;
+    }
+  }
+
   td,
   th {
     padding: 0.75rem;
@@ -34,9 +40,12 @@ const StyledDataTable = styled.table`
   }
   thead th {
     vertical-align: bottom;
+    :hover{
+      cursor: pointer;
+    }
   }
   .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--iron);
   }
   @media (max-width: 767.98px) {
     .table-responsive-md > .table-bordered {
@@ -68,6 +77,11 @@ const StyledDataTable = styled.table`
   .verticle-middle th,
   td {
     vertical-align: middle;
+  }
+
+  &.first-td-left th:first-child,
+  &.first-td-left td:first-child {
+    text-align: left;
   }
 `;
 
