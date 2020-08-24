@@ -11,25 +11,20 @@ import { SurveySummary } from './surveySummary';
 import { DataTable, ColumnOption } from 'src/app/Components/DataTable/dataTable';
 import { AllStudentAnswers } from 'src/app/Models/survey';
 import { ChartAndTable } from './surveyChartAndTable';
-import {
-  HeadlineContainer,
-  MainContainer,
-  TitleSpanContainer,
-  TotalRecordsContainer
-} from '../../../buzztheme';
+import { HeadlineContainer, MainContainer, TitleSpanContainer, TotalRecordsContainer, StyledCard } from '../../../buzztheme';
 
 export interface SurveyAnalyticsComponentProps {
   api: ApiService;
 }
 
 const SurveyTitle = styled.div`
-    font-size: 14px;
-    color: var(--slate-gray);
-    font-family: ${(props) => props.theme.fonts.bold};
+  font-size: 14px;
+  color: var(--slate-gray);
+  font-family: ${(props) => props.theme.fonts.bold};
 
-    .questionIndex {
-      color: var(--picton-blue);
-    }
+  .questionIndex {
+    color: var(--picton-blue);
+  }
 `;
 
 export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> = (props: SurveyAnalyticsComponentProps) => {
@@ -113,10 +108,11 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
     );
   }
 
-  return <MainContainer role='main' className='container'>
+  return (
+    <MainContainer role='main' className='container'>
       <HeadlineContainer>
         <TitleSpanContainer>Surveys</TitleSpanContainer>
-      <TotalRecordsContainer>Total {surveyMetadataList.length}</TotalRecordsContainer>
+        <TotalRecordsContainer>Total {surveyMetadataList.length}</TotalRecordsContainer>
       </HeadlineContainer>
       <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
@@ -162,32 +158,27 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       )}
 
       {selectedSurveyQuestionSummaryList && selectedSurveyAnswers && (
-        <>
-          <div className='h2-desktop'>Survey Details</div>
-          <div className='row'>
-            <div className='col-12'>
-              <div className='card'>
-                <div className='card-body table-responsive-md'>
-                  <DataTable
-                    columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
-                    dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}
-                    linkBaseURL={'/#/app/studentDetail/'}
-                    defaultSort={1}
-                    highlightFilterByColumn={
-                      selectedAnswer
-                        ? {
-                          columnIndex: selectedQuestionIndex + 2 /* account for added columns */,
-                          filter: selectedAnswer,
-                        }
-                        : null
+        <StyledCard>
+          <div className='h2-desktop'>Survey Details by Student</div>
+          <div className='card-body table-responsive-md'>
+            <DataTable
+              columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
+              dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}
+              linkBaseURL={'/#/app/studentDetail/'}
+              defaultSort={1}
+              highlightFilterByColumn={
+                selectedAnswer
+                  ? {
+                      columnIndex: selectedQuestionIndex + 2 /* account for added columns */,
+                      filter: selectedAnswer,
                     }
-                    key={selectedSurveyMetadata.surveykey}
-                  />
-                </div>
-              </div>
-            </div>
+                  : null
+              }
+              key={selectedSurveyMetadata.surveykey}
+            />
           </div>
-        </>
+        </StyledCard>
       )}
-    </MainContainer>;
+    </MainContainer>
+  );
 };

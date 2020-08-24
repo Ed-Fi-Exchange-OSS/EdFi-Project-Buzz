@@ -3,15 +3,28 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const StyledDataTable = styled.table`
+  border: none !important;
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
   color: var(--slate-gray);
 
-  thead tr th {
+  & > .h2-desktop {
+    margin-bottom: 3em;
+  }
+
+  & thead tr th {
     text-align: inherit;
     background-color: var(--slate-gray) !important;
     color: var(--white) !important;
+  }
+
+  & tbody tr td {
+    background-color: var(--iron) !important;
+  }
+
+  & tbody tr:nth-of-type(odd) td {
+    background-color: var(--white) !important;
   }
 
   .col-highlight {
@@ -25,33 +38,34 @@ const StyledDataTable = styled.table`
     border-bottom-width: 2px;
   }
 
-  & > td > a, & > th > a {
+  & > td > a,
+  & > th > a {
     color: var(--denim);
     :hover {
       color: var(--sea-buckthorn1) !important;
     }
   }
 
-  td,
-  th {
+  & td,
+  & th {
     padding: 0.75rem;
     vertical-align: top;
     border: none !important;
   }
-  thead th {
+
+  & thead th {
     vertical-align: bottom;
-    :hover{
+    :hover {
       cursor: pointer;
     }
   }
-  .table-striped tbody tr:nth-of-type(odd) {
-    background-color: var(--iron);
-  }
+
   @media (max-width: 767.98px) {
     .table-responsive-md > .table-bordered {
       border: 0;
     }
   }
+
   .text-center {
     text-align: center !important;
   }
@@ -82,6 +96,55 @@ const StyledDataTable = styled.table`
   &.first-td-left th:first-child,
   &.first-td-left td:first-child {
     text-align: left;
+  }
+
+  &.dataTable td,
+  &.dataTable th {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  &.dataTable td.dataTables_empty,
+  &.dataTable th.dataTables_empty {
+    text-align: center;
+  }
+  &.dataTable.nowrap th,
+  &.dataTable.nowrap td {
+    white-space: nowrap;
+  }
+  &.dataTable thead > tr > th.sorting_asc,
+  &.dataTable thead > tr > th.sorting_desc,
+  &.dataTable thead > tr > th.sorting,
+  &.dataTable thead > tr > td.sorting_asc,
+  &.dataTable thead > tr > td.sorting_desc,
+  &.dataTable thead > tr > td.sorting {
+    padding-right: 30px;
+  }
+  &.dataTable thead > tr > th:active,
+  &.dataTable thead > tr > td:active {
+    outline: none;
+  }
+  &.dataTable thead .sorting,
+  &.dataTable thead .sorting_asc,
+  &.dataTable thead .sorting_desc,
+  &.dataTable thead .sorting_asc_disabled,
+  &.dataTable thead .sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+  }
+  &.dataTable thead .sorting:before,
+  &.dataTable thead .sorting:after,
+  &.dataTable thead .sorting_asc:before,
+  &.dataTable thead .sorting_asc:after,
+  &.dataTable thead .sorting_desc:before,
+  &.dataTable thead .sorting_desc:after,
+  &.dataTable thead .sorting_asc_disabled:before,
+  &.dataTable thead .sorting_asc_disabled:after,
+  &.dataTable thead .sorting_desc_disabled:before,
+  &.dataTable thead .sorting_desc_disabled:after {
+    position: absolute;
+    bottom: 0.9em;
+    display: block;
+    opacity: 0.3;
   }
 `;
 
