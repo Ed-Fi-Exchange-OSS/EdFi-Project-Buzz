@@ -72,8 +72,8 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
   return (
     <>
       {props.surveyMetadataList.length === 0 && (
-        <div className="col-12">
-          <div className="alert alert-warning">No survey found.</div>
+        <div className='col-12'>
+          <div className='alert alert-warning'>No survey found.</div>
         </div>
       )}
       {props.surveyMetadataList.map((surveyMetadata, idx) => {
@@ -83,19 +83,19 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
             key={surveyMetadata.surveykey}
             onClick={() => props.onSurveySelected(surveyMetadata)}
           >
-            <SurveyStyledCard className="card survey-metadata" color={colorList[idx % 6]}>
+            <SurveyStyledCard className='card survey-metadata' color={colorList[idx % 6]}>
               <div className={`card-body`}>
                 <div className={'survey-card-container survey-metadata-container'}>
-                  <div className="h2-desktop">{surveyMetadata.title}</div>
+                  <div className='h2-desktop'>{surveyMetadata.title}</div>
                   <div>
-                    <span className="bold">Questions:</span> {surveyMetadata.numberofquestions}{' '}
+                    <span className='bold'>Questions:</span> {surveyMetadata.numberofquestions}{' '}
                   </div>
                   <div>
-                    <span className="bold">Completed:</span> {surveyMetadata.studentsanswered} of{' '}
+                    <span className='bold'>Completed:</span> {surveyMetadata.studentsanswered} of{' '}
                     {surveyMetadata.totalstudents} students
                   </div>
                 </div>
-                <div className="chevron-nav">
+                <div className='chevron-nav'>
                   <img style={{ width: '12px', height: '22px' }} src={RightChevron} />
                 </div>
               </div>

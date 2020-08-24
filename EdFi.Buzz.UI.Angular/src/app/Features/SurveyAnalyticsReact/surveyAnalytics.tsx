@@ -118,7 +118,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
   }
 
   return (
-    <MainContainer role="main" className="container">
+    <MainContainer role='main' className='container'>
       <HeadlineContainer>
         <TitleSpanContainer>Surveys</TitleSpanContainer>
         <TotalRecordsContainer>Total {surveyMetadataList.length}</TotalRecordsContainer>
@@ -126,7 +126,7 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
       <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
       {showSearchResults && (
-        <div className="row">
+        <div className='row'>
           <SurveyMetadataUI
             surveyMetadataList={surveyMetadataList}
             selectedSurveyKey={selectedSurveyMetadata ? selectedSurveyMetadata.surveykey : null}
@@ -137,13 +137,13 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
       {selectedSurveyQuestionSummaryList && (
         <>
-          <div className="survey-questions-label h2-desktop">QUESTIONS</div>
-          <div className="row">
+          <div className='survey-questions-label h2-desktop'>QUESTIONS</div>
+          <div className='row'>
             {selectedSurveyQuestionSummaryList.map((question, index) => {
               return (
-                <div className="col-12 col-md-6" key={question.surveyquestionkey}>
-                  <div id="chartCard">
-                    <div className="card-body">
+                <div className='col-12 col-md-6' key={question.surveyquestionkey}>
+                  <div id='chartCard'>
+                    <div className='card-body'>
                       <ChartAndTable
                         columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList, question.question)}
                         dataSet={getSurveyAnswersDataset(
@@ -171,8 +171,8 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
 
       {selectedSurveyQuestionSummaryList && selectedSurveyAnswers && (
         <SurveyStyledCard>
-          <div className="h2-desktop">Survey Details by Student</div>
-          <div className="table-responsive-md">
+          <div className='h2-desktop'>Survey Details by Student</div>
+          <div className='table-responsive-md'>
             <DataTable
               columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
               dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}
