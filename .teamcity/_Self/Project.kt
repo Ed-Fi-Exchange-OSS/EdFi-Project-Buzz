@@ -11,6 +11,7 @@ object BuzzProject : Project({
     description = "Buzz Build Configurations"
 
     params {
+        param("teamcity.ui.settings.readOnly","true")
         param("build.feature.freeDiskSpace", "2gb")
         param("git.branch.default", "main")
         param("git.branch.specification", """
