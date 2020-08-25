@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule, AuthService } from 'angularx-social-login';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
@@ -51,6 +51,14 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     }
   ]);
 }
+
+export function provideAuthService(config: AuthServiceConfig, { environment }: EnvironmentService) {
+  if (!Boolean(environment.GOOGLE_CLIENT_ID)) {
+    return null;
+  }
+  return new AuthService(config);
+}
+
 
 @NgModule({
   declarations: [
@@ -100,6 +108,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: AuthService, useFactory: provideAuthService, deps: [AuthServiceConfig, EnvironmentService] },
     { provide: AuthServiceConfig, useFactory: provideAuthServiceConfig, deps: [EnvironmentService] },
     { provide: APOLLO_OPTIONS, useFactory: provideApolloConfig, deps: [EnvironmentService, HttpLink] },
     Title

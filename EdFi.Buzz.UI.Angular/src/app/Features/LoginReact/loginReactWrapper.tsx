@@ -16,18 +16,17 @@ import {
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { AuthService } from 'angularx-social-login';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Login } from './login';
 import { ApiService } from 'src/app/Services/api.service';
 
-const containerElementName = 'teacherLandingReactComponentContainer';
-
 import GlobalFonts from '../../../globalstyle';
 import { ThemeProvider } from 'styled-components';
 import BuzzTheme from '../../../buzztheme';
 import { EnvironmentService } from 'src/app/Services/environment.service';
+
+const containerElementName = 'loginReactComponentContainer';
 
 @Component({
   selector: 'app-login-react',
@@ -68,7 +67,10 @@ export class LoginReactWrapperComponent implements OnChanges, OnDestroy, AfterVi
           api={this.api}
           navigate={(command) => this.ngZone.run(() => this.router.navigate([command]))}
           returnUrl={this.route.snapshot.queryParams['returnUrl']}
-          googleClientId={this.environmentService.environment.GOOGLE_CLIENT_ID} />
+          googleClientId={this.environmentService.environment.GOOGLE_CLIENT_ID}
+          adfsClientId={this.environmentService.environment.ADFS_CLIENT_ID}
+          adfsTenantId={this.environmentService.environment.ADFS_TENANT_ID}
+          />
       </ThemeProvider>
     </>, this.containerRef.nativeElement);
   }

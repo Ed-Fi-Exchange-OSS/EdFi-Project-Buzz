@@ -1194,6 +1194,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-0.0.32.tgz#bd284e57c84f1325da702babfc82a5328190c0c5"
   integrity sha1-vShOV8hPEyXacCur/IKlMoGQwMU=
 
+"@types/react-adal@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@types/react-adal/-/react-adal-0.5.0.tgz#b8f47897b2056a382b8350667dc7c1a1d6c1ff4d"
+  integrity sha512-g4mktToC/vQwWq/S4IrOluMY8JtDxel2HAB3OT6i1MTHsuGq5pjfEwl4bvc4UnOb4rBOBoVo8ZIdQUsm6e5LIg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^16.9.4":
   version "16.9.8"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
@@ -6885,6 +6892,11 @@ raw-loader@3.1.0:
   dependencies:
     loader-utils "^1.1.0"
     schema-utils "^2.0.1"
+
+react-adal@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-adal/-/react-adal-0.5.0.tgz#8a156812ed6475d18fe84052a184227dfb2b662e"
+  integrity sha512-etlKmBwux6vzYbl6hvFSCQkuHMpbE2Qn3MTP2EHz3xtifiP1tRacaIi1QtVlHtcCbt3KDjDTqu2uKZUjiPuyOA==
 
 react-chartjs-2@^2.10.0:
   version "2.10.0"

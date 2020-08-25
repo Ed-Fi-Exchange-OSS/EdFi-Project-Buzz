@@ -26,7 +26,7 @@ Setup Instructions for Development
 1. Download the repository
 2. Open a PowerShell window and Navigate to the UI folder C:\projects\Ed-Fi-Buzz\UI\
 3. Open PowerShell as an "Administrator" and run yarn install
-4. Duplicate the [environment.example.json](src/assets/environment.example.json) file, and rename the copy to environment.json, then replace its contents with the correct values for your environment
+4. Duplicate the [environment.example.json](src/assets/environment.example.json) file, and rename the copy to environment.json, then replace its contents with the correct values for your environment. Either set GOOGLE_CLIENT_ID, to use a google accound, or ADFS_CLIENT_ID and ADFS_TENANT_ID for use ADFS
 5. In the same Powershell window type "yarn start"
 6. Open a browser (Chrome) and navigate to http://localhost:4200/
 

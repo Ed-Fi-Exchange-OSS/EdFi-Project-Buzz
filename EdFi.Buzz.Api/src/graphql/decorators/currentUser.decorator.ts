@@ -9,7 +9,8 @@ import getClaims from '../services/jwt.service';
 const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
   const [, , { req }] = context.getArgs();
   const userData = getClaims(req.headers.authorization);
-  return userData.email;
+  const email = userData.email || userData.upn;
+  return email;
 });
 
 export default CurrentUser;
