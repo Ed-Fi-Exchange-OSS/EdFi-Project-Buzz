@@ -51,6 +51,14 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
       };
     },
     options: {
+      layout: {
+        padding: {
+            left: 0,
+            right: 10,
+            top: 0,
+            bottom: 0
+        }
+      },
       responsive: true,
       maintainAspectRatio: false,
       scales: {
