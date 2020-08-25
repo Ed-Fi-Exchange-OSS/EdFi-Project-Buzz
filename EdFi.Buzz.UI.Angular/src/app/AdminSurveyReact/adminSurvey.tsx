@@ -1,6 +1,10 @@
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
+
 import * as React from 'react';
 import { FunctionComponent, useState } from 'react';
-import $ from 'jquery'
 
 import { ApiService } from 'src/app/Services/api.service';
 import { SurveyStatus } from '../Models/survey';
@@ -13,7 +17,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   const [surveyFilteredList, setsurveyFilteredList] = useState([] as SurveyStatus[]);
   const [surveyList, setsurveyList] = useState([] as SurveyStatus[]);
   const [surveyToDelete, setsurveyToDelete] = useState(null as number);
-  const [searchText, setsearchText] = useState(null as string);
+  const [searchText, setsearchText] = useState('' as string);
   const surveyFilterRef = React.createRef<HTMLInputElement>();
   
   if (!surveyFilteredList || surveyFilteredList.length === 0) {
@@ -38,7 +42,6 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   }
 
   function deleteSurvey() {
-    $('#deletesurveyconfirmation').modal('hide');
     if (surveyToDelete) {
         props.api.survey
       .deleteSurvey(props.api.authentication.currentUserValue.teacher.staffkey, surveyToDelete)
@@ -117,7 +120,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
                     <span onClick={(e) => setSurveyToDelete(survey.surveykey)} className="btn btn-danger btn-delete-note ion-md-trash" data-toggle="modal" data-target="#deletesurveyconfirmation"></span>
                   </div>
                   <div className="col-2">
-                    <a className="btn btn-primary ion-md-create"></a>
+                    <a href={`#/app/uploadSurvey/${survey.surveykey}`} className="btn btn-primary ion-md-create"></a>
                   </div>
                 </div>
             </div>
@@ -143,7 +146,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" onClick={deleteSurvey} className="btn btn-danger">Yes</button>
+            <button type="button" onClick={deleteSurvey}  data-dismiss="modal" className="btn btn-danger">Yes</button>
           </div>
         </div>
       </div>

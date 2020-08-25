@@ -29,7 +29,6 @@ import { EnvironmentService } from './Services/environment.service';
 import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.component';
 import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
-import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
 import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
 import { SurveyAnalyticsReactWrapperComponent } from './Features/SurveyAnalyticsReact/surveyAnalyticsReactWrapper';
 import { LoginReactWrapperComponent } from './Features/LoginReact/LoginReactWrapper';
@@ -75,7 +74,6 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
     LoginReactWrapperComponent,
     DndDirective,
     SortAnswersByPipe,
-    AdminSurveyComponent,
     TeacherLandingReactWrapperComponent,
     SurveyAnalyticsReactWrapperComponent,
     AdminSurveyReactWrapperComponent
