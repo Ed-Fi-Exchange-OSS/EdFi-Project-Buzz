@@ -28,6 +28,7 @@ export default createGlobalStyle`
     --mystic: #ebf1f3;
     --iron: #ced5d8;
     --tradewind: #65bcaa;
+    --mystic-grape: #98288b;
   }
 
   @font-face {

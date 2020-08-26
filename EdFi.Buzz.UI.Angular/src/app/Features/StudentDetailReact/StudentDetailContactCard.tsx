@@ -44,11 +44,22 @@ export const StudentDetailContactCard: FunctionComponent<StudentDetailContactCar
     .contact-main-container {
       display: flex;
       flex-direction: row;
+      align-content: center;
+      & > div {
+        display:flex;
+      }
     }
 
     .contact-preferences-container {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      & > div {
+        margin-right: 1.5rem;
+        flex: 1;
+        font-size: 12px;
+      }
     }
   `;
 
@@ -71,8 +82,8 @@ export const StudentDetailContactCard: FunctionComponent<StudentDetailContactCar
         </div>
       </div>
       <div className='contact-preferences-container'>
-        <div>Preferred contact method: {current.preferredcontactmethod}</div>
-        <div>Best time to contact: {current.besttimetocontact}</div>
+        <div>Preferred contact method: {current.preferredcontactmethod || 'None specified'}</div>
+        <div>Best time to contact: {current.besttimetocontact || 'None specified'}</div>
       </div>
     </StyledContactCard>
   );

@@ -70,7 +70,7 @@ const StudentDetailContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex: 1;
-    padding-bottom:1.4rem;
+    padding-bottom: 1.4rem;
   }
 
   .student-detail-profile-pic-container {
@@ -149,10 +149,45 @@ const StudentDetailContainer = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     overflow-x: auto;
+    scrollbar-color: var(--iron);
+    scrollbar-width: 0.1rem;
 
     & > div {
       flex: 1;
     }
+  }
+
+  .student-detail-notes-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .student-detail-tabs {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+
+      & > div {
+        max-width: fit-content;
+        margin-right: 1.5rem;
+        flex: 1;
+        justify-content: flex-start;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .student-detail-tabs {
+    border-bottom-width: 3px;
+    border-bottom-color: var(--shark);
+  }
+
+  .survey-notes-tab-selected {
+    border-bottom-width: 3px;
+    border-bottom-color: var(--shark);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 `;
 
@@ -168,6 +203,9 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
   const [siblings, setSiblings] = useState<Array<Student>>();
   const [primaryContact, setPrimaryContact] = useState<ContactPerson>();
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
+
+  const notesTabRef = React.createRef<HTMLDivElement>();
+  const surveyTabRef = React.createRef<HTMLDivElement>();
 
   useEffect(() => {
     const getStudent = async () => {
@@ -221,8 +259,8 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
                     {primaryContact && (
                       <div className="student-detail-profile-info-primary-contact">
                         <StarIcon />
-                        <span className="primary-contact-label bold-text">Primary Contact:</span>
-                        <span className="primary-contact-name">{`${primaryContact.contactfirstname}&nbsp;${primaryContact.contactlastname}`}</span>
+                        <span className="primary-contact-label">Primary Contact:&nbsp;</span>
+                        <span className="primary-contact-name">{`${primaryContact.contactfirstname} ${primaryContact.contactlastname}`}</span>
                       </div>
                     )}
                     {!student.primaryemailaddress && <p className="alert alert-primary">No email</p>}
@@ -240,6 +278,16 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
                   contacts.length > 0 &&
                   contacts.map((contact) => <StudentDetailContactCard key={contact.uniquekey} contact={contact} />)}
               </div>
+            </div>
+            <div className="student-detail-notes-container">
+              <div className="student-detail-tabs">
+                <div ref={surveyTabRef} className="survey-notes-tab-selected">
+                  Surveys
+                </div>
+                <div ref={notesTabRef}>Notes</div>
+              </div>
+              <div className="student-detail-notes-area-container">THIS HERE IS OUR NOTES AREA</div>
+              <div className="student-detail-survey-area-container">THIS HERE IS OUR SURVEY AREA</div>
             </div>
           </div>
         </StudentDetailContainer>
