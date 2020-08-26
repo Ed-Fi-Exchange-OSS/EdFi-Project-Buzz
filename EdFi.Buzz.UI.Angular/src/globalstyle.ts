@@ -48,30 +48,22 @@ export default createGlobalStyle`
     text-rendering: optimizeLegibility;
   }
 
-  .h1-desktop{
+  h1, .h1 {
     font-family: 'Work Sans Extra Bold';
     font-size: 32px;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: var(--shark);
-  }
-
-  .h1-headline{
-    font-family: 'Work Sans';
-    font-size: 24px;
     font-weight: 800;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
     color: var(--shark);
+    margin-bottom: 0;
   }
 
-  .h2-desktop{
+  h2, .h2-desktop{
+    flex: 1;
     font-family: 'Work Sans Extra Bold';
-    font-size: 16px;
+    font-size: 18px;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -90,6 +82,21 @@ export default createGlobalStyle`
     color: var(--tower-gray);
   }
 
+  .italics {
+    font-style: italics;
+  }
+
+  .image-container {
+      border-radius: 50%;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .denim-text {
+    color: var(---nevada);
+  }
+
   .bold {
     font-weight: 600 !important;
   }
@@ -106,10 +113,22 @@ export default createGlobalStyle`
     margin: 0px 10px 0px 0px;
   }
 
-  .star-image {
+  .star-icon {
     height: 16px;
     width: 16px;
-    margin: 0px 5px 0px 0px;
+    margin: 0px 10px 0px 0px;
+  }
+
+  .text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .alert {
+    border: 4px solid var(--sea-buckthorn1);
+    border-radius: 4px;
+    color: var(--shark);
   }
 
 `;
