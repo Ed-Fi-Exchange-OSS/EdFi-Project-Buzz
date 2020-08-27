@@ -94,10 +94,6 @@ export default createGlobalStyle`
       align-items: center;
   }
 
-  .denim-text {
-    color: var(---nevada);
-  }
-
   .bold {
     font-weight: 600 !important;
   }

@@ -58,3 +58,37 @@ export class StudentNote {
   staffFullName?: string;
   staffEMail?: string;
 }
+
+export class StudentSurveySummaryAnswers {
+  sectionkey?: string;
+  surveykey?: number;
+  title?: string;
+  surveyquestionkey?: number;
+  question?: string;
+  studentschoolkey?: string;
+  studentname?: string;
+  answer?: string;
+}
+
+export class StudentSurveyQuestion {
+  surveyquestionkey?: string;
+  surveykey?: number;
+  question?: string;
+  studentanswer?: StudentSurveySummaryAnswers;
+}
+
+export class StudentSurveyMetadata {
+  surveykey?: number;
+  staffkey?: number;
+  title?: string;
+  deletedat?: string;
+  questions?: StudentSurveyQuestion[];
+}
+
+export class StudentSurvey {
+  studentsurveykey?: string;
+  surveykey?: number;
+  date?: string;
+  survey?: StudentSurveyMetadata;
+  answers?: StudentSurveySummaryAnswers[];
+}

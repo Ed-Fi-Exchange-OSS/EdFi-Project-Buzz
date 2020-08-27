@@ -10,9 +10,11 @@ import { FunctionComponent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ApiService } from 'src/app/Services/api.service';
-import { Student, Teacher, ContactPerson } from 'src/app/Models';
+import { Student, Teacher, ContactPerson  } from 'src/app/Models';
 import { EmailIcon, LeftArrowIcon, StarIcon, PhoneIcon } from '../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
+import { StudentDetailSurveyComponent } from './StudentDetailSurveyComponent';
+import { StudentSurvey } from 'src/app/Models/student';
 
 const StudentDetailContainer = styled.div`
   margin: 1em 1em 1em 1em;
@@ -135,6 +137,7 @@ const StudentDetailContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 1.5rem;
 
     .label {
       display: flex;
@@ -161,26 +164,23 @@ const StudentDetailContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-
-    .student-detail-tabs {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-
-      & > div {
-        max-width: fit-content;
-        margin-right: 1.5rem;
-        flex: 1;
-        justify-content: flex-start;
-        font-size: 18px;
-        font-weight: bold;
-      }
-    }
   }
 
   .student-detail-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: var(--shark);
     padding-left: 2rem;
     border-bottom: 1px solid var(--iron);
+
+    & > div {
+      max-width: fit-content;
+      margin-right: 1.5rem;
+      flex: 1;
+      justify-content: flex-start;
+      font-size: 18px;
+    }
   }
 
   .student-detail-notes-area-container,
@@ -189,10 +189,13 @@ const StudentDetailContainer = styled.div`
   }
 
   .survey-notes-tab-selected {
-    border-bottom: 4px solid var(--mystic-grape);
+    font-weight: bold;
+    font-weight: 600;
+    border-bottom: 6px solid var(--mystic-grape);
   }
 
   .survey-notes-tab-unselected {
+    font-weight: 400;
     border-bottom: none;
   }
 
@@ -202,6 +205,17 @@ const StudentDetailContainer = styled.div`
 
   .survey-notes-area-unselected {
     display: none;
+  }
+
+  .student-surveys-container {
+    display: flex;
+    flex-direction:column;
+    padding-left: 2rem;
+    & > div {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--iron);
+    }
   }
 `;
 
@@ -220,6 +234,8 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
   const unselectedTabClassName = 'survey-notes-tab-unselected';
   const selectedAreaClassName = 'survey-notes-area-selected';
   const unselectedAreaClassName = 'survey-notes-area-unselected';
+  const surveyContainerClassName = 'student-surveys-container';
+  const notesContainerClassName = 'notes-container';
 
   const [studentId, setStudentId] = useState<string>('');
   const [student, setStudent] = useState<Student>();
@@ -227,7 +243,8 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
   const [siblings, setSiblings] = useState<Array<Student>>();
   const [primaryContact, setPrimaryContact] = useState<ContactPerson>();
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
-  const [tabSelected, setTabSelected] = useState<string>(ActiveTabEnum.Surveys);
+  const [tabSelected, setTabSelected] = useState<string>();
+  const [studentSurveys, setStudentSurveys] = useState<Array<StudentSurvey>>();
 
   const notesTabRef = React.createRef<HTMLDivElement>();
   const surveyTabRef = React.createRef<HTMLDivElement>();
@@ -239,18 +256,20 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
       return;
     }
 
+    setTabSelected(tab);
+
     switch (tab) {
       case ActiveTabEnum.Surveys:
         notesTabRef.current.className = unselectedTabClassName;
-        notesAreaRef.current.className = unselectedAreaClassName;
+        notesAreaRef.current.className = `${unselectedAreaClassName}`;
         surveyTabRef.current.className = selectedTabClassName;
-        surveyAreaRef.current.className = selectedAreaClassName;
+        surveyAreaRef.current.className =`${surveyContainerClassName} ${selectedAreaClassName}`;
         break;
       case ActiveTabEnum.Notes:
         surveyTabRef.current.className = unselectedTabClassName;
-        surveyAreaRef.current.className = unselectedAreaClassName;
+        surveyAreaRef.current.className = `${unselectedAreaClassName}`;
         notesTabRef.current.className = selectedTabClassName;
-        notesAreaRef.current.className = selectedAreaClassName;
+        notesAreaRef.current.className = `${notesContainerClassName} ${selectedAreaClassName}`;
         break;
       default:
         break;
@@ -262,21 +281,32 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
   }, [tabSelected]);
 
   useEffect(() => {
-    const getStudent = async () => {
+    let cancel = false;
+    const getStudent = async (): Promise<Student> => {
       const result = await props.api.student.getById(props.studentId);
-      setStudent(result);
-      setContacts(result.contacts);
-      setSiblings(result.siblings);
-      const pc = result.contacts.filter((c) => c.isprimarycontact === true)[0] || result.contacts[0];
-      setPrimaryContact(pc);
+      if (cancel) {
+        return;
+      }
+      return result;
     };
 
     try {
       setStudentId(props.studentId);
       setCurrentTeacher(props.api.authentication.currentUserValue.teacher);
-      getStudent();
+      getStudent().then((result: Student) => {
+        setStudent(result);
+        setContacts(result.contacts);
+        setSiblings(result.siblings);
+        setStudentSurveys(result.studentsurveys);
+        const pc = result.contacts.filter((c) => c.isprimarycontact === true)[0] || result.contacts[0];
+        setPrimaryContact(pc);
+      });
     } catch (error) {
       console.error(error);
+    }
+
+    return () => {
+      cancel = true;
     }
   }, []);
 
@@ -356,11 +386,13 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
                   Notes
                 </div>
               </div>
-              <div className='student-detail-tabbed-area-container'>
-                <div ref={surveyAreaRef} className="survey-notes-area-selected">
-                  THIS HERE IS OUR SURVEY AREA
+              <div className="student-detail-tabbed-area-container">
+                <div ref={surveyAreaRef} className={`${surveyContainerClassName} ${selectedAreaClassName}`}>
+                  {student.studentsurveys &&
+                  student.studentsurveys.length > 0 &&
+                  student.studentsurveys.map((survey, index) => <StudentDetailSurveyComponent key={index} survey={survey} />)}
                 </div>
-                <div ref={notesAreaRef} className="survey-notes-area-unselected">
+                <div ref={notesAreaRef} className={`${notesContainerClassName} ${unselectedAreaClassName}`}>
                   THIS HERE IS OUR NOTES AREA
                 </div>
               </div>
