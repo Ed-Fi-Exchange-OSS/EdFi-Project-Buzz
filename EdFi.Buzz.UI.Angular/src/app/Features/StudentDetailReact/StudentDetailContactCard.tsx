@@ -80,12 +80,12 @@ export const StudentDetailContactCard: FunctionComponent<StudentDetailContactCar
 
   return (
     <StyledContactCard>
-      <div className="contact-main-container">
-        <div><span className="contact-card-name">{`${current.contactfirstname} ${current.contactlastname}`}</span><span className="italics"> - {`${current.relationshiptostudent} ${current.isprimarycontact ? " / Primary Contact" : ""}`}</span></div>
+      <div className='contact-main-container'>
+        <div><span className='contact-card-name'>{`${current.contactfirstname} ${current.contactlastname}`}</span><span className='italics'> - {`${current.relationshiptostudent} ${current.isprimarycontact ? ' / Primary Contact' : ''}`}</span></div>
       </div>
-      <div className="contact-contact-info">
+      <div className='contact-contact-info'>
         {props.contact.primaryemailaddress && (
-          <div className="contact-email">
+          <div className='contact-email'>
             <EmailIcon />
             {`${props.contact.primaryemailaddress}`}
           </div>
@@ -95,7 +95,7 @@ export const StudentDetailContactCard: FunctionComponent<StudentDetailContactCar
           {`${props.contact.phonenumber}`}
         </div>
       </div>
-      <div className="contact-preferences-container">
+      <div className='contact-preferences-container'>
         <div>Preferred contact method: {current.preferredcontactmethod || 'None specified'}</div>
         <div>Best time to contact: {current.besttimetocontact || 'None specified'}</div>
       </div>

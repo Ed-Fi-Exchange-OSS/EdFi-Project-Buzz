@@ -59,7 +59,6 @@ export const StudentDetailSurveyComponent: FunctionComponent<StudentDetailSurvey
 
   useEffect(() => {
     setSurvey(props.survey);
-    console.log(props.survey);
   }, []);
 
   return (
@@ -67,9 +66,9 @@ export const StudentDetailSurveyComponent: FunctionComponent<StudentDetailSurvey
       {survey && (
         <>
         <StyledStudentSurveyRow>
-          <div className="h2-desktop">{survey.survey.title}</div>
-          <div className="bold">Date:&nbsp;{(new Date(parseInt(survey.date))).toLocaleDateString()}</div>
-          <div className="bold">Questions:&nbsp;{survey.answers.length}</div>
+          <div className='h2-desktop'>{survey.survey.title}</div>
+          <div className='bold'>Date:&nbsp;{(new Date(parseInt(survey.date))).toLocaleDateString()}</div>
+          <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
           <StyledChevronIcon onClick={(e) => toggleDetail()}>
               {!show ?
                 <ChevronDownIcon /> :
