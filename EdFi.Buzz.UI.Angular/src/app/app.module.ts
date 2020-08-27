@@ -26,7 +26,7 @@ import { StudentDetailComponent } from './Features/StudentDetail/studentDetail.c
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
-import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.component';
+import { UploadSurveyWrapperComponent } from './Features/UploadSurvey/uploadSurveyWrapperComponent';
 import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
 import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
@@ -62,13 +62,13 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     SiblingCardComponent,
     SurveyCardComponent,
     StudentDetailComponent,
-    UploadSurveyComponent,
     LoginReactWrapperComponent,
     DndDirective,
     SortAnswersByPipe,
     AdminSurveyComponent,
     TeacherLandingReactWrapperComponent,
-    SurveyAnalyticsReactWrapperComponent
+    SurveyAnalyticsReactWrapperComponent,
+    UploadSurveyWrapperComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,8 +86,8 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
           { path: '', component: TeacherLandingReactWrapperComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics', component: SurveyAnalyticsReactWrapperComponent },
-          { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
-          { path: 'uploadSurvey/:id', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'uploadSurvey', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'uploadSurvey/:id', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
