@@ -24,11 +24,11 @@ const StyledContactCard = styled.div`
   background-color: var(--white-lilac);
   width: 300px;
   min-height: 50px;
+  min-width: 308px;
   margin-right: 2rem;
   margin-bottom: 30px;
   padding: 15px 20px;
   border-radius: 4px;
-  /* border: 1px solid rgba(120, 130, 140, 0.13); */
   overflow: hidden;
   text-overflow: ellipsis;
 
