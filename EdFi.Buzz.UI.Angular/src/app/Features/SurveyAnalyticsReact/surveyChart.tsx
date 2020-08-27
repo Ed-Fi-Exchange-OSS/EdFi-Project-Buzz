@@ -51,14 +51,27 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
       };
     },
     options: {
+      layout: {
+        padding: {
+            left: 0,
+            right: 10,
+            top: 0,
+            bottom: 0
+        }
+      },
       responsive: true,
       maintainAspectRatio: false,
       scales: {
         yAxes: [{ display: false, }],
         xAxes: [{
+          gridLines: {
+              display: false
+          },
           ticks: {
             /** Fix to getting the minimum value as origin and thus not visible */
-            suggestedMin: Math.floor(Math.min.apply(null, question.answers.map(e => e.count)) * 0.90)
+            suggestedMin: Math.floor(Math.min.apply(null, question.answers.map(e => e.count)) * 0.90),
+            display: false,
+            maxTicksLimit: 3,
           }
         }]
       },
@@ -70,21 +83,21 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
         afterDatasetDraw: function (chartInstance/*: Chart*/, easing: Easing, options?: any) {
           const ctx = chartInstance.ctx;
 
-          const heigth = chartInstance.chartArea.bottom;
+          const height = chartInstance.chartArea.bottom;
           const left = chartInstance.chartArea.left;
           const width = chartInstance.chartArea.right;
           const steps = chartInstance.data.labels.length;
-          const stepH = heigth / steps;
+          const stepH = height / steps;
 
-          const fontNormal = 'normal 12px "Helvetica Neue", "Helvetica", "Arial", sans-serif';
-          const fontSelected = 'bold 12px "Helvetica Neue", "Helvetica", "Arial", sans-serif';
+          const fontNormal = 'normal 12px "Works Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif';
+          const fontSelected = 'bold 12px "Works Sans","Helvetica Neue", "Helvetica", "Arial", sans-serif';
 
           ctx.save();
           ctx.shadowBlur = 3;
           ctx.shadowColor = '#FFFFFF';
           ctx.shadowOffsetX = 1;
           ctx.shadowOffsetY = 1;
-          ctx.fillStyle = 'black';
+          ctx.fillStyle = 'var(--slate-gray)';
 
           const fontSize = ctx.measureText('M').width;
           const textX = left;

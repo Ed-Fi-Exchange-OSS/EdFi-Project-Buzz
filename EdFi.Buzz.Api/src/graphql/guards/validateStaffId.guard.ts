@@ -24,7 +24,9 @@ export default class ValidateStaffIdGuard implements CanActivate {
       throw new UnauthorizedException(errorMessage);
     }
 
-    const res = await this.staffService.findOneByEmail(userData.email);
+    /* ADFS don't returns email by default but an upn, in the test user its a email */
+    const email = userData.email || userData.upn;
+    const res = await this.staffService.findOneByEmail(email);
     if (!res || params.staffkey !== `${res.staffkey}`) {
       throw new UnauthorizedException(errorMessage);
     }

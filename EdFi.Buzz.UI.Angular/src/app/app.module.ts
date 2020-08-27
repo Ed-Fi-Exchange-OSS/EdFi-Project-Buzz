@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule, AuthService } from 'angularx-social-login';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
@@ -29,10 +29,10 @@ import { EnvironmentService } from './Services/environment.service';
 import { UploadSurveyWrapperComponent } from './Features/UploadSurvey/uploadSurveyWrapperComponent';
 import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
-import { AdminSurveyComponent } from './AdminSurvey/adminSurvey.component';
 import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
 import { SurveyAnalyticsReactWrapperComponent } from './Features/SurveyAnalyticsReact/surveyAnalyticsReactWrapper';
 import { LoginReactWrapperComponent } from './Features/LoginReact/LoginReactWrapper';
+import { AdminSurveyReactWrapperComponent } from './AdminSurveyReact/adminSurveyWrapper';
 
 export function provideApolloConfig({ environment }: EnvironmentService, httpLink: HttpLink) {
   return {
@@ -52,6 +52,14 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
   ]);
 }
 
+export function provideAuthService(config: AuthServiceConfig, { environment }: EnvironmentService) {
+  if (!Boolean(environment.GOOGLE_CLIENT_ID)) {
+    return null;
+  }
+  return new AuthService(config);
+}
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,10 +73,10 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
     LoginReactWrapperComponent,
     DndDirective,
     SortAnswersByPipe,
-    AdminSurveyComponent,
     TeacherLandingReactWrapperComponent,
     SurveyAnalyticsReactWrapperComponent,
     UploadSurveyWrapperComponent
+    AdminSurveyReactWrapperComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -89,6 +97,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
           { path: 'uploadSurvey', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
           { path: 'uploadSurvey/:id', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'adminSurvey', component: AdminSurveyReactWrapperComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard]
@@ -100,6 +109,7 @@ export function provideAuthServiceConfig({ environment }: EnvironmentService) {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: AuthService, useFactory: provideAuthService, deps: [AuthServiceConfig, EnvironmentService] },
     { provide: AuthServiceConfig, useFactory: provideAuthServiceConfig, deps: [EnvironmentService] },
     { provide: APOLLO_OPTIONS, useFactory: provideApolloConfig, deps: [EnvironmentService, HttpLink] },
     Title
