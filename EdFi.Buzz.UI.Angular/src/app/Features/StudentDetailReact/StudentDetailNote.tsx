@@ -29,13 +29,13 @@ const StyledStudentNoteRow = styled.div`
   }
 `;
 
-interface StudentDetailNoteComponentProps {
+interface StudentDetailNoteProps {
   key: Number;
   note: StudentNote;
 }
 
-export const StudentDetailNoteComponent: FunctionComponent<StudentDetailNoteComponentProps> = (
-  props: StudentDetailNoteComponentProps,
+export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (
+  props: StudentDetailNoteProps,
 ) => {
   const [note, setNote] = useState<StudentNote>();
 

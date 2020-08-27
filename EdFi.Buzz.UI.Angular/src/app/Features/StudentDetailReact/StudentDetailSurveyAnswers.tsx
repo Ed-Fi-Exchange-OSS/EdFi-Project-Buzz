@@ -17,12 +17,23 @@ export interface StudentDetailSurveyAnswerRowProps {
 
 const StyledAnswerRow = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  border: none !important;
+  border-bottom: 1px solid var(--iron);
+
+  & > div:first-child {
+    font-weight: bold;
+  }
 
   & > div {
     margin-right: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .blue-number {
+    font-weight: 600;
+    color: var(--picton-blue);
+    padding-right: 1rem;
   }
 `;
 
@@ -33,8 +44,8 @@ export const StudentDetailSurveyAnswerRow: FunctionComponent<StudentDetailSurvey
     <>
       {props.answer && (
         <StyledAnswerRow key={props.key}>
-          <div><span className='bold'>Question: </span>{props.answer.question}</div>
-          <div><span className='bold'>Answer: </span>{props.answer.answer}</div>
+          <div><span className='blue-number'>1)</span>{props.answer.question}</div>
+          <div>{props.answer.answer}</div>
         </StyledAnswerRow>
       )}
     </>

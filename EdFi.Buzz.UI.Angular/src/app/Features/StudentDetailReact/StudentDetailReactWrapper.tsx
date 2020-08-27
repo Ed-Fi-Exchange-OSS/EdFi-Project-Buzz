@@ -24,7 +24,7 @@ import { ApiService } from 'src/app/Services/api.service';
 import { ThemeProvider } from 'styled-components';
 import BuzzTheme from 'src/buzztheme';
 import GlobalFonts from '../../../globalstyle';
-import { StudentDetail } from './studentDetail';
+import { StudentDetail } from './StudentDetail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student, Teacher } from 'src/app/Models';
 

@@ -13,9 +13,9 @@ import { ApiService } from 'src/app/Services/api.service';
 import { Student, Teacher, ContactPerson  } from 'src/app/Models';
 import { EmailIcon, LeftArrowIcon, StarIcon, PhoneIcon } from '../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
-import { StudentDetailSurveyComponent } from './StudentDetailSurveyComponent';
+import { StudentDetailSurvey } from './StudentDetailSurvey';
 import { StudentSurvey } from 'src/app/Models/student';
-import { StudentDetailNoteComponent } from './StudentDetailNoteComponent';
+import { StudentDetailNote } from './StudentDetailNote';
 
 const StudentDetailContainer = styled.div`
   margin: 1em 1em 1em 1em;
@@ -212,6 +212,7 @@ const StudentDetailContainer = styled.div`
     display: flex;
     flex-direction:column;
     padding-left: 2rem;
+
     & > div {
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
@@ -220,12 +221,12 @@ const StudentDetailContainer = styled.div`
   }
 `;
 
-export interface StudentDetailComponentProps {
+export interface StudentDetailProps {
   studentId: string;
   api: ApiService;
 }
 
-export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (props: StudentDetailComponentProps) => {
+export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: StudentDetailProps) => {
   enum ActiveTabEnum {
     Surveys = 'SURVEYS',
     Notes = 'NOTES',
@@ -370,7 +371,7 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
               <div className='student-detail-tabs'>
                 <div
                   ref={surveyTabRef}
-                  className='survey-notes-tab-selected'
+                  className={selectedTabClassName}
                   onClick={() => {
                     toggleTabVisibility(ActiveTabEnum.Surveys);
                   }}
@@ -379,7 +380,7 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
                 </div>
                 <div
                   ref={notesTabRef}
-                  className='survey-notes-tab-unselected'
+                  className={unselectedTabClassName}
                   onClick={() => {
                     toggleTabVisibility(ActiveTabEnum.Notes);
                   }}
@@ -391,12 +392,12 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
                 <div ref={surveyAreaRef} className={`${surveyContainerClassName} ${selectedAreaClassName}`}>
                   {student.studentsurveys &&
                   student.studentsurveys.length > 0 &&
-                  student.studentsurveys.map((survey, index) => <StudentDetailSurveyComponent key={index} survey={survey} />)}
+                  student.studentsurveys.map((survey, index) => <StudentDetailSurvey key={index} survey={survey} />)}
                 </div>
                 <div ref={notesAreaRef} className={`${notesContainerClassName} ${unselectedAreaClassName}`}>
-                {student.notes &&
-                  student.notes.length > 0 &&
-                  student.notes.map((note, index) => <StudentDetailNoteComponent key={index} notes={note} />)}
+                  {((student.notes && student.notes.length > 0)
+                    ? student.notes.map((note, index) => <StudentDetailNote key={index} note={note} />)
+                    : <div>Add a note</div>)}
                 </div>
               </div>
             </div>

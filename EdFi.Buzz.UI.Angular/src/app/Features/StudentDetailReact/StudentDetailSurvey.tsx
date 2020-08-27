@@ -15,13 +15,13 @@ import { StudentDetailSurveyAnswerRow } from './StudentDetailSurveyAnswers';
 const StyledStudentSurveyRow = styled.div`
   display: flex;
   flex-direction: row;
+
   & > div {
     flex: 1;
     display: flex;
   }
 
   .shown-div {
-    background-color: beige;
     display: flex;
     flex: 1;
   }
@@ -41,13 +41,13 @@ const StyledChevronIcon = styled.div`
   cursor: pointer;
 `;
 
-export interface StudentDetailSurveyComponentProps {
+export interface StudentDetailSurveyProps {
   key: number;
   survey: StudentSurvey;
 }
 
-export const StudentDetailSurveyComponent: FunctionComponent<StudentDetailSurveyComponentProps> = (
-  props: StudentDetailSurveyComponentProps,
+export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = (
+  props: StudentDetailSurveyProps,
 ) => {
   const [survey, setSurvey] = useState<StudentSurvey>();
   const [show, setShow] = useState<Boolean>(false);
@@ -67,7 +67,7 @@ export const StudentDetailSurveyComponent: FunctionComponent<StudentDetailSurvey
         <>
         <StyledStudentSurveyRow>
           <div className='h2-desktop'>{survey.survey.title}</div>
-          <div className='bold'>Date:&nbsp;{(new Date(parseInt(survey.date))).toLocaleDateString()}</div>
+          <div className='bold'>Date:&nbsp;{(new Date(parseInt(survey.date, 10))).toLocaleDateString()}</div>
           <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
           <StyledChevronIcon onClick={(e) => toggleDetail()}>
               {!show ?
@@ -75,9 +75,12 @@ export const StudentDetailSurveyComponent: FunctionComponent<StudentDetailSurvey
                 <ChevronUpIcon />}
           </StyledChevronIcon>
           </StyledStudentSurveyRow>
-          {show &&
-                  survey.answers.length > 0 &&
-                  survey.answers.map((a, index) => <StudentDetailSurveyAnswerRow key={index} answer={a} />)}
+          {(show && survey.answers.length > 0 ) &&
+            <>
+            <div className='h2-desktop'>QUESTIONS</div>
+            {survey.answers.map((a, index) => <StudentDetailSurveyAnswerRow key={index} answer={a} />)}
+            </>
+          }
           </>
       )}
     </>
