@@ -30,7 +30,6 @@ const StyledStudentNoteRow = styled.div`
 `;
 
 interface StudentDetailNoteProps {
-  key: Number;
   note: StudentNote;
 }
 

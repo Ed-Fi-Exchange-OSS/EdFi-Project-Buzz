@@ -42,7 +42,6 @@ const StyledChevronIcon = styled.div`
 `;
 
 export interface StudentDetailSurveyProps {
-  key: number;
   survey: StudentSurvey;
 }
 
@@ -53,7 +52,6 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
   const [show, setShow] = useState<Boolean>(false);
 
   const toggleDetail = () => {
-    console.log('toggle');
     setShow(!show);
   };
 

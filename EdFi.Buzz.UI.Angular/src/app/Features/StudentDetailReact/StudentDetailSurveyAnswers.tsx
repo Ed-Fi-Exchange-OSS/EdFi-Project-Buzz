@@ -11,7 +11,6 @@ import { StudentSurveySummaryAnswers } from 'src/app/Models/student';
 import styled from 'styled-components';
 
 export interface StudentDetailSurveyAnswerRowProps {
-  key: number;
   answer: StudentSurveySummaryAnswers;
 }
 
@@ -43,7 +42,7 @@ export const StudentDetailSurveyAnswerRow: FunctionComponent<StudentDetailSurvey
   return (
     <>
       {props.answer && (
-        <StyledAnswerRow key={props.key}>
+        <StyledAnswerRow>
           <div><span className='blue-number'>1)</span>{props.answer.question}</div>
           <div>{props.answer.answer}</div>
         </StyledAnswerRow>

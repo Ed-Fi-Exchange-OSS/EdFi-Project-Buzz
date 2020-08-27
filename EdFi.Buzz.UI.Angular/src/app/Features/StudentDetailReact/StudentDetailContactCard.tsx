@@ -13,7 +13,6 @@ import { ContactPerson } from 'src/app/Models';
 import { EmailIcon, PhoneIcon } from '../common/Icons';
 
 export interface StudentDetailContactCardProps {
-  key: Number;
   contact: ContactPerson;
 }
 
