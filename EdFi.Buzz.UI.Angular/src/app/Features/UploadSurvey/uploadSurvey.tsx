@@ -40,11 +40,11 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   const [surveyList, setSurveyList] = useState<SurveyStatus[]>(null);
   const [title, setTitle] = useState('');
   const [uploadFileLabelText, setUploadFileLabelText] = useState(DEFAULT_UPLOAD_LABEL);
+  const [fileStatusClassName, setFileStatusClassName] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileUploaded, setFileUploaded] = useState<File>(null);
 
   useEffect(() => {
     setMaxFileSize(api.survey.SURVEY_MAX_FILE_SIZE_BYTES);
-    setTitle('Buzz Upload Survey');
     setStorage(sessionStorage);
     setCurrentUserStaffKey(api.authentication.currentUserValue.teacher.staffkey);
     setSurveyToUpdate(null);
@@ -56,7 +56,21 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     OnInit();
   }, []);
 
-  function cancelUploadStatusChecking() {
+  useEffect(()=>{
+    const fileClassName =
+          (fileStatusMessage
+          && (fileStatusMessage.error
+          || (fileStatusMessage.serverJobStatus
+              && fileStatusMessage.serverJobStatus.jobstatuskey !== 3)))
+          ? 'alert-warning'
+          : (!fileStatusMessage
+            || (!fileStatusMessage.error
+                  && fileStatusMessage.serverJobStatus
+                 && fileStatusMessage.serverJobStatus.jobstatuskey === 3))
+                 ? 'alert-success' : '';
+    setFileStatusClassName(fileClassName);
+  },[fileStatusMessage]);
+  const cancelUploadStatusChecking = ()=> {
     if (jobStatusTimer) {
       clearTimeout(jobStatusTimer);
       setJobStatusTimer(null);
@@ -76,7 +90,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     );
   };
 
-  function createFileStatusMessage (fileStatus: FileStatus): FileStatus {
+  const createFileStatusMessage = (fileStatus: FileStatus): FileStatus => {
     if (!fileStatus || !fileStatus.fileName) {
       return fileStatusMessage;
     }
@@ -114,7 +128,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     }
   };
 
-  function loadLastUploadedSurvey() {
+  const loadLastUploadedSurvey = () => {
     const message = JSON.parse(storage.getItem('lastUploadedSurvey'));
     if (message && message.serverJobStatus && !api.survey.JOB_STATUS_FINISH_IDS.includes(message.serverJobStatus.jobstatuskey)) {
       setFileStatusMessage(createFileStatusMessage(message));
@@ -126,13 +140,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     return message;
   }
 
-  function saveLastUploadedSurvey(message: FileStatus) {
+  const saveLastUploadedSurvey = (message: FileStatus) => {
     if (message && message.fileName && message.fileName.length > 0) {
       storage.setItem('lastUploadedSurvey', JSON.stringify(message));
     }
   }
 
-  function CheckFileValid(file: File): FileStatus {
+  const CheckFileValid = (file: File): FileStatus => {
     if (!file) {
       return { fileName: '', status: 'ERROR', error: 'No file selected', isValid: false };
     }
@@ -144,7 +158,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     return { fileName: file.name, status: 'VALID', isValid: true };
   }
 
-  function prepareFilesList(files: any) {
+  const prepareFilesList = (files: any) => {
     cancelUploadStatusChecking();
     const file = files[0];
     const status = CheckFileValid(file);
@@ -218,7 +232,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       }
   };
 
-  async function GetJobStatus (staffkey: number, jobkey: string, statusMessage: FileStatus)  {
+  const GetJobStatus = async(staffkey: number, jobkey: string, statusMessage: FileStatus) => {
     const values = await api.survey.getSurveyStatus(staffkey, jobkey);
     const value = values.length > 0 ? values[0] : null;
     if (!statusMessage || !(statusMessage && statusMessage.fileName && statusMessage.fileName.length > 0)) {
@@ -237,7 +251,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     }
   }
 
-  function getFileContentAsBase64(file: Blob): Promise<string> {
+  const getFileContentAsBase64 = (file: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
@@ -262,11 +276,12 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     }
   };
 
-  const setSurveyTitle = e => {
+  const onChangeSurveyName = e => {
     setSurveyName(e.target.value);
+    setTitle(e.target.value);
     validateForm();
   };
-  function resetControl() {
+  const resetControl = () => {
     setSurveyName('');
     setProgress(0);
     setIsFileSelected(false);
@@ -320,7 +335,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                     </div>
                   </div>
                   <div className='form-group'>
-                    <input type='text' className='form-control' placeholder='Survey Name' onChange={setSurveyTitle} value={surveyName} />
+                    <input type='text' className='form-control' placeholder='Survey Name' onChange={onChangeSurveyName} value={surveyName} />
                     {(surveyName.length === 0 && isFileValid)
                       ? <label className='label alert-danger text-justify w-100'> * Survey name is required </label>
                       : null}
@@ -343,16 +358,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                     && fileStatusMessage.fileName.length > 0
                     ?
                     <div
-                      className={(fileStatusMessage
-                        && fileStatusMessage.error
-                        || (fileStatusMessage.serverJobStatus
-                          && fileStatusMessage.serverJobStatus.jobstatuskey !== 3))
-                        ? 'alert-warning'
-                        : (!fileStatusMessage
-                          || (!fileStatusMessage.error
-                            && fileStatusMessage.serverJobStatus
-                            && fileStatusMessage.serverJobStatus.jobstatuskey === 3))
-                          ? 'alert-success' : ''}>
+                      className={fileStatusClassName}>
                       <h3>File Upload <strong>{fileStatusMessage.status}</strong></h3>
                       File: {fileStatusMessage.fileName}<br />
                       {fileStatusMessage.serverJobStatus

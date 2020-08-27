@@ -41,7 +41,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class UploadSurveyWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;
 
-  @Input() public counter = 100;
   @Output() public componentClick = new EventEmitter<void>();
 
   constructor(
