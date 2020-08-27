@@ -56,7 +56,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     OnInit();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fileClassName =
           (fileStatusMessage
           && (fileStatusMessage.error
@@ -69,13 +69,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                  && fileStatusMessage.serverJobStatus.jobstatuskey === 3))
                  ? 'alert-success' : '';
     setFileStatusClassName(fileClassName);
-  },[fileStatusMessage]);
-  const cancelUploadStatusChecking = ()=> {
+  }, [fileStatusMessage]);
+  const cancelUploadStatusChecking = () => {
     if (jobStatusTimer) {
       clearTimeout(jobStatusTimer);
       setJobStatusTimer(null);
     }
-  }
+  };
 
   const resetFileStatusMessage = () => {
     setFileStatusMessage(
@@ -115,7 +115,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         }
       );
    return newFileStatus;
-  }
+  };
 
    const OnInit = async () => {
     if (surveyKey && surveyKey.length > 0) {
@@ -138,13 +138,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return undefined;
     }
     return message;
-  }
+  };
 
   const saveLastUploadedSurvey = (message: FileStatus) => {
     if (message && message.fileName && message.fileName.length > 0) {
       storage.setItem('lastUploadedSurvey', JSON.stringify(message));
     }
-  }
+  };
 
   const CheckFileValid = (file: File): FileStatus => {
     if (!file) {
@@ -156,7 +156,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return message;
     }
     return { fileName: file.name, status: 'VALID', isValid: true };
-  }
+  };
 
   const prepareFilesList = (files: any) => {
     cancelUploadStatusChecking();
@@ -172,7 +172,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     setIsFileValid(true);
     setFileUploaded(file);
     setIsFileSelected(file !== null);
-  }
+  };
 
   const onDragOver = e => {
     const event = e as Event;
@@ -249,7 +249,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
         SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
-  }
+  };
 
   const getFileContentAsBase64 = (file: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -266,7 +266,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
       reader.readAsBinaryString(file);
     });
-  }
+  };
   const validateForm = () => {
     if (surveyName.length > 0 && isFileValid) {
       setIsFormValid(true);
@@ -289,7 +289,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     setFileUploaded(null);
     setIsFileValid(false);
     setUploadFileLabelText(DEFAULT_UPLOAD_LABEL);
-  }
+  };
 
   return (
     <Fragment>
@@ -335,7 +335,11 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                     </div>
                   </div>
                   <div className='form-group'>
-                    <input type='text' className='form-control' placeholder='Survey Name' onChange={onChangeSurveyName} value={surveyName} />
+                    <input type='text'
+                      className='form-control'
+                      placeholder='Survey Name'
+                      onChange={onChangeSurveyName}
+                      value={surveyName} />
                     {(surveyName.length === 0 && isFileValid)
                       ? <label className='label alert-danger text-justify w-100'> * Survey name is required </label>
                       : null}
