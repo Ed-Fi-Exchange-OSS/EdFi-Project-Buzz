@@ -75,7 +75,7 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
     SortAnswersByPipe,
     TeacherLandingReactWrapperComponent,
     SurveyAnalyticsReactWrapperComponent,
-    UploadSurveyWrapperComponent
+    UploadSurveyWrapperComponent,
     AdminSurveyReactWrapperComponent
   ],
   imports: [
