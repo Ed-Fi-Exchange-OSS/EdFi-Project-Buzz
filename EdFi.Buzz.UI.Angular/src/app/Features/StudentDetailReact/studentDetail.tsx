@@ -179,15 +179,29 @@ const StudentDetailContainer = styled.div`
   }
 
   .student-detail-tabs {
-    border-bottom-width: 3px;
-    border-bottom-color: var(--shark);
+    padding-left: 2rem;
+    border-bottom: 1px solid var(--iron);
+  }
+
+  .student-detail-notes-area-container,
+  .student-detail-tabbed-area-container {
+    padding-top: 1.5rem;
   }
 
   .survey-notes-tab-selected {
-    border-bottom-width: 3px;
-    border-bottom-color: var(--shark);
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom: 4px solid var(--mystic-grape);
+  }
+
+  .survey-notes-tab-unselected {
+    border-bottom: none;
+  }
+
+  .survey-notes-area-selected {
+    display: flex;
+  }
+
+  .survey-notes-area-unselected {
+    display: none;
   }
 `;
 
@@ -197,15 +211,55 @@ export interface StudentDetailComponentProps {
 }
 
 export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (props: StudentDetailComponentProps) => {
+  enum ActiveTabEnum {
+    Surveys = 'SURVEYS',
+    Notes = 'NOTES',
+  }
+
+  const selectedTabClassName = 'survey-notes-tab-selected';
+  const unselectedTabClassName = 'survey-notes-tab-unselected';
+  const selectedAreaClassName = 'survey-notes-area-selected';
+  const unselectedAreaClassName = 'survey-notes-area-unselected';
+
   const [studentId, setStudentId] = useState<string>('');
   const [student, setStudent] = useState<Student>();
   const [contacts, setContacts] = useState<Array<ContactPerson>>();
   const [siblings, setSiblings] = useState<Array<Student>>();
   const [primaryContact, setPrimaryContact] = useState<ContactPerson>();
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
+  const [tabSelected, setTabSelected] = useState<string>(ActiveTabEnum.Surveys);
 
   const notesTabRef = React.createRef<HTMLDivElement>();
   const surveyTabRef = React.createRef<HTMLDivElement>();
+  const notesAreaRef = React.createRef<HTMLDivElement>();
+  const surveyAreaRef = React.createRef<HTMLDivElement>();
+
+  const toggleTabVisibility = (tab: string) => {
+    if (!notesTabRef.current || !surveyTabRef.current || !notesAreaRef.current || !surveyAreaRef.current) {
+      return;
+    }
+
+    switch (tab) {
+      case ActiveTabEnum.Surveys:
+        notesTabRef.current.className = unselectedTabClassName;
+        notesAreaRef.current.className = unselectedAreaClassName;
+        surveyTabRef.current.className = selectedTabClassName;
+        surveyAreaRef.current.className = selectedAreaClassName;
+        break;
+      case ActiveTabEnum.Notes:
+        surveyTabRef.current.className = unselectedTabClassName;
+        surveyAreaRef.current.className = unselectedAreaClassName;
+        notesTabRef.current.className = selectedTabClassName;
+        notesAreaRef.current.className = selectedAreaClassName;
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    toggleTabVisibility(tabSelected);
+  }, [tabSelected]);
 
   useEffect(() => {
     const getStudent = async () => {
@@ -225,6 +279,8 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
       console.error(error);
     }
   }, []);
+
+  toggleTabVisibility(ActiveTabEnum.Surveys);
 
   return (
     <>
@@ -276,18 +332,38 @@ export const StudentDetail: FunctionComponent<StudentDetailComponentProps> = (pr
               <div className="guardians-siblings">
                 {contacts &&
                   contacts.length > 0 &&
-                  contacts.map((contact) => <StudentDetailContactCard key={contact.uniquekey} contact={contact} />)}
+                  contacts.map((contact, index) => <StudentDetailContactCard key={index} contact={contact} />)}
               </div>
             </div>
             <div className="student-detail-notes-container">
               <div className="student-detail-tabs">
-                <div ref={surveyTabRef} className="survey-notes-tab-selected">
+                <div
+                  ref={surveyTabRef}
+                  className="survey-notes-tab-selected"
+                  onClick={() => {
+                    toggleTabVisibility(ActiveTabEnum.Surveys);
+                  }}
+                >
                   Surveys
                 </div>
-                <div ref={notesTabRef}>Notes</div>
+                <div
+                  ref={notesTabRef}
+                  className="survey-notes-tab-unselected"
+                  onClick={() => {
+                    toggleTabVisibility(ActiveTabEnum.Notes);
+                  }}
+                >
+                  Notes
+                </div>
               </div>
-              <div className="student-detail-notes-area-container">THIS HERE IS OUR NOTES AREA</div>
-              <div className="student-detail-survey-area-container">THIS HERE IS OUR SURVEY AREA</div>
+              <div className='student-detail-tabbed-area-container'>
+                <div ref={surveyAreaRef} className="survey-notes-area-selected">
+                  THIS HERE IS OUR SURVEY AREA
+                </div>
+                <div ref={notesAreaRef} className="survey-notes-area-unselected">
+                  THIS HERE IS OUR NOTES AREA
+                </div>
+              </div>
             </div>
           </div>
         </StudentDetailContainer>

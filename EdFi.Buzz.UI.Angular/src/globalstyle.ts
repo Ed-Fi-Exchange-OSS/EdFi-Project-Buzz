@@ -84,7 +84,7 @@ export default createGlobalStyle`
   }
 
   .italics {
-    font-style: italics;
+    font-style: italic;
   }
 
   .image-container {
