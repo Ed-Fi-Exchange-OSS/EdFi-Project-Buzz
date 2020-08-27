@@ -1,161 +1,142 @@
-Timestamp,StudentUniqueId,FirstName,LastSurname,ElectronicMailAddress,Internet Access Type,Has school email account,Has computer at home,Has school student account
-4/5/2020 16:04:48,604822,Lisa,Woods,hzoqbojc.gdmogba@example.com,School Provided HotSpot,Yes,School provided computer,Yes
-4/14/2020 17:02:24,604823,Julie,Randolph,tgsy@example.com,Other Internet type,Yes,Shared computer,Yes
-4/18/2020 17:16:48,604836,Allie,Combs,vdcgoqtb2@example.com,No Internet,No,School provided computer,Yes
-5/10/2020 16:33:36,604847,Fannie,Medina,rlksjyq@example.com,No Internet,Yes,Dedicated computer,No
-5/8/2020 13:40:48,604849,Robert,Mckee,eobb.ntcxbxrtw@example.com,School Provided HotSpot,No,No computer,No
-5/6/2020 11:02:24,604863,Mary,Archer,mqlqmrqb76@example.com,High Internet Speed,Yes,Dedicated computer,Yes
-5/10/2020 14:38:24,604868,Hugh,Santana,lxmdfhr.yiogzg@example.com,No Internet,No,No computer,Yes
-5/3/2020 13:40:48,604874,Kyle,Hughes,sqgnjfvq8@example.com,High Internet Speed,Yes,Shared computer,No
-5/2/2020 17:16:48,604880,Martha,Parrish,pxif@example.com,School Provided HotSpot,Yes,School provided computer,No
-4/2/2020 15:07:12,604881,Leonard,Mata,owntvyj.hwpdcvq@example.com,No Internet,No,Shared computer,No
-4/2/2020 13:26:24,604887,Heidi,Wallace,hzgy570@example.com,Other Internet type,Yes,School provided computer,Yes
-4/15/2020 11:16:48,604892,Katie,Camacho,vmrearcl@example.com,School Provided HotSpot,Yes,No computer,No
-4/23/2020 10:33:36,604897,Noreen,Page,qmlfueu.xftsb@example.com,High Internet Speed,No,Dedicated computer,No
-4/9/2020 10:48:00,604905,Luz,Griffin,uxvojbgn8@example.com,Other Internet type,Yes,Shared computer,Yes
-5/4/2020 10:04:48,604907,Jack,Berg,hbmmkefo.vtwsgbdjnx@example.com,High Internet Speed,No,Shared computer,No
-4/7/2020 14:52:48,604918,Peter,Nash,ultnacia.vogjlgd@example.com,School Provided HotSpot,Yes,Dedicated computer,No
-4/22/2020 16:33:36,604927,Larry,Mahoney,iyzfj76@example.com,School Provided HotSpot,Yes,Dedicated computer,Yes
-5/11/2020 12:00:00,604928,Richard,Kidd,pkufi.mcjgmunw@example.com,Other Internet type,Yes,Shared computer,Yes
-5/5/2020 16:33:36,604935,Paula,West,szmonl.obdk@example.com,No Internet,No,No computer,No
-4/10/2020 11:45:36,604938,Roland,Phillips,iogw17@example.com,School Provided HotSpot,No,Dedicated computer,No
-4/5/2020 11:16:48,604940,Terrance,Rivers,vmnleryi.brjlavkct@example.com,Other Internet type,Yes,Dedicated computer,Yes
-4/17/2020 16:04:48,604956,Dana,Choi,iynjfmu@example.com,High Internet Speed,No,School provided computer,No
-5/6/2020 16:33:36,604968,Craig,Carney,ggusgot.hfkdakc@example.com,School Provided HotSpot,Yes,School provided computer,No
-4/4/2020 13:12:00,604969,Stephen,Caldwell,jgmgp.cnljedcey@example.com,Other Internet type,Yes,Dedicated computer,No
-4/26/2020 17:45:36,604974,Olivia,Hardy,rlccvnlp.qufmu@example.com,No Internet,No,No computer,Yes
-5/3/2020 9:50:24,604983,Caitlin,Schmidt,wmcsocpn.fhsxr@example.com,No Internet,Yes,Shared computer,Yes
-4/1/2020 18:00:00,605013,Jennifer,Wright,zvay.mzlwfv@example.com,Other Internet type,Yes,Dedicated computer,Yes
-4/6/2020 12:43:12,605015,Micheal,Turner,orlu.azxgtbda@example.com,Other Internet type,Yes,No computer,Yes
-4/9/2020 15:07:12,605031,Jim,Beltran,bupgtbx.jvdhv@example.com,Other Internet type,No,No computer,Yes
-4/26/2020 11:02:24,605035,Sandy,Cowan,tetzn.fyvypxdv@example.com,No Internet,Yes,Dedicated computer,Yes
-5/6/2020 12:28:48,605042,Sergio,Herman,btrye0@example.com,No Internet,No,No computer,Yes
-4/11/2020 12:28:48,605043,Neil,Miranda,gkspu@example.com,School Provided HotSpot,No,No computer,Yes
-4/21/2020 16:48:00,605045,Jean,Mc Connell,upwl.hpuzdvfb@example.com,No Internet,Yes,School provided computer,No
-5/6/2020 16:33:36,605047,Joanne,Lowe,ewuk5@example.com,School Provided HotSpot,No,Dedicated computer,Yes
-5/4/2020 16:19:12,605054,Angel,Jefferson,iccadtpu6@example.com,High Internet Speed,Yes,Dedicated computer,No
-4/1/2020 17:02:24,605058,Trisha,Turner,gzroviyx@example.com,High Internet Speed,No,Shared computer,No
-4/14/2020 12:14:24,605082,Bradley,Barton,deuvynp.erixq@example.com,No Internet,No,Shared computer,Yes
-4/26/2020 14:38:24,605088,Edward,Graves,dzspvhm@example.com,Other Internet type,Yes,Shared computer,No
-4/6/2020 10:19:12,605090,Jamie,Bass,zscrtakh94@example.com,Other Internet type,No,No computer,No
-4/14/2020 18:00:00,605092,Daryl,Reese,owqgkdwu.uplherwtzc@example.com,School Provided HotSpot,No,School provided computer,Yes
-5/4/2020 16:19:12,605103,Erik,Waters,dgoihk.ipklivy@example.com,Other Internet type,Yes,Shared computer,Yes
-5/5/2020 11:45:36,605119,Amy,Harmon,yeswfb@example.com,Other Internet type,Yes,No computer,No
-4/2/2020 10:48:00,605120,Brett,Frederick,suzmw@example.com,Other Internet type,Yes,Shared computer,No
-4/1/2020 11:31:12,605124,Laura,Brady,jhord3@example.com,Other Internet type,No,School provided computer,Yes
-5/8/2020 14:52:48,605129,Roberto,Holder,dmfuxgux5@example.com,School Provided HotSpot,Yes,No computer,No
-4/14/2020 16:33:36,605134,Henrietta,Marquez,aincndoh.zogw@example.com,High Internet Speed,Yes,School provided computer,No
-4/29/2020 9:36:00,605135,Thomas,Mendoza,tjxhty.nidyysku@example.com,No Internet,No,School provided computer,Yes
-4/23/2020 11:02:24,605141,Lara,Dunlap,qbax.dfqgeofwbc@example.com,Other Internet type,Yes,No computer,No
-5/3/2020 15:21:36,605148,Adrian,Santos,vkxrtcf.orwpjcbz@example.com,High Internet Speed,No,No computer,Yes
-4/16/2020 10:33:36,605168,Lorraine,Chapman,qcccvvuh.yhtfz@example.com,No Internet,No,School provided computer,Yes
-4/5/2020 12:57:36,605173,Rodney,Herman,ncix033@example.com,High Internet Speed,Yes,School provided computer,Yes
-4/6/2020 12:57:36,605176,Lara,Meza,cxgx.nuoytudb@example.com,High Internet Speed,Yes,Dedicated computer,Yes
-5/8/2020 15:50:24,605195,Hannah,Franklin,udjzf558@example.com,High Internet Speed,No,School provided computer,No
-4/9/2020 14:52:48,605199,Debbie,Olson,zgmtidg.mruuqeshj@example.com,High Internet Speed,No,Dedicated computer,Yes
-4/3/2020 12:57:36,605208,Julia,Banks,valdqtcg739@example.com,Other Internet type,Yes,Dedicated computer,No
-5/10/2020 17:16:48,605210,Rick,Case,dghv3@example.com,School Provided HotSpot,No,School provided computer,Yes
-4/25/2020 11:02:24,605223,Bridgett,Shaffer,haly8@example.com,School Provided HotSpot,No,No computer,No
-5/8/2020 17:16:48,605227,Jaime,Conner,wxuzx.iznpaidqnz@example.com,Other Internet type,Yes,No computer,No
-4/3/2020 10:04:48,605241,Sonya,Gross,gijq.lvvsvqqod@example.com,High Internet Speed,Yes,School provided computer,Yes
-4/21/2020 15:07:12,605250,Dawn,Ware,bkpfhrgv03@example.com,No Internet,Yes,Shared computer,Yes
-4/27/2020 11:16:48,605251,Martha,Poole,kutp.zpmamapfwv@example.com,High Internet Speed,Yes,Dedicated computer,Yes
-4/29/2020 12:57:36,605255,Russell,Avery,gyvysw.rgegpxj@example.com,No Internet,Yes,No computer,Yes
-4/12/2020 10:04:48,605257,Heidi,Carney,tzswuced2@example.com,Other Internet type,No,No computer,Yes
-4/21/2020 14:24:00,605261,Tasha,Jefferson,tfof@example.com,No Internet,Yes,Dedicated computer,Yes
-4/4/2020 10:48:00,605262,Whitney,Ryan,bxtjdnch.pjih@example.com,School Provided HotSpot,Yes,Dedicated computer,Yes
-4/6/2020 17:02:24,605263,James,Winters,yjmu3@example.com,No Internet,No,School provided computer,No
-5/7/2020 15:21:36,605265,Jesse,Gordon,gnjaw.wxsvmdh@example.com,Other Internet type,No,Dedicated computer,No
-5/10/2020 14:52:48,605272,Eddie,Reese,zaqkmdkp.vajfovwm@example.com,No Internet,No,Dedicated computer,No
-4/30/2020 9:36:00,605274,Penelope,Roman,xvnqp.cjtkumm@example.com,Other Internet type,No,Dedicated computer,Yes
-5/1/2020 14:24:00,605276,Jose,Gay,lirnk.lgrskwsp@example.com,School Provided HotSpot,Yes,Dedicated computer,Yes
-4/15/2020 15:21:36,605288,Frederick,Miles,bnczhx51@example.com,High Internet Speed,Yes,School provided computer,Yes
-5/4/2020 12:00:00,605296,Jeremy,Gardner,rmbtb@example.com,No Internet,Yes,No computer,Yes
-4/1/2020 10:33:36,605297,Katy,Merritt,rqdi@example.com,No Internet,Yes,No computer,No
-4/10/2020 11:31:12,605301,Ramona,Levy,vqjek.pbauh@example.com,High Internet Speed,No,No computer,Yes
-4/8/2020 12:43:12,605303,Shane,Bridges,hcihhqcr.vpyqybv@example.com,High Internet Speed,Yes,No computer,Yes
-4/15/2020 9:36:00,605309,Rene,Terrell,dciry@example.com,Other Internet type,No,School provided computer,No
-4/19/2020 16:48:00,605314,Imogene,Harvey,tmfa5@example.com,High Internet Speed,Yes,No computer,No
-5/8/2020 17:16:48,605316,Christi,Cortez,ttsilugw315@example.com,School Provided HotSpot,No,Shared computer,Yes
-4/21/2020 13:40:48,605317,Norman,Black,idiko876@example.com,Other Internet type,Yes,School provided computer,No
-4/19/2020 9:50:24,605319,Tara,Abbott,unukyvqx3@example.com,Other Internet type,No,School provided computer,Yes
-4/19/2020 15:07:12,605322,Jonathan,Conner,cjnqhfq6@example.com,No Internet,No,Shared computer,Yes
-4/2/2020 18:00:00,605328,Lillian,Ellison,kiojrr.lafh@example.com,Other Internet type,No,No computer,Yes
-4/21/2020 14:24:00,605332,Walter,Li,rkfs.eblgxqufj@example.com,High Internet Speed,Yes,No computer,No
-5/11/2020 16:19:12,605334,Norman,Montes,vkhyj.ptuywlnqx@example.com,Other Internet type,No,Dedicated computer,No
-4/8/2020 14:38:24,605339,Dwight,Edwards,wasuzoq.prsnawox@example.com,School Provided HotSpot,No,School provided computer,Yes
-5/11/2020 12:43:12,605346,Theodore,Velazquez,vkipboe4@example.com,Other Internet type,Yes,Dedicated computer,No
-4/17/2020 11:02:24,605349,Matilda,Wilkins,nrteu@example.com,School Provided HotSpot,Yes,School provided computer,No
-4/27/2020 12:57:36,605351,Bernadette,Vance,xtawkci@example.com,School Provided HotSpot,No,School provided computer,No
-5/9/2020 13:12:00,605360,Kristina,Campos,fzdlwttq@example.com,High Internet Speed,Yes,Shared computer,Yes
-5/3/2020 12:57:36,605363,Wanda,Bird,hokumzd.eamfpjvfn@example.com,High Internet Speed,No,No computer,No
-4/24/2020 10:04:48,605370,Lucile,Dickerson,zxwi8@example.com,School Provided HotSpot,No,Dedicated computer,No
-4/1/2020 11:02:24,605374,Summer,Velasquez,dksdpcm@example.com,School Provided HotSpot,No,No computer,Yes
-4/27/2020 14:52:48,605380,Maura,Mayer,lboeyl@example.com,High Internet Speed,No,Shared computer,Yes
-4/6/2020 9:36:00,605389,Iris,Whitehead,xaycmoo.zxxfy@example.com,No Internet,No,No computer,Yes
-4/3/2020 17:45:36,605391,Troy,Choi,ccjnbugs6@example.com,Other Internet type,No,Dedicated computer,No
-4/24/2020 10:19:12,605393,Julian,Tyler,xsct.rkgb@example.com,No Internet,No,Dedicated computer,No
-4/9/2020 12:57:36,605407,Wilda,Mann,fdsc6@example.com,No Internet,No,Shared computer,Yes
-4/10/2020 17:02:24,605408,Kyle,Wilkerson,efgdjmy@example.com,High Internet Speed,No,Shared computer,No
-5/6/2020 10:33:36,605411,Neil,Curry,gwid94@example.com,No Internet,No,Shared computer,No
-4/23/2020 15:50:24,605421,Alma,Graves,eidlq@example.com,School Provided HotSpot,No,No computer,No
-4/10/2020 13:55:12,605428,Rosalind,Hardin,rpumhxgd.dxym@example.com,School Provided HotSpot,Yes,Dedicated computer,Yes
-4/28/2020 14:24:00,605433,Roxanne,Roach,owezft.zaftqlrxun@example.com,No Internet,Yes,School provided computer,Yes
-4/5/2020 12:28:48,605439,William,Padilla,auyz@example.com,High Internet Speed,No,School provided computer,Yes
-4/25/2020 14:38:24,605446,Vernon,De Leon,shesct28@example.com,No Internet,Yes,No computer,No
-4/5/2020 11:45:36,605447,Terrence,Davidson,izeblwj@example.com,Other Internet type,Yes,Shared computer,Yes
-5/4/2020 14:52:48,605449,Gregory,Conrad,jnekjy98@example.com,Other Internet type,Yes,Shared computer,No
-4/9/2020 9:50:24,605455,Genevieve,Camacho,iwjc@example.com,High Internet Speed,No,Shared computer,Yes
-4/8/2020 17:45:36,605462,Kevin,Frost,koveilf796@example.com,High Internet Speed,No,No computer,No
-4/10/2020 17:02:24,605476,Daniel,Hurst,cxzmgh.pdurr@example.com,High Internet Speed,No,School provided computer,No
-4/8/2020 17:45:36,605477,Dave,Hahn,aujxft@example.com,High Internet Speed,Yes,No computer,No
-4/2/2020 16:19:12,605481,Wallace,Ewing,wnqkl74@example.com,Other Internet type,Yes,No computer,No
-5/9/2020 17:45:36,605483,Daphne,Frederick,yvitjrtw34@example.com,No Internet,No,No computer,Yes
-4/23/2020 11:16:48,605486,Karin,Allison,eniv@example.com,School Provided HotSpot,Yes,No computer,Yes
-5/6/2020 14:52:48,605504,Ross,Bernard,irdhgc.cevvlczc@example.com,Other Internet type,Yes,No computer,No
-4/27/2020 11:16:48,605509,Daryl,Peters,hepyowf.nevmhbex@example.com,School Provided HotSpot,Yes,Shared computer,No
-4/12/2020 17:45:36,605512,Karen,Cordova,pfhlwsrz333@example.com,Other Internet type,No,Shared computer,No
-5/10/2020 12:57:36,605517,George,Ashley,ogzcuwti.lcsfb@example.com,No Internet,Yes,No computer,Yes
-4/4/2020 11:16:48,605530,Craig,Hurley,ivslkm63@example.com,No Internet,No,Shared computer,Yes
-4/20/2020 12:00:00,605537,Adam,Griffin,jzsogjj@example.com,No Internet,No,School provided computer,No
-5/3/2020 15:07:12,605539,Vickie,Esparza,xitfs3@example.com,Other Internet type,Yes,School provided computer,No
-5/1/2020 12:00:00,605548,Gabriel,Barton,jdjuetm491@example.com,No Internet,No,School provided computer,No
-4/19/2020 10:19:12,605550,Tim,Stuart,ikqc@example.com,No Internet,No,School provided computer,Yes
-4/7/2020 11:31:12,605553,Bernard,Underwood,ctme.rjyeakoyk@example.com,School Provided HotSpot,Yes,School provided computer,Yes
-4/18/2020 13:40:48,605556,Blanca,Alvarez,terapd1@example.com,School Provided HotSpot,Yes,No computer,Yes
-4/5/2020 18:00:00,605567,George,Ewing,adbinxiq117@example.com,High Internet Speed,No,Shared computer,No
-5/4/2020 11:16:48,605581,Carolina,Lindsey,oael.sbzdnkaqwa@example.com,School Provided HotSpot,No,Shared computer,No
-4/27/2020 10:48:00,605588,Elnora,Ayala,wuqo.noeohta@example.com,Other Internet type,No,No computer,No
-5/9/2020 15:36:00,605601,Myrtle,Shelton,eacpazoc470@example.com,High Internet Speed,Yes,Dedicated computer,No
-4/17/2020 17:31:12,605603,Alex,Nunez,bsvn5@example.com,No Internet,No,Dedicated computer,Yes
-4/22/2020 9:50:24,605609,Jimmie,Gardner,lozasc.lhadk@example.com,High Internet Speed,No,School provided computer,No
-5/9/2020 10:33:36,605610,Adrian,Bartlett,uramha@example.com,School Provided HotSpot,No,School provided computer,No
-4/2/2020 13:40:48,605614,Yolanda,Walls,gdqyezg.siqkpkg@example.com,School Provided HotSpot,Yes,Shared computer,Yes
-5/2/2020 13:55:12,605620,Mary,Williamson,ecgegb@example.com,Other Internet type,No,School provided computer,Yes
-5/1/2020 16:19:12,605625,Earl,David,xhxmiryu010@example.com,School Provided HotSpot,Yes,School provided computer,No
-4/8/2020 17:45:36,605628,Kenneth,Mercado,gginmkde.ymvtkzzr@example.com,No Internet,Yes,No computer,No
-4/3/2020 11:31:12,605629,Ashley,Salinas,qshlgpji@example.com,No Internet,No,Shared computer,Yes
-4/21/2020 12:14:24,605637,Dale,Sexton,bhlarmns.dmtixzp@example.com,School Provided HotSpot,No,Shared computer,No
-4/16/2020 16:33:36,605644,Tammi,Waller,vrfl.dxby@example.com,No Internet,No,No computer,No
-4/3/2020 11:31:12,605650,Alfred,Chase,ftew0@example.com,School Provided HotSpot,Yes,No computer,Yes
-5/1/2020 17:31:12,605661,Deborah,Juarez,fhkhol1@example.com,School Provided HotSpot,Yes,Dedicated computer,Yes
-4/16/2020 12:14:24,605663,Juliet,Estrada,dris@example.com,No Internet,No,No computer,No
-4/10/2020 16:48:00,605682,Jeffrey,Clark,nnrjs1@example.com,No Internet,No,School provided computer,Yes
-4/24/2020 12:14:24,605690,Clyde,Dougherty,burz.pgbtl@example.com,Other Internet type,Yes,Dedicated computer,No
-4/20/2020 14:09:36,605694,Tracy,Alvarado,gjqyo611@example.com,High Internet Speed,No,School provided computer,No
-4/24/2020 13:55:12,605695,Vivian,Wilson,maeax.mqytaycfl@example.com,Other Internet type,No,Dedicated computer,Yes
-5/1/2020 14:24:00,605699,Camille,Brandt,fquah@example.com,School Provided HotSpot,Yes,School provided computer,No
-4/2/2020 17:31:12,605700,Henry,Walters,lkvjig.tlbwomcuzh@example.com,No Internet,Yes,Shared computer,Yes
-4/26/2020 12:14:24,605718,Chris,Molina,wpyj.romskati@example.com,No Internet,Yes,School provided computer,Yes
-4/1/2020 11:02:24,605728,Imelda,Ford,dvrz11@example.com,Other Internet type,Yes,Shared computer,No
-4/9/2020 12:28:48,605736,Sherry,Stafford,kfxju150@example.com,School Provided HotSpot,No,School provided computer,Yes
-4/26/2020 13:55:12,605739,Christian,Simpson,figlk@example.com,Other Internet type,No,Shared computer,No
-5/1/2020 10:04:48,605740,Joanne,Hendricks,daub.oqkugnf@example.com,School Provided HotSpot,No,School provided computer,No
-4/5/2020 9:36:00,605746,Casey,Morse,rzvzr.vbntpouz@example.com,No Internet,No,Shared computer,Yes
-4/14/2020 16:04:48,605752,Allen,Bass,sbrou.kryhsfh@example.com,No Internet,Yes,Dedicated computer,Yes
-4/14/2020 10:19:12,605754,Kyle,Owen,gfcmrecz.khmgu@example.com,High Internet Speed,Yes,Dedicated computer,Yes
-4/3/2020 15:36:00,605755,Alvin,Fields,ikxuvij@example.com,High Internet Speed,Yes,Dedicated computer,Yes
-5/11/2020 17:02:24,605756,Derek,Friedman,nqopjuf.zvohz@example.com,High Internet Speed,No,No computer,No
-5/7/2020 15:21:36,605774,Julio,Montoya,damih.cjchpaiu@example.com,High Internet Speed,No,Shared computer,No
-5/4/2020 12:28:48,605775,Becky,Todd,atjfi.zaeip@example.com,Other Internet type,Yes,Shared computer,No
-4/30/2020 10:48:00,605777,Wade,Swanson,xfwzqgne@example.com,High Internet Speed,No,School provided computer,No
+"Timestamp","StudentUniqueId","FirstName","LastSurname","Internet Access Type","Has School Email Account","Has School Student Account"
+"2020-08-21 20:59:14.284364+00","190966","Michelle","Trejo","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","192300","George","Wooten","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","192304","Ny'esha","Batiste","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","195729","Aaron","Morales","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","195778","Aaron","Ott","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","195846","James","Dillard","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","196240","Richard","Gomez","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","196696","Timothy","Stewart","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","197093","Patricia","Keefe","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","197569","Jason","Jennings","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","197736","Dora","Keefe","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","197854","Azania","Kenny","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","197996","Camaron","Medrano","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","198014","Kelley","Lopez","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","198143","Ira","Hatten","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","198158","Tracy","Halcomb","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","198217","Cody","Funderburke","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","198219","Christopher","Alonso","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","198260","Marisol","Mendoza","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","198338","Jose","Tran","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","198362","Juana","Omalley","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","198387","Terry","Watts","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","198447","Seth","Mckillip","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","198458","Christina","Lainhart","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","198520","Michael","Flores","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","198522","Deanne","Haight","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","198524","Sirroderick","Rockwell","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","198556","Casey","Weir","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","198559","Justin","Mccray","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","198710","Jessica","Dangelo","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","198921","Daneska","Rocha","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","199110","Lakechia","Parchman","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","199174","Angeel","Chacon","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","199190","Rebecca","Valdez","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","199211","Jeremiah","Scott","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","199327","Albert","Saldana","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","199464","Paul","Ates","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","199976","Bridgette","Dangelo","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","200013","Jennifer","Wentz","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","200151","Rebecca","Jude","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","200200","Graciela","Simpson","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","200261","Baron","Peri","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","200264","Jeanette","Bradford","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","200284","Marina","Ferrara","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","200319","Charlotte","Chapa","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","200322","Robin","Wentz","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","200356","Heather","Flanders","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","200431","Anwar","Hurst","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","200533","Federica","Martins","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","200560","Andrew","Willis","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","200603","Cynthia","Cloutier","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","200610","Marvin","Dodd","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","200690","Jorge","Hicks","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","200691","Gilbert","Gilmore","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","200764","Heather","Norfleet","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","200882","Meisha","Edwards","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","200960","Martha","Walker","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","201136","Darwin","Williams","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","201160","Denise","Moulder","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","201230","Arieh","Doiron","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","201269","Samantha","Herbert","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","201377","William","Townsend","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","201416","Erika","Byrnes","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","201468","Regina","Lott","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","201519","Loi","Parker","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","201526","Jared","Jenkins","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","201631","Alfredo","Kniss","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","201675","Russell","Thompson","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","201859","Jodi","Steffen","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","201923","Missy","Manning","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","202081","Laura","Kenny","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","202193","Selena","Jessup","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","202235","Danielle","Fullerton","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","202239","Jovanic","Williams","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","202375","Chad","Hernandez","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","202626","Jose","Lane","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","202708","David","Howard","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","202751","Robert","Cordova","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","202753","Kelby","Whiddon","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","202759","Ruba","Woodard","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","202839","Alana","Garza","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","203004","Francisco","Mckenzie","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","203142","Jeremy","Chism","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","203297","Megan","Jude","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","203306","Julian","No","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","203390","Rogelio","Kallus","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","203701","Ted","Jeffreys","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","203782","Alyssa","Pena","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","203898","Sueanne","Demarco","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","203928","Chianelda","Fullerton","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","204067","Paula","Merchant","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","204299","Joshua","Toro","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","204540","Grant","Brown","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","204775","Laura","Ramos","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","204794","Carl","Worland","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","204875","Sharesa","Alaniz","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","205082","Sherica","Haight","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","205124","Emily","Rivera","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","205199","Vicente","Ehler","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","205218","Lori","Gillen","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","205257","Daniel","Valles","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","205706","Kristi-Lynn","Labbe","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","205724","Jason","Beserra","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","205840","Kictrick","Vajgrt","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","206115","Roxanne","Devito","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","206200","Robert","Whitworth","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","206226","Kimberly","Santana","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","206485","Gina","Bedard","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","206608","Cecil","Nam","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","207978","Jeremiah","Murillo","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","207979","Cassie","Osullivan","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","208325","Roland","Dotson","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","208354","Steve","Kelley","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","208395","Alexander","Danner","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","208629","Suewilla","Dodge","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","208709","Melanie","Lemay","School provided hot-spot","Yes","No"
+"2020-08-21 20:59:14.284364+00","208710","Chuki","Beals","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","209485","Joe","Fetrow","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","210127","Zachry","Scott","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","211228","Melinda","Omalley","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","212035","Ebony","Parrish","School provided hot-spot","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","212516","Hiram","Clinton","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","214109","Diane","Ferguson","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","215229","Elijah","Campa","School provided hot-spot","No","Yes"
+"2020-08-21 20:59:14.284364+00","215271","Eureka","Cruz","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","216760","Scherryl","Cowley","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","217609","Samantha","Johnson","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","217970","Amanda","Kerns","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","218114","Niomi","Oleary","High Speed Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","218187","Tiffinie","Omalley","No Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","220434","Tiffiony","Schroeder","No Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","220661","Gabriel","Fox","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","221997","Thaddeus","Terrell","No Internet","No","No"
+"2020-08-21 20:59:14.284364+00","224004","Omar","Shelburne","High Speed Internet","Yes","Yes"
+"2020-08-21 20:59:14.284364+00","225420","Gerri","Santiago","High Speed Internet","No","No"
+"2020-08-21 20:59:14.284364+00","227200","Clifford","Avendano","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","227454","James","Chaney","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","228179","Melody","Mowery","No Internet","No","Yes"
+"2020-08-21 20:59:14.284364+00","228240","Leila","Haight","High Speed Internet","Yes","No"
+"2020-08-21 20:59:14.284364+00","235299","Shirimira","Lash","School provided hot-spot","No","No"
+"2020-08-21 20:59:14.284364+00","236473","John","Clark","No Internet","Yes","Yes"

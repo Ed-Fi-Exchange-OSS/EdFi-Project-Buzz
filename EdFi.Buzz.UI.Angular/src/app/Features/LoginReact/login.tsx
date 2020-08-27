@@ -3,16 +3,18 @@ import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiService } from 'src/app/Services/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import SocialButton from './SocialButton';
-import { Environment } from 'src/app/Models';
+import { ADFSButton } from './loginADFS';
+import { User } from 'src/app/Services/authentication.service';
 
 export interface LoginComponentProps {
   api: ApiService;
   returnUrl?: string;
   navigate: (command: string) => void;
-  googleClientId: string;
+  googleClientId?: string;
+  adfsClientId?: string;
+  adfsTenantId?: string;
 }
 
 export const Login: FunctionComponent<LoginComponentProps> = (props: LoginComponentProps) => {
@@ -23,30 +25,28 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
   };
   model.user = null;
 
-  async function onUserAuthState(user) {
+  async function onUserAuthState(user: User) {
     const returnUrl = props.returnUrl || '/';
 
     if (!user) {
       return;
     }
 
-    model.user = user;
-    model.loggedIn = (user != null);
-
-    // Save temp token
-    const token = user._token.idToken;
-    sessionStorage.setItem('validatingToken', token);
-
     // authenticationService
-    const isUserValid = await props.api.authentication.validateSocialUser(user.email, token);
-    sessionStorage.removeItem('validatingToken');
+    const isUserValid = await props.api.authentication.validateSocialUser(user.email, user.token, user.tokenProvider);
     if (isUserValid) {
       props.navigate(returnUrl);
     }
   }
 
   const handleSocialLogin = (user) => {
-    onUserAuthState(user);
+    const _user: User = {
+      email: user.email,
+      token: user.token.idToken,
+      tokenProvider: 'react-social-login',
+      teacher: null
+    };
+    onUserAuthState(_user);
   };
 
   const handleSocialLoginFailure = (err) => {
@@ -64,7 +64,8 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
 
               </div>
               <h1 className=' text-center m-t-25'>Buzz</h1>
-              <div className='text-center m-t-20'>
+              {/* Boolean(0), Boolean(null), Boolean(undefined) returns false  */
+              (Boolean(props.googleClientId)) && <div className='text-center m-t-20'>
                 <SocialButton
                   className='btn btn-primary'
                   provider='google'
@@ -76,7 +77,16 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
                 >
                   Login with Google
               </SocialButton>
-              </div>
+              </div>}
+              {(Boolean(props.adfsClientId)) && <div>
+                <ADFSButton
+                  className='btn btn-primary'
+                  clientId={props.adfsClientId}
+                  tenantId={props.adfsTenantId}
+                  onLoggin={(user) => onUserAuthState(user)} >
+                    Login with ADFS
+                  </ADFSButton>
+              </div>}
             </div>
             <div className='card-footer d-flex justify-content-between align-items-center'>
               <span className='text-left'>

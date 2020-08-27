@@ -7,76 +7,12 @@ import { Student, Section } from 'src/app/Models';
 import { SearchInSections } from 'src/app/Components/SearchInSectionsUIReact/searchInSections';
 import { StudentCard } from 'src/app/Components/StudentCardReact/studentCard';
 import { StudentTable } from './studentTable';
+import { HeadlineContainer, MainContainer, TitleSpanContainer, TotalRecordsContainer } from '../../../../buzztheme';
 
 export interface TeacherLandingComponentProps {
   onClick?: () => void;
   api: ApiService;
 }
-
-const StyledSearchInSections = styled(SearchInSections)``;
-
-const TeacherHeadline = styled.div`
-  display: flex;
-  align-items: center;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  @media (min-width: 769px) {
-    flex-direction: row;
-  }
-`;
-
-const TeacherLandingMainStyle = styled.main`
-  font-family: ${(props) => props.theme.fonts.regular};
-  background-color: ${(props) => props.theme.colors.white};
-  padding: 15px;
-`;
-
-const YourStudentsSpan = styled.div`
-  flex: 0 0 auto;
-  margin-right: 2rem;
-  font-family: ${(props) => props.theme.fonts.bold};
-  font-size: 24px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: ${(props) => props.theme.colors.darkgray};
-`;
-
-const TotalStudentSpan = styled.div`
-  @media (min-width: 769px) {
-    flex: 3;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-  @media (max-width: 768px) {
-    flex: 1;
-    flex-direction: column;
-  }
-  margin: 0 0 1.5rem 0;
-  font-family: ${(props) => props.theme.fonts.bold};
-  font-size: 14px;
-  font-weight: 400;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: ${(props) => props.theme.colors.lightsteelblue};
-`;
-
-const FilterRow = styled.div`
-  display: flex;
-
-  & > label {
-    display: block;
-  }
-
-  & > div {
-    flex: 1;
-  }
-`;
 
 const ListButtons = styled.div`
   @media (min-width: 769px) {
@@ -93,7 +29,7 @@ const ListButtons = styled.div`
   & > button {
     margin: 0px;
     font-family: ${(props) => props.theme.fonts.regular};
-    background-color: ${(props) => props.theme.colors.white};
+    background-color: var(--white);
     border: none;
     text-decoration: none;
 
@@ -133,14 +69,12 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
   }
 
   return (
-    <TeacherLandingMainStyle role='main' className='container'>
-      <TeacherHeadline>
-        <YourStudentsSpan className={'h1-desktop'}>Your students</YourStudentsSpan>
-        <TotalStudentSpan>Total {studentList.length}</TotalStudentSpan>
-      </TeacherHeadline>
-      <FilterRow>
-        <StyledSearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
-      </FilterRow>
+    <MainContainer role='main' className='container'>
+      <HeadlineContainer>
+      <TitleSpanContainer>Your students</TitleSpanContainer>
+        <TotalRecordsContainer>Total {studentList.length}</TotalRecordsContainer>
+      </HeadlineContainer>
+      <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
       {studentList.length > 0 && (
         <ListButtons>
@@ -167,6 +101,6 @@ export const TeacherLanding: FunctionComponent<TeacherLandingComponentProps> = (
           </div>
         )}
       </div>
-    </TeacherLandingMainStyle>
+    </MainContainer>
   );
 };
