@@ -28,7 +28,6 @@ const StudentDetailContainer = styled.div`
     flex: 1;
     flex-direction: column;
     width: 100%;
-    height: 15rem;
     background-color: var(--white-lilac);
     padding-left: 2rem;
     padding-right: 2rem;
@@ -143,7 +142,7 @@ const StudentDetailContainer = styled.div`
     .label {
       display: flex;
       justify-content: flex-start;
-      padding-bottom: 2rem;
+      padding-bottom: 1rem;
     }
   }
 
@@ -212,11 +211,11 @@ const StudentDetailContainer = styled.div`
     display: flex;
     flex-direction:column;
     padding-left: 2rem;
+    border-bottom: 1px solid var(--iron);
 
     & > div {
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--iron);
     }
   }
 `;
