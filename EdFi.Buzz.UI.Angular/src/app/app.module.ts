@@ -96,7 +96,6 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
           { path: 'surveyAnalytics', component: SurveyAnalyticsReactWrapperComponent },
           { path: 'uploadSurvey', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
           { path: 'uploadSurvey/:id', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
-          { path: 'adminSurvey', component: AdminSurveyComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyReactWrapperComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
