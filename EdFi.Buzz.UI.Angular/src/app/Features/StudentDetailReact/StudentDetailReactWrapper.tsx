@@ -16,6 +16,7 @@ import {
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
+  OnInit,
 } from '@angular/core';
 import * as React from 'react';
 
@@ -36,7 +37,7 @@ const containerElementName = 'studentDetailReactComponentContainer';
   styleUrls: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class StudentDetailReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
+export class StudentDetailReactWrapperComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, { static: false }) containerRef: ElementRef;
   studentId: string;
   currentTeacher: Teacher;

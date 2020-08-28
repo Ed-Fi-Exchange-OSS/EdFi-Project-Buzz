@@ -10,12 +10,13 @@ import { FunctionComponent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ApiService } from 'src/app/Services/api.service';
-import { Student, Teacher, ContactPerson  } from 'src/app/Models';
+import { Student, Teacher, ContactPerson } from 'src/app/Models';
 import { EmailIcon, LeftArrowIcon, StarIcon, PhoneIcon } from '../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
 import { StudentDetailSurvey } from './StudentDetailSurvey';
 import { StudentSurvey } from 'src/app/Models/student';
 import { StudentDetailNote } from './StudentDetailNote';
+import { StudentDetailNotesContainer } from './StudentDetailNotesContainer';
 
 const StudentDetailContainer = styled.div`
   margin: 1em 1em 1em 1em;
@@ -160,7 +161,7 @@ const StudentDetailContainer = styled.div`
     }
   }
 
-  .student-detail-notes-container {
+  .student-detail-tabbed-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -188,6 +189,10 @@ const StudentDetailContainer = styled.div`
     padding-top: 1.5rem;
   }
 
+  .survey-notes-container-tab {
+    cursor: pointer;
+  }
+
   .survey-notes-tab-selected {
     font-weight: bold;
     font-weight: 600;
@@ -209,13 +214,24 @@ const StudentDetailContainer = styled.div`
 
   .student-surveys-container {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     padding-left: 2rem;
     border-bottom: 1px solid var(--iron);
 
     & > div {
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
+    }
+  }
+
+  .student-detail-notes-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & > div {
+      flex: 1;
+      width: 100%;
     }
   }
 `;
@@ -231,10 +247,10 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     Notes = 'NOTES',
   }
 
-  const selectedTabClassName = 'survey-notes-tab-selected';
-  const unselectedTabClassName = 'survey-notes-tab-unselected';
-  const selectedAreaClassName = 'survey-notes-area-selected';
-  const unselectedAreaClassName = 'survey-notes-area-unselected';
+  const selectedTabClassName = 'survey-notes-container-tab survey-notes-tab-selected';
+  const unselectedTabClassName = 'survey-notes-container-tab survey-notes-tab-unselected';
+  const selectedAreaClassName = 'survey-notes-container-tab survey-notes-area-selected';
+  const unselectedAreaClassName = 'survey-notes-container-tab survey-notes-area-unselected';
   const surveyContainerClassName = 'student-surveys-container';
   const notesContainerClassName = 'notes-container';
 
@@ -317,25 +333,25 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     <>
       {student && (
         <StudentDetailContainer>
-          <div className='student-detail-top'>
-            <a href={'/'} className='student-detail-go-back-container'>
+          <div className="student-detail-top">
+            <a href={'/'} className="student-detail-go-back-container">
               <LeftArrowIcon />
-              <div className='student-detail-go-back-label'>Go back to Class Roster</div>
+              <div className="student-detail-go-back-label">Go back to Class Roster</div>
             </a>
-            <div className='student-detail-profile-container'>
-              <div className='student-detail-profile-pic-container'>
-                <div className='image-container'>
-                  <img className='student-profile-pic' src={student.pictureurl} alt={`${student.name} Profile Picture`} />
+            <div className="student-detail-profile-container">
+              <div className="student-detail-profile-pic-container">
+                <div className="image-container">
+                  <img className="student-profile-pic" src={student.pictureurl} alt={`${student.name} Profile Picture`} />
                 </div>
-                <div className='student-detail-name'>
+                <div className="student-detail-name">
                   <h1>{student.name}</h1>
-                  {student.gradelevel && <div className='student-profile-grade-level'>Grade: {student.gradelevel}</div>}
-                  <div className='student-detail-profile-info-container'>
+                  {student.gradelevel && <div className="student-profile-grade-level">Grade: {student.gradelevel}</div>}
+                  <div className="student-detail-profile-info-container">
                     {student.primaryemailaddress && (
-                      <div className='student-profile-email'>
+                      <div className="student-profile-email">
                         <EmailIcon />
                         <a
-                          className='text-ellipsis'
+                          className="text-ellipsis"
                           href={`mailto:${student.primaryemailaddress}`}
                           title={student.primaryemailaddress}
                         >
@@ -344,30 +360,32 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                       </div>
                     )}
                     {primaryContact && (
-                      <div className='student-detail-profile-info-primary-contact'>
+                      <div className="student-detail-profile-info-primary-contact">
                         <StarIcon />
-                        <span className='primary-contact-label'>Primary Contact:&nbsp;</span>
-                        <span className='primary-contact-name'>{`${primaryContact.contactfirstname} ${primaryContact.contactlastname}`}</span>
+                        <span className="primary-contact-label">Primary Contact:&nbsp;</span>
+                        <span className="primary-contact-name">
+                          {`${primaryContact.contactfirstname} ${primaryContact.contactlastname}`}
+                        </span>
                       </div>
                     )}
-                    {!student.primaryemailaddress && <p className='alert alert-primary'>No email</p>}
+                    {!student.primaryemailaddress && <p className="alert alert-primary">No email</p>}
                   </div>
-                  <div className='student-detail-profile-pinned-info-container'></div>
+                  <div className="student-detail-profile-pinned-info-container"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div className='student-detail-bottom'>
-            <div className='student-detail-guardians-siblings-container'>
-              <div className='label h2-desktop'>Guardians&nbsp;/&nbsp;Siblings</div>
-              <div className='guardians-siblings'>
+          <div className="student-detail-bottom">
+            <div className="student-detail-guardians-siblings-container">
+              <div className="label h2-desktop">Guardians&nbsp;/&nbsp;Siblings</div>
+              <div className="guardians-siblings">
                 {contacts &&
                   contacts.length > 0 &&
                   contacts.map((contact, index) => <StudentDetailContactCard key={index} contact={contact} />)}
               </div>
             </div>
-            <div className='student-detail-notes-container'>
-              <div className='student-detail-tabs'>
+            <div className="student-detail-tabbed-container">
+              <div className="student-detail-tabs">
                 <div
                   ref={surveyTabRef}
                   className={selectedTabClassName}
@@ -387,16 +405,20 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                   Notes
                 </div>
               </div>
-              <div className='student-detail-tabbed-area-container'>
+              <div className="student-detail-tabbed-area-container">
                 <div ref={surveyAreaRef} className={`${surveyContainerClassName} ${selectedAreaClassName}`}>
                   {student.studentsurveys &&
-                  student.studentsurveys.length > 0 &&
-                  student.studentsurveys.map((survey, index) => <StudentDetailSurvey key={index} survey={survey} />)}
+                    student.studentsurveys.length > 0 &&
+                    student.studentsurveys.map((survey, index) => <StudentDetailSurvey key={index} survey={survey} />)}
                 </div>
                 <div ref={notesAreaRef} className={`${notesContainerClassName} ${unselectedAreaClassName}`}>
-                  {((student.notes && student.notes.length > 0)
-                    ? student.notes.map((note, index) => <StudentDetailNote key={index} note={note} />)
-                    : <div>Add a note</div>)}
+                  <div className="student-detail-notes-container">
+                    <StudentDetailNotesContainer
+                      staffkey={currentTeacher.staffkey}
+                      apiService={props.api}
+                      studentschoolkey={student.studentschoolkey}
+                      notes={student.notes} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -9,6 +9,28 @@ import WorkSansWoff2 from './fonts/WorkSans.woff2';
 import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
 import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
 
+export const StyledBuzzButton = styled.button`
+  background-color: var(--picton-blue);
+  color: white;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  margin: 1rem 1.5rem;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+
+  &:active {
+    background-color: var(--denim);
+    border: none;
+    outline: none;
+  }
+`;
+
 export default createGlobalStyle`
 
   :root {
@@ -94,6 +116,17 @@ export default createGlobalStyle`
       align-items: center;
   }
 
+  .info {
+    font-size: 16px;
+    padding: 1.5rem;
+  }
+
+  .label {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 1.5rem;
+  }
+
   .bold {
     font-weight: 600 !important;
   }
@@ -126,6 +159,14 @@ export default createGlobalStyle`
     border: 4px solid var(--sea-buckthorn1);
     border-radius: 4px;
     color: var(--shark);
+  }
+
+  textarea {
+    border: 1px solid var(--iron);
+    outline: none;
+    resize: none;
+    overflow: auto;
+    rows: 15;
   }
 
 `;
