@@ -239,7 +239,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       the user selected a new file to upload. */
       return;
     }
-    if(value!==null){
+    if (value !== null) {
       setFileStatusMessage(createFileStatusMessage({...statusMessage, serverJobStatus: value}));
       saveLastUploadedSurvey(fileStatusMessage);
       setJobStatusTimer(null);
