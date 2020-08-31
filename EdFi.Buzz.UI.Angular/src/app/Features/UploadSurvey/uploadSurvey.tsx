@@ -23,8 +23,8 @@ interface FileStatus {
 
 export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: UploadSurveyProps) => {
   const DEFAULT_UPLOAD_LABEL = 'Choose survey file';
+  const SURVEY_STATUS_QUERY_TIME_IN_MS = 5000;
   const { api, surveyKey } = props;
-  const [SURVEY_STATUS_QUERY_TIME_IN_MS, setQueryTime] = useState(5000); /* 5 seconds intervals */
   const [SURVEY_MAX_FILE_SIZE_BYTES, setMaxFileSize] = useState(0);
   const [storage, setStorage] = useState(sessionStorage);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -51,7 +51,6 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     setProgress(0);
     setIsFileSelected(false);
     setIsFileUploading(false);
-    setQueryTime(5000);
     loadLastUploadedSurvey();
     OnInit();
   }, []);
@@ -240,15 +239,17 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       the user selected a new file to upload. */
       return;
     }
-    setFileStatusMessage(createFileStatusMessage({...statusMessage, serverJobStatus: value}));
-    saveLastUploadedSurvey(fileStatusMessage);
-    setJobStatusTimer(null);
-    if (value && !api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
-      /* Job is not finished */
-      setJobStatusTimer(setTimeout(
-        () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
-        SURVEY_STATUS_QUERY_TIME_IN_MS));
+    if(value!==null){
+      setFileStatusMessage(createFileStatusMessage({...statusMessage, serverJobStatus: value}));
+      saveLastUploadedSurvey(fileStatusMessage);
+      setJobStatusTimer(null);
+      if (value && !api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
+        /* Job is not finished */
+        setJobStatusTimer(setTimeout(
+          () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
+          SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
+  }
   };
 
   const getFileContentAsBase64 = (file: Blob): Promise<string> => {
@@ -296,7 +297,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       <div className='container'>
         <div className='position-relative p-t-10'>
           <a className='btn-outline-nav inline-block position-relative' style={{ top: '-10px', left: '0px' }}
-            href='javascript:history.back(-1)'>
+            href='{() => history.back()}'>
             <i className='ion ion-md-arrow-dropleft f-s-37 position-absolute' style={{ top: '-1px', left: '10px' }}></i>
           </a>
           <h1 className='inline-block position-absolute' style={{ top: '3px', left: '44px' }}>Upload <span>survey</span></h1>
