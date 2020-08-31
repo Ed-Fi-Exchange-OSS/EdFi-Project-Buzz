@@ -12,6 +12,7 @@ import { StudentDetailNote } from './StudentDetailNote';
 import styled from 'styled-components';
 import { StyledBuzzButton } from 'src/globalstyle';
 import { ApiService } from 'src/app/Services/api.service';
+import { StudentDetailEditNote } from './StudentDetailEditNote';
 
 const StudentDetailNotes = styled.div`
   display: flex;
@@ -50,62 +51,56 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
   props: StudentDetailNotesContainerProps,
 ) => {
 
-  const [notes, setNotes] = useState<StudentNote[]>(props.notes);
-  const [notesChanged, setNotesChanged] = useState<Boolean>(false);
+  const [notes, setNotes] = useState<Array<StudentNote>>(props.notes);
   const [isAdding, setIsAdding] = useState<Boolean>(false);
 
   const addNoteRef = createRef<HTMLTextAreaElement>();
   const addNoteButtonRef = createRef<HTMLDivElement>();
 
+  const cancelStudentNote = () => {
+    setIsAdding(false);
+  };
+
   const addStudentNote = () => {
-    console.log('add note');
     setIsAdding(true);
   };
 
-  const saveStudentNote = () => {
-    const note = addNoteRef.current.value;
+  const saveStudentNote = (note: string) => {
     props.apiService.studentNotesApiService
-      .addStudentNote(props.staffkey, props.studentschoolkey, note.trim())
+      .addStudentNote(
+        props.staffkey,
+        props.studentschoolkey,
+        note.trim())
       .then(result => {
-        console.log('Save successful, notifying note change');
-          setNotesChanged(true);
+        console.log(`just added result: ${JSON.stringify(result)}`);
+        let newNote = new StudentNote();
+        newNote.studentnotekey = result.studentnotekey;
+        newNote.studentschoolkey = props.studentschoolkey;
+        newNote.staffkey = props.staffkey,
+        newNote.note = note;
+        newNote.dateadded = new Date();
+        let newNotes: Array<StudentNote> = ([newNote]).concat(notes);
+        console.log(`notes after the add: ${JSON.stringify(newNotes)}`);
+        setNotes(newNotes);
       }) ;
     setIsAdding(false);
   };
 
   const deleteStudentNote = (staffkey: number, studentnotekey: number) => {
+    console.log(`delete the studentnotekey: ${studentnotekey}`);
+
+    const updatedNotes = notes.filter(note => note.studentnotekey != studentnotekey);
+    console.log(`notes after the delete: ${JSON.stringify(updatedNotes)}`);
     props.apiService
       .studentNotesApiService.deleteStudentNote(staffkey, studentnotekey)
       .then(result => {
-        console.log('Delete successful, notifying note change');
-        setNotesChanged(true);
+        setNotes(updatedNotes);
       });
   };
 
-  const cancelStudentNote = () => {
-    console.log('cancel note');
-    setIsAdding(false);
-    addNoteRef.current.value = '';
-  };
-
   useEffect(() => {
-
-    if (!notesChanged) {
-      return;
-    }
-
-    console.log('Notes have changed');
-    props.apiService.student.getById(props.studentschoolkey)
-      .then((s: Student) => {
-        console.log(`notes are now:\n${JSON.stringify(s.notes)}`);
-        setNotes(s.notes);
-        setNotesChanged(false);
-      });
-  }, [notesChanged]);
-
-  useEffect(() => {
+    console.log(`notes: ${JSON.stringify(notes)}`);
     setNotes(props.notes);
-    console.log(`notes are initialized as:\n${JSON.stringify(notes)}`);
   }, []);
 
   return (
@@ -121,25 +116,10 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
                 apiService={ props.apiService } />)}
           {isAdding && (
             <div className='student-detail-new-note-container'>
-              <textarea rows={6} cols={60} ref={addNoteRef} />
-              <div>
-                <StyledBuzzButton
-                  className='save-note-button'
-                  onClick={() => {
-                    saveStudentNote();
-                  }}
-                >
-                  Save
-                </StyledBuzzButton>
-                <StyledBuzzButton
-                  className='save-note-button'
-                  onClick={() => {
-                    cancelStudentNote();
-                  }}
-                >
-                  Cancel
-                </StyledBuzzButton>
-              </div>
+              <StudentDetailEditNote
+                noteRef={addNoteRef}
+                saveButtonFunc={saveStudentNote}
+                cancelButtonFunc={cancelStudentNote} />
             </div>
           )}
           {!isAdding && (

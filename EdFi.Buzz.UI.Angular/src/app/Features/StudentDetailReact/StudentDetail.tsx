@@ -311,6 +311,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       setStudentId(props.studentId);
       setCurrentTeacher(props.api.authentication.currentUserValue.teacher);
       getStudent().then((result: Student) => {
+        console.log(`student: ${JSON.stringify(result)}`);
         setStudent(result);
         setContacts(result.contacts);
         setSiblings(result.siblings);

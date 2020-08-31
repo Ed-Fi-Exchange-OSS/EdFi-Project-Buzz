@@ -32,20 +32,8 @@ interface StudentDetailNoteProps {
 
 export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (props: StudentDetailNoteProps) => {
   const [note, setNote] = useState<StudentNote>();
-  const [isEditing, setIsEditing] = useState<Boolean>(false);
-
-  const toggleEditNote = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const removeNote = () => {
-    console.log(`Deleting staffkey:>${note.staffkey}, studentnotekey:>${note.studentnotekey}`);
-    props.apiService
-      .studentNotesApiService.deleteStudentNote(note.staffkey, note.studentnotekey);
-  };
 
   useEffect(() => {
-    console.log(`note:>${JSON.stringify(props.note)}`);
     setNote(props.note);
   }, []);
 
@@ -71,9 +59,6 @@ export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (pro
           </div>
           <div>
             <div>
-              <StyledBuzzButton className='Edit Note' onClick={() => toggleEditNote()}>
-                Edit Note
-              </StyledBuzzButton>
               <StyledBuzzButton className='Edit Note' onClick={() => props.deleteNoteFunc(note.staffkey, note.studentnotekey)}>
                 Delete Note
               </StyledBuzzButton>
