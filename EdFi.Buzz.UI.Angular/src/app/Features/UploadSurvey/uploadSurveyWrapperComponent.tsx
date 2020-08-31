@@ -44,10 +44,7 @@ export class UploadSurveyWrapperComponent implements OnChanges, OnDestroy, After
   @Output() public componentClick = new EventEmitter<void>();
 
   constructor(
-    private fb: FormBuilder,
     private api: ApiService,
-    private title: Title,
-    private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
   }
