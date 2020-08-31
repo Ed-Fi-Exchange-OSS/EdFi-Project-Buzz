@@ -15,8 +15,8 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import * as React from 'react';
 
@@ -35,7 +35,7 @@ const containerElementName = 'studentDetailReactComponentContainer';
   selector: 'app-student-detail-react',
   template: `<span #${containerElementName}></span>`,
   styleUrls: [],
-  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StudentDetailReactWrapperComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, { static: false }) containerRef: ElementRef;

@@ -79,7 +79,12 @@ export const StudentDetailContactCard: FunctionComponent<StudentDetailContactCar
   return (
     <StyledContactCard>
       <div className='contact-main-container'>
-        <div><span className='contact-card-name'>{`${current.contactfirstname} ${current.contactlastname}`}</span><span className='italics'> - {`${current.relationshiptostudent} ${current.isprimarycontact ? ' / Primary Contact' : ''}`}</span></div>
+        <div>
+          <span className='contact-card-name'>
+            {`${current.contactfirstname} ${current.contactlastname}`}
+          </span>
+          <span className='italics'> - {`${current.relationshiptostudent} ${current.isprimarycontact ? ' / Primary Contact' : ''}`}</span>
+        </div>
       </div>
       <div className='contact-contact-info'>
         {props.contact.primaryemailaddress && (

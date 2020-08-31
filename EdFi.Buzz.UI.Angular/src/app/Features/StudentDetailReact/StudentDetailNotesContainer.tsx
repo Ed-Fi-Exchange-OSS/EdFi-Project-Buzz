@@ -6,8 +6,8 @@
  */
 
 import * as React from 'react';
-import { FunctionComponent, useState, useEffect, createRef, MouseEvent } from 'react';
-import { StudentNote } from 'src/app/Models';
+import { FunctionComponent, useState, useEffect, createRef } from 'react';
+import { StudentNote, Student } from 'src/app/Models';
 import { StudentDetailNote } from './StudentDetailNote';
 import styled from 'styled-components';
 import { StyledBuzzButton } from 'src/globalstyle';
@@ -80,12 +80,12 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
         console.log('Delete successful, notifying note change');
         setNotesChanged(true);
       });
-  }
+  };
 
   const cancelStudentNote = () => {
     console.log('cancel note');
     setIsAdding(false);
-    addNoteRef.current.value = "";
+    addNoteRef.current.value = '';
   };
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
   return (
     <>
       {notes && (
-        <StudentDetailNotes className="student-detail-notes-container">
+        <StudentDetailNotes className='student-detail-notes-container'>
           {notes && notes.length > 0 &&
             notes.map((note, index) =>
               <StudentDetailNote
@@ -120,11 +120,11 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
                 deleteNoteFunc={deleteStudentNote}
                 apiService={ props.apiService } />)}
           {isAdding && (
-            <div className="student-detail-new-note-container">
+            <div className='student-detail-new-note-container'>
               <textarea rows={6} cols={60} ref={addNoteRef} />
               <div>
                 <StyledBuzzButton
-                  className="save-note-button"
+                  className='save-note-button'
                   onClick={() => {
                     saveStudentNote();
                   }}
@@ -132,7 +132,7 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
                   Save
                 </StyledBuzzButton>
                 <StyledBuzzButton
-                  className="save-note-button"
+                  className='save-note-button'
                   onClick={() => {
                     cancelStudentNote();
                   }}
@@ -143,9 +143,9 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
             </div>
           )}
           {!isAdding && (
-            <div className="student-detail-add-note-container" ref={addNoteButtonRef}>
+            <div className='student-detail-add-note-container' ref={addNoteButtonRef}>
               <StyledBuzzButton
-                className="add-note-button"
+                className='add-note-button'
                 onClick={() => {
                   addStudentNote();
                 }}
