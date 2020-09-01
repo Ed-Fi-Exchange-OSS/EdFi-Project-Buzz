@@ -8,6 +8,8 @@ import WorkSansWoff from './fonts/WorkSans.woff';
 import WorkSansWoff2 from './fonts/WorkSans.woff2';
 import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
 import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
+import OpenSansTtf from './fonts/OpenSans-Regular.ttf';
+import OpenSansExtraBoldTtf from './fonts/OpenSans-ExtraBold.ttf';
 
 export const StyledBuzzButton = styled.button`
   background-color: var(--picton-blue);
@@ -54,6 +56,19 @@ export default createGlobalStyle`
   }
 
   @font-face {
+      font-family: 'Open Sans';
+      src: local('Open Sans'), local('OpenSans'),
+      url(${OpenSansTtf}) format('ttf');
+  }
+
+  @font-face {
+      font-family: 'Open Sans Bold';
+      src: local('Open Sans Bold'), local('OpenSansBold'),
+      url(${OpenSansExtraBoldTtf}) format('ttf');
+  }
+
+
+  @font-face {
       font-family: 'Work Sans';
       src: local('Work Sans'), local('WorkSans'),
       url(${WorkSansWoff2}) format('woff2'),
@@ -69,6 +84,14 @@ export default createGlobalStyle`
 
   * {
     text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: 'Work Sans';
+    font-size: 16px;
+    color: var(--nevada);
+    font-weight: 400;
+    line-height: 1.5rem;
   }
 
   h1, .h1 {
