@@ -73,13 +73,13 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
         note.trim())
       .then(result => {
         console.log(`just added result: ${JSON.stringify(result)}`);
-        let newNote = new StudentNote();
+        const newNote = new StudentNote();
         newNote.studentnotekey = result.studentnotekey;
         newNote.studentschoolkey = props.studentschoolkey;
         newNote.staffkey = props.staffkey,
         newNote.note = note;
         newNote.dateadded = new Date();
-        let newNotes: Array<StudentNote> = ([newNote]).concat(notes);
+        const newNotes: Array<StudentNote> = ([newNote]).concat(notes);
         console.log(`notes after the add: ${JSON.stringify(newNotes)}`);
         setNotes(newNotes);
       }) ;

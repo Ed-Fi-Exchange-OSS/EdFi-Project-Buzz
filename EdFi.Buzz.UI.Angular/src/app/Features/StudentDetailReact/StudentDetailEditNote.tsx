@@ -22,13 +22,13 @@ export const StudentDetailEditNote: React.FunctionComponent<StudentDetailEditNot
       <textarea rows={6} cols={60} ref={ props.noteRef } />
       <div>
         <StyledBuzzButton
-          className="save-note-button"
+          className='save-note-button'
           onClick={() => props.saveButtonFunc(props.noteRef.current.value) }
         >
           Save
         </StyledBuzzButton>
         <StyledBuzzButton
-          className="save-note-button"
+          className='save-note-button'
           onClick={ props.cancelButtonFunc }
         >
           Cancel
