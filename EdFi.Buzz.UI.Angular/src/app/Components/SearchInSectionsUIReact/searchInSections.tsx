@@ -16,6 +16,8 @@ const SearchInSectionsContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-items: flex-start;
+  margin-left:.2rem;
+  margin-right:.2rem;
   margin-bottom: 1em;
   background-color: var(--white);
   max-width: 100%;

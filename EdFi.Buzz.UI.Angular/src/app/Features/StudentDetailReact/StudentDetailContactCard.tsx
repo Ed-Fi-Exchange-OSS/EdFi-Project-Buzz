@@ -21,7 +21,7 @@ const StyledContactCard = styled.div`
   flex-direction: column;
   font-size: 14px;
   background-color: var(--white-lilac);
-  max-width: 330px;
+  min-width: 330px;
   min-height: 50px;
   margin-right: 2rem;
   margin-bottom: 30px;

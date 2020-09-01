@@ -17,9 +17,9 @@ export const StyledBuzzButton = styled.button`
   font-size: 14px;
   border: none;
   outline: none;
-  padding: 1rem 2rem;
+  padding: .5rem .5rem;
   border-radius: 4px;
-  margin: 1rem 1.5rem;
+  margin: .5rem 1rem;
 
   &:focus {
     border: none;
@@ -87,16 +87,31 @@ export default createGlobalStyle`
   }
 
   body {
-    font: 'Work Sans';
+    font-family: 'Work Sans';
     font-size: 16px;
     color: var(--nevada);
     font-weight: 400;
     line-height: 1.5rem;
+    padding-top: 2rem;
+    background-color: var(--white);
+  }
+
+  body, main, .container-fluid, .container, .container-lg, .container-md, .container-sm, .container-xl {
+    padding-left: 0rem;
+    padding-right: 0rem;
   }
 
   h1, .h1 {
-    font: 'Work Sans Extra Bold';
-    font-size: 32px;
+    font-family: 'Work Sans Extra Bold';
+
+    @media (min-width: 769px){
+      font-size: 32px;
+    }
+
+    @media (max-width: 768px){
+      font-size: 24px;
+    }
+
     font-weight: 800;
     font-stretch: normal;
     font-style: normal;
@@ -108,7 +123,7 @@ export default createGlobalStyle`
 
   h2, .h2-desktop{
     flex: 1;
-    font: 'Work Sans Extra Bold';
+    font-family: 'Work Sans Extra Bold';
     font-weight: bold;
     font-size: 18px;
     font-stretch: normal;
@@ -190,7 +205,10 @@ export default createGlobalStyle`
     outline: none;
     resize: none;
     overflow: auto;
-    rows: 15;
+    @media(max-width: 768px){
+      width: 20rem;
+      height: 6rem;
+    }
   }
 
 `;

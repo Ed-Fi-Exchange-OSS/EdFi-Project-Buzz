@@ -7,7 +7,7 @@
 
 import * as React from 'react';
 import { FunctionComponent, useState, useEffect, createRef } from 'react';
-import { StudentNote, Student } from 'src/app/Models';
+import { StudentNote } from 'src/app/Models';
 import { StudentDetailNote } from './StudentDetailNote';
 import styled from 'styled-components';
 import { StyledBuzzButton } from 'src/globalstyle';
@@ -78,6 +78,17 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
         newNote.staffkey = props.staffkey,
         newNote.note = note;
         newNote.dateadded = Date.now().toString();
+
+        const currentTeacher = props.apiService.
+          authentication.currentUserValue.teacher;
+          props.apiService.teacher.getStaffNameByKey(currentTeacher.staffkey).then((author) => {
+            newNote.staffFullName = 'Me';
+            if (newNote.staffkey !== currentTeacher.staffkey) {
+              newNote.staffFullName = `${author.firstname} ${author.lastsurname}`;
+              newNote.note.staffEMail = author.electronicmailaddress;
+            }
+          });
+
         const newNotes: Array<StudentNote> = ([newNote]).concat(notes);
         setNotes(newNotes);
       }) ;
@@ -89,7 +100,7 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
     const updatedNotes = notes.filter(note => note.studentnotekey !== studentnotekey);
     props.apiService
       .studentNotesApiService.deleteStudentNote(staffkey, studentnotekey)
-      .then(result => {
+      .then(() => {
         setNotes(updatedNotes);
       });
   };
@@ -103,7 +114,7 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
       {notes && (
         <StudentDetailNotes className='student-detail-notes-container'>
           {notes && notes.length > 0 &&
-            notes.map((note, index) =>
+            notes.map((note) =>
               <StudentDetailNote
                 key={note.studentnotekey}
                 note={note}

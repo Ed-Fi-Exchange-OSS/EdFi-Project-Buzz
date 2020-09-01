@@ -19,7 +19,6 @@ import { StudentDetailNote } from './StudentDetailNote';
 import { StudentDetailNotesContainer } from './StudentDetailNotesContainer';
 
 const StudentDetailContainer = styled.div`
-  margin: 1em 1em 1em 1em;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,9 +29,8 @@ const StudentDetailContainer = styled.div`
     flex-direction: column;
     width: 100%;
     background-color: var(--white-lilac);
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-top: 1.5rem;
+    padding-left: .2rem;
+    padding-top: .5rem;
   }
 
   .student-detail-bottom {
@@ -52,6 +50,7 @@ const StudentDetailContainer = styled.div`
     align-content: center;
     width: 100%;
     height: 2rem;
+    margin-bottom: 0.5rem;
 
     & > div {
       padding: 0.3rem;
@@ -99,13 +98,20 @@ const StudentDetailContainer = styled.div`
   }
 
   .student-profile-pic {
-    width: 98px;
-    height: 98px;
+    @media(max-width:768px){
+      width: 49px;
+      height: 49px;
+    }
+
+    @media(min-width:769px){
+      width: 98px;
+      height: 98px;
+    }
   }
 
   .image-container {
     border-radius: 0;
-    padding-right: 1.5rem;
+    padding-right: .5rem;
     align-items: flex-start;
   }
 

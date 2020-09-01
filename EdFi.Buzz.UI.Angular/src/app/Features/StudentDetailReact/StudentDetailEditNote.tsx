@@ -6,7 +6,7 @@
  */
 
 import * as React from 'react';
-import { RefObject, FunctionComponent, createRef } from 'react';
+import { RefObject, FunctionComponent, createRef, ElementRef, useEffect } from 'react';
 import { StyledBuzzButton } from 'src/globalstyle';
 
 interface StudentDetailEditNoteProps {
@@ -22,6 +22,10 @@ export const StudentDetailEditNote: FunctionComponent<StudentDetailEditNoteProps
   const saveNote = () => {
     props.saveButtonFunc(noteRef.current.value);
   };
+
+  useEffect(() => {
+    noteRef.current.focus();
+  }, [])
 
   return (
     <div>

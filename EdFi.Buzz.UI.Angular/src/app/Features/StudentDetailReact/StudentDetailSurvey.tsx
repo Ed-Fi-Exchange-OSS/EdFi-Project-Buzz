@@ -15,10 +15,27 @@ import { StudentDetailSurveyAnswerRow } from './StudentDetailSurveyAnswers';
 const StyledStudentSurveyRow = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   & > div {
-    flex: 1;
-    display: flex;
+    @media (min-width: 769px) {
+      flex: 1;
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      flex: 0 0 100%;
+    }
+  }
+
+  .survey-question-row {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    & > div {
+      flex: 1;
+    }
   }
 
   .shown-div {
@@ -45,9 +62,8 @@ export interface StudentDetailSurveyProps {
   survey: StudentSurvey;
 }
 
-export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = (
-  props: StudentDetailSurveyProps,
-) => {
+export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = (props: StudentDetailSurveyProps) => {
+  let i = 0;
   const [survey, setSurvey] = useState<StudentSurvey>();
   const [show, setShow] = useState<Boolean>(false);
 
@@ -63,23 +79,25 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
     <>
       {survey && (
         <>
-        <StyledStudentSurveyRow>
-          <div className='h2-desktop'>{survey.survey.title}</div>
-          <div className='bold'>Date:&nbsp;{(new Date(parseInt(survey.date, 10))).toLocaleDateString()}</div>
-          <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
-          <StyledChevronIcon onClick={(e) => toggleDetail()}>
-              {!show ?
-                <ChevronDownIcon /> :
-                <ChevronUpIcon />}
-          </StyledChevronIcon>
+          <StyledStudentSurveyRow>
+            <div className="h2-desktop">{survey.survey.title}</div>
+            <div className="survey-question-row">
+              <div className="bold">Date:&nbsp;{new Date(parseInt(survey.date, 10)).toLocaleDateString()}</div>
+              <div className="bold">Questions:&nbsp;{survey.answers.length}</div>
+            </div>
+            <StyledChevronIcon onClick={(e) => toggleDetail()}>
+              {!show ? <ChevronDownIcon /> : <ChevronUpIcon />}
+            </StyledChevronIcon>
           </StyledStudentSurveyRow>
-          {(show && survey.answers.length > 0 ) &&
+          {show && survey.answers.length > 0 && (
             <>
-            <div className='h2-desktop'>QUESTIONS</div>
-            {survey.answers.map((a, index) => <StudentDetailSurveyAnswerRow key={index} answer={a} />)}
+              <div className="h2-desktop">QUESTIONS</div>
+              {survey.answers.map((a, index) => (
+                <StudentDetailSurveyAnswerRow key={index} idx={++i} answer={a} />
+              ))}
             </>
-          }
-          </>
+          )}
+        </>
       )}
     </>
   );
