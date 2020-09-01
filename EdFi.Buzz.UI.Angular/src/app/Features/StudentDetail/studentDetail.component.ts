@@ -69,7 +69,7 @@ export class StudentDetailComponent implements OnInit {
       studentschoolkey: this.student.studentschoolkey,
       staffkey: this.currentTeacher.staffkey,
       note: `New note: ${newId}`,
-      dateadded: new Date()
+      dateadded: Date.now().toString()
     });
     window.setTimeout( () => {
       this.noteInput.nativeElement.focus();

@@ -53,7 +53,7 @@ export class StudentNote {
   studentschoolkey: string;
   staffkey: number;
   note: string;
-  dateadded: Date;
+  dateadded: string;
 
   staffFullName?: string;
   staffEMail?: string;

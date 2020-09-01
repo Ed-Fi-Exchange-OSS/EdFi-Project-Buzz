@@ -77,7 +77,7 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
         newNote.studentschoolkey = props.studentschoolkey;
         newNote.staffkey = props.staffkey,
         newNote.note = note;
-        newNote.dateadded = new Date();
+        newNote.dateadded = Date.now().toString();
         const newNotes: Array<StudentNote> = ([newNote]).concat(notes);
         setNotes(newNotes);
       }) ;
