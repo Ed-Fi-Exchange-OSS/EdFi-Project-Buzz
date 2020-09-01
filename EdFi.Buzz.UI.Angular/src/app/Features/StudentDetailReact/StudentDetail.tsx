@@ -178,7 +178,6 @@ const StudentDetailContainer = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     color: var(--shark);
-    padding-left: 2rem;
     border-bottom: 1px solid var(--iron);
 
     & > div {
@@ -221,7 +220,6 @@ const StudentDetailContainer = styled.div`
   .student-surveys-container {
     display: flex;
     flex-direction: column;
-    padding-left: 2rem;
     border-bottom: 1px solid var(--iron);
 
     & > div {

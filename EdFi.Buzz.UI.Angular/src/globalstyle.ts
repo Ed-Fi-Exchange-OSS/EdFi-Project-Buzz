@@ -101,6 +101,10 @@ export default createGlobalStyle`
     padding-right: 0rem;
   }
 
+  .buttons-footer[_ngcontent-ng-cli-universal-c0] {
+    width: 100%;
+  }
+
   h1, .h1 {
     font-family: 'Work Sans Extra Bold';
 

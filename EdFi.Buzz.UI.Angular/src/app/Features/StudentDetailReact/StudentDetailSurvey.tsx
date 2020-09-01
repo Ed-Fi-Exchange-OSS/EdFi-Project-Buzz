@@ -15,7 +15,12 @@ import { StudentDetailSurveyAnswerRow } from './StudentDetailSurveyAnswers';
 const StyledStudentSurveyRow = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  align-content: center;
+
+  .stacked-container {
+    display: flex;
+    flex-direction: column;
+  }
 
   & > div {
     @media (min-width: 769px) {
@@ -32,7 +37,8 @@ const StyledStudentSurveyRow = styled.div`
     display:flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    flex-wrap: wrap;
+
     & > div {
       flex: 1;
     }
@@ -49,9 +55,7 @@ const StyledStudentSurveyRow = styled.div`
 `;
 
 const StyledChevronIcon = styled.div`
-  display: flex;
   flex: 1;
-  justify-content: flex-end;
   padding-right: 1.5rem;
   width: 22px;
   height: 12px;
@@ -80,10 +84,12 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
       {survey && (
         <>
           <StyledStudentSurveyRow>
-            <div className="h2-desktop">{survey.survey.title}</div>
-            <div className="survey-question-row">
-              <div className="bold">Date:&nbsp;{new Date(parseInt(survey.date, 10)).toLocaleDateString()}</div>
-              <div className="bold">Questions:&nbsp;{survey.answers.length}</div>
+            <div className="stacked-container">
+              <div className="h2-desktop">{survey.survey.title}</div>
+              <div className="survey-question-row">
+                <div className="bold">Date:&nbsp;{new Date(parseInt(survey.date, 10)).toLocaleDateString()}</div>
+                <div className="bold">Questions:&nbsp;{survey.answers.length}</div>
+              </div>
             </div>
             <StyledChevronIcon onClick={(e) => toggleDetail()}>
               {!show ? <ChevronDownIcon /> : <ChevronUpIcon />}
