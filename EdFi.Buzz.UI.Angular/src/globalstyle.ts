@@ -87,7 +87,7 @@ export default createGlobalStyle`
   }
 
   body {
-    font-family: 'Work Sans';
+    font: 'Work Sans';
     font-size: 16px;
     color: var(--nevada);
     font-weight: 400;
@@ -95,7 +95,7 @@ export default createGlobalStyle`
   }
 
   h1, .h1 {
-    font-family: 'Work Sans Extra Bold';
+    font: 'Work Sans Extra Bold';
     font-size: 32px;
     font-weight: 800;
     font-stretch: normal;
@@ -108,7 +108,8 @@ export default createGlobalStyle`
 
   h2, .h2-desktop{
     flex: 1;
-    font-family: 'Work Sans Extra Bold';
+    font: 'Work Sans Extra Bold';
+    font-weight: bold;
     font-size: 18px;
     font-stretch: normal;
     font-style: normal;
@@ -118,7 +119,7 @@ export default createGlobalStyle`
   }
 
   .h2-headline{
-    font-family: 'Work Sans';
+    font: 'Work Sans';
     font-size: 16px;
     font-weight: bold;
     font-stretch: normal;

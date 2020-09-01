@@ -40,6 +40,9 @@ const SearchContainer = styled.div`
 `;
 
 const FilterByClassLabelDesktop = styled.span`
+
+  font-size: 14px;
+
   @media (max-width: 768px) {
       display: none;
   }
@@ -47,7 +50,7 @@ const FilterByClassLabelDesktop = styled.span`
   @media (min-width: 769px) {
     min-width: 8rem;
     color: var(--shark);
-    font-family: ${(props) => props.theme.fonts.regular};
+    font: ${(props) => props.theme.fonts.regular};
     font-weight: 600;
   }
 `;
@@ -61,7 +64,7 @@ const FilterByClassLabel = styled.div`
     color: var(--shark);
     width: fit-content;
     height: 16px;
-    font-family: ${(props) => props.theme.fonts.regular};
+    font: ${(props) => props.theme.fonts.regular};
     font-size: 14px;
     font-weight: 600;
     font-stretch: normal;
@@ -161,7 +164,7 @@ const StyledSelectParent = styled.div`
     min-width: 18em;
     width: 100%;
     height: 3rem;
-    font-family: ${(props) => props.theme.fonts.bold};
+    font: ${(props) => props.theme.fonts.bold};
     color: var(--denim);
     text-indent: 1px;
     text-overflow: '';
@@ -180,7 +183,7 @@ const StyledSelectParent = styled.div`
 
   & > select > option {
     font: ${(props) => props.theme.fonts.regular};
-    font-family: ${(props) => props.theme.fonts.regular};
+    font: ${(props) => props.theme.fonts.regular};
     font-weight: normal;
     color: var(--slate-gray);
   }

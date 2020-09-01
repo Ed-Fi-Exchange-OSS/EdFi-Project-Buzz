@@ -33,7 +33,7 @@ const StyledContactCard = styled.div`
 
   .contact-card-name {
     color: var(--shark);
-    font-family: 'OpenSansBold', sans-serif;
+    font: 'OpenSansBold', sans-serif;
     font-size: 18px;
     font-weight: 600;
     margin-right: 1.5rem;

@@ -19,7 +19,7 @@ export interface SurveyAnalyticsComponentProps {
 const SurveyTitle = styled.div`
   font-size: 14px;
   color: var(--slate-gray);
-  font-family: ${(props) => props.theme.fonts.bold};
+  font: ${(props) => props.theme.fonts.bold};
 
   .questionIndex {
     color: var(--picton-blue);

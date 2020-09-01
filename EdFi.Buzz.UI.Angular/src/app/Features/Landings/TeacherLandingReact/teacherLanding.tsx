@@ -28,7 +28,7 @@ const ListButtons = styled.div`
 
   & > button {
     margin: 0px;
-    font-family: ${(props) => props.theme.fonts.regular};
+    font: ${(props) => props.theme.fonts.regular};
     background-color: var(--white);
     border: none;
     text-decoration: none;
