@@ -9,7 +9,7 @@ import WorkSansWoff2 from './fonts/WorkSans.woff2';
 import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
 import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
 import OpenSansTtf from './fonts/OpenSans-Regular.ttf';
-import OpenSansExtraBoldTtf from './fonts/OpenSans-ExtraBold.ttf';
+import OpenSansBoldTtf from './fonts/OpenSans-Bold.ttf';
 
 export const StyledBuzzButton = styled.button`
   background-color: var(--picton-blue);
@@ -64,7 +64,7 @@ export default createGlobalStyle`
   @font-face {
       font-family: 'Open Sans Bold';
       src: local('Open Sans Bold'), local('OpenSansBold'),
-      url(${OpenSansExtraBoldTtf}) format('ttf');
+      url(${OpenSansBoldTtf}) format('ttf');
   }
 
 
