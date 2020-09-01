@@ -198,11 +198,10 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     e.preventDefault();
     const file = fileUploaded as File;
     const status = CheckFileValid(file);
-    if(surveyName.length === 0){
+    if (surveyName.length === 0) {
       setIsTitleValid(false);
       return;
-    }
-    else{
+    } else {
       setIsTitleValid(true);
     }
     if (!status.isValid) {
