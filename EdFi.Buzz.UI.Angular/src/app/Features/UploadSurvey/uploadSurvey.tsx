@@ -28,6 +28,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   const [SURVEY_MAX_FILE_SIZE_BYTES, setMaxFileSize] = useState(0);
   const [storage, setStorage] = useState(sessionStorage);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isTitleValid, setIsTitleValid] = useState(true);
   const [isFileValid, setIsFileValid] = useState(false);
   const [currentUserStaffKey, setCurrentUserStaffKey] = useState(null);
   const [surveyToUpdate, setSurveyToUpdate] = useState(null);
@@ -197,6 +198,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     e.preventDefault();
     const file = fileUploaded as File;
     const status = CheckFileValid(file);
+    if(surveyName.length === 0){
+      setIsTitleValid(false);
+      return;
+    }
+    else{
+      setIsTitleValid(true);
+    }
     if (!status.isValid) {
       setFileStatusMessage(createFileStatusMessage(status));
       return;
@@ -348,7 +356,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                       placeholder='Survey Name'
                       onChange={onChangeSurveyName}
                       value={surveyName} />
-                    {(surveyName.length === 0 && isFileValid)
+                    {(!isTitleValid)
                       ? <label className='label alert-danger text-justify w-100'> * Survey name is required </label>
                       : null}
                   </div>
