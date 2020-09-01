@@ -26,7 +26,7 @@ import { StudentDetailComponent } from './Features/StudentDetail/studentDetail.c
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
-import { UploadSurveyComponent } from './Features/UploadSurvey/uploadSurvey.component';
+import { UploadSurveyWrapperComponent } from './Features/UploadSurvey/uploadSurveyWrapperComponent';
 import { DndDirective } from './Directives/dnd.directive';
 import { SortAnswersByPipe } from './Helpers/sortAnswersBy.pipe';
 import { TeacherLandingReactWrapperComponent } from './Features/Landings/TeacherLandingReact/teacherLandingReactWrapper';
@@ -70,12 +70,12 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
     SiblingCardComponent,
     SurveyCardComponent,
     StudentDetailComponent,
-    UploadSurveyComponent,
     LoginReactWrapperComponent,
     DndDirective,
     SortAnswersByPipe,
     TeacherLandingReactWrapperComponent,
     SurveyAnalyticsReactWrapperComponent,
+    UploadSurveyWrapperComponent,
     AdminSurveyReactWrapperComponent
   ],
   imports: [
@@ -94,8 +94,8 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
           { path: '', component: TeacherLandingReactWrapperComponent },
           { path: 'studentDetail/:id', component: StudentDetailComponent },
           { path: 'surveyAnalytics', component: SurveyAnalyticsReactWrapperComponent },
-          { path: 'uploadSurvey', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
-          { path: 'uploadSurvey/:id', component: UploadSurveyComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'uploadSurvey', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
+          { path: 'uploadSurvey/:id', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
           { path: 'adminSurvey', component: AdminSurveyReactWrapperComponent, data: { roles: ['surveyUploader'] } },
         ],
         canActivate: [AuthGuard],
