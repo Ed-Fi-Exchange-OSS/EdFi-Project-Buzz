@@ -206,11 +206,12 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     try {
       const uploadedFileStatus = await api.survey
       .uploadSurvey(currentUserStaffKey, title, content, surveyToUpdate ? surveyToUpdate.surveykey : null);
-      await setFileStatusMessage(createFileStatusMessage({
+      const currentFileStatus = createFileStatusMessage({
         fileName: file.name,
         status: 'ACCEPTED',
         isValid: true,
-        serverJobStatus: uploadedFileStatus}));
+        serverJobStatus: uploadedFileStatus});
+      await setFileStatusMessage(currentFileStatus);
       saveLastUploadedSurvey({
         fileName: file.name,
         status: 'ACCEPTED',
@@ -222,7 +223,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       if (!api.survey.JOB_STATUS_FINISH_IDS.includes(uploadedFileStatus.jobstatuskey)) {
         /* Job is not finished */
         setJobStatusTimer(setTimeout(
-          () => GetJobStatus(uploadedFileStatus.staffkey, uploadedFileStatus.jobkey, fileStatusMessage),
+          () => GetJobStatus(uploadedFileStatus.staffkey, uploadedFileStatus.jobkey, currentFileStatus),
           SURVEY_STATUS_QUERY_TIME_IN_MS));
       }
       } catch (ex) {
@@ -231,9 +232,10 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       }
   };
 
-  const GetJobStatus = async(staffkey: number, jobkey: string, statusMessage: FileStatus) => {
+  const GetJobStatus = async(staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
     const values = await api.survey.getSurveyStatus(staffkey, jobkey);
-    const value = values.length > 0 ? values[0] : null;
+    const value = values && values.length > 0 ? values[0] : null;
+    const statusMessage = currentFileStatus ? currentFileStatus : fileStatusMessage;
     if (!statusMessage || !(statusMessage && statusMessage.fileName && statusMessage.fileName.length > 0)) {
       /* If message don't have value, don't try to check file status. Probably
       the user selected a new file to upload. */
@@ -246,13 +248,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       if (value && !api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
         /* Job is not finished */
         setJobStatusTimer(setTimeout(
-          () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
+          () => GetJobStatus(value.staffkey, value.jobkey, statusMessage),
           SURVEY_STATUS_QUERY_TIME_IN_MS));
      }
     } else {
       setFileStatusMessage(createFileStatusMessage(statusMessage));
       setJobStatusTimer(setTimeout(
-        () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
+        () => GetJobStatus(staffkey, jobkey, statusMessage),
         SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
   };
