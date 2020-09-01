@@ -37,6 +37,7 @@ const StudentDetailNotes = styled.div`
   }
 
   .student-detail-new-note-container {
+    padding-top: 1.5rem;
   }
 `;
 
@@ -54,7 +55,6 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
   const [notes, setNotes] = useState<Array<StudentNote>>(props.notes);
   const [isAdding, setIsAdding] = useState<Boolean>(false);
 
-  const addNoteRef = createRef<HTMLTextAreaElement>();
   const addNoteButtonRef = createRef<HTMLDivElement>();
 
   const cancelStudentNote = () => {
@@ -72,7 +72,6 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
         props.studentschoolkey,
         note.trim())
       .then(result => {
-        console.log(`just added result: ${JSON.stringify(result)}`);
         const newNote = new StudentNote();
         newNote.studentnotekey = result.studentnotekey;
         newNote.studentschoolkey = props.studentschoolkey;
@@ -80,17 +79,14 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
         newNote.note = note;
         newNote.dateadded = new Date();
         const newNotes: Array<StudentNote> = ([newNote]).concat(notes);
-        console.log(`notes after the add: ${JSON.stringify(newNotes)}`);
         setNotes(newNotes);
       }) ;
     setIsAdding(false);
   };
 
   const deleteStudentNote = (staffkey: number, studentnotekey: number) => {
-    console.log(`delete the studentnotekey: ${studentnotekey}`);
 
-    const updatedNotes = notes.filter(note => note.studentnotekey != studentnotekey);
-    console.log(`notes after the delete: ${JSON.stringify(updatedNotes)}`);
+    const updatedNotes = notes.filter(note => note.studentnotekey !== studentnotekey);
     props.apiService
       .studentNotesApiService.deleteStudentNote(staffkey, studentnotekey)
       .then(result => {
@@ -99,7 +95,6 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
   };
 
   useEffect(() => {
-    console.log(`notes: ${JSON.stringify(notes)}`);
     setNotes(props.notes);
   }, []);
 
@@ -110,14 +105,13 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
           {notes && notes.length > 0 &&
             notes.map((note, index) =>
               <StudentDetailNote
-                key={index}
+                key={note.studentnotekey}
                 note={note}
                 deleteNoteFunc={deleteStudentNote}
                 apiService={ props.apiService } />)}
           {isAdding && (
             <div className='student-detail-new-note-container'>
               <StudentDetailEditNote
-                noteRef={addNoteRef}
                 saveButtonFunc={saveStudentNote}
                 cancelButtonFunc={cancelStudentNote} />
             </div>

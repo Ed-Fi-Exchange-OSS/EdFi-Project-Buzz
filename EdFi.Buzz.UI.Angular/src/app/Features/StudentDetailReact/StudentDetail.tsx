@@ -94,7 +94,7 @@ const StudentDetailContainer = styled.div`
   }
 
   .student-profile-grade-level {
-    color: var(--iron);
+    color: var(--nevada);
     font-style: italic;
   }
 
@@ -311,7 +311,6 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       setStudentId(props.studentId);
       setCurrentTeacher(props.api.authentication.currentUserValue.teacher);
       getStudent().then((result: Student) => {
-        console.log(`student: ${JSON.stringify(result)}`);
         setStudent(result);
         setContacts(result.contacts);
         setSiblings(result.siblings);

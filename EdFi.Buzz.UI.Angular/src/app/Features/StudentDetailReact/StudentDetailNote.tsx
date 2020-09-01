@@ -7,7 +7,7 @@
 
 import * as React from 'react';
 import { FunctionComponent, useState, useEffect, MouseEvent } from 'react';
-import { StudentNote } from 'src/app/Models';
+import { StudentNote, Teacher } from 'src/app/Models';
 import styled from 'styled-components';
 import { StyledBuzzButton } from 'src/globalstyle';
 import { ApiService } from 'src/app/Services/api.service';
@@ -33,9 +33,26 @@ interface StudentDetailNoteProps {
 export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (props: StudentDetailNoteProps) => {
   const [note, setNote] = useState<StudentNote>();
 
+  const getNoteAuthor = (staffkey: number) => {
+    let teacher = new Teacher();
+    props.apiService.teacher.getStaffNameByKey(staffkey).then((staff) => {
+      teacher = staff;
+    });
+    return teacher;
+  };
+
   useEffect(() => {
+    const currentTeacher = props.apiService.
+      authentication.currentUserValue.teacher;
+    const author = getNoteAuthor(props.note.staffkey);
+    console.log(`author: ${JSON.stringify(author)}`);
+    props.note.staffEMail = author.electronicmailaddress;
+    props.note.staffFullName = 'Me';
+    if (props.note.staffkey === currentTeacher.staffkey) {
+      props.note.staffFullName = `${author.firstname} ${author.lastsurname}`;
+    }
     setNote(props.note);
-  }, []);
+  }, [props.note]);
 
   return (
     <>
@@ -59,7 +76,10 @@ export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (pro
           </div>
           <div>
             <div>
-              <StyledBuzzButton className='Edit Note' onClick={() => props.deleteNoteFunc(note.staffkey, note.studentnotekey)}>
+              <StyledBuzzButton
+                className='Edit Note'
+                onClick={() => props.deleteNoteFunc(note.staffkey, note.studentnotekey)}
+              >
                 Delete Note
               </StyledBuzzButton>
             </div>

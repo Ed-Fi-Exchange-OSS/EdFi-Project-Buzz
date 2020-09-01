@@ -6,24 +6,30 @@
  */
 
 import * as React from 'react';
-import { RefObject } from 'react';
+import { RefObject, FunctionComponent, createRef } from 'react';
 import { StyledBuzzButton } from 'src/globalstyle';
 
 interface StudentDetailEditNoteProps {
-  noteRef: RefObject<HTMLTextAreaElement>;
   saveButtonFunc: (note: string) => void;
   cancelButtonFunc: () => void;
 }
 
-export const StudentDetailEditNote: React.FunctionComponent<StudentDetailEditNoteProps> = (
+export const StudentDetailEditNote: FunctionComponent<StudentDetailEditNoteProps> = (
   props: StudentDetailEditNoteProps) => {
+
+  const noteRef = createRef<HTMLTextAreaElement>();
+
+  const saveNote = () => {
+    props.saveButtonFunc(noteRef.current.value);
+  };
+
   return (
     <div>
-      <textarea rows={6} cols={60} ref={ props.noteRef } />
+      <textarea rows={6} cols={60} ref={ noteRef } />
       <div>
         <StyledBuzzButton
           className='save-note-button'
-          onClick={() => props.saveButtonFunc(props.noteRef.current.value) }
+          onClick={saveNote}
         >
           Save
         </StyledBuzzButton>
