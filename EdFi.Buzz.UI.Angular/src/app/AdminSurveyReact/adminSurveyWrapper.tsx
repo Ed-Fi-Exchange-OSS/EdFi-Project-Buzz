@@ -32,7 +32,7 @@ import {
   @Component({
     selector: 'app-admin-survey-react',
     template: `<span #${containerElementName}></span>`,
-    styleUrls: ['./adminSurvey.css'],
+    styleUrls: [],
     encapsulation: ViewEncapsulation.None,
   })
   export class AdminSurveyReactWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
