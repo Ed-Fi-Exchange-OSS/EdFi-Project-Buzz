@@ -248,13 +248,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         setJobStatusTimer(setTimeout(
           () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
           SURVEY_STATUS_QUERY_TIME_IN_MS));
+     }
     } else {
       setFileStatusMessage(createFileStatusMessage(statusMessage));
       setJobStatusTimer(setTimeout(
         () => GetJobStatus(value.staffkey, value.jobkey, fileStatusMessage),
         SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
-  }
   };
 
   const getFileContentAsBase64 = (file: Blob): Promise<string> => {
