@@ -7,6 +7,8 @@ import * as React from 'react';
 import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { SurveyStatus } from 'src/app/Models/survey';
 import { ApiService } from 'src/app/Services/api.service';
+import { MainContainer, HeadlineContainer, TitleSpanContainer } from 'src/buzztheme';
+import styled from 'styled-components';
 
 export interface UploadSurveyProps {
   api: ApiService;
@@ -20,6 +22,118 @@ interface FileStatus {
   jobId?: string;
   serverJobStatus?: SurveyStatus;
 }
+
+const SuyrveyUploadNote = styled.div`
+hyphens: auto;
+margin-bottom: 0;
+padding-bottom: 0;
+text-align: justify;
+`;
+
+const UpdateMessage = styled.h2`
+text-align: justify;
+hyphens: auto;
+`;
+
+const StyledFileInputLabel = styled.label`
+  font-style: italic;
+  text-align: justify;
+  border-width: 2px;
+  color: #6f6f6f;
+
+  &::after {
+    height: auto;
+  }
+`;
+
+const StyledTextParent = styled.div`
+  @media (min-width: 769px) {
+    flex: 1;
+    display: flex;
+    align-self: space-between;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+
+    & > .label {
+      width: 100%
+    }
+  }
+
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border: ${(props) => props.theme.border};
+  border-radius: 4px;
+
+  :focus-within {
+    outline: none !important;
+    border-color: var(--denim) !important;
+  }
+
+  & > input {
+    height: 100%;
+    padding: 10px 10px;
+    border: none;
+    position: relative;
+    box-sizing: border-box;
+    min-width: 15rem;
+    width: 100%;
+
+    :focus {
+      outline: none !important;
+      outline-width: 0px;
+    }
+
+    ::placeholder,
+    ::-webkit-input-placeholder {
+      font-style: italic;
+    }
+
+    :-moz-placeholder {
+      font-style: italic;
+    }
+
+    ::-moz-placeholder {
+      font-style: italic;
+    }
+
+    :-ms-input-placeholder {
+      font-style: italic;
+    }
+  }
+
+  & > .label  {
+    margin: 0;
+    padding: 10px 10px;
+    min-width: max-content;
+  }
+`;
+
+
+const OutlineButton = styled.button`
+
+&.outline-button {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 3em;
+  border-color: var(--denim) !important;
+  border-style: solid;
+  color:  var(--denim);
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+&.outline-button:hover {
+  color: white;
+  background-color: var(--denim) !important;
+}
+`;
 
 export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: UploadSurveyProps) => {
   const DEFAULT_UPLOAD_LABEL = 'Choose survey file';
@@ -58,16 +172,16 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
   useEffect(() => {
     const fileClassName =
-          (fileStatusMessage
-          && (fileStatusMessage.error
+      (fileStatusMessage
+        && (fileStatusMessage.error
           || (fileStatusMessage.serverJobStatus
-              && fileStatusMessage.serverJobStatus.jobstatuskey !== 3)))
-          ? 'alert-warning'
-          : (!fileStatusMessage
-            || (!fileStatusMessage.error
-                  && fileStatusMessage.serverJobStatus
-                 && fileStatusMessage.serverJobStatus.jobstatuskey === 3))
-                 ? 'alert-success' : '';
+            && fileStatusMessage.serverJobStatus.jobstatuskey !== 3)))
+        ? 'alert-warning'
+        : (!fileStatusMessage
+          || (!fileStatusMessage.error
+            && fileStatusMessage.serverJobStatus
+            && fileStatusMessage.serverJobStatus.jobstatuskey === 3))
+          ? 'alert-success' : '';
     setFileStatusClassName(fileClassName);
   }, [fileStatusMessage]);
   const cancelUploadStatusChecking = () => {
@@ -95,15 +209,15 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return fileStatusMessage;
     }
     const newFileStatus = fileStatus ? (
-        {
-          fileName: fileStatus.fileName,
-          isValid: fileStatus.isValid,
-          status: fileStatus.status,
-          error: fileStatus.error,
-          jobId: fileStatus.jobId,
-          serverJobStatus: fileStatus.serverJobStatus
-        }
-      ) :
+      {
+        fileName: fileStatus.fileName,
+        isValid: fileStatus.isValid,
+        status: fileStatus.status,
+        error: fileStatus.error,
+        jobId: fileStatus.jobId,
+        serverJobStatus: fileStatus.serverJobStatus
+      }
+    ) :
       (
         {
           fileName: '',
@@ -114,10 +228,10 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
           serverJobStatus: null
         }
       );
-   return newFileStatus;
+    return newFileStatus;
   };
 
-   const OnInit = async () => {
+  const OnInit = async () => {
     if (surveyKey && surveyKey.length > 0) {
       const userSurveyList = await (api.survey.getSurveyStatus(
         api.authentication.currentUserValue.teacher.staffkey, null));
@@ -193,7 +307,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     prepareFilesList((event.target as HTMLInputElement).files);
   };
 
-  const submitSurvey = async(e) => {
+  const submitSurvey = async (e) => {
     validateForm();
     e.preventDefault();
     const file = fileUploaded as File;
@@ -212,12 +326,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     const content = await getFileContentAsBase64(file);
     try {
       const uploadedFileStatus = await api.survey
-      .uploadSurvey(currentUserStaffKey, title, content, surveyToUpdate ? surveyToUpdate.surveykey : null);
+        .uploadSurvey(currentUserStaffKey, title, content, surveyToUpdate ? surveyToUpdate.surveykey : null);
       const currentFileStatus = createFileStatusMessage({
         fileName: file.name,
         status: 'ACCEPTED',
         isValid: true,
-        serverJobStatus: uploadedFileStatus});
+        serverJobStatus: uploadedFileStatus
+      });
       await setFileStatusMessage(currentFileStatus);
       saveLastUploadedSurvey({
         fileName: file.name,
@@ -233,13 +348,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
           () => GetJobStatus(uploadedFileStatus.staffkey, uploadedFileStatus.jobkey, currentFileStatus),
           SURVEY_STATUS_QUERY_TIME_IN_MS));
       }
-      } catch (ex) {
-        setFileStatusMessage(createFileStatusMessage({ fileName: file.name, status: 'ERROR', error: ex, isValid: true }));
-        resetControl();
-      }
+    } catch (ex) {
+      setFileStatusMessage(createFileStatusMessage({ fileName: file.name, status: 'ERROR', error: ex, isValid: true }));
+      resetControl();
+    }
   };
 
-  const GetJobStatus = async(staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
+  const GetJobStatus = async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
     const values = await api.survey.getSurveyStatus(staffkey, jobkey);
     const value = values && values.length > 0 ? values[0] : null;
     const statusMessage = currentFileStatus ? currentFileStatus : fileStatusMessage;
@@ -249,7 +364,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return;
     }
     if (value !== null) {
-      setFileStatusMessage(createFileStatusMessage({...statusMessage, serverJobStatus: value}));
+      setFileStatusMessage(createFileStatusMessage({ ...statusMessage, serverJobStatus: value }));
       saveLastUploadedSurvey(fileStatusMessage);
       setJobStatusTimer(null);
       if (value && !api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
@@ -257,7 +372,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         setJobStatusTimer(setTimeout(
           () => GetJobStatus(value.staffkey, value.jobkey, statusMessage),
           SURVEY_STATUS_QUERY_TIME_IN_MS));
-     }
+      }
     } else {
       setFileStatusMessage(createFileStatusMessage(statusMessage));
       setJobStatusTimer(setTimeout(
@@ -307,133 +422,121 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   };
 
   return (
-    <Fragment>
-      <div className='container'>
-        <div className='position-relative p-t-10'>
-          <a className='btn-outline-nav inline-block position-relative' style={{ top: '-10px', left: '0px' }}
-            href='{() => history.back()}'>
-            <i className='ion ion-md-arrow-dropleft f-s-37 position-absolute' style={{ top: '-1px', left: '10px' }}></i>
-          </a>
-          <h1 className='inline-block position-absolute' style={{ top: '3px', left: '44px' }}>Upload <span>survey</span></h1>
-        </div>
+    <MainContainer role='main' className='container'>
+      <HeadlineContainer>
+        <TitleSpanContainer>Upload survey</TitleSpanContainer>
+      </HeadlineContainer>
 
-        {surveyToUpdate && (
-          <div className='row'>
-            <div className='col'>
-              <div className='card'>
-                <div className='card-body'>
-                  <h2>You are currently updating the {surveyToUpdate.resultSummaryObj.survey.title} survey</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-        )
-        }
+      {surveyToUpdate && (
         <div className='row'>
           <div className='col'>
             <div className='card'>
               <div className='card-body'>
-                <form onSubmit={submitSurvey}>
-                  <div className='container text-center p-b-10'
-                    onDrop={onFileDropped}
-                    onDragLeave={ev => ev.preventDefault()}
-                    onDragEnter={ev => ev.preventDefault()}
-                    onDragOverCapture={onDragOver} onDragOver={onDragOver}>
-                    <p className='icon ion-md-cloud-upload f-s-50'></p>
-                    <h3>Drag and drop file here</h3>
-                    <h3>or</h3>
-                    <div className='custom-file'>
-                      <input type='file' onChange={onSelectSurvey}
-                        disabled={isFileUploading} className='custom-file-input' id='inputGroupFile01'
-                        accept='text/csv' />
-                      <label className='custom-file-label'>{uploadFileLabelText}</label>
-                    </div>
-                  </div>
-                  <div className='form-group'>
-                    <input type='text'
-                      className='form-control'
-                      placeholder='Survey Name'
-                      onChange={onChangeSurveyName}
-                      value={surveyName} />
-                    {(!isTitleValid)
-                      ? <label className='label alert-danger text-justify w-100'> * Survey name is required </label>
-                      : null}
-                  </div>
-                  <div className='form-group'>
-                    <button type='submit' className='btn btn-primary btn-block btn-lg'
-                      disabled={!isFormValid}>Upload survey</button>
-                  </div>
-                  {(progress > 0)
-                    ?
-                    <div className='progress form-group'>{// TODO Progress bar style.width.%={progress}
-                    }
-                      <div className='progress-bar progress-bar-striped bg-success' role='progressbar'>
-                      </div>
-                    </div>
-                    : null
-                  }
-                  {fileStatusMessage
-                    && fileStatusMessage.fileName
-                    && fileStatusMessage.fileName.length > 0
-                    ?
-                    <div
-                      className={fileStatusClassName}>
-                      <h3>File Upload <strong>{fileStatusMessage.status}</strong></h3>
-                      File: {fileStatusMessage.fileName}<br />
-                      {fileStatusMessage.serverJobStatus
-                        ?
-                        <Fragment>
-                          <h3>Job is <strong>{fileStatusMessage.serverJobStatus.jobstatus.description}</strong></h3>
-                          Job Key: {fileStatusMessage.serverJobStatus.jobkey}<br />
-                          {fileStatusMessage.serverJobStatus.resultSummaryObj
-                            ?
-                            <Fragment>
-                              <h3>Job Results</h3>
-                                Survey Key:{fileStatusMessage.serverJobStatus.resultSummaryObj.survey.surveykey}<br />
-                                Survey Title: {fileStatusMessage.serverJobStatus.resultSummaryObj.survey.title}<br />
-                                Questions: {fileStatusMessage.serverJobStatus.resultSummaryObj.survey.questions}<br />
-
-                                Answers Loaded: {fileStatusMessage.serverJobStatus.resultSummaryObj.process.load}<br />
-                                Answers Rejected: {fileStatusMessage.serverJobStatus.resultSummaryObj.process.rejected}<br />
-                                Answers Already Loaded: {fileStatusMessage.serverJobStatus.resultSummaryObj.process.alreadyLoaded}<br />
-                            </Fragment>
-                            : null
-                          }
-                          {(!fileStatusMessage.serverJobStatus.resultSummaryObj && fileStatusMessage.serverJobStatus.resultsummary)
-                            ?
-                            <div className='alert'>
-                              {fileStatusMessage.serverJobStatus.resultsummary}
-                            </div>
-                            : null
-                          }
-                        </Fragment>
-                        : null
-                      }
-                      {fileStatusMessage.error
-                        ?
-                        <p>{fileStatusMessage.error}</p>
-                        : null
-                      }
-                    </div>
-                    : null}
-                </form>
+                <UpdateMessage>You are updating the "{surveyToUpdate.resultSummaryObj.survey.title}" survey</UpdateMessage>
               </div>
             </div>
           </div>
         </div>
-        <div className='row'>
-          <div className='col'>
-            <div className='card-body alert alert-primary text-justify' lang='en'
-              style={{ hyphens: 'auto', marginTop: '-1rem', paddingBottom: '0' }}>
-              <p>One column in the survey results must be the unique student identifier and must be called "StudentUniqueId".
-        </p>
-              <p>Supports Google Forms and Survey Monkey formatted exports. You can also use Qualtrics survey exports by
-          removing the first of the two headers.</p>
+      )
+      }
+
+      <div className='row'>
+        <div className='col'>
+          <form onSubmit={submitSurvey}>
+
+            <div className='text-center'
+              onDrop={onFileDropped}
+              onDragLeave={ev => ev.preventDefault()}
+              onDragEnter={ev => ev.preventDefault()}
+              onDragOverCapture={onDragOver} onDragOver={onDragOver}>
+              <p className='icon ion-md-cloud-upload f-s-50'></p>
+              <h3>Drag and drop file here</h3>
+              <h3>or</h3>
+              <div className='custom-file'>
+                <input type='file' onChange={onSelectSurvey}
+                  disabled={isFileUploading}
+                  className='custom-file-input'
+                  id='inputGroupFile01'
+                  accept='text/csv' />
+                <StyledFileInputLabel className='custom-file-label'>{uploadFileLabelText}</StyledFileInputLabel>
+              </div>
             </div>
-          </div>
+
+            <StyledTextParent>
+              <input type='text'
+                placeholder='Survey Name'
+                onChange={onChangeSurveyName}
+                value={surveyName} />
+              {(!isTitleValid)
+                ? <label className='label alert-danger text-justify'>Survey name is required</label>
+                : null}
+            </StyledTextParent>
+
+            <div className='form-group'>
+              <OutlineButton type='submit' className='outline-button'
+                disabled={!isFormValid}>Upload survey</OutlineButton>
+            </div>
+
+            {fileStatusMessage
+              && fileStatusMessage.fileName
+              && fileStatusMessage.fileName.length > 0
+              ?
+              <div
+                className={`alert ${fileStatusClassName}`}>
+                <h3>File Upload <strong>{fileStatusMessage.status}</strong></h3>
+                      File: {fileStatusMessage.fileName}<br />
+                {fileStatusMessage.serverJobStatus
+                  ?
+                  <Fragment>
+                    <h3>Job is <strong>{fileStatusMessage.serverJobStatus.jobstatus.description}</strong></h3>
+                    Job Key: {fileStatusMessage.serverJobStatus.jobkey}<br />
+                    {fileStatusMessage.serverJobStatus.resultSummaryObj
+                      ?
+                      <Fragment>
+                        <h3>Job Results</h3>
+                        Survey Key:{fileStatusMessage.serverJobStatus.resultSummaryObj.survey.surveykey}<br />
+                        Survey Title: {fileStatusMessage.serverJobStatus.resultSummaryObj.survey.title}<br />
+                        Questions: {fileStatusMessage.serverJobStatus.resultSummaryObj.survey.questions}<br />
+
+                        Answers Loaded: {fileStatusMessage.serverJobStatus.resultSummaryObj.process.load}<br />
+                        Answers Rejected: {fileStatusMessage.serverJobStatus.resultSummaryObj.process.rejected}<br />
+                        Answers Already Loaded: {fileStatusMessage.serverJobStatus.resultSummaryObj.process.alreadyLoaded}<br />
+                      </Fragment>
+                      : null
+                    }
+                    {(!fileStatusMessage.serverJobStatus.resultSummaryObj && fileStatusMessage.serverJobStatus.resultsummary)
+                      ?
+                      <div className='alert'>
+                        {fileStatusMessage.serverJobStatus.resultsummary}
+                      </div>
+                      : null
+                    }
+                  </Fragment>
+                  : null
+                }
+                {fileStatusMessage.error
+                  ?
+                  <p>{fileStatusMessage.error}</p>
+                  : null
+                }
+              </div>
+              : null}
+
+          </form>
         </div>
       </div>
-    </Fragment>
+
+      <div className='row'>
+        <div className='col'>
+          <SuyrveyUploadNote>
+            <p>One column in the survey results must be the unique student identifier and must be
+              called <em>StudentUniqueId</em>. Supports Google Forms and Survey Monkey formatted exports.
+              You can also use Qualtrics survey exports by removing the first of the two headers.</p>
+          </SuyrveyUploadNote>
+        </div>
+      </div>
+
+    </MainContainer >
   );
 
 };
