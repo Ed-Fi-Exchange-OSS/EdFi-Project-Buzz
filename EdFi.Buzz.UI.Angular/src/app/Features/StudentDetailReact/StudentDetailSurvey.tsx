@@ -84,11 +84,11 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
       {survey && (
         <>
           <StyledStudentSurveyRow>
-            <div className="stacked-container">
-              <div className="h2-desktop">{survey.survey.title}</div>
-              <div className="survey-question-row">
-                <div className="bold">Date:&nbsp;{new Date(parseInt(survey.date, 10)).toLocaleDateString()}</div>
-                <div className="bold">Questions:&nbsp;{survey.answers.length}</div>
+            <div className='stacked-container'>
+              <div className='h2-desktop'>{survey.survey.title}</div>
+              <div className='survey-question-row'>
+                <div className='bold'>Date:&nbsp;{new Date(parseInt(survey.date, 10)).toLocaleDateString()}</div>
+                <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
               </div>
             </div>
             <StyledChevronIcon onClick={(e) => toggleDetail()}>
@@ -97,7 +97,7 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
           </StyledStudentSurveyRow>
           {show && survey.answers.length > 0 && (
             <>
-              <div className="h2-desktop">QUESTIONS</div>
+              <div className='h2-desktop'>QUESTIONS</div>
               {survey.answers.map((a, index) => (
                 <StudentDetailSurveyAnswerRow key={index} idx={++i} answer={a} />
               ))}

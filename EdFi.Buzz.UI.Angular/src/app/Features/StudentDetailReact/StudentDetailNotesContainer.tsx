@@ -85,7 +85,7 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
             newNote.staffFullName = 'Me';
             if (newNote.staffkey !== currentTeacher.staffkey) {
               newNote.staffFullName = `${author.firstname} ${author.lastsurname}`;
-              newNote.note.staffEMail = author.electronicmailaddress;
+              newNote.staffEMail = author.electronicmailaddress;
             }
           });
 

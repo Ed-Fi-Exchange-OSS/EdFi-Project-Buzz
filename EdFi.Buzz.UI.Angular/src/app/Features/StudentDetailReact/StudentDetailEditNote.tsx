@@ -25,7 +25,7 @@ export const StudentDetailEditNote: FunctionComponent<StudentDetailEditNoteProps
 
   useEffect(() => {
     noteRef.current.focus();
-  }, [])
+  }, []);
 
   return (
     <div>
