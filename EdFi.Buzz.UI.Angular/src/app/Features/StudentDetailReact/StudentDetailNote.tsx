@@ -44,13 +44,14 @@ export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (pro
   useEffect(() => {
     const currentTeacher = props.apiService.
       authentication.currentUserValue.teacher;
-    const author = getNoteAuthor(props.note.staffkey);
-    console.log(`author: ${JSON.stringify(author)}`);
-    props.note.staffEMail = author.electronicmailaddress;
-    props.note.staffFullName = 'Me';
-    if (props.note.staffkey === currentTeacher.staffkey) {
-      props.note.staffFullName = `${author.firstname} ${author.lastsurname}`;
-    }
+      props.apiService.teacher.getStaffNameByKey(currentTeacher.staffkey).then((author) => {
+        props.note.staffFullName = 'Me';
+        if (props.note.staffkey !== currentTeacher.staffkey) {
+          props.note.staffFullName = `${author.firstname} ${author.lastsurname}`;
+          props.note.staffEMail = author.electronicmailaddress;
+        }
+      });
+
     setNote(props.note);
   }, [props.note]);
 
