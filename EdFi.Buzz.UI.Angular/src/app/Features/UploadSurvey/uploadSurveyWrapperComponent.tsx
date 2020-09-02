@@ -28,14 +28,11 @@ const containerElementName = 'uploadSurveyReactComponentContainer';
 import GlobalFonts from '../../../globalstyle';
 import { ThemeProvider } from 'styled-components';
 import BuzzTheme from '../../../buzztheme';
-import { FormBuilder } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-upload-survey',
   template: `<span #${containerElementName}></span>`,
-  styleUrls: ['./uploadSurvey.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class UploadSurveyWrapperComponent implements OnChanges, OnDestroy, AfterViewInit {
