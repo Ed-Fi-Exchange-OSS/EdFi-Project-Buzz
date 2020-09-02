@@ -23,14 +23,7 @@ const StyledStudentSurveyRow = styled.div`
   }
 
   & > div {
-    @media (min-width: 769px) {
-      flex: 1;
-      display: flex;
-    }
-
-    @media (max-width: 768px) {
-      flex: 0 0 100%;
-    }
+    flex: 0 0 100%;
   }
 
   .survey-question-row {
