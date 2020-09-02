@@ -102,7 +102,7 @@ export default createGlobalStyle`
   }
 
   .buttons-footer[_ngcontent-ng-cli-universal-c0] {
-    width: 100%;
+    width: 100vw;
   }
 
   h1, .h1 {
