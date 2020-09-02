@@ -385,7 +385,31 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
               <div className='guardians-siblings'>
                 {contacts &&
                   contacts.length > 0 &&
-                  contacts.map((contact, index) => <StudentDetailContactCard key={index} contact={contact} />)}
+                  contacts.map((contact, index) =>
+                    <StudentDetailContactCard key={index}
+                    firstname={contact.contactfirstname}
+                    lastname={contact.contactlastname}
+                    relationshiptostudent={contact.relationshiptostudent}
+                    isSibling={false}
+                    isprimarycontact={contact.isprimarycontact}
+                    primaryemailaddress={contact.primaryemailaddress}
+                    phonenumber={contact.phonenumber}
+                    preferredcontactmethod={contact.preferredcontactmethod}
+                    besttimetocontact={contact.besttimetocontact} />)}
+                {siblings &&
+                  siblings.length > 0 &&
+                  siblings.map((sibling, index) =>
+                  <StudentDetailContactCard key={index}
+                    firstname={sibling.studentfirstname}
+                    lastname={sibling.studentlastname}
+                    relationshiptostudent={"Sibling"}
+                    isSibling={true}
+                    isprimarycontact={false}
+                    primaryemailaddress={sibling.primaryemailaddress}
+                    phonenumber={null}
+                    preferredcontactmethod={null}
+                    besttimetocontact={null} />
+                  )}
               </div>
             </div>
             <div className='student-detail-tabbed-container'>

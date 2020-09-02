@@ -9,11 +9,18 @@ import { FunctionComponent, useState, useEffect } from 'react';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { ContactPerson } from 'src/app/Models';
 import { EmailIcon, PhoneIcon } from '../common/Icons';
 
 export interface StudentDetailContactCardProps {
-  contact: ContactPerson;
+  firstname: String;
+  lastname: String;
+  relationshiptostudent: String;
+  isSibling: Boolean;
+  isprimarycontact: Boolean;
+  primaryemailaddress?: String;
+  phonenumber?: String;
+  preferredcontactmethod?: String;
+  besttimetocontact?: String;
 }
 
 const StyledContactCard = styled.div`
@@ -29,7 +36,6 @@ const StyledContactCard = styled.div`
   border-radius: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
-
 
   .contact-card-name {
     color: var(--shark);
@@ -49,7 +55,7 @@ const StyledContactCard = styled.div`
       line-height: 1.7rem;
       justify-self: center;
       height: 2rem;
-      flex : 1;
+      flex: 1;
     }
   }
 
@@ -72,37 +78,39 @@ const StyledContactCard = styled.div`
 export const StudentDetailContactCard: FunctionComponent<StudentDetailContactCardProps> = (
   props: StudentDetailContactCardProps,
 ) => {
-  const [current, setCurrent] = useState<ContactPerson>(new ContactPerson());
-  useEffect(() => {
-    setCurrent(props.contact);
-  }, []);
-
   return (
     <StyledContactCard>
-      <div className='contact-main-container'>
+      <div className="contact-main-container">
         <div>
-          <span className='contact-card-name'>
-            {`${current.contactfirstname} ${current.contactlastname}`}
+          <span className="contact-card-name">{`${props.firstname} ${props.lastname}`}</span>
+          <span className="italics">
+            {' '}
+            - {`${props.relationshiptostudent} ${props.isprimarycontact ? ' / Primary Contact' : ''}`}
           </span>
-          <span className='italics'> - {`${current.relationshiptostudent} ${current.isprimarycontact ? ' / Primary Contact' : ''}`}</span>
         </div>
       </div>
-      <div className='contact-contact-info'>
-        {props.contact.primaryemailaddress && (
-          <div className='contact-email'>
+      <div className="contact-contact-info">
+        {props.primaryemailaddress && (
+          <div className="contact-email">
             <EmailIcon />
-            {`${props.contact.primaryemailaddress}`}
+            {`${props.primaryemailaddress}`}
           </div>
         )}
-        <div>
-          <PhoneIcon />
-          {`${props.contact.phonenumber}`}
-        </div>
+        {props.phonenumber && (
+          <div>
+            <PhoneIcon />
+            {`${props.phonenumber}`}
+          </div>
+        )}
       </div>
-      <div className='contact-preferences-container'>
-        <div>Preferred contact method: {current.preferredcontactmethod || 'None specified'}</div>
-        <div>Best time to contact: {current.besttimetocontact || 'None specified'}</div>
-      </div>
+      {!props.isSibling && (
+        <>
+          <div className="contact-preferences-container">
+            <div>Preferred contact method: {props.preferredcontactmethod || 'None specified'}</div>
+            <div>Best time to contact: {props.besttimetocontact || 'None specified'}</div>
+          </div>
+        </>
+      )}
     </StyledContactCard>
   );
 };
