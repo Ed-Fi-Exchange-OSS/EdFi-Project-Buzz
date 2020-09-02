@@ -128,7 +128,7 @@ export default createGlobalStyle`
   h2, .h2-desktop{
     flex: 1;
     font-family: 'Work Sans Extra Bold';
-    font-weight: bold;
+    font-weight: 400;
     font-size: 18px;
     font-stretch: normal;
     font-style: normal;
@@ -166,7 +166,6 @@ export default createGlobalStyle`
 
   .label {
     font-size: 16px;
-    font-weight: 600;
     padding: 1.5rem;
   }
 
