@@ -52,7 +52,7 @@ const StyledStudentCard = styled.div`
     overflow: hidden !important;
   }
 
-  & div.footer {
+  & div.card-footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -255,7 +255,7 @@ export function StudentCard(props: StudentCardComponentProps) {
             </div>
           )}
           {(!student.contacts || student.contacts.length === 0) && (
-            <div className='alert alert-primary'>Student have no contacts</div>
+            <div className='alert alert-primary'>Student has no contacts</div>
           )}
           <div className='outline-button'>
             <a href={`#/app/studentDetail/${student.studentschoolkey}`}>Student Details</a>
