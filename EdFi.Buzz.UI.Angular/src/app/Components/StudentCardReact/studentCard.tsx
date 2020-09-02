@@ -10,7 +10,7 @@ import ChevronDown from '../../../assets/chevron-down.png';
 import ChevronUp from '../../../assets/chevron-up.png';
 
 const StyledStudentCard = styled.div`
-  font-family: ${(props) => props.theme.fonts.regular} !important;
+  font: ${(props) => props.theme.fonts.regular} !important;
   font-size: 14px;
   background-color: var(--white-lilac);
   border: ${(props) => props.theme.border};
@@ -52,12 +52,12 @@ const StyledStudentCard = styled.div`
     overflow: hidden !important;
   }
 
-  & div.footer {
+  & div.card-footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-content: center;
-    font-family: ${(props) => props.theme.fonts.regular};
+    font: ${(props) => props.theme.fonts.regular};
     font-weight: 600;
     color: var(--denim);
     background-color: var(--white-lilac);
@@ -120,7 +120,7 @@ const StyledStudentCard = styled.div`
 
   & h3 {
     color: var(--shark);
-    font-family: ${(props) => props.theme.fonts.bold};
+    font: ${(props) => props.theme.fonts.bold};
     font-size: 18px;
     font-stretch: normal;
     font-style: normal;
@@ -255,7 +255,7 @@ export function StudentCard(props: StudentCardComponentProps) {
             </div>
           )}
           {(!student.contacts || student.contacts.length === 0) && (
-            <div className='alert alert-primary'>Student have no contacts</div>
+            <div className='alert alert-primary'>Student has no contacts</div>
           )}
           <div className='outline-button'>
             <a href={`#/app/studentDetail/${student.studentschoolkey}`}>Student Details</a>

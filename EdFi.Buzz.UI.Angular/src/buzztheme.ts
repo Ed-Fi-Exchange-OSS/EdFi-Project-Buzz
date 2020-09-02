@@ -15,6 +15,8 @@ export const HeadlineContainer = styled.div`
 
   display: flex;
   align-items: center;
+  margin-left: .2rem;
+  margin-right: .2rem;
   margin-bottom: 1.5rem;
 
   @media (max-width: 768px) {

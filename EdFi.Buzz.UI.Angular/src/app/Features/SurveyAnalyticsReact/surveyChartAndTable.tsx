@@ -16,7 +16,7 @@ export interface ChartAndTableComponentProps {
 
 const StyledSurveyArea = styled.div`
     cursor: pointer;
-    font-family: ${(props) => props.theme.fonts.bold} !important;
+    font: ${(props) => props.theme.fonts.bold} !important;
     color: var(--picton-blue) !important;
     & img {
       justify-self: center;

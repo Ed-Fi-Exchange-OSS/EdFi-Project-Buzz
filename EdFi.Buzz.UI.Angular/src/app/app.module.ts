@@ -22,7 +22,7 @@ import { GuardianCardComponent } from './Components/GuardianCard/guardianCard.co
 import { StudentCardLiteComponent } from './Components/StudentCardLite/studentCardLite.component';
 import { SiblingCardComponent } from './Components/SiblingCard/siblingCard.component';
 import { SurveyCardComponent } from './Components/SurveyCard/surveyCard.component';
-import { StudentDetailComponent } from './Features/StudentDetail/studentDetail.component';
+import { StudentDetailReactWrapperComponent } from './Features/StudentDetailReact/StudentDetailReactWrapper';
 import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 import { AuthGuard } from './Interceptors/auth.guard';
 import { EnvironmentService } from './Services/environment.service';
@@ -69,7 +69,7 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
     GuardianCardComponent,
     SiblingCardComponent,
     SurveyCardComponent,
-    StudentDetailComponent,
+    StudentDetailReactWrapperComponent,
     LoginReactWrapperComponent,
     DndDirective,
     SortAnswersByPipe,
@@ -92,7 +92,7 @@ export function provideAuthService(config: AuthServiceConfig, { environment }: E
       {
         path: 'app', component: HomeComponent, children: [ // this displays the navbar
           { path: '', component: TeacherLandingReactWrapperComponent },
-          { path: 'studentDetail/:id', component: StudentDetailComponent },
+          { path: 'studentDetail/:id', component: StudentDetailReactWrapperComponent },
           { path: 'surveyAnalytics', component: SurveyAnalyticsReactWrapperComponent },
           { path: 'uploadSurvey', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
           { path: 'uploadSurvey/:id', component: UploadSurveyWrapperComponent, data: { roles: ['surveyUploader'] } },
