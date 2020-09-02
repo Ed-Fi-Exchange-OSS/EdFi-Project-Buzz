@@ -162,10 +162,10 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
       )}
         <Modal
           show={showModal}
-          backdrop="static"
+          backdrop='static'
           className='survey-modal-dialog'
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
+          size='lg'
+          aria-labelledby='contained-modal-title-vcenter'
           centered>
           <Modal.Header closeButton>
             <Modal.Title>Delete note</Modal.Title>
