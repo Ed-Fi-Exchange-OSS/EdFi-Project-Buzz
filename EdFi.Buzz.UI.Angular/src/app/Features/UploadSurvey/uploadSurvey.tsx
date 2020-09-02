@@ -23,7 +23,7 @@ interface FileStatus {
   serverJobStatus?: SurveyStatus;
 }
 
-const SuyrveyUploadNote = styled.div`
+const SurveyUploadNote = styled.div`
 hyphens: auto;
 margin-bottom: 0;
 padding-bottom: 0;
@@ -39,7 +39,8 @@ const StyledFileInputLabel = styled.label`
   font-style: italic;
   text-align: justify;
   border-width: 2px;
-  color: #6f6f6f;
+  color: var(--slate-gray);
+  overflow: hidden;
 
   &::after {
     height: auto;
@@ -474,7 +475,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
             <div className='form-group'>
               <OutlineButton type='submit' className='outline-button'
-                disabled={!isFormValid}>Upload survey</OutlineButton>
+                >Upload survey</OutlineButton>
             </div>
 
             {fileStatusMessage
@@ -528,11 +529,11 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
       <div className='row'>
         <div className='col'>
-          <SuyrveyUploadNote>
+          <SurveyUploadNote>
             <p>One column in the survey results must be the unique student identifier and must be
               called <em>StudentUniqueId</em>. Supports Google Forms and Survey Monkey formatted exports.
               You can also use Qualtrics survey exports by removing the first of the two headers.</p>
-          </SuyrveyUploadNote>
+          </SurveyUploadNote>
         </div>
       </div>
 
