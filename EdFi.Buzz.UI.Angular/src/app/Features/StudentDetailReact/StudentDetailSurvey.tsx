@@ -8,7 +8,7 @@
 import * as React from 'react';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '../common/Icons';
-import { StudentSurvey, StudentSurveySummaryAnswers } from 'src/app/Models/student';
+import { StudentSurvey } from 'src/app/Models/student';
 import styled from 'styled-components';
 import { StudentDetailSurveyAnswerRow } from './StudentDetailSurveyAnswers';
 
@@ -23,14 +23,8 @@ const StyledStudentSurveyRow = styled.div`
   }
 
   & > div {
-    @media (min-width: 769px) {
       flex: 1;
       display: flex;
-    }
-
-    @media (max-width: 768px) {
-      flex: 0 0 100%;
-    }
   }
 
   .survey-question-row {
@@ -60,6 +54,8 @@ const StyledChevronIcon = styled.div`
   width: 22px;
   height: 12px;
   cursor: pointer;
+  display:flex;
+  justify-content: flex-end;
 `;
 
 export interface StudentDetailSurveyProps {
@@ -91,7 +87,7 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
                 <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
               </div>
             </div>
-            <StyledChevronIcon onClick={(e) => toggleDetail()}>
+            <StyledChevronIcon onClick={() => toggleDetail()}>
               {!show ? <ChevronDownIcon /> : <ChevronUpIcon />}
             </StyledChevronIcon>
           </StyledStudentSurveyRow>

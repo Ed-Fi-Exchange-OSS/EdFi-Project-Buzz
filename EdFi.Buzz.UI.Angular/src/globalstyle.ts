@@ -94,6 +94,7 @@ export default createGlobalStyle`
     line-height: 1.5rem;
     padding-top: 2rem;
     background-color: var(--white);
+    width: 100vw;
   }
 
   body, main, .container-fluid, .container, .container-lg, .container-md, .container-sm, .container-xl {
@@ -101,7 +102,7 @@ export default createGlobalStyle`
     padding-right: 0rem;
   }
 
-  .buttons-footer[_ngcontent-ng-cli-universal-c0] {
+  .navbar, .buttons-footer[_ngcontent-ng-cli-universal-c0] {
     width: 100vw;
   }
 

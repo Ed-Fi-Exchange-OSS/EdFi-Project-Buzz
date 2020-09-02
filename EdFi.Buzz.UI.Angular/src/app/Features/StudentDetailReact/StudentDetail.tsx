@@ -21,13 +21,12 @@ import { StudentDetailNotesContainer } from './StudentDetailNotesContainer';
 const StudentDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 100vw;
 
   .student-detail-top {
     display: flex;
     flex: 1;
     flex-direction: column;
-    width: 100%;
     background-color: var(--white-lilac);
     padding-left: .2rem;
     padding-top: .5rem;
@@ -37,7 +36,6 @@ const StudentDetailContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    width: 100%;
     height: 100%;
     background-color: white;
     padding: 2rem;
@@ -48,7 +46,6 @@ const StudentDetailContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    width: 100%;
     height: 2rem;
     margin-bottom: 0.5rem;
 
@@ -143,7 +140,6 @@ const StudentDetailContainer = styled.div`
   .student-detail-guardians-siblings-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
     margin-bottom: 1.5rem;
 
     .label {
@@ -168,7 +164,6 @@ const StudentDetailContainer = styled.div`
   }
 
   .student-detail-tabbed-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -229,13 +224,11 @@ const StudentDetailContainer = styled.div`
   }
 
   .student-detail-notes-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
 
     & > div {
       flex: 1;
-      width: 100%;
     }
   }
 `;
