@@ -102,7 +102,7 @@ export default createGlobalStyle`
     padding-right: 0rem;
   }
 
-  .navbar, .buttons-footer[_ngcontent-ng-cli-universal-c0] {
+  .buttons-footer[_ngcontent-ng-cli-universal-c0] {
     width: 100vw;
   }
 
