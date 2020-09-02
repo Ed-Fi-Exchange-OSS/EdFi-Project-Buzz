@@ -28,7 +28,6 @@ import GlobalFonts from '../../../globalstyle';
 import { StudentDetail } from './StudentDetail';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student, Teacher } from 'src/app/Models';
-
 const containerElementName = 'studentDetailReactComponentContainer';
 
 @Component({
