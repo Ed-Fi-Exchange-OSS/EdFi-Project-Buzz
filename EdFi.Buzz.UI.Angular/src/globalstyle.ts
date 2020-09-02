@@ -94,7 +94,7 @@ export default createGlobalStyle`
     line-height: 1.5rem;
     padding-top: 2rem;
     background-color: var(--white);
-    width: 100vw;
+    overflow-x: hidden;
   }
 
   body, main, .container-fluid, .container, .container-lg, .container-md, .container-sm, .container-xl {
