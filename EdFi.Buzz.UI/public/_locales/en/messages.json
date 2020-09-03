@@ -1,0 +1,16 @@
+{
+  "extensionName": {
+    "message": "Create React App Sample",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Web site created using create-react-app.",
+    "description": "Description of the extension."
+  },
+
+  "extensionShortName": {
+    "message": "React App",
+    "description": "Short name of the extension."
+  }
+}
