@@ -7,7 +7,7 @@
 const dotnet = require('dotenv');
 
 dotnet.config();
-const processor = require('../processors/RioRanchoContactsProcessor');
+const processor = require('./RioRanchoContactsProcessor');
 
 async function main() {
   console.time('Load time');
