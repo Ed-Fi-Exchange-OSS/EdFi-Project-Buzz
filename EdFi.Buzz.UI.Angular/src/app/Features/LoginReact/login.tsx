@@ -69,7 +69,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
                 <SocialButton
                   className='btn btn-primary'
                   provider='google'
-                  autoLogin={true}
+                  autoLogin={false}
                   appId={props.googleClientId}
                   onLoginSuccess={handleSocialLogin}
                   onLoginFailure={handleSocialLoginFailure}
