@@ -7,7 +7,7 @@ import { ApolloClient } from '@apollo/client';
 
 export class ApolloHelper {
 
-  static clearApolloStorage(client: ApolloClient<any>) {
+  static clearApolloStorage(client: ApolloClient<any>): void {
     client.resetStore();
     client.clearStore();
   }

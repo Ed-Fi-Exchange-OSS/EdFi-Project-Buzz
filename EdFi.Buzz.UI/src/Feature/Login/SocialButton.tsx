@@ -7,6 +7,7 @@
 
 import * as React from 'react';
 import SocialLogin from 'react-social-login';
+import Button from 'react-bootstrap/Button';
 
 class SocialButton extends React.Component<any> {
 
@@ -19,9 +20,9 @@ class SocialButton extends React.Component<any> {
       }, {});
 
     return (
-      <button onClick={this.props.triggerLogin} {...otherProps}>
+      <Button onClick={this.props.triggerLogin} {...otherProps}>
         {this.props.children}
-      </button>
+      </Button>
     );
   }
 }
