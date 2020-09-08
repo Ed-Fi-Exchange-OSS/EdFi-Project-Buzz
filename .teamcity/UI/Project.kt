@@ -17,7 +17,7 @@ object UIProject : Project({
     buildType(ui.buildTypes.DeployUIBuild)
 
     params{
-        param("project.directory", "./EdFi.Buzz.UI1");
+        param("project.directory", "./EdFi.Buzz.UI");
         param("octopus.release.version","<placeholder value>")
         param("octopus.release.project", "Buzz UI")
         param("octopus.project.id", "Projects-112")
