@@ -5,15 +5,11 @@
 
 import Environment from '../Models/Environment';
 
-export default class EnvironmentService {
-  public environment: Environment;
-
-  // We access the environment variables that were fetched before the app started
-  /* eslint no-useless-constructor: "warn"*/
-  constructor() {
-    // eslint-disable-next-line
-    this.environment = window['tempConfigStorage'] as Environment;
-    // eslint-disable-next-line
-    window['tempConfigStorage'] = null;
-  }
+export class EnvironmentService {
+    public environment: Environment;
+    // We access the environment variables that were fetched before the app started
+    constructor() {
+        this.environment = window['tempConfigStorage'] as Environment;
+        window['tempConfigStorage'] = null;
+    }
 }
