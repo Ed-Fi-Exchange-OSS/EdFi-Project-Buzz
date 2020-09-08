@@ -63,10 +63,10 @@ function Install-NginxFiles{
     $nginxVersion
   )
 
-  # Copy the dist directory into the NGiNX folder
+  # Copy the build directory into the NGiNX folder
   $parameters = @{
-    Path = "$PSScriptRoot\..\dist"
-    Destination = "$InstallPath\$nginxVersion\dist"
+    Path = "$PSScriptRoot\..\build"
+    Destination = "$InstallPath\$nginxVersion\build"
     Recurse = $true
     Force = $true
   }

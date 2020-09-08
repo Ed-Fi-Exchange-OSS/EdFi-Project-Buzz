@@ -13,7 +13,7 @@
   </metadata>
   <files>
     <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
-    <file src="..\dist\**" target="dist" />
+    <file src="..\build\**" target="build" />
     <file src="windows\**" target="windows" />
     <file src="nginx.conf" />
   </files>
