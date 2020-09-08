@@ -6,8 +6,8 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
-import { ApolloHelper } from 'Helpers/ApolloHelper';
-import { Teacher } from 'Models';
+import { ApolloHelper } from '../Helpers/ApolloHelper';
+import { Teacher } from '../Models';
 import { TeacherApiService } from './TeacherService';
 
 export class AuthenticationService {
