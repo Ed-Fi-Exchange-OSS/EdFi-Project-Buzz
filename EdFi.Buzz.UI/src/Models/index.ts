@@ -7,6 +7,7 @@ export { Environment } from './Environment';
 export { ContactPerson } from './ContactPerson';
 export { Guardian } from './Guardian';
 export { Student, StudentNote } from './Student';
-export { SurveyMetadata, SurveyQuestionAnswers, SurveyQuestionSummary } from './Survey';
+export * from './Survey';
 export { Teacher } from './Teacher';
 export { Section } from './Section';
+export * from './FileStatus';

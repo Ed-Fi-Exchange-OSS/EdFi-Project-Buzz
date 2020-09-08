@@ -6,10 +6,12 @@
  */
 
 
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, useHistory, Redirect } from 'react-router-dom';
 
+
+import { EnvironmentService } from 'Services/EnvironmentService';
+import configureDI from 'DIContext';
 
 import { ApiService } from 'Services/ApiService';
 import { Header } from 'Components/Header';
@@ -21,32 +23,41 @@ import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
 import { UploadSurvey } from 'Feature/UploadSurvey';
 import { AdminSurvey } from 'Feature/AdminSurvey';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import configureDI from 'DIContext';
 
 const container = configureDI();
-const apolloClient = container.get<ApolloClient<InMemoryCache>>('ApolloClient');
+const api = container.get<ApiService>('ApiService');
+
+const env = container.get<EnvironmentService>('EnvironmentService').environment;
 
 
 export default function App(): JSX.Element {
-  // eslint-disable-next-line
-  const history = useHistory();
-  return (
-    <ApolloProvider client={apolloClient}>
-      <Router>
-        <div>
-          <Header />
+  const [isLoggedIn, setIsLoggedIn] = useState(api.authentication.currentUserValue != null);
+  useEffect(() => {
+    const suscription = api.authentication.currentUser.subscribe((cu) => {
+      setIsLoggedIn(cu && cu.teacher != null);
+    });
+    return () => suscription.unsubscribe();
+  });
 
+  function RouterContent(): JSX.Element {
+    const history = useHistory();
+    return <Switch>
+      <Route path="/login" >
+        <Login
+          api={api}
+          navigate={(url) => history.replace(url)}
+          googleClientId={env.GOOGLE_CLIENT_ID}
+          returnUrl="/"
+        />
+      </Route>
+      {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
+        <div>
+          <Header api={api} navigate={(url) => history.push(url)} />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/login"> <Login
-              api={container.get<ApiService>('ApiService')}
-              navigate={(url)=> console.log('TODO: implement navigate')}
-              googleClientId="761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com"
-              returnUrl="/"
-
-            /> </Route>
             <Route exact path="/"> <StudentRoster /> </Route>
             <Route path="/studentDetail/:studentKey"> <StudentDetail /> </Route>
             <Route path="/surveyAnalytics"> <SurveyAnalytics /> </Route>
@@ -57,7 +68,13 @@ export default function App(): JSX.Element {
 
           <Footer />
         </div>
-      </Router>
-    </ApolloProvider>
+      </Route>}
+    </Switch>;
+  }
+
+  return (
+    <Router>
+      <RouterContent />
+    </Router>
   );
 }

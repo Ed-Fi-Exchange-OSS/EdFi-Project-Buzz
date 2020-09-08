@@ -3,25 +3,27 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+/* eslint max-classes-per-file: "off"*/
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
-import { ApolloHelper } from '../Helpers/ApolloHelper';
-import { Teacher } from '../Models';
+import { ApolloHelper } from 'Helpers/ApolloHelper';
+import { Teacher } from 'Models';
 import { TeacherApiService } from './TeacherService';
 
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-
   public currentUser: Observable<User>;
 
   readonly storage = window.sessionStorage;
+
+  private currentUserSubject: BehaviorSubject<User>;
 
   constructor(
     private teacherService: TeacherApiService,
     private apolloClient: ApolloClient<NormalizedCacheObject>
   ) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser') ));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -35,7 +37,6 @@ export class AuthenticationService {
     sessionStorage.setItem('validatingToken', idToken);
     // TODO: Get user profile data from graphql.  Waiting implementation
     const teacher = await this.teacherService.getTeacher();
-    sessionStorage.removeItem('validatingToken');
     if (!teacher) {
       console.error('Staff not found');
       return false;
@@ -53,7 +54,7 @@ export class AuthenticationService {
     return true;
   }
 
-  logout() {
+  logout(): void {
     // remove user from local storage to log user out
     this.storage.removeItem('currentUser');
     this.storage.removeItem('lastUploadedSurvey');

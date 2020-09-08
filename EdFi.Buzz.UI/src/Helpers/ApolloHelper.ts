@@ -3,11 +3,12 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+/* eslint @typescript-eslint/no-explicit-any: "off"*/
+
 import { ApolloClient } from '@apollo/client';
 
 export class ApolloHelper {
-
-  static clearApolloStorage(client: ApolloClient<any>) {
+  static clearApolloStorage(client: ApolloClient<any>): void {
     client.resetStore();
     client.clearStore();
   }
