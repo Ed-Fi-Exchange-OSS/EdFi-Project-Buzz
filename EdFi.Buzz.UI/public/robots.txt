@@ -1,0 +1,6 @@
+# Web site owners use the /robots.txt file to give instructions about their site to web robots/
+# This is called The Robots Exclusion Protocol.
+# More details https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Disallow:
