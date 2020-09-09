@@ -6,10 +6,11 @@
 import Environment from '../Models/Environment';
 
 export class EnvironmentService {
-    public environment: Environment;
-    // We access the environment variables that were fetched before the app started
-    constructor() {
-        this.environment = window['tempConfigStorage'] as Environment;
-        window['tempConfigStorage'] = null;
-    }
+  public environment: Environment;
+
+  // We access the environment variables that were fetched before the app started
+  constructor() {
+    this.environment = window.tempConfigStorage as Environment;
+    window.tempConfigStorage = null;
+  }
 }
