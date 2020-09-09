@@ -6,11 +6,13 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { Section } from '../Models';
 import { getSectionsByStaff } from './GraphQL/SectionQueries';
-import { AuthenticationService } from '../Services/AuthenticationService';
-declare var require: any;
+import { AuthenticationService } from './AuthenticationService';
+
+declare let require: any;
 
 export class SectionApiService {
   controllerName = 'section';
+
   sections: Section[];
 
   constructor(
