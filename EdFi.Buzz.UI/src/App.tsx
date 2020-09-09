@@ -25,7 +25,7 @@ import './App.css';
 import configureDI from 'DIContext';
 
 const container = configureDI();
-const apolloClient = container.get<ApolloClient<InMemoryCache>>("ApolloClient");
+const apolloClient = container.get<ApolloClient<InMemoryCache>>('ApolloClient');
 
 
 export default function App(): JSX.Element {
@@ -40,8 +40,8 @@ export default function App(): JSX.Element {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/login"> <Login
-              api={container.get<ApiService>("ApiService")}
-              navigate={(url)=> console.log("TODO: implement navigate")}
+              api={container.get<ApiService>('ApiService')}
+              navigate={(url)=> console.log('TODO: implement navigate')}
               googleClientId="761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com"
               returnUrl="/"
 

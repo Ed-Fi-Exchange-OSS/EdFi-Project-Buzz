@@ -4,12 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 
-import DIContainer, { object, get } from "rsdi";
+import DIContainer, { object, get } from 'rsdi';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { ApiService } from "Services/ApiService";
-import { AuthenticationService } from "Services/AuthenticationService";
-import { EnvironmentService } from "Services/EnvironmentService";
-import { TeacherApiService } from "Services/TeacherService";
+import { ApiService } from 'Services/ApiService';
+import { AuthenticationService } from 'Services/AuthenticationService';
+import { EnvironmentService } from 'Services/EnvironmentService';
+import { TeacherApiService } from 'Services/TeacherService';
 
 
 const apolloClient = new ApolloClient({
@@ -19,33 +19,33 @@ const apolloClient = new ApolloClient({
 
 
 export default function configureDI() {
-    const container = new DIContainer();
-    container.addDefinitions({
-        "EnvironmentService": object(EnvironmentService),
-        "ApolloClient": apolloClient,
-        "ApiService": object(ApiService).construct(
-          get("AuthenticationService"),
-          get("SectionApiService"),
-          get("StudentApiService"),
-          get("StudentNotesApiService"),
-          get("SurveyAnalyticsApiService"),
-          get("TeacherApiService"),
-          get("SurveyService")
-        ),
-        "AuthenticationService": object(AuthenticationService).construct(
-          get("TeacherApiService"),
-          get("ApolloClient"),
-        ),
-        "SectionApiService" : null,
-        "StudentApiService" : null,
-        "StudentNotesApiService": null,
-        "SurveyAnalyticsApiService": null,
-        "TeacherApiService": object(TeacherApiService).construct(
+  const container = new DIContainer();
+  container.addDefinitions({
+    'EnvironmentService': object(EnvironmentService),
+    'ApolloClient': apolloClient,
+    'ApiService': object(ApiService).construct(
+      get('AuthenticationService'),
+      get('SectionApiService'),
+      get('StudentApiService'),
+      get('StudentNotesApiService'),
+      get('SurveyAnalyticsApiService'),
+      get('TeacherApiService'),
+      get('SurveyService')
+    ),
+    'AuthenticationService': object(AuthenticationService).construct(
+      get('TeacherApiService'),
+      get('ApolloClient')
+    ),
+    'SectionApiService' : null,
+    'StudentApiService' : null,
+    'StudentNotesApiService': null,
+    'SurveyAnalyticsApiService': null,
+    'TeacherApiService': object(TeacherApiService).construct(
 
-        ),
-        "SurveyService": null
+    ),
+    'SurveyService': null
 
 
-    });
-    return container;
+  });
+  return container;
 }

@@ -7,9 +7,14 @@ import { SurveyStatus } from './Survey';
 
 export class FileStatus {
   fileName: string;
+
   isValid: boolean;
+
   status: string;
+
   error?: string;
+
   jobId?: string;
+
   serverJobStatus?: SurveyStatus;
 }
