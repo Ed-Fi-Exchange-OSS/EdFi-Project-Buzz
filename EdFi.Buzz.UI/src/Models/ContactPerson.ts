@@ -4,22 +4,30 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 export class ContactPerson {
-    uniquekey: string;
-    contactpersonkey: string;
-    studentkey: string;
+  uniquekey: string;
 
-    contactfirstname: string;
-    contactlastname: string;
+  contactpersonkey: string;
 
-    relationshiptostudent: string;
+  studentkey: string;
 
-    // Address
-    contactaddress;
+  contactfirstname: string;
 
-    phonenumber: string;
-    primaryemailaddress: string;
-    isprimarycontact: boolean;
-    preferredcontactmethod: string;
-    besttimetocontact: string;
-    contactnotes: string;
+  contactlastname: string;
+
+  relationshiptostudent: string;
+
+  // Address
+  contactaddress;
+
+  phonenumber: string;
+
+  primaryemailaddress: string;
+
+  isprimarycontact: boolean;
+
+  preferredcontactmethod: string;
+
+  besttimetocontact: string;
+
+  contactnotes: string;
 }

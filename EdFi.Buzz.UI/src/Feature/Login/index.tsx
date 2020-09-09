@@ -45,7 +45,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     }
   }
 
-  const handleSocialLogin = (user: { email: any; token: { idToken: any; }; }) => {
+  const handleSocialLogin = (user: { email: any; token: { idToken: any } }) => {
     const _user: User = {
       email: user.email,
       token: user.token.idToken,
@@ -55,7 +55,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     onUserAuthState(_user);
   };
 
-  const handleSocialLoginFailure = (err: { message: any; }) => {
+  const handleSocialLoginFailure = (err: { message: any }) => {
     console.log(err.message);
   };
 
@@ -71,19 +71,19 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
               </div>
               <h1 className=' text-center m-t-25'>Buzz</h1>
               {/* Boolean(0), Boolean(null), Boolean(undefined) returns false  */
-              (Boolean(props.googleClientId)) && <div className='text-center m-t-20'>
-                <SocialButton
-                  className='btn btn-primary'
-                  provider='google'
-                  autoLogin={false}
-                  appId={props.googleClientId!}
-                  onLoginSuccess={handleSocialLogin}
-                  onLoginFailure={handleSocialLoginFailure}
-                  key={'google'}
-                >
+                (Boolean(props.googleClientId)) && <div className='text-center m-t-20'>
+                  <SocialButton
+                    className='btn btn-primary'
+                    provider='google'
+                    autoLogin={false}
+                    appId={props.googleClientId!}
+                    onLoginSuccess={handleSocialLogin}
+                    onLoginFailure={handleSocialLoginFailure}
+                    key={'google'}
+                  >
                   Login with Google
-              </SocialButton>
-              </div>}
+                  </SocialButton>
+                </div>}
               {(Boolean(props.adfsClientId)) && <div>
                 <ADFSButton
                   className='btn btn-primary'
@@ -91,7 +91,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
                   tenantId={props.adfsTenantId!}
                   onLoggin={(user) => onUserAuthState(user)} >
                     Login with ADFS
-                  </ADFSButton>
+                </ADFSButton>
               </div>}
             </div>
             <div className='card-footer d-flex justify-content-between align-items-center'>
