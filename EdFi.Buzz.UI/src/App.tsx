@@ -29,6 +29,7 @@ const apolloClient = container.get<ApolloClient<InMemoryCache>>('ApolloClient');
 
 
 export default function App(): JSX.Element {
+  // eslint-disable-next-line
   const history = useHistory();
   return (
     <ApolloProvider client={apolloClient}>
