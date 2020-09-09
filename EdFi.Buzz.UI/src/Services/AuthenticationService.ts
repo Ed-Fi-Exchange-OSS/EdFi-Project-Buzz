@@ -12,7 +12,9 @@ import { TeacherApiService } from './TeacherService';
 
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
+
   public currentUser: Observable<User>;
+
   readonly storage = window.sessionStorage;
 
   constructor(
@@ -40,10 +42,10 @@ export class AuthenticationService {
     }
 
     const user: User = {
-      email: email,
+      email,
       token: idToken,
-      tokenProvider: tokenProvider,
-      teacher: teacher
+      tokenProvider,
+      teacher
     };
     ApolloHelper.clearApolloStorage(this.apolloClient);
     this.storage.setItem('currentUser', JSON.stringify(user));
@@ -66,8 +68,11 @@ export class AuthenticationService {
 
 export class User {
   public email: string;
+
   public token: string;
+
   public tokenProvider: string;
+
   public teacher: Teacher;
 }
 
