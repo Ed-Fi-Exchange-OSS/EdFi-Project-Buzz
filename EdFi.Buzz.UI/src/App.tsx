@@ -30,7 +30,6 @@ const apolloClient = container.get<ApolloClient<InMemoryCache>>("ApolloClient");
 
 export default function App(): JSX.Element {
   const history = useHistory();
-  console.log("history:", history);
   return (
     <ApolloProvider client={apolloClient}>
       <Router>
