@@ -107,6 +107,7 @@
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-non-null-assertion": "error",
     "@typescript-eslint/no-unused-expressions": "error",
+    "@typescript-eslint/no-use-before-define": [1],
     "@typescript-eslint/prefer-function-type": "error",
     "@typescript-eslint/quotes": [
       "error",
@@ -134,6 +135,7 @@
     "id-blacklist": "off",
     "id-match": "off",
     "import/no-deprecated": "warn",
+    "import/prefer-default-export": "off",
     "max-len": [
       "error",
       {
@@ -188,6 +190,7 @@
     "no-undef-init": "error",
     "no-underscore-dangle": "off",
     "no-unused-labels": "error",
+    "no-use-before-define": [0],
     "no-var": "error",
     "prefer-const": "error",
     "radix": "error",
