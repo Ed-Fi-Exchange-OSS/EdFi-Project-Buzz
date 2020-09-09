@@ -70,7 +70,7 @@ export default function App(): JSX.Element {
           <Switch>
             <Route exact path="/"> <StudentRoster api={api} /> </Route>
             <Route path="/studentDetail/:studentKey"> <StudentDetail /> </Route>
-            <Route path="/surveyAnalytics"> <SurveyAnalytics /> </Route>
+            <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
             <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey /> </Route>
             <Route path="/uploadSurvey"> <UploadSurvey /> </Route>
             {isAdminSurveyLoader
