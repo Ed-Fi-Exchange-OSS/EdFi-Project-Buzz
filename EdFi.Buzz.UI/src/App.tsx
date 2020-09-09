@@ -17,7 +17,7 @@ import { ApiService } from 'Services/ApiService';
 import { Header } from 'Components/Header';
 import { Footer } from 'Components/Footer';
 import { Login } from 'Feature/Login';
-import { StudentRoster } from 'Feature/StudentRoster';
+import { StudentRoster } from 'Feature/StudentRoster/StudentRoster';
 import { StudentDetail } from 'Feature/StudentDetail';
 import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
 import { UploadSurvey } from 'Feature/UploadSurvey';
