@@ -1,0 +1,6 @@
+STUDENTS.SchoolID	STUDENTS.Student_Number	STUDENTS.Enroll_Status	STUDENTS.Home_Phone	STUDENTS.Mailing_Street	STUDENTS.Mailing_City	STUDENTS.Mailing_State	STUDENTS.Mailing_Zip	STUDENTS.Street	STUDENTS.City	STUDENTS.State	STUDENTS.Zip	STUDENTCOREFIELDS.guardian_fn	STUDENTCOREFIELDS.guardian_ln	U_DEF_EXT_STUDENTS.parent1_primaryphone	U_DEF_EXT_STUDENTS.parent1_altphone	U_DEF_EXT_STUDENTS.parent1_cellphone	U_DEF_EXT_STUDENTS.parent1_email
+ELEM-123	198256	Active	555-555-1234	123 W. 1st St	Austin	TX	78705	123 W. 1st St	Austin	TX	78705	John	Doe	555-555-1234		555-555-5432	john@doe.com
+ELEM-123	198256	Active	555-555-1111	5 Magic Dr	Austin	TX	78705	5 Magic Dr	Austin	TX	78705	Jane	Cho	555-555-2222	555-555-3333	555-555-4444	john@cho.com
+Mid-333	215125	Active	555-555-9999	PO BOX 12345	Pflugerville	TX	78761	123 MLK Ave	Austin	TX	78758	Alexander	Hamilton	555-555-9999		555-555-6541	ahamilton@mail.com
+ELEM-124	198256	Active	666-666-999	124 W. 1st St	Houston	TX	78706	124 W. 1st St	Houston	TX	78706	David	Barrantes	666-666-999	666-666-999	666-666-999	djimenez.cr@gmail.com
+ELEM-125	215125	Active	777-777-888	125 W. 1st St	Houston	TX	78707	125 W. 1st St	Houston	TX	78707	Jorge	jimenez	777-777-888	777-777-888	777-777-888	djimenez.cr@gmail.com
