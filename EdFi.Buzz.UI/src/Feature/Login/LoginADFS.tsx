@@ -11,7 +11,7 @@
 import * as React from 'react';
 import { AuthenticationContext, AdalConfig } from 'react-adal';
 
-import { User } from 'Services/AuthenticationService';
+import User from 'Models/User';
 
 export function getAdalConfig(clientId: string, tenantId: string): AdalConfig {
   return {

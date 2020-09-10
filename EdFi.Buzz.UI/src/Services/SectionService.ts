@@ -7,18 +7,19 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import { Section } from 'Models';
 import { getSectionsByStaff } from './GraphQL/SectionQueries';
-import { AuthenticationService } from './AuthenticationService';
+import AuthenticationService from './AuthenticationService';
 
-export class SectionApiService {
+export default class SectionApiService {
   controllerName = 'section';
 
   sections: Section[];
 
+  /* eslint no-useless-constructor: "off"*/
   constructor(
     private apolloClient: ApolloClient<InMemoryCache>,
     private authenticationService: AuthenticationService) { }
 
-  public async getByTeacherId(): Promise<Section[]> {
+  public getByTeacherId = async (): Promise<Section[]> => {
     const client = this.apolloClient;
     await client
       .query({
@@ -31,5 +32,5 @@ export class SectionApiService {
         this.sections = data.sectionsbystaff;
       });
     return this.sections;
-  }
+  };
 }
