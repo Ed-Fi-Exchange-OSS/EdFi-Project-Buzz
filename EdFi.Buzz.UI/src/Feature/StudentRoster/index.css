@@ -1,0 +1,11 @@
+.image-round {
+    width: 70%;
+    border-radius: 50%;
+    border: 5px solid lightgrey;
+}
+
+@media (max-width: 575.98px) {
+    .form-group label {
+        display: none;
+    }
+}

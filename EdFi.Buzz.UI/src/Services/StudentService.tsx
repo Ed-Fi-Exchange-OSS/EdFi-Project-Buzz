@@ -3,6 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import StudentImage from 'assets/studentImage.jpg';
 import { Student } from '../Models';
 import { getStudentsBySection, getStudentById } from './GraphQL/StudentQueries';
 import AuthenticationService from './AuthenticationService';
@@ -50,7 +51,11 @@ export default class StudentApiService {
   };
 
   private setDefaultValues = (studentParam: Student): Student => {
-    const student = studentParam;
+
+    const student = {
+      ...studentParam,
+      name: null
+    };
     if (student) {
       student.name =
           `${student.studentlastname || ''},
@@ -59,7 +64,7 @@ export default class StudentApiService {
             ${  student.studentmiddlename}` : '' )}`;
 
       if (!student.pictureurl) {
-        student.pictureurl = '/assets/studentImage.jpg';
+        student.pictureurl = StudentImage;
       }
 
       if (!student.primaryemailaddress) {
