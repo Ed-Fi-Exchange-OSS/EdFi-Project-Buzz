@@ -8,7 +8,7 @@
 import * as React from 'react';
 import { AuthenticationContext, AdalConfig } from 'react-adal';
 
-import { User } from 'Services/AuthenticationService';
+import User from '../../Models/User';
 
 export function getAdalConfig(clientId: string, tenantId: string): AdalConfig {
   return {
@@ -17,7 +17,7 @@ export function getAdalConfig(clientId: string, tenantId: string): AdalConfig {
     popUp: true,
     endpoints: {
       api: clientId
-    },
+    }
   };
 }
 
@@ -60,7 +60,9 @@ export const ADFSButton: React.FunctionComponent<ADFSComponentProps> = (props: A
       token: tokenId,
       teacher: null
     };
-    if (props.onLoggin) { props.onLoggin(user); }
+    if (props.onLoggin) {
+      props.onLoggin(user);
+    }
   }
 
   function onClickHandler() {

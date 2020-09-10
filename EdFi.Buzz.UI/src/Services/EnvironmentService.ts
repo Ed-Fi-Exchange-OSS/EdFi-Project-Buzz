@@ -5,9 +5,11 @@
 
 import { Environment } from 'Models/Environment';
 
-export class EnvironmentService {
+export default class EnvironmentService {
   public environment: Environment;
 
+  // We access the environment variables that were fetched before the app started
+  /* eslint no-useless-constructor: "off"*/
   constructor() {
     this.environment = {
       GQL_ENDPOINT: process.env.REACT_APP_GQL_ENDPOINT,

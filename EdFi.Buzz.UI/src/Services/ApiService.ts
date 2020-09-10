@@ -2,26 +2,26 @@
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
+import StudentApiService from './StudentService';
+import TeacherApiService from './TeacherService';
+import SurveyAnalyticsApiService from './SurveyAnalyticsService';
+import SectionApiService from './SectionService';
+import AuthenticationService from './AuthenticationService';
+import StudentNotesApiService from './StudentNotesService';
+import SurveyService from './SurveyService';
 
-// import { StudentApiService } from './StudentService';
-import { TeacherApiService } from './TeacherService';
-// import { SurveyAnalyticsApiService } from './SurveyAnalyticsService';
-import { SectionApiService } from './SectionService';
-import { AuthenticationService } from './AuthenticationService';
-// import { StudentNotesApiService } from './StudentNotesService';
-// import { SurveyService } from './SurveyService';
 
+export default class ApiService {
 
-export class ApiService {
-
+  /* eslint no-useless-constructor: "off"*/
   constructor(
     public authentication: AuthenticationService,
     public section: SectionApiService,
-    public student: null,// StudentApiService,
-    public studentNotesApiService: null,// StudentNotesApiService,
-    public surveyAnalytics: null,// SurveyAnalyticsApiService,
+    public student: StudentApiService,
+    public studentNotesApiService: StudentNotesApiService,
+    public surveyAnalytics: SurveyAnalyticsApiService,
     public teacher: TeacherApiService,
-    public survey: null// SurveyService
+    public survey: SurveyService
   ) { }
 
 }
