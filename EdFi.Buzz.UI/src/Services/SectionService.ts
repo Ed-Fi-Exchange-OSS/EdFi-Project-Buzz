@@ -6,23 +6,25 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { Section } from '../Models';
 import { getSectionsByStaff } from './GraphQL/SectionQueries';
-import { AuthenticationService } from './AuthenticationService';
+import AuthenticationService from './AuthenticationService';
 
-declare let require: any;
-
-export class SectionApiService {
+export default class SectionApiService {
   controllerName = 'section';
 
   sections: Section[];
 
+  /* eslint no-useless-constructor: "off"*/
   constructor(
-    private apolloClient: ApolloClient<InMemoryCache>,
-    private authenticationService: AuthenticationService) {}
+    private authenticationService: AuthenticationService,
+    private apolloClient: ApolloClient<InMemoryCache>
+  ) {}
 
-  public async getByTeacherId() {
+  public getByTeacherId = async (): Promise<Section[]> => {
     const client = this.apolloClient;
-    await client.query({ query: getSectionsByStaff, variables: { staffkey: this.authenticationService.currentUserValue.teacher.staffkey } })
-      .then(({ data }) => this.sections = data.sectionsbystaff);
+    const { data } =
+    await client.query({ query: getSectionsByStaff,
+      variables: { staffkey: this.authenticationService.currentUserValue.teacher.staffkey }}  );
+    this.sections =  data.sectionsbystaff;
     return this.sections;
-  }
+  };
 }

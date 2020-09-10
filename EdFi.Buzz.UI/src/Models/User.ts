@@ -2,19 +2,14 @@
 // Licensed to the Ed-Fi Alliance under one or more agreements.
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
+import { Teacher } from '.';
 
-import SurveyStatus from './Survey';
+export default class User {
+  public email: string;
 
-export default class FileStatus {
-  fileName: string;
+  public token: string;
 
-  isValid: boolean;
+  public tokenProvider: string;
 
-  status: string;
-
-  error?: string;
-
-  jobId?: string;
-
-  serverJobStatus?: SurveyStatus;
+  public teacher: Teacher;
 }

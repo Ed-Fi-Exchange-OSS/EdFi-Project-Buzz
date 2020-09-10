@@ -12,7 +12,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import configureDI from './DIContext';
 
-import { ApiService } from './Services/ApiService';
+import ApiService from './Services/ApiService';
 import { Header } from './Components/Header';
 import { Footer } from './Components/Footer';
 import { Login } from './Feature/Login';
@@ -25,8 +25,8 @@ import { AdminSurvey } from './Feature/AdminSurvey';
 import './App.css';
 
 const container = configureDI();
-const apolloClient = container.get<ApolloClient<InMemoryCache>>("ApolloClient");
-console.log("apolloClient:", apolloClient);
+const apolloClient = container.get<ApolloClient<InMemoryCache>>('ApolloClient');
+console.log('apolloClient:', apolloClient);
 
 
 export default function App(): JSX.Element {
@@ -37,8 +37,8 @@ export default function App(): JSX.Element {
       <Router>
         <Switch>
           <Route path="/login" > <Login
-            api={container.get<ApiService>("ApiService")}
-            navigate={(url) => console.log("TODO: implement navigate")}
+            api={container.get<ApiService>('ApiService')}
+            navigate={(url) => console.log('TODO: implement navigate')}
             googleClientId="761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com"
             returnUrl="/"
 
