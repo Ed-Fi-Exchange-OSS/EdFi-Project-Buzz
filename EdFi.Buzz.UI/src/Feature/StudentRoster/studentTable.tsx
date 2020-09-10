@@ -3,14 +3,19 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+import styled from 'styled-components';
+
 import * as React from 'react';
 import { Student } from '../../Models/Student';
-
-import './studentTable.css';
 
 export interface StudentTableComponentProps {
   studentList: Student[];
 }
+
+const StyledTableAnchor = styled.a`
+  display: inline-flex !important;
+  margin-right: 1rem;
+`;
 
 export const StudentTable: React.FunctionComponent<StudentTableComponentProps> = (props: StudentTableComponentProps) => {
   const {studentList} = props;
@@ -37,7 +42,7 @@ export const StudentTable: React.FunctionComponent<StudentTableComponentProps> =
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{student.studentkey}
           </td>
           <td>
-            <a href='mailto:{{student.email}}'>{student.primaryemailaddress}</a>
+            <a href={`mailto:${student.primaryemailaddress}`}>{student.primaryemailaddress}</a>
           </td>
 
           {student.contacts && student.contacts?.length > 0 &&
@@ -45,21 +50,21 @@ export const StudentTable: React.FunctionComponent<StudentTableComponentProps> =
               {student.contacts[0].contactlastname} {student.contacts[0].contactfirstname}
                 ({student.contacts[0].relationshiptostudent})<br />
               Preferred Contact Method: {student.contacts[0].relationshiptostudent} <br />
-              <a href='tel:{{student.guardians[0].phone}}'>{student.contacts[0].phonenumber}</a>
+              <a href={`tel:${student.contacts[0].phonenumber}`}>{student.contacts[0].phonenumber}</a>
             </td>
           } else {
             <td></td>
           }
 
           <td className='text-center'>
-            <a className='btn btn-outline-mail table-btn-outline' tooltip-placement='bottom'>
+            <StyledTableAnchor className='btn btn-outline-mail table-btn-outline' tooltip-placement='bottom'>
               <i className='ion ion-md-mail'></i>
               <div className='bubble-counter blue'>5</div>
-            </a>
-            <a className='btn btn-outline-notifications table-btn-outline'>
+            </StyledTableAnchor>
+            <StyledTableAnchor className='btn btn-outline-notifications table-btn-outline'>
               <i className='ion ion-md-notifications-outline'></i>
               <div className='bubble-counter orange'>12</div>
-            </a>
+            </StyledTableAnchor>
           </td>
         </tr>)}
       </tbody>

@@ -1,11 +1,3 @@
-.card-container{
-    display:flex;
-    align-items: center;
-}
-.btn-fill-search{
-    background-color: #007bff;
-}
-
 .image-round {
     width: 70%;
     border-radius: 50%;

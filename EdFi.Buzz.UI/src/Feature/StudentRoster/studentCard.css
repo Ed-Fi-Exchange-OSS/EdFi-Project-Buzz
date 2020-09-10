@@ -1,22 +1,9 @@
-.card-max-width{
-    max-width: 400px !important;
-  }
-  .bubble-counter {
-      top: 8.4px;
-      left: 23.8px;
-  }
-  .img-size {
-    max-height: 70px;
-    max-width: 90px;
-  }
-  
-  .image-container img {
-    width: 80%;
-    border-radius: 50%;
-    border: 5px solid lightgrey;
-  }
-  
-  .card-footer {
-    padding:0;
-  }
-  
+.image-container img {
+  width: 80%;
+  border-radius: 50%;
+  border: 5px solid lightgrey;
+}
+
+.card-footer {
+  padding:0;
+}
