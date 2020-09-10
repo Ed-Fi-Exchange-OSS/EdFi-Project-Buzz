@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 module.exports = {
+  verbose: false,
   rootDir: ".",
   setupFile: "<rootDir>/.jest/setupFile.js",
 }

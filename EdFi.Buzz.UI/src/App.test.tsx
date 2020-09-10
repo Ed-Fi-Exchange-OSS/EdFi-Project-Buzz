@@ -8,24 +8,21 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
-const OLD_ENV = process.env;
 
-beforeEach(() => {
-    jest.resetModules(); // most important - it clears the cache
-    process.env = { ...OLD_ENV }; // make a copy
-});
+describe('App component test', () => {
+  const OLD_ENV = process.env;
 
-afterAll(() => {
-    process.env = OLD_ENV; // restore old env
-});
+  beforeEach(() => {
+      jest.resetModules();
+      process.env = { ...OLD_ENV };
+  });
 
-describe('', () => {
-    const OLD_ENV = {};
+  afterAll(() => {
+      process.env = OLD_ENV;
+  });
 
-    beforeEach(() => {});
-
-test('test test', () => {
-        const app = render(<App />);
-        expect(app).toBeDefined();
-    });
+  test('App component should be defined', () => {
+          const app = render(<App />);
+          expect(app).toBeDefined();
+      });
 });
