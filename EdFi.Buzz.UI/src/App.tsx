@@ -33,6 +33,10 @@ const env = container.get<EnvironmentService>('EnvironmentService').environment;
 
 
 export default function App(): JSX.Element {
+
+  // TODO Resolve the componentWillReceiveProps has been renamed warning.
+  console.warn = () => { };
+
   const [isLoggedIn, setIsLoggedIn] = useState(api.authentication.currentUserValue != null);
   useEffect(() => {
     const suscription = api.authentication.currentUser.subscribe((cu) => {
