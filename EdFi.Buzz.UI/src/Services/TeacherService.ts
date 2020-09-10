@@ -6,12 +6,12 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import Teacher from '../Models/Teacher';
 import { getStaffNameById, getStaffByEMail } from './GraphQL/StaffQueries';
-
+import Environment from 'Models/Environment';
 export default class TeacherApiService {
   controllerName = 'teacher';
+  public environment: Environment;
 
-
-  /* eslint no-useless-constructor: "off"*/
+  /* eslint no-useless-constructor: "warn"*/
   constructor(private apolloClient: ApolloClient<InMemoryCache>) {  }
 
   getTeacher = async(): Promise<Teacher> => {
