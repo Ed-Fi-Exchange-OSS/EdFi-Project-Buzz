@@ -4,8 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-
-import { Section } from 'Models';
+import { Section } from '../Models';
 import { getSectionsByStaff } from './GraphQL/SectionQueries';
 import AuthenticationService from './AuthenticationService';
 
@@ -14,7 +13,7 @@ export default class SectionApiService {
 
   sections: Section[];
 
-  /* eslint no-useless-constructor: "warn"*/
+  /* eslint no-useless-constructor: "off"*/
   constructor(
     private authenticationService: AuthenticationService,
     private apolloClient: ApolloClient<InMemoryCache>

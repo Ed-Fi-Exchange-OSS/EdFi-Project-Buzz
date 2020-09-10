@@ -13,7 +13,7 @@ import SurveyService from './SurveyService';
 
 export default class ApiService {
 
-  /* eslint no-useless-constructor: "warn"*/
+  /* eslint no-useless-constructor: "off"*/
   constructor(
     public authentication: AuthenticationService,
     public section: SectionApiService,
