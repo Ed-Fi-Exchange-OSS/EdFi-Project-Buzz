@@ -3,30 +3,27 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-/* eslint max-classes-per-file: "off"*/
-
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import ApolloHelper from 'Helpers/ApolloHelper';
+import TeacherApiService from './TeacherService';
+import User from '../Models/User';
 
-import { ApolloHelper } from 'Helpers/ApolloHelper';
-import { Teacher } from 'Models';
-import { TeacherApiService } from './TeacherService';
-
-export class AuthenticationService {
+export default class AuthenticationService {
   public currentUser: Observable<User>;
 
   readonly storage = window.sessionStorage;
 
   private currentUserSubject: BehaviorSubject<User>;
 
+  /* eslint no-useless-constructor: "off"*/
   constructor(
     private teacherService: TeacherApiService,
-    private apolloClient: ApolloClient<NormalizedCacheObject>
+    private apolloClient: ApolloClient<InMemoryCache>
   ) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser') ));
     this.currentUser = this.currentUserSubject.asObservable();
   }
-
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
@@ -54,7 +51,7 @@ export class AuthenticationService {
     return true;
   }
 
-  logout(): void {
+  logout = (): void => {
     // remove user from local storage to log user out
     this.storage.removeItem('currentUser');
     this.storage.removeItem('lastUploadedSurvey');
@@ -63,17 +60,8 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
     // clear graphql cache
     ApolloHelper.clearApolloStorage(this.apolloClient);
-  }
-
+  };
 }
 
-export class User {
-  public email: string;
 
-  public token: string;
-
-  public tokenProvider: string;
-
-  public teacher: Teacher;
-}
 

@@ -13,8 +13,8 @@ import { Icon } from '@iconify/react';
 import mdLock from '@iconify-icons/ion/md-lock';
 
 import Logo from 'assets/Owl-Logo-GrandBend.png';
-import { ApiService } from 'Services/ApiService';
-import { User } from 'Services/AuthenticationService';
+import ApiService from 'Services/ApiService';
+import User from 'Models/User';
 
 import SocialButton from './SocialButton';
 import { ADFSButton } from './LoginADFS';

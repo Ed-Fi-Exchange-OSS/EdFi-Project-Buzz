@@ -3,9 +3,11 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { ContactPerson } from './ContactPerson';
+import ContactPerson from './ContactPerson';
+import StudentNote from './StudentNote';
+import StudentSurvey from './StudentSurvey';
 
-export class Student {
+export default class Student {
 
   studentkey?: string;
 
@@ -57,78 +59,5 @@ export class Student {
   }
 }
 
-export class Sibling {
-  name: string;
 
-  gradeLevel: string;
 
-  schoolName: string;
-}
-
-export class StudentNote {
-  studentnotekey: number;
-
-  studentschoolkey: string;
-
-  staffkey: number;
-
-  note: string;
-
-  dateadded: string;
-
-  staffFullName?: string;
-
-  staffEMail?: string;
-}
-
-export class StudentSurveySummaryAnswers {
-  sectionkey?: string;
-
-  surveykey?: number;
-
-  title?: string;
-
-  surveyquestionkey?: number;
-
-  question?: string;
-
-  studentschoolkey?: string;
-
-  studentname?: string;
-
-  answer?: string;
-}
-
-export class StudentSurveyQuestion {
-  surveyquestionkey?: string;
-
-  surveykey?: number;
-
-  question?: string;
-
-  studentanswer?: StudentSurveySummaryAnswers;
-}
-
-export class StudentSurveyMetadata {
-  surveykey?: number;
-
-  staffkey?: number;
-
-  title?: string;
-
-  deletedat?: string;
-
-  questions?: StudentSurveyQuestion[];
-}
-
-export class StudentSurvey {
-  studentsurveykey?: string;
-
-  surveykey?: number;
-
-  date?: string;
-
-  survey?: StudentSurveyMetadata;
-
-  answers?: StudentSurveySummaryAnswers[];
-}

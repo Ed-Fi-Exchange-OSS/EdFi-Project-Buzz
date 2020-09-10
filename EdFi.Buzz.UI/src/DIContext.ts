@@ -9,10 +9,15 @@ import { setContext } from '@apollo/client/link/context';
 
 import DIContainer, { object, get } from 'rsdi';
 
-import { ApiService } from './Services/ApiService';
-import { AuthenticationService } from './Services/AuthenticationService';
-import { EnvironmentService } from './Services/EnvironmentService';
-import { TeacherApiService } from './Services/TeacherService';
+import ApiService from 'Services/ApiService';
+import AuthenticationService from 'Services/AuthenticationService';
+import EnvironmentService from 'Services/EnvironmentService';
+import SectionApiService from 'Services/SectionService';
+import StudentNotesApiService from 'Services/StudentNotesService';
+import StudentApiService from 'Services/StudentService';
+import SurveyAnalyticsApiService from 'Services/SurveyAnalyticsService';
+import SurveyService from 'Services/SurveyService';
+import TeacherApiService from 'Services/TeacherService';
 
 
 
@@ -64,14 +69,29 @@ export default function configureDI(): DIContainer {
       get('TeacherApiService'),
       get('ApolloClient')
     ),
-    'SectionApiService': null,
-    'StudentApiService': null,
-    'StudentNotesApiService': null,
-    'SurveyAnalyticsApiService': null,
+    'SectionApiService': object(SectionApiService).construct(
+      get('AuthenticationService'),
+      get('ApolloClient')
+    ),
+    'StudentApiService': object(StudentApiService).construct(
+      get('AuthenticationService'),
+      get('ApolloClient')
+    ),
+    'StudentNotesApiService': object(StudentNotesApiService).construct(
+      get('ApolloClient')
+    ),
+    'SurveyAnalyticsApiService': object(SurveyAnalyticsApiService).construct(
+      get('StudentApiService'),
+      get('AuthenticationService'),
+      get('ApolloClient')
+    ),
     'TeacherApiService': object(TeacherApiService).construct(
       get('ApolloClient')
     ),
-    'SurveyService': null
+    'SurveyService': object(SurveyService).construct(
+      get('EnvironmentService'),
+      get('ApolloClient')
+    )
 
 
   });
