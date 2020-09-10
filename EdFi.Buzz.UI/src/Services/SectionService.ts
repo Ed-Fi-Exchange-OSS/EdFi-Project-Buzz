@@ -4,11 +4,10 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { Section } from '../Models';
+
+import { Section } from 'Models';
 import { getSectionsByStaff } from './GraphQL/SectionQueries';
 import { AuthenticationService } from './AuthenticationService';
-
-declare let require: any;
 
 export class SectionApiService {
   controllerName = 'section';
@@ -17,12 +16,20 @@ export class SectionApiService {
 
   constructor(
     private apolloClient: ApolloClient<InMemoryCache>,
-    private authenticationService: AuthenticationService) {}
+    private authenticationService: AuthenticationService) { }
 
-  public async getByTeacherId() {
+  public async getByTeacherId(): Promise<Section[]> {
     const client = this.apolloClient;
-    await client.query({ query: getSectionsByStaff, variables: { staffkey: this.authenticationService.currentUserValue.teacher.staffkey } })
-      .then(({ data }) => this.sections = data.sectionsbystaff);
+    await client
+      .query({
+        query: getSectionsByStaff,
+        variables: {
+          staffkey: this.authenticationService.currentUserValue.teacher.staffkey
+        }
+      })
+      .then(({ data }) => {
+        this.sections = data.sectionsbystaff;
+      });
     return this.sections;
   }
 }

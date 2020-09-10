@@ -5,7 +5,7 @@
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-import { Teacher } from '../Models/Teacher';
+import { Teacher } from 'Models/Teacher';
 import { getStaffNameById, getStaffByEMail } from './GraphQL/StaffQueries';
 
 
@@ -24,7 +24,7 @@ export class TeacherApiService {
     return teacher;
   }
 
-  async getStaffNameByKey(staffKey: number) {
+  async getStaffNameByKey(staffKey: number): Promise<Teacher> {
     const client = this.apolloClient;
     const { data } = await client.query({ query: getStaffNameById, variables: { staffkey: staffKey } });
     const staff = data.staffbyid;
