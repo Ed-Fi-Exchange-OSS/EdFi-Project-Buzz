@@ -10,8 +10,8 @@ import { FunctionComponent } from 'react';
 import SocialButton from './SocialButton';
 import { ADFSButton } from './LoginADFS';
 
-import { ApiService } from '../../Services/ApiService';
-import { User } from '../../Services/AuthenticationService';
+import ApiService from '../../Services/ApiService';
+import User from '../../Models/User';
 
 export interface LoginComponentProps {
   api: ApiService;

@@ -3,12 +3,12 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-export class ApolloHelper {
+export default class ApolloHelper {
 
-  static clearApolloStorage(client: ApolloClient<any>) {
+  static clearApolloStorage = (client: ApolloClient<InMemoryCache>): void => {
     client.resetStore();
     client.clearStore();
-  }
+  };
 }
