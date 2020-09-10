@@ -9,14 +9,14 @@ import { getSurveyStatus } from './GraphQL/SurveyQueries';
 export default class SurveyService{
   public readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
 
-  public readonly JOB_STATUS_FINISH_IDS: number[];
+  public readonly JOB_STATUS_FINISH_IDS: string[];
 
   private apollo: ApolloClient<InMemoryCache>;
 
   /* eslint no-useless-constructor: "off"*/
   constructor(private env: EnvironmentService, private apolloClient: ApolloClient<InMemoryCache>) {
     this.SURVEY_MAX_FILE_SIZE_BYTES = +process.env.SURVEY_MAX_FILE_SIZE_BYTES;
-    // this.JOB_STATUS_FINISH_IDS = +process.env.JOB_STATUS_FINISH_IDS[];
+    this.JOB_STATUS_FINISH_IDS = (process.env.JOB_STATUS_FINISH_IDS.split(','));
   }
 
   public uploadSurvey = (staffKey: number,
