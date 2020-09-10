@@ -3,18 +3,16 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import SurveyStatus from './Survey';
+export default class SurveyMetadata {
+  surveykey: number;
 
-export default class FileStatus {
-  fileName: string;
+  sectionkey: string;
 
-  isValid: boolean;
+  title: string;
 
-  status: string;
+  numberofquestions: number;
 
-  error?: string;
+  studentsanswered: number;
 
-  jobId?: string;
-
-  serverJobStatus?: SurveyStatus;
+  totalstudents: number;
 }
