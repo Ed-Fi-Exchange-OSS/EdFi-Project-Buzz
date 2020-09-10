@@ -8,6 +8,7 @@ import Teacher from '../Models/Teacher';
 import { getStaffNameById, getStaffByEMail } from './GraphQL/StaffQueries';
 export default class TeacherApiService {
   controllerName = 'teacher';
+  public environment: Environment;
 
   /* eslint no-useless-constructor: "warn"*/
   constructor(private apolloClient: ApolloClient<InMemoryCache>) {  }
