@@ -55,8 +55,8 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     onUserAuthState(_user);
   };
 
-  const handleSocialLoginFailure = (err: { message: any }) => {
-    console.log(err.message);
+  const handleSocialLoginFailure = () => {
+    // TODO HANDLE ERROR
   };
 
   return (
