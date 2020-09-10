@@ -9,7 +9,7 @@ export default class EnvironmentService {
   public environment: Environment;
 
   // We access the environment variables that were fetched before the app started
-  /* eslint no-useless-constructor: "off"*/
+  /* eslint no-useless-constructor: "warn"*/
   constructor() {
     // eslint-disable-next-line
     this.environment = window['tempConfigStorage'] as Environment;

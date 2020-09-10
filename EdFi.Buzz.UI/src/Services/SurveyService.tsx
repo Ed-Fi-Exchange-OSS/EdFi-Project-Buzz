@@ -4,19 +4,17 @@ import EnvironmentService from './EnvironmentService';
 import Survey from '../Models/Survey';
 import SurveyStatus from '../Models/SurveyStatus';
 import { getSurveyStatus } from './GraphQL/SurveyQueries';
-
+import Environment from 'Models/Environment';
 
 export default class SurveyService{
+  public environment: Environment;
   public readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
-
-  public readonly JOB_STATUS_FINISH_IDS: string[];
 
   private apollo: ApolloClient<InMemoryCache>;
 
-  /* eslint no-useless-constructor: "off"*/
+  /* eslint no-useless-constructor: "warn"*/
   constructor(private env: EnvironmentService, private apolloClient: ApolloClient<InMemoryCache>) {
-    this.SURVEY_MAX_FILE_SIZE_BYTES = +process.env.SURVEY_MAX_FILE_SIZE_BYTES;
-    this.JOB_STATUS_FINISH_IDS = (process.env.JOB_STATUS_FINISH_IDS.split(','));
+    this.SURVEY_MAX_FILE_SIZE_BYTES = Number(process.env.REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES);
   }
 
   public uploadSurvey = (staffKey: number,

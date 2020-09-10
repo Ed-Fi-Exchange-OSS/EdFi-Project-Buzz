@@ -13,7 +13,7 @@ export default class SectionApiService {
 
   sections: Section[];
 
-  /* eslint no-useless-constructor: "off"*/
+  /* eslint no-useless-constructor: "warn"*/
   constructor(
     private authenticationService: AuthenticationService,
     private apolloClient: ApolloClient<InMemoryCache>
