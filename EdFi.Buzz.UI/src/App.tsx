@@ -10,10 +10,10 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useHistory, Redirect } from 'react-router-dom';
 
 
-import { EnvironmentService } from 'Services/EnvironmentService';
+import EnvironmentService  from 'Services/EnvironmentService';
 import configureDI from 'DIContext';
 
-import { ApiService } from 'Services/ApiService';
+import ApiService from 'Services/ApiService';
 import { Header } from 'Components/Header';
 import { Footer } from 'Components/Footer';
 import { Login } from 'Feature/Login';

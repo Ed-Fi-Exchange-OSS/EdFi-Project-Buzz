@@ -6,6 +6,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import Teacher from '../Models/Teacher';
 import { getStaffNameById, getStaffByEMail } from './GraphQL/StaffQueries';
+
 export default class TeacherApiService {
   controllerName = 'teacher';
 

@@ -1,13 +1,14 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import Environment from 'Models/Environment';
 import { uploadSurvey , deleteSurvey } from './GraphQL/SurveyMutations';
 import EnvironmentService from './EnvironmentService';
 import Survey from '../Models/Survey';
 import SurveyStatus from '../Models/SurveyStatus';
 import { getSurveyStatus } from './GraphQL/SurveyQueries';
-import Environment from 'Models/Environment';
 
 export default class SurveyService{
   public environment: Environment;
+
   public readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
 
   private apollo: ApolloClient<InMemoryCache>;

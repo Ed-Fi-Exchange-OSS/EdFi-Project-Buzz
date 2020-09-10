@@ -8,7 +8,7 @@
 import * as React from 'react';
 import { FunctionComponent, ReactFragment } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { ApiService } from 'Services/ApiService';
+import ApiService from 'Services/ApiService';
 import styled from 'styled-components';
 
 
