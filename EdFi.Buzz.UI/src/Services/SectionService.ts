@@ -16,8 +16,9 @@ export default class SectionApiService {
 
   /* eslint no-useless-constructor: "off"*/
   constructor(
-    private apolloClient: ApolloClient<InMemoryCache>,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private apolloClient: ApolloClient<InMemoryCache>
+    ) { }
 
   public getByTeacherId = async (): Promise<Section[]> => {
     const client = this.apolloClient;
