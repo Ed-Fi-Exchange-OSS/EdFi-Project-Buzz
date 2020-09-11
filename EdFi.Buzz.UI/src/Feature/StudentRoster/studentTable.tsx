@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Student from '../../Models/Student';
 
 export interface StudentTableComponentProps {
@@ -27,9 +28,9 @@ export const StudentTable: React.FunctionComponent<StudentTableComponentProps> =
           <td>
             <img src={student.pictureurl} alt='{student.name} Profile' className='image-round'
               style={{ 'width': '32px' }} />
-            <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
-                &nbsp;{student.name}
-            </a>
+            <Link to={`/studentDetail/${student.studentschoolkey}`}>
+              &nbsp;{student.name}
+            </Link>
             <br />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{student.studentkey}
           </td>
@@ -41,7 +42,7 @@ export const StudentTable: React.FunctionComponent<StudentTableComponentProps> =
             <td>
               {student.contacts[0].contactlastname} {student.contacts[0].contactfirstname}
                 ({student.contacts[0].relationshiptostudent})<br />
-              Preferred Contact Method: {student.contacts[0].relationshiptostudent} <br />
+              Preferred Contact Method: {student.contacts[0].preferredcontactmethod} <br />
               <a href={`tel:${student.contacts[0].phonenumber}`}>{student.contacts[0].phonenumber}</a>
             </td>
           }
