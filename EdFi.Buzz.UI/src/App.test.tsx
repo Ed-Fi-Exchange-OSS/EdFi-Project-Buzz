@@ -13,16 +13,18 @@ describe('App component test', () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
-      jest.resetModules();
-      process.env = { ...OLD_ENV };
+    jest.resetModules();
+    process.env = { ...OLD_ENV };
+    console.error = jest.fn();
+    console.log = jest.fn();
   });
 
   afterAll(() => {
-      process.env = OLD_ENV;
+    process.env = OLD_ENV;
   });
 
   test('App component should be defined', () => {
-          const app = render(<App />);
-          expect(app).toBeDefined();
-      });
+    const app = render(<App />);
+    expect(app).toBeDefined();
+  });
 });

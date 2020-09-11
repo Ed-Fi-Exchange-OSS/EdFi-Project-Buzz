@@ -14,8 +14,8 @@ export class EnvironmentService {
       GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       ADFS_CLIENT_ID: process.env.REACT_APP_ADFS_CLIENT_ID,
       ADFS_TENANT_ID: process.env.REACT_APP_ADFS_TENANT_ID,
-      SURVEY_MAX_FILE_SIZE_BYTES:  Number(process.env.REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES|| "1048576"),
-      JOB_STATUS_FINISH_IDS: JSON.parse(process.env.REACT_APP_JOB_STATUS_FINISH_IDS || "[3]")
+      SURVEY_MAX_FILE_SIZE_BYTES:  Number(process.env.REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES|| '1048576'),
+      JOB_STATUS_FINISH_IDS: JSON.parse(process.env.REACT_APP_JOB_STATUS_FINISH_IDS || '[3]')
     };
   }
 }
