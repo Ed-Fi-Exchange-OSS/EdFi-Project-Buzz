@@ -5,11 +5,9 @@
 
 import * as React from 'react';
 import { FunctionComponent, useState } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 
-import GlobalFonts from '../../globalstyle';
-
-import BuzzTheme, { HeadlineContainer, MainContainer, TitleSpanContainer, TotalRecordsContainer } from '../../buzztheme';
+import { HeadlineContainer, MainContainer, TitleSpanContainer, TotalRecordsContainer } from '../../buzztheme';
 
 import ApiService from '../../Services/ApiService';
 import Student from '../../Models/Student';
@@ -17,7 +15,6 @@ import Section from '../../Models/Section';
 import { SearchInSections } from '../../Components/SearchInSections/searchInSections';
 import { StudentCard } from './studentCard';
 import { StudentTable } from './studentTable';
-
 
 export interface StudentRosterComponentProps {
   api: ApiService;
@@ -83,43 +80,38 @@ export const StudentRoster: FunctionComponent<StudentRosterComponentProps> = (pr
   }
 
   return (
-    <>
-      <GlobalFonts />
-      <ThemeProvider theme={BuzzTheme}>
-        <MainContainer role='main' className='container'>
-          <HeadlineContainer>
-            <TitleSpanContainer>Your students</TitleSpanContainer>
-            <TotalRecordsContainer>Total {studentList.length}</TotalRecordsContainer>
-          </HeadlineContainer>
-          <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
+    <MainContainer role='main' className='container'>
+      <HeadlineContainer>
+        <TitleSpanContainer>Your students</TitleSpanContainer>
+        <TotalRecordsContainer>Total {studentList.length}</TotalRecordsContainer>
+      </HeadlineContainer>
+      <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
 
-          {studentList.length > 0 && (
-            <ListButtons>
-              <span>View Style:</span>
-              <button onClick={() => setViewType(ViewTypes.Grid)}>Grid</button>|
-              <button onClick={() => setViewType(ViewTypes.Card)}>Cards</button>
-            </ListButtons>
-          )}
+      {studentList.length > 0 && (
+        <ListButtons>
+          <span>View Style:</span>
+          <button onClick={() => setViewType(ViewTypes.Grid)}>Grid</button>|
+          <button onClick={() => setViewType(ViewTypes.Card)}>Cards</button>
+        </ListButtons>
+      )}
 
-          <div className='row'>
-            {viewType === ViewTypes.Card && studentList &&
-            studentList
-              .sort((a, b) => a.studentlastname?.localeCompare(b.studentlastname))
-              .map((si) => (
-                <div className='col-lg-4' key={si.studentschoolkey}>
-                  <StudentCard student={si} />
-                </div>
-              ))}
-            {viewType === ViewTypes.Grid && (
-              <div className='card' style={{ width: '100%' }}>
-                <div className='card-body table-responsive-md'>
-                  <StudentTable studentList={studentList} />
-                </div>
-              </div>
-            )}
+      <div className='row'>
+        {viewType === ViewTypes.Card && studentList &&
+        studentList
+          .sort((a, b) => a.studentlastname?.localeCompare(b.studentlastname))
+          .map((si) => (
+            <div className='col-lg-4' key={si.studentschoolkey}>
+              <StudentCard student={si} />
+            </div>
+          ))}
+        {viewType === ViewTypes.Grid && (
+          <div className='card' style={{ width: '100%' }}>
+            <div className='card-body table-responsive-md'>
+              <StudentTable studentList={studentList} />
+            </div>
           </div>
-        </MainContainer>
-      </ThemeProvider>
-    </>
+        )}
+      </div>
+    </MainContainer>
   );
 };
