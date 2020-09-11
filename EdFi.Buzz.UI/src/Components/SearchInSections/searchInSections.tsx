@@ -227,7 +227,7 @@ export const SearchInSections: React.FunctionComponent<SearchInSectionsComponent
           </select>
         </StyledSelectParent>
         <StyledTextParent>
-          <img src={OrangeSearch}  alt="Search" />
+          <img src={OrangeSearch} alt="Search" />
           <input
             type='text'
             id='searchFilter'

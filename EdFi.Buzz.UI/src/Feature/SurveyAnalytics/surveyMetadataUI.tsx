@@ -96,7 +96,7 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
                 </div>
               </div>
               <div className='chevron-nav'>
-                <img style={{ width: '12px', height: '22px' }} src={RightChevron} />
+                <img style={{ width: '12px', height: '22px' }} src={RightChevron} alt="Open survey details" />
               </div>
             </div>
           </SurveyStyledCard>
