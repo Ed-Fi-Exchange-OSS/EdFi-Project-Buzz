@@ -8,7 +8,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useHistory, Redirect } from 'react-router-dom';
-
+import { ThemeProvider } from 'styled-components';
 
 import EnvironmentService from 'Services/EnvironmentService';
 import configureDI from 'DIContext';
@@ -25,6 +25,8 @@ import { AdminSurvey } from 'Feature/AdminSurvey';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import GlobalFonts from 'globalstyle';
+import BuzzTheme from 'buzztheme';
 
 const container = configureDI();
 const api = container.get<ApiService>('ApiService');
@@ -33,10 +35,18 @@ const env = container.get<EnvironmentService>('EnvironmentService').environment;
 
 
 export default function App(): JSX.Element {
+
+  // TODO Resolve the componentWillReceiveProps has been renamed warning.
+  console.warn = () => { };
+
   const [isLoggedIn, setIsLoggedIn] = useState(api.authentication.currentUserValue != null);
+  const [isAdminSurveyLoader, setIsAdminSurveyLoader] =
+    useState(api.authentication.currentUserValue?.teacher?.isadminsurveyloader === true);
+
   useEffect(() => {
     const suscription = api.authentication.currentUser.subscribe((cu) => {
       setIsLoggedIn(cu && cu.teacher != null);
+      setIsAdminSurveyLoader(cu?.teacher?.isadminsurveyloader === true);
     });
     return () => suscription.unsubscribe();
   });
@@ -63,7 +73,9 @@ export default function App(): JSX.Element {
             <Route path="/surveyAnalytics"> <SurveyAnalytics /> </Route>
             <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey /> </Route>
             <Route path="/uploadSurvey"> <UploadSurvey /> </Route>
-            <Route path="/adminSurvey"> <AdminSurvey /> </Route>
+            {isAdminSurveyLoader
+              ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
+              : <Route><div>Need survey admin rights</div></Route>}
           </Switch>
 
           <Footer />
@@ -73,8 +85,12 @@ export default function App(): JSX.Element {
   }
 
   return (
+
     <Router>
-      <RouterContent />
+      <GlobalFonts />
+      <ThemeProvider theme={BuzzTheme}>
+        <RouterContent />
+      </ThemeProvider>
     </Router>
   );
 }

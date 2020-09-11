@@ -4,12 +4,14 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import styled, { createGlobalStyle } from 'styled-components';
-import WorkSansWoff from './fonts/WorkSans.woff';
-import WorkSansWoff2 from './fonts/WorkSans.woff2';
-import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';
-import WorkSansExtraBoldWoff2 from './fonts/WorkSansExtraBold.woff2';
-import OpenSansTtf from './fonts/OpenSans-Regular.ttf';
-import OpenSansBoldTtf from './fonts/OpenSans-Bold.ttf';
+
+import WorkSansWoff from './assets/fonts/WorkSans.woff';
+import WorkSansWoff2 from './assets/fonts/WorkSans.woff2';
+import WorkSansExtraBoldWoff from './assets/fonts/WorkSansExtraBold.woff';
+import WorkSansExtraBoldWoff2 from './assets/fonts/WorkSansExtraBold.woff2';
+import OpenSansTtf from './assets/fonts/OpenSans-Regular.ttf';
+import OpenSansBoldTtf from './assets/fonts/OpenSans-Bold.ttf';
+
 
 export const StyledBuzzButton = styled.button`
   background-color: var(--picton-blue);
