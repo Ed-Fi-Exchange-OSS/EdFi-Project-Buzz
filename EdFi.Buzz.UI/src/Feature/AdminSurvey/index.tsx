@@ -179,7 +179,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
     <>
       <MainContainer role='main' className='container'>
         <HeadlineContainer>
-          <TitleSpanContainer>Administrate surveys</TitleSpanContainer>
+          <TitleSpanContainer>Administer surveys</TitleSpanContainer>
         </HeadlineContainer>
         <StyledTextParent>
           <img src={OrangeSearch} alt="Search icon" />
@@ -255,7 +255,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
           <div className='modal-dialog modal-dialog-centered'>
             <div className='modal-content'>
               <div className='modal-header'>
-                <h3 className='modal-title' id='deletenoteconfirmationLabel'>Administrate surveys</h3>
+                <h3 className='modal-title' id='deletenoteconfirmationLabel'>Administer surveys</h3>
                 <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
                   <span aria-hidden='true'>&times;</span>
                 </button>
