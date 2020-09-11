@@ -13,6 +13,7 @@
     "cross-env": "^7.0.2",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
+    "jest-junit": "^11.1.0",
     "jest-teamcity-reporter": "^0.9.0",
     "jquery": "1.9.1 - 3",
     "popper.js": "^1.16.1",
@@ -69,7 +70,7 @@
     "lint": "eslint --fix \"src/**/*{ts,tsx}\"",
     "lint:ci": "yarn lint --format ./node_modules/eslint-teamcity/index.js ",
     "test": "react-scripts test",
-    "test:ci": "cross-env CI=true TEAMCITY_VERSION=1 react-scripts test --ci --env=jsdom --testResultsProcessor=jest-teamcity-reporter --watchAll=false --browsers=ChromeHeadless",
+    "test:ci": "cross-env CI=true TEAMCITY_VERSION=1 react-scripts test --ci --env=jsdom --testResultsProcessor=jest-teamcity-reporter --reporters=jest-junit --watchAll=false --browsers=ChromeHeadless",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject"
   },
