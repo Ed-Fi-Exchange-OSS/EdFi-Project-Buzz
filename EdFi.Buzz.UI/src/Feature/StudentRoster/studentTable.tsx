@@ -25,7 +25,7 @@ export const StudentTable: React.FunctionComponent<StudentTableComponentProps> =
       <tbody>
         {studentList.map(student => <tr key={student.studentschoolkey}>
           <td>
-            <img src={student.pictureurl} alt='{student.name} Profile Picture' className='image-round'
+            <img src={student.pictureurl} alt='{student.name} Profile' className='image-round'
               style={{ 'width': '32px' }} />
             <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
                 &nbsp;{student.name}

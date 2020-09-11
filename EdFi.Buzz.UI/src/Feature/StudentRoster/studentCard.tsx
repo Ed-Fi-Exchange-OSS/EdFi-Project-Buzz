@@ -6,6 +6,7 @@
 import styled from 'styled-components';
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import * as React from 'react';
 import Student from '../../Models/Student';
 
@@ -184,11 +185,11 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
     <StyledStudentCard className='card'>
       <div className='student-card-body p-t-0'>
         <div className='d-flex p-t-12'>
-          <a href={`#/app/studentDetail/${student.studentschoolkey}`}>
+          <Link to={`/studentDetail/${student.studentschoolkey}`}>
             <div className='image-container'>
-              <img className='student-profile-pic' src={student.pictureurl} alt={`${student.name} Profile Picture`} />
+              <img className='student-profile-pic' src={student.pictureurl} alt={`${student.name} Profile`} />
             </div>
-          </a>
+          </Link>
           <div className='flex-grow-1 overflow-hidden'>
             <span className='h2-desktop'>{student.name}</span>
             {student.primaryemailaddress && (
@@ -275,7 +276,7 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
             <div className='alert alert-primary'>Student has no contacts</div>
           )}
           <div className='outline-button'>
-            <a href={`#/app/studentDetail/${student.studentschoolkey}`}>Student Details</a>
+            <Link to={`/studentDetail/${student.studentschoolkey}`}>Student Details</Link>
           </div>
         </div>
       </div>
@@ -283,7 +284,7 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
       <div className='footer card-footer'>
         <div className='clickable' onClick={() => setIsCollapsed(!isCollapsed)}>
           <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
-          <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} />
+          <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} alt="" />
         </div>
       </div>
     </StyledStudentCard>

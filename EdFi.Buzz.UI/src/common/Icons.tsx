@@ -13,18 +13,18 @@ import Star from '../assets/star.png';
 import ChevronDown from '../assets/chevron-down.png';
 import ChevronUp from '../assets/chevron-up.png';
 
-export const EmailIcon: React.FunctionComponent = () => <img className='email-icon' src={Mail} />;
+export const EmailIcon: React.FunctionComponent = () => <img className='email-icon' src={Mail} alt='Mail' />;
 
-export const PhoneIcon: React.FunctionComponent = () => <img className='phone-icon' src={Phone} />;
+export const PhoneIcon: React.FunctionComponent = () => <img className='phone-icon' src={Phone} alt="Phone number" />;
 
-export const StarIcon: React.FunctionComponent = () => <img className='star-icon' src={Star} />;
+export const StarIcon: React.FunctionComponent = () => <img className='star-icon' src={Star} alt="" />;
 
 // export const GridIcon: React.FunctionComponent = () => <img className='grid-icon' src={Grid} />;
 
 // export const TableIcon: React.FunctionComponent = () => <img className='table-icon' src={Table} />;
 
-export const ChevronDownIcon: React.FunctionComponent = () => <img className='chevron-down-icon' src={ChevronDown} />;
+export const ChevronDownIcon: React.FunctionComponent = () => <img className='chevron-down-icon' src={ChevronDown} alt="" />;
 
-export const ChevronUpIcon: React.FunctionComponent = () => <img className='chevron-up-icon' src={ChevronUp} />;
+export const ChevronUpIcon: React.FunctionComponent = () => <img className='chevron-up-icon' src={ChevronUp} alt="" />;
 
 // export const LeftArrowIcon: React.FunctionComponent = () => <img src={LeftArrow} style={{ width: '14px', height: '14px' }} />;
