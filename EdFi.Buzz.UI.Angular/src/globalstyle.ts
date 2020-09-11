@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import styled, { createGlobalStyle } from 'styled-components';
+
 import WorkSansWoff from './fonts/WorkSans.woff';
 import WorkSansWoff2 from './fonts/WorkSans.woff2';
 import WorkSansExtraBoldWoff from './fonts/WorkSansExtraBold.woff';

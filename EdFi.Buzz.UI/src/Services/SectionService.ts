@@ -18,7 +18,7 @@ export default class SectionApiService {
   constructor(
     private authenticationService: AuthenticationService,
     private apolloClient: ApolloClient<InMemoryCache>
-    ) { }
+  ) { }
 
   public getByTeacherId = async (): Promise<Section[]> => {
     const client = this.apolloClient;
