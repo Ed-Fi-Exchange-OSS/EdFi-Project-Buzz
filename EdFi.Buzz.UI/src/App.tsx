@@ -68,7 +68,7 @@ export default function App(): JSX.Element {
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
-            <Route exact path="/"> <StudentRoster /> </Route>
+            <Route exact path="/"> <StudentRoster api={api} /> </Route>
             <Route path="/studentDetail/:studentKey"> <StudentDetail /> </Route>
             <Route path="/surveyAnalytics"> <SurveyAnalytics /> </Route>
             <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey /> </Route>

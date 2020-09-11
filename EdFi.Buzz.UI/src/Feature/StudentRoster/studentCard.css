@@ -1,0 +1,9 @@
+.image-container img {
+  width: 80%;
+  border-radius: 50%;
+  border: 5px solid lightgrey;
+}
+
+.card-footer {
+  padding:0;
+}
