@@ -71,8 +71,8 @@ export default function App(): JSX.Element {
             <Route exact path="/"> <StudentRoster api={api} /> </Route>
             <Route path="/studentDetail/:studentKey"> <StudentDetail /> </Route>
             <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
-            <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey /> </Route>
-            <Route path="/uploadSurvey"> <UploadSurvey /> </Route>
+            <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
+            <Route path="/uploadSurvey" > <UploadSurvey api={api}/> </Route>
             {isAdminSurveyLoader
               ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
               : <Route><div>Need survey admin rights</div></Route>}
