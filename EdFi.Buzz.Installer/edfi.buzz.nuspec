@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>edfi.buzz</id>
+    <version>$version$</version>
+    <title>Ed-Fi Buzz</title>
+    <authors>Ed-Fi Alliance, LLC and contributors</authors>
+    <projectUrl>https://github.com/Ed-Fi-Alliance-OSS/Buzz</projectUrl>
+    <copyright>Copyright © 2020, Ed-Fi Alliance, LLC and contributors.</copyright>
+    <license type="expression">Apache-2.0</license>
+    <summary>Buzz end-user website, API, ETL and database</summary>
+    <description>Buzz end-user website, API, ETL and database</description>
+  </metadata>
+  <files>
+    <file src=".\Windows\*" target="windows" />
+  </files>
+</package>
