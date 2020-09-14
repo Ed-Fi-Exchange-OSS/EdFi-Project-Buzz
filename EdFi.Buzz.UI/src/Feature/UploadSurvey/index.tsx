@@ -3,12 +3,15 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+/* eslint react-hooks/exhaustive-deps: "off"*/
+
 import * as React from 'react';
 import { Fragment, useState, useEffect, FunctionComponent } from 'react';
-import  SurveyStatus  from 'Models/SurveyStatus';
-import  ApiService  from 'Services/ApiService';
+import SurveyStatus from 'Models/SurveyStatus';
+import ApiService from 'Services/ApiService';
 import { MainContainer, HeadlineContainer, TitleSpanContainer } from 'buzztheme';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 export interface UploadSurveyProps {
   api: ApiService;
@@ -138,60 +141,34 @@ const OutlineButton = styled.button`
 `;
 
 export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: UploadSurveyProps) => {
+  const api = props.api;
+  const params: { surveyKey: string } = useParams();
+  const surveyKey = params.surveyKey;
+
   const DEFAULT_UPLOAD_LABEL = 'Choose survey file';
   const SURVEY_STATUS_QUERY_TIME_IN_MS = 5000;
-  const { api, surveyKey } = props;
-  const [SURVEY_MAX_FILE_SIZE_BYTES, setMaxFileSize] = useState(0);
-  const [storage, setStorage] = useState(sessionStorage);
-  const [isFormValid, setIsFormValid] = useState(false);
+  const SURVEY_MAX_FILE_SIZE_BYTES = api.survey.SURVEY_MAX_FILE_SIZE_BYTES;
+
+  const storage = sessionStorage;
+  const currentUserStaffKey = api.authentication.currentUserValue.teacher.staffkey;
+
+  // const [isFormValid, setIsFormValid] = useState(false);
   const [isTitleValid, setIsTitleValid] = useState(true);
-  const [isFileValid, setIsFileValid] = useState(false);
-  const [currentUserStaffKey, setCurrentUserStaffKey] = useState(null);
+  // const [isFileValid, setIsFileValid] = useState(false);
   const [surveyToUpdate, setSurveyToUpdate] = useState(null);
-  const [isFileSelected, setIsFileSelected] = useState(false);
+  // const [isFileSelected, setIsFileSelected] = useState(false);
   const [isFileUploading, setIsFileUploading] = useState(false);
   const [surveyName, setSurveyName] = useState('');
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
   const [fileStatusMessage, setFileStatusMessage] = useState<FileStatus>(null);
   const [jobStatusTimer, setJobStatusTimer] = useState(null);
-  const [surveyList, setSurveyList] = useState<SurveyStatus[]>(null);
+  // const [surveyList, setSurveyList] = useState<SurveyStatus[]>(null);
   const [title, setTitle] = useState('');
   const [uploadFileLabelText, setUploadFileLabelText] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileStatusClassName, setFileStatusClassName] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileUploaded, setFileUploaded] = useState<File>(null);
   document.title = 'EdFi Buzz: Upload Survey';
-  useEffect(() => {
-    setMaxFileSize(api.survey.SURVEY_MAX_FILE_SIZE_BYTES);
-    setStorage(sessionStorage);
-    setCurrentUserStaffKey(api.authentication.currentUserValue.teacher.staffkey);
-    setSurveyToUpdate(null);
-    setProgress(0);
-    setIsFileSelected(false);
-    setIsFileUploading(false);
-    loadLastUploadedSurvey();
-    OnInit();
-  }, []);
 
-  useEffect(() => {
-    const fileClassName =
-      (fileStatusMessage
-        && (fileStatusMessage.error
-          || (fileStatusMessage.serverJobStatus
-            && fileStatusMessage.serverJobStatus.jobstatuskey !== 3)))
-        ? 'alert-warning'
-        : (!fileStatusMessage
-          || (!fileStatusMessage.error
-            && fileStatusMessage.serverJobStatus
-            && fileStatusMessage.serverJobStatus.jobstatuskey === 3))
-          ? 'alert-success' : '';
-    setFileStatusClassName(fileClassName);
-  }, [fileStatusMessage]);
-  const cancelUploadStatusChecking = () => {
-    if (jobStatusTimer) {
-      clearTimeout(jobStatusTimer);
-      setJobStatusTimer(null);
-    }
-  };
 
   const resetFileStatusMessage = () => {
     setFileStatusMessage(
@@ -233,14 +210,36 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     return newFileStatus;
   };
 
-  const OnInit = async () => {
-    if (surveyKey && surveyKey.length > 0) {
-      const userSurveyList = await (api.survey.getSurveyStatus(
-        api.authentication.currentUserValue.teacher.staffkey, null));
-      if (userSurveyList) {
-        setSurveyList(userSurveyList);
-        setSurveyToUpdate(userSurveyList.find(el => el.surveykey === +surveyKey));
+  const saveLastUploadedSurvey = (message: FileStatus) => {
+    if (message && message.fileName && message.fileName.length > 0) {
+      storage.setItem('lastUploadedSurvey', JSON.stringify(message));
+    }
+  };
+
+  const GetJobStatus = async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
+    const values = await api.survey.getSurveyStatus(staffkey, jobkey);
+    const value = values && values.length > 0 ? values[0] : null;
+    const statusMessage = currentFileStatus || fileStatusMessage;
+    if (!statusMessage || !(statusMessage && statusMessage.fileName && statusMessage.fileName.length > 0)) {
+      /* If message don't have value, don't try to check file status. Probably
+      the user selected a new file to upload. */
+      return;
+    }
+    if (value !== null) {
+      setFileStatusMessage(createFileStatusMessage({ ...statusMessage, serverJobStatus: value }));
+      saveLastUploadedSurvey(fileStatusMessage);
+      setJobStatusTimer(null);
+      if (value && !api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
+        /* Job is not finished */
+        setJobStatusTimer(setTimeout(
+          () => GetJobStatus(value.staffkey, value.jobkey, statusMessage),
+          SURVEY_STATUS_QUERY_TIME_IN_MS));
       }
+    } else {
+      setFileStatusMessage(createFileStatusMessage(statusMessage));
+      setJobStatusTimer(setTimeout(
+        () => GetJobStatus(staffkey, jobkey, statusMessage),
+        SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
   };
 
@@ -256,9 +255,36 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     return message;
   };
 
-  const saveLastUploadedSurvey = (message: FileStatus) => {
-    if (message && message.fileName && message.fileName.length > 0) {
-      storage.setItem('lastUploadedSurvey', JSON.stringify(message));
+
+  const PrepareIfUpdatingSurvey = async () => {
+    if (surveyKey && surveyKey.length > 0) {
+      const userSurveyList = await (api.survey.getSurveyStatus(
+        api.authentication.currentUserValue.teacher.staffkey, null));
+      if (userSurveyList) {
+        // setSurveyList(userSurveyList);
+        setSurveyToUpdate(userSurveyList.find(el => el.surveykey === +surveyKey));
+      }
+    }
+  };
+
+  useEffect(() => {
+    // setProgress(0);
+    // setIsFileSelected(false);
+    loadLastUploadedSurvey();
+  }, []);
+
+  useEffect(() => {
+    const jobStatusKey = fileStatusMessage?.serverJobStatus?.jobstatuskey;
+    const fileClassName = jobStatusKey === 3
+      ? 'alert-success'
+      : 'alert-warning';
+    setFileStatusClassName(fileClassName);
+  }, [fileStatusMessage]);
+
+  const cancelUploadStatusChecking = () => {
+    if (jobStatusTimer) {
+      clearTimeout(jobStatusTimer);
+      setJobStatusTimer(null);
     }
   };
 
@@ -267,27 +293,28 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return { fileName: '', status: 'ERROR', error: 'No file selected', isValid: false };
     }
     if (file.size > SURVEY_MAX_FILE_SIZE_BYTES) {
-      const error = `File size (${(file.size / 1024.0).toFixed(2)} Kb) must be less than ${(SURVEY_MAX_FILE_SIZE_BYTES / (1024)).toFixed(2)} Kb`;
-      const message = { fileName: file.name, status: 'ERROR', error: error, isValid: false };
+      const error = `File size (${(file.size / 1024.0).toFixed(2)} Kb)
+      must be less than ${(SURVEY_MAX_FILE_SIZE_BYTES / (1024)).toFixed(2)} Kb`;
+      const message = { fileName: file.name, status: 'ERROR', error, isValid: false };
       return message;
     }
     return { fileName: file.name, status: 'VALID', isValid: true };
   };
 
-  const prepareFilesList = (files: any) => {
+  const prepareFilesList = (files: FileList) => {
     cancelUploadStatusChecking();
     const file = files[0];
     const status = CheckFileValid(file);
     if (!status.isValid) {
       setFileStatusMessage(createFileStatusMessage(status));
-      setIsFileValid(false);
+      // setIsFileValid(false);
       return;
     }
     resetFileStatusMessage();
     setUploadFileLabelText(file.name);
-    setIsFileValid(true);
+    // setIsFileValid(true);
     setFileUploaded(file);
-    setIsFileSelected(file !== null);
+    // setIsFileSelected(file !== null);
   };
 
   const onDragOver = e => {
@@ -295,11 +322,11 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     event.stopPropagation();
     event.preventDefault();
   };
-
+  /*
   const allowDrop = ev => {
     ev.preventDefault();
   };
-
+*/
   const onFileDropped = files => {
     files.preventDefault();
     prepareFilesList(files.dataTransfer.files);
@@ -308,18 +335,52 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   const onSelectSurvey = event => {
     prepareFilesList((event.target as HTMLInputElement).files);
   };
+  /*
+  const validateForm = () => {
+    if (surveyName.length > 0 && isFileValid) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+
+    }
+  };
+*/
+  const getFileContentAsBase64 = (file: Blob): Promise<string> => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onerror = () => {
+      reader.abort();
+      reject(new DOMException('Problem parsing input file.'));
+    };
+
+    reader.onload = () => {
+      resolve(btoa(reader.result as string));
+    };
+
+    reader.readAsBinaryString(file);
+  });
+
+  const resetControl = () => {
+    setSurveyName('');
+    // setProgress(0);
+    // setIsFileSelected(false);
+    setIsFileUploading(false);
+    setFileUploaded(null);
+    // setIsFileValid(false);
+    setUploadFileLabelText(DEFAULT_UPLOAD_LABEL);
+  };
 
   const submitSurvey = async (e) => {
-    validateForm();
+    // validateForm();
     e.preventDefault();
     const file = fileUploaded as File;
     const status = CheckFileValid(file);
     if (surveyName.length === 0) {
       setIsTitleValid(false);
       return;
-    } else {
-      setIsTitleValid(true);
     }
+    setIsTitleValid(true);
+
     if (!status.isValid) {
       setFileStatusMessage(createFileStatusMessage(status));
       return;
@@ -356,72 +417,15 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     }
   };
 
-  const GetJobStatus = async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
-    const values = await api.survey.getSurveyStatus(staffkey, jobkey);
-    const value = values && values.length > 0 ? values[0] : null;
-    const statusMessage = currentFileStatus ? currentFileStatus : fileStatusMessage;
-    if (!statusMessage || !(statusMessage && statusMessage.fileName && statusMessage.fileName.length > 0)) {
-      /* If message don't have value, don't try to check file status. Probably
-      the user selected a new file to upload. */
-      return;
-    }
-    if (value !== null) {
-      setFileStatusMessage(createFileStatusMessage({ ...statusMessage, serverJobStatus: value }));
-      saveLastUploadedSurvey(fileStatusMessage);
-      setJobStatusTimer(null);
-      if (value && !api.survey.JOB_STATUS_FINISH_IDS.includes(value.jobstatuskey)) {
-        /* Job is not finished */
-        setJobStatusTimer(setTimeout(
-          () => GetJobStatus(value.staffkey, value.jobkey, statusMessage),
-          SURVEY_STATUS_QUERY_TIME_IN_MS));
-      }
-    } else {
-      setFileStatusMessage(createFileStatusMessage(statusMessage));
-      setJobStatusTimer(setTimeout(
-        () => GetJobStatus(staffkey, jobkey, statusMessage),
-        SURVEY_STATUS_QUERY_TIME_IN_MS));
-    }
-  };
-
-  const getFileContentAsBase64 = (file: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onerror = () => {
-        reader.abort();
-        reject(new DOMException('Problem parsing input file.'));
-      };
-
-      reader.onload = () => {
-        resolve(btoa(reader.result as string));
-      };
-
-      reader.readAsBinaryString(file);
-    });
-  };
-  const validateForm = () => {
-    if (surveyName.length > 0 && isFileValid) {
-      setIsFormValid(true);
-    } else {
-      setIsFormValid(false);
-      return;
-    }
-  };
-
   const onChangeSurveyName = e => {
     setSurveyName(e.target.value);
     setTitle(e.target.value);
-    validateForm();
+    // validateForm();
   };
-  const resetControl = () => {
-    setSurveyName('');
-    setProgress(0);
-    setIsFileSelected(false);
-    setIsFileUploading(false);
-    setFileUploaded(null);
-    setIsFileValid(false);
-    setUploadFileLabelText(DEFAULT_UPLOAD_LABEL);
-  };
+
+
+
+  PrepareIfUpdatingSurvey();
 
   return (
     <MainContainer role='main' className='container'>
@@ -434,7 +438,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
           <div className='col'>
             <div className='card'>
               <div className='card-body'>
-                <UpdateMessage>You are updating the "{surveyToUpdate.resultSummaryObj.survey.title}" survey</UpdateMessage>
+                <UpdateMessage>You are updating the &quot;{surveyToUpdate.resultSummaryObj.survey.title}&quot; survey</UpdateMessage>
               </div>
             </div>
           </div>
@@ -476,7 +480,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
             <div className='form-group'>
               <OutlineButton type='submit' className='outline-button'
-                >Upload survey</OutlineButton>
+              >Upload survey</OutlineButton>
             </div>
 
             {fileStatusMessage
