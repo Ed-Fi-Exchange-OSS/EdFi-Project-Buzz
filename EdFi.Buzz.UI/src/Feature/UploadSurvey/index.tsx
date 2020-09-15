@@ -141,32 +141,28 @@ const OutlineButton = styled.button`
 `;
 
 export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: UploadSurveyProps) => {
-  const api = props.api;
+  const {api} = props;
   const params: { surveyKey: string } = useParams();
-  const surveyKey = params.surveyKey;
+  const {surveyKey} = params;
 
   const DEFAULT_UPLOAD_LABEL = 'Choose survey file';
   const SURVEY_STATUS_QUERY_TIME_IN_MS = 5000;
-  const SURVEY_MAX_FILE_SIZE_BYTES = api.survey.SURVEY_MAX_FILE_SIZE_BYTES;
+  const {SURVEY_MAX_FILE_SIZE_BYTES} = api.survey;
 
   const storage = sessionStorage;
   const currentUserStaffKey = api.authentication.currentUserValue.teacher.staffkey;
 
-  // const [isFormValid, setIsFormValid] = useState(false);
   const [isTitleValid, setIsTitleValid] = useState(true);
-  // const [isFileValid, setIsFileValid] = useState(false);
   const [surveyToUpdate, setSurveyToUpdate] = useState(null);
-  // const [isFileSelected, setIsFileSelected] = useState(false);
   const [isFileUploading, setIsFileUploading] = useState(false);
   const [surveyName, setSurveyName] = useState('');
-  // const [progress, setProgress] = useState(0);
   const [fileStatusMessage, setFileStatusMessage] = useState<FileStatus>(null);
   const [jobStatusTimer, setJobStatusTimer] = useState(null);
-  // const [surveyList, setSurveyList] = useState<SurveyStatus[]>(null);
   const [title, setTitle] = useState('');
   const [uploadFileLabelText, setUploadFileLabelText] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileStatusClassName, setFileStatusClassName] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileUploaded, setFileUploaded] = useState<File>(null);
+
   document.title = 'EdFi Buzz: Upload Survey';
 
 
@@ -255,21 +251,32 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     return message;
   };
 
+  function SurveyStatusAreEqual(Object1: SurveyStatus, Object2: SurveyStatus): boolean {
+    return Object1?.surveykey === Object2?.surveykey &&
+      Object1?.jobstatuskey === Object2?.jobstatuskey &&
+      Object1?.jobkey === Object2?.jobkey &&
+      Object1?.staffkey === Object2?.staffkey;
+  }
 
   const PrepareIfUpdatingSurvey = async () => {
+    console.log('PrepareIfUpdatingSurvey');
     if (surveyKey && surveyKey.length > 0) {
       const userSurveyList = await (api.survey.getSurveyStatus(
         api.authentication.currentUserValue.teacher.staffkey, null));
       if (userSurveyList) {
-        // setSurveyList(userSurveyList);
-        setSurveyToUpdate(userSurveyList.find(el => el.surveykey === +surveyKey));
+        const surveyStatus = userSurveyList.find(el => el.surveykey === +surveyKey);
+        if (!SurveyStatusAreEqual(surveyToUpdate, surveyStatus)) {
+          setSurveyToUpdate(surveyStatus);
+        }
       }
     }
   };
 
   useEffect(() => {
-    // setProgress(0);
-    // setIsFileSelected(false);
+    PrepareIfUpdatingSurvey();
+  }, [surveyToUpdate]);
+
+  useEffect(() => {
     loadLastUploadedSurvey();
   }, []);
 
@@ -307,14 +314,11 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     const status = CheckFileValid(file);
     if (!status.isValid) {
       setFileStatusMessage(createFileStatusMessage(status));
-      // setIsFileValid(false);
       return;
     }
     resetFileStatusMessage();
     setUploadFileLabelText(file.name);
-    // setIsFileValid(true);
     setFileUploaded(file);
-    // setIsFileSelected(file !== null);
   };
 
   const onDragOver = e => {
@@ -322,11 +326,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     event.stopPropagation();
     event.preventDefault();
   };
-  /*
-  const allowDrop = ev => {
-    ev.preventDefault();
-  };
-*/
+
   const onFileDropped = files => {
     files.preventDefault();
     prepareFilesList(files.dataTransfer.files);
@@ -335,16 +335,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   const onSelectSurvey = event => {
     prepareFilesList((event.target as HTMLInputElement).files);
   };
-  /*
-  const validateForm = () => {
-    if (surveyName.length > 0 && isFileValid) {
-      setIsFormValid(true);
-    } else {
-      setIsFormValid(false);
 
-    }
-  };
-*/
   const getFileContentAsBase64 = (file: Blob): Promise<string> => new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -362,16 +353,12 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
   const resetControl = () => {
     setSurveyName('');
-    // setProgress(0);
-    // setIsFileSelected(false);
     setIsFileUploading(false);
     setFileUploaded(null);
-    // setIsFileValid(false);
     setUploadFileLabelText(DEFAULT_UPLOAD_LABEL);
   };
 
   const submitSurvey = async (e) => {
-    // validateForm();
     e.preventDefault();
     const file = fileUploaded as File;
     const status = CheckFileValid(file);
@@ -417,15 +404,12 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     }
   };
 
-  const onChangeSurveyName = e => {
-    setSurveyName(e.target.value);
-    setTitle(e.target.value);
-    // validateForm();
+  const onChangeSurveyName = (e) => {
+    const newValue = e.target.value;
+    setSurveyName(newValue);
+    setTitle(newValue);
+    setIsTitleValid(newValue.length > 0);
   };
-
-
-
-  PrepareIfUpdatingSurvey();
 
   return (
     <MainContainer role='main' className='container'>
