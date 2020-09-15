@@ -9,6 +9,7 @@ export interface SearchInSectionsComponentProps {
   sectionList: Section[];
   onSearch?: (sectionKey: string, studentFilter: string) => void;
   defaultValue?: string;
+  searchFilterPlaceholder?: string;
 }
 
 const SearchInSectionsContainer = styled.div`
@@ -193,14 +194,14 @@ const StyledSelectParent = styled.div`
 
 export const SearchInSections: React.FunctionComponent<SearchInSectionsComponentProps> = (props: SearchInSectionsComponentProps) => {
   const sectionSelectionRef = React.createRef<HTMLSelectElement>();
-  const studentFilterRef = React.createRef<HTMLInputElement>();
+  const searchFilterRef = React.createRef<HTMLInputElement>();
   const defaultValue = props.defaultValue || '';
 
   function searchEventHandler() {
     if (props.onSearch) {
-      const studentFilter = studentFilterRef.current?.value ?? '';
+      const searchFilter = searchFilterRef.current?.value ?? '';
       const sectionSelection = sectionSelectionRef.current?.value ?? '';
-      props.onSearch(sectionSelection, studentFilter);
+      props.onSearch(sectionSelection, searchFilter);
     }
   }
 
@@ -229,9 +230,9 @@ export const SearchInSections: React.FunctionComponent<SearchInSectionsComponent
           <img src={OrangeSearch} alt="Search" />
           <input
             type='text'
-            id='studentNameInputs'
-            placeholder='Search by Student Name'
-            ref={studentFilterRef}
+            id='searchFilter'
+            placeholder={ (props.searchFilterPlaceholder || 'Search by Student Name') }
+            ref={searchFilterRef}
             onKeyUp={searchEventHandler}
           />
         </StyledTextParent>
