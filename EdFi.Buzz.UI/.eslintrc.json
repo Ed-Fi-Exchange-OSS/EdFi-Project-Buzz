@@ -210,10 +210,6 @@
       }
     ],
     "linebreak-style": "off",
-    "no-cond-assign": "off",
-    "indent": [
-      "error",
-      2
-    ]
+    "no-cond-assign": "off"
   }
 }
