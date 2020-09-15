@@ -18,6 +18,7 @@
     "jest-teamcity-reporter": "^0.9.0",
     "jquery": "1.9.1 - 3",
     "popper.js": "^1.16.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-adal": "^0.5.0",
     "react-bootstrap": "^1.3.0",
@@ -27,6 +28,7 @@
     "react-social-login": "^3.4.9",
     "rsdi": "^1.0.5",
     "rxjs": "^6.6.3",
+    "serve": "^11.3.2",
     "styled-components": "^5.2.0",
     "subscriptions-transport-ws": "^0.9.18"
   },
@@ -69,6 +71,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-prod": "yarn build && serve -s build",
     "build": "react-scripts build",
     "lint": "eslint --fix \"src/**/*{ts,tsx}\"",
     "lint:ci": "yarn lint --format ./node_modules/eslint-teamcity/index.js ",
