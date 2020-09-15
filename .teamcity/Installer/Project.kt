@@ -7,14 +7,14 @@ package installer
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
-object UIProject : Project({
+object InstallerProject : Project({
     id("Buzz_Installer")
     name = "Installer"
     description = "Buzz App Installer"
 
-    buildType(ui.buildTypes.PullRequestUIBuild)
-    buildType(ui.buildTypes.BranchInstallerBuild)
-    buildType(ui.buildTypes.DeployInstallerBuild)
+    buildType(installer.buildTypes.PullRequestUIBuild)
+    buildType(installer.buildTypes.BranchInstallerBuild)
+    buildType(installer.buildTypes.DeployInstallerBuild)
 
     params{
         param("project.directory", "./EdFi.Buzz.Installer");
