@@ -12,7 +12,7 @@ object InstallerProject : Project({
     name = "Installer"
     description = "Buzz App Installer"
 
-    buildType(installer.buildTypes.PullRequestUIBuild)
+    buildType(installer.buildTypes.PullRequestInstallerBuild)
     buildType(installer.buildTypes.BranchInstallerBuild)
     buildType(installer.buildTypes.DeployInstallerBuild)
 
