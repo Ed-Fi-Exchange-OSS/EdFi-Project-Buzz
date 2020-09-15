@@ -41,6 +41,7 @@
     "@types/styled-components": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "build": "^0.1.4",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -67,6 +68,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start-prod" : "yarn build && serve -s build",
     "lint": "eslint --fix \"src/**/*{ts,tsx}\"",
     "lint:ci": "yarn lint --format ./node_modules/eslint-teamcity/index.js ",
     "test": "react-scripts test",
