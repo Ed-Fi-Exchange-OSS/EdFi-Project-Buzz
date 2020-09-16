@@ -44,7 +44,7 @@ export default class StudentApiService {
     await client.query({ query: getStudentById, variables: queryParams })
       .then(response => {
         student = response.data.studentbystaff;
-        this.setDefaultValues(student);
+        student = this.setDefaultValues(student);
       });
 
     return student;
@@ -56,6 +56,7 @@ export default class StudentApiService {
       ...studentParam,
       name: null
     };
+
     if (student) {
       student.name =
           `${student.studentlastname || ''},
@@ -71,8 +72,7 @@ export default class StudentApiService {
         student.primaryemailaddress = `${student.studentfirstname.toLocaleLowerCase()}@grandbend.com`;
       }
     }
+
     return student;
   };
-
-
 }

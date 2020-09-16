@@ -12,6 +12,7 @@ import Star from '../assets/star.png';
 // import Table from '../assets/table.png';
 import ChevronDown from '../assets/chevron-down.png';
 import ChevronUp from '../assets/chevron-up.png';
+import LeftArrow from '../assets/arrow-left-2.png';
 
 export const EmailIcon: React.FunctionComponent = () => <img className='email-icon' src={Mail} alt='Mail' />;
 
@@ -27,4 +28,4 @@ export const ChevronDownIcon: React.FunctionComponent = () => <img className='ch
 
 export const ChevronUpIcon: React.FunctionComponent = () => <img className='chevron-up-icon' src={ChevronUp} alt="" />;
 
-// export const LeftArrowIcon: React.FunctionComponent = () => <img src={LeftArrow} style={{ width: '14px', height: '14px' }} />;
+export const LeftArrowIcon: React.FunctionComponent = () => <img src={LeftArrow} style={{ width: '14px', height: '14px' }} alt="" />;
