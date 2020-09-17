@@ -136,7 +136,7 @@
     "guard-for-in": "error",
     "id-blacklist": "off",
     "id-match": "off",
-    "import/no-cycle": "warn", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "import/no-cycle": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
     "import/no-deprecated": "warn",
     "import/prefer-default-export": "off",
     "max-len": [
@@ -195,7 +195,7 @@
     "no-underscore-dangle": "off",
     "no-unused-labels": "error",
     "no-use-before-define": [0],
-    "no-useless-constructor": "warn", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "no-useless-constructor": "off", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
     "max-classes-per-file": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
     "no-var": "error",
     "prefer-const": "error",

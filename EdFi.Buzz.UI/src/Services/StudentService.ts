@@ -11,7 +11,6 @@ import AuthenticationService from './AuthenticationService';
 export default class StudentApiService {
   students: Student[];
 
-  /* eslint no-useless-constructor: "off"*/
   constructor(private auth: AuthenticationService, private apolloClient: ApolloClient<InMemoryCache>) { }
 
   public get = async(section?: string, name?: string): Promise<Student[]> => {

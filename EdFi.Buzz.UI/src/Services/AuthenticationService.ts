@@ -16,7 +16,6 @@ export default class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<User>;
 
-  /* eslint no-useless-constructor: "off"*/
   constructor(
     private teacherService: TeacherApiService,
     private apolloClient: ApolloClient<InMemoryCache>

@@ -14,7 +14,6 @@ import AllStudentAnswers from '../Models/AllStudentAnswers';
 
 export default class SurveyAnalyticsApiService{
 
-  /* eslint no-useless-constructor: "off"*/
   constructor(private studentService: StudentApiService,
     private authenticationService: AuthenticationService,
     private apolloClient: ApolloClient<InMemoryCache>) {
