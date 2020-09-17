@@ -4,7 +4,6 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 export default class Survey {
-/* eslint max-classes-per-file: "off"*/
 /* eslint @typescript-eslint/no-explicit-any: "off"*/
 
   surveykey?: number;
