@@ -95,7 +95,7 @@
         }
       }
     ],
-    "@typescript-eslint/member-ordering": "warn", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "@typescript-eslint/member-ordering": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-empty-interface": "error",
     "@typescript-eslint/no-explicit-any": "warn", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
