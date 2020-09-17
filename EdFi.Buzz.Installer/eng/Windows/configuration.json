@@ -1,0 +1,49 @@
+{
+    "googleClientId": "",
+    "adfsClientId": "",
+    "adfsTenantId": "",
+    "installDatabases": true,
+    "installEtl": true,
+    "installWeb": true,
+    "installApi": true,
+    "installPostgresCredentials": {
+        "databaseUser": "postgres",
+        "databasePassword": "postgres"
+    },
+    "postgresDatabase": {
+        "host": "localhost",
+        "port": 5432,
+        "username": "postgres",
+        "password": "pa55w0rd",
+        "database": "edfi_buzz"
+    },
+    "sqlServerDatabase": {
+        "host": "localhost",
+        "port": 49412,
+        "username": "ods_user",
+        "password": "P@ssw0rd",
+        "database": "ods-with-amt"
+    },
+    "etl" : {
+        "datasourceFormat": "amt",
+        "odsDataStandard": "ds3",
+        "max": 20,
+        "idleTimeoutMilliseconds": 5000,
+        "connectionTimeoutMilliseconds": 2000,
+        "trustServerCertificate": false,
+        "enableArithAbort":true,
+        "encrypt":false,
+
+    },
+    "apiApp": {
+        "installationDirectory": "C:\\inetpub\\Ed-Fi\\BuzzApi",
+        "port": 3000
+    },
+    "webApp": {
+        "installationDirectory": "C:\\inetpub\\Ed-Fi\\Buzz",
+        "port": 4200,
+        "buzzApi": {
+            "apiUrl": ""
+        }
+    }
+}
