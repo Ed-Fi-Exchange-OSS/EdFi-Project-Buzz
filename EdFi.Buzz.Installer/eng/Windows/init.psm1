@@ -40,6 +40,7 @@ function Initialize-Installer($toolsPath, $downloadPath, $databasesConfig) {
   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
   Install-NugetCli $toolsPath
   Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | out-host
+  # TODO ENSURE NODE IS INSTALLED
   Initialize-PsqlHome $databasesConfig $toolsPath $downloadPath
 }
 
