@@ -21,46 +21,43 @@ function Convert-PsObjectToHashTable {
     return $hashTable
 }
 
-<#
- # Converts a configuration.json file of known items into a hashtable
- #>
 function Format-BuzzConfigurationFileToHashTable {
     param (
         [string] $configPath
     )
 
+    $ErrorActionPreference = "Stop"
+
     $configJson = Get-Content $configPath | ConvertFrom-Json
 
     $formattedConfig = @{
-        <# Example Usages...
-        # installDatabases = $configJson.installDatabases
-        # anyApplicationsToInstall = $configJson.installDatabases -or $configJson.installAdminApp -or $configJson.installWebApi -or $configJson.installSwaggerUI
-        # anyApplicationsToUninstall = $configJson.uninstallAdminApp -or $configJson.uninstallWebApi -or $configJson.uninstallSwaggerUI
-        # swaggerUIConfig = Convert-PsObjectToHashTable $configJson.swaggerui
-        #>
+        installDatabase = $configJson.installDatabase
+        installEtl = $configJson.installEtl
+        installWeb = $configJson.installWeb
+        installApi = $configJson.installApi
+        idProvider= $configJson.idProvider
+        clientSecret = $configJson.clientSecret
+        googleClientId = $configJson.googleClientId
+        adfsClientId = $configJson.adfsClientId
+        adfsTenantId = $configJson.adfsTenantId
+
+        anyApplicationsToInstall = $configJson.installDatabase -or $configJson.installEtl -or $configJson.installApi -or $configJson.installWeb
+
+        idConfigured = $configJson.idProvider
+
+        postgresDatabase = Convert-PsObjectToHashTable $configJson.postgresDatabase
+        sqlServerDatabase = Convert-PsObjectToHashTable $configJson.sqlServerDatabase
+        database = Convert-PsObjectToHashTable $configJson.database
+        etl = Convert-PsObjectToHashTable $configJson.etl
+        apiApp = Convert-PsObjectToHashTable $configJson.apiApp
+        webApp = Convert-PsObjectToHashTable $configJson.webApp
     }
-
-
-    <#
-    # if ($formattedConfig.installWebApi) {
-    #     $expectedWebApiBaseUri = "https://$($env:computername)/Buzz"
-
-        # DO WE NEED?
-        # if ([string]::IsNullOrEmpty($formattedConfig.adminAppConfig.odsApi.apiUrl)) {
-        #     $formattedConfig.adminAppConfig.odsApi.apiUrl = $expectedWebApiBaseUri
-        # }
-
-        # if ([string]::IsNullOrEmpty($formattedConfig.swaggerUIConfig.swaggerAppSettings.apiMetadataUrl)) {
-        #     $formattedConfig.swaggerUIConfig.swaggerAppSettings.apiMetadataUrl = "$expectedWebApiBaseUri/metadata/"
-        # }
-
-        # if ([string]::IsNullOrEmpty($formattedConfig.swaggerUIConfig.swaggerAppSettings.apiVersionUrl)) {
-        #     $formattedConfig.swaggerUIConfig.swaggerAppSettings.apiVersionUrl = $expectedWebApiBaseUri
-        # }
-    }
-    #>
 
     return $formattedConfig
 }
 
-Export-ModuleMember Format-BuzzConfigurationFileToHashTable
+$functions = @(
+    "Format-BuzzConfigurationFileToHashTable"
+)
+
+Export-ModuleMember -Function $functions

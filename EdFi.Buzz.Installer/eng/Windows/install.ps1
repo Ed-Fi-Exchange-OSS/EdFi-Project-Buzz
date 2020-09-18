@@ -10,21 +10,43 @@ param (
     [string] $configPath = "$PSScriptRoot\configuration.json"
 )
 
-$ErrorActionPreference = "Stop"
+Import-Module "$PSScriptRoot\Database\Configuration.psm1" -Force
+Import-Module "$PSScriptRoot\configHelper.psm1" -Force
+Import-Module "$PSScriptRoot\init.psm1" -Force
 
-
+# Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
+# Initialize-Installer
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
 # Each NuGet should be retrieveable using NuGet.executable
-
-# Verify we are an administrator on the machine
+$conf = Format-BuzzConfigurationFileToHashTable $configPath
 
 # Test the connection strings for SQL Server
+$sqlServer = @{
+    Engine = "SqlServer"
+    Server = $conf.sqlServerDatabase.host
+    Port = $conf.sqlServerDatabase.port
+    UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
+    Username = $conf.sqlServerDatabase.username
+    Password = $conf.sqlServerDatabase.password
+    DatabaseName = $conf.sqlServerDatabase.database
+}
+Assert-DatabaseConnectionInfo $sqlServer -RequireDatabaseName
+
 
 # Test the connection strings for PostgreSQL
+$postgres = @{
+    Engine = "PostgreSQL"
+    Server = $conf.postgresDatabase.host
+    Port = $conf.postgresDatabase.port
+    UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
+    Username = $conf.postgresDatabase.username
+    Password = $conf.postgresDatabase.password
+    DatabaseName = $conf.postgresDatabase.database
+}
 
-# Test for IIS and any Windows Features we will need
+Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
 
 # Install Buzz Database - downloads and executes the database install script
 
@@ -36,9 +58,4 @@ $ErrorActionPreference = "Stop"
 
 # Verify all services are running
 
-$packageRepository
-
-
-$databasePackage
-
-return 0;
+exit $LASTEXITCODE;
