@@ -28,7 +28,7 @@ Developer information for each Project Buzz application is outlined in a README 
 * [API - Developer README](EdFi.Buzz.Api/README.md)
 * [Database -  Developer README](EdFi.Buzz.Database/README.md)
 * [ETL -  Developer README](EdFi.Buzz.ETL/README.md)
-* [User Interface -  Developer README](EdFi.Buzz.UI.Angular/README.md)
+* [User Interface -  Developer README](EdFi.Buzz.UI/README.md)
 
 ## Legal Information
 
