@@ -5,8 +5,6 @@
  * See the LICENSE and NOTICES files in the project root for more information.
  */
 
-/* eslint @typescript-eslint/no-explicit-any: "off"*/
-
 import * as React from 'react';
 import { FunctionComponent } from 'react';
 import { Icon } from '@iconify/react';
