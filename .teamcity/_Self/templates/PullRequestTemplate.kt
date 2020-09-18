@@ -31,7 +31,9 @@ object PullRequestTemplate : BuildAndTestBaseClass() {
             pullRequests {
                 vcsRootExtId = "${DslContext.settingsRoot.id}"
                 provider = github {
-                    authType = vcsRoot()
+                    authType = token {
+                        token = "%github.accessToken%"
+                    }
                     filterTargetBranch = "+:<default>"
                     filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
                 }

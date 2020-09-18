@@ -31,7 +31,11 @@ object BuildOnlyPullRequestTemplate : BuildBaseClass() {
             pullRequests {
                 vcsRootExtId = "${DslContext.settingsRoot.id}"
                 provider = github {
-                    authType = vcsRoot()
+                    // vcsRoot is deprecated as an authType for github, use token instead
+                    // Do not use personalToken on the pulRequests node
+                    authType = token {
+                        token = "%github.accessToken%"
+                    }
                     filterTargetBranch = "+:<default>"
                     filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
                 }
