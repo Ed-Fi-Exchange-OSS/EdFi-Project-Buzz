@@ -58,33 +58,35 @@ BUZZ_DB_DATABASE = '$DbName'
   }
 
 function Install-Migrations{
-    Add-Database-DotEnvFile
-    Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
-    &npm run migrate
+    try {
+        Add-Database-DotEnvFile
+        Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
+        &npm run migrate
+        Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
+    }
+    catch {
+        Write-Error "Database was not migrated"
+        throw
+    }
 }
 
 function Install-Database {
-    Push-Location -Path $InstallPath
-    Write-Host "Executing: npm install --production" -ForegroundColor Magenta
-    &npm install --production
+    $currDir = $PWD
+    try {
+        Push-Location -Path $InstallPath
+        Write-Host "Executing: npm install --production" -ForegroundColor Magenta
+        &npm install --production
 
-    Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
-    $output = &npm run init-db $DbName 2>&1
-
-    if ($LASTEXITCODE -ne 0)
-    {
-        $err = $output.Where{$PSItem -match 'already exists'}
-        if($err.Length -gt 0){
-            Install-Migrations
-        }
-        else{
-            Write-Host "Error: Unable to connect to the database '$($DbName)'." -ForegroundColor Red
-        }
+        Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
+        $output = &npm run init-db $DbName 2>&1
     }
-    else{
-        Install-Migrations
+    catch {
+        Write-Error $PSItem.Exception.StackTrace
+        throw "Database was not installed"
     }
-    Pop-Location
+    finally {
+        Pop-Location
+    }
 }
 
 Write-Host "Begin EdFi Buzz database installation..." -ForegroundColor Yellow
@@ -93,5 +95,6 @@ New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
 
 New-DotEnvFile
 Install-Database
+Install-Migrations
 
 Write-Host "End EdFi Buzz API installation." -ForegroundColor Yellow
