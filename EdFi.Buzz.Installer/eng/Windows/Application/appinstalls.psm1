@@ -3,6 +3,27 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
+function Uninstall-Services {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $app
+    )
+
+    if ($app -eq "Database") {
+        Write-Debug "Uninstall-Services skipping database service uninstall"
+        return;
+    }
+
+    try {
+        Stop-Service -Name EdFi-Buzz-$app
+        Remove-Service -Name EdFi-Buzz-$app
+    }
+    catch {
+        Write-Error $PSItem.Exception.Message
+        throw
+    }
+}
+
 function Uninstall-Asset {
     Param(
         [Parameter(Mandatory = $true)]
@@ -11,59 +32,85 @@ function Uninstall-Asset {
         [string] $packagesPath
     )
 
-    $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*"}) | Select-Object -Property FullName
+    try {
 
-    if ($matchingFolders.Length -lt 1) {
-        Write-Host "$app has not been installed yet."
-        exit;
+        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*" }) | Select-Object -Property FullName
+
+        if ($matchingFolders.Length -lt 1) {
+            Write-Host "$app has not been installed yet."
+            return;
+        }
+
+        $folder = "$($matchingFolders[0].FullName)/"
+        Uninstall-Services -app $app
+        Write-Host "Removing app folder at $folder"
+        Remove-Item -LiteralPath $folder -Force -Recurse
     }
-
-    # TODO CREATE UNINSTALL-APP FUNCTIONS
-    Write-Host "Uninstalling Ed-Fi Buzz $app"
-    # Stop-Service -Name "EdFi-Buzz-$app"
-    # Delete-Service -Name "EdFi-Buzz-$app"
-    Write-Host "Removing app folder at $($matchingFolders[0].FullName)"
-    Remove-Item -Path $matchingFolders[0].FullName -Recurse -Force
+    catch {
+        Write-Error $PSItem.Exception.Message
+        throw
+    }
 }
 
 function Install-ApiApp {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [Hashtable] $configuration
     )
     Write-Host "Installing the Buzz API application..."
+
+    $params = @{
+        "DbServer"   = $configuration.postgresDatabase.Host;
+        "DbPort"     = $configuration.postgresDatabase.Port;
+        "DbUserName" = $configuration.postgresDatabase.UserName;
+        "DbPassword" = $configuration.postgresDatabase.Password;
+        "DbName"     = $configuration.postgresDatabase.DbName;
+        "HttpPort"   = $configuration.api.Port;
+    }
+
+    ./install.ps1 @params
 }
 function Install-DatabaseApp {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [Hashtable]$configuration
     )
     Write-Host "Installing the Buzz Database application..."
     $params = @{
-        "DbServer" = $configuration.sqlServerDatabase.host;
-        "DbPort" = $configuration.sqlServerDatabase.port;
+        "DbServer"   = $configuration.sqlServerDatabase.host;
+        "DbPort"     = $configuration.sqlServerDatabase.port;
         "DbUserName" = $configuration.sqlServerDatabase.username;
         "DbPassword" = $configuration.sqlServerDatabase.password;
-        "DbName" = $configuration.sqlServerDatabase.database
+        "DbName"     = $configuration.sqlServerDatabase.database
     }
-    .\install.ps1 @params
+    ./install.ps1 @params
 }
 
 function Install-UiApp {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [Hashtable] $configuration
     )
     Write-Host "Installing the Buzz Web application..."
+    $currDir = $PWD
+    $params = @{
+        "InstallPath"     = $currDir;
+        "port"            = $configuration.ui.port;
+        "graphQlEndpoint" = $configuration.api.url;
+        "googleClientId"  = $configuration.googleClientId;
+        "adfsClientId"    = $configuration.adfsClientId;
+        "adfsTenantId"    = $configuration.adfsTenantId;
+    }
+    ./install @params
 }
 
 function Install-EtlApp {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [Hashtable] $configuration
     )
 
@@ -71,23 +118,23 @@ function Install-EtlApp {
 
     Write-Host "Installing the Buzz ETL application..."
     $params = @{
-        "InstallPath" = $currDir;
-        "PostgresHost" = $configuration.postgresDatabase.host;
-        "PostgresPort" = $configuration.postgresDatabase.port;
-        "PostgresUserName" = $configuration.postgresDatabase.username;
-        "PostgresPassword" = $configuration.postgresDatabase.password;
-        "PostgresDbName" = $configuration.postgresDatabase.database
-        "SqlServerHost" = $configuration.sqlServerDatabase.host;
-        "SqlServerPort" = $configuration.sqlServerDatabase.port;
+        "InstallPath"       = $currDir;
+        "PostgresHost"      = $configuration.postgresDatabase.host;
+        "PostgresPort"      = $configuration.postgresDatabase.port;
+        "PostgresUserName"  = $configuration.postgresDatabase.username;
+        "PostgresPassword"  = $configuration.postgresDatabase.password;
+        "PostgresDbName"    = $configuration.postgresDatabase.database
+        "SqlServerHost"     = $configuration.sqlServerDatabase.host;
+        "SqlServerPort"     = $configuration.sqlServerDatabase.port;
         "SqlServerUserName" = $configuration.sqlServerDatabase.username;
         "SqlServerPassword" = $configuration.sqlServerDatabase.password;
-        "SqlServerDbName" = $configuration.sqlServerDatabase.database
+        "SqlServerDbName"   = $configuration.sqlServerDatabase.database
     }
-    .\install.ps1 @params
+    ./install.ps1 @params
 }
 function Execute-AppInstaller {
     Param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $app,
         [Parameter(Mandatory = $true)]
         [string] $packagesPath,
@@ -98,7 +145,7 @@ function Execute-AppInstaller {
     try {
         Write-Host "Installing the Buzz $app application..."
 
-        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*"}) | Select-Object -Property FullName
+        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*" }) | Select-Object -Property FullName
 
         if ($matchingFolders.Length -ne 1) {
             throw "More than one $app folder found at $packagesPath"
@@ -111,11 +158,11 @@ function Execute-AppInstaller {
         Set-Location $installFolder
         Write-Host "Current directory is now $PWD"
         switch ($app) {
-            "API" {Install-ApiApp $conf }
-            "Database" {Install-DatabaseApp $conf }
-            "Etl" {Install-EtlApp  $conf }
-            "Ui" {Install-UiApp $conf }
-            Default { Write-Error "There is no Buzz $app app to install"}
+            "API" { Install-ApiApp $conf }
+            "Database" { Install-DatabaseApp $conf }
+            "Etl" { Install-EtlApp  $conf }
+            "Ui" { Install-UiApp $conf }
+            Default { Write-Error "There is no Buzz $app app to install" }
         }
         Write-Host "Buzz $app installed."
     }
@@ -132,19 +179,19 @@ function Execute-AppInstaller {
 function Install-AssetFromNuget {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $nuget,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $app,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $packageName,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $version,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $source,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $packagesPath,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [HashTable] $conf
     )
 
@@ -160,9 +207,12 @@ function Install-AssetFromNuget {
             & $nuget "install" $packageName -Version $version -Source "$source" -OutputDirectory "$packagesPath" -Verbosity quiet
         }
         Execute-AppInstaller -app $app -packagesPath $packagesPath -conf $conf
+        Write-Host "Finished installing $app"
     }
     catch {
-        Write-Error "Install-AssetFromNuget failed to install $app"
+        Write-Error $PSItem.Exception.Message
+        Write-Error $PSItem.Exception.StackTrace
+        throw
     }
     finally {
         Set-Location -Path $currDir

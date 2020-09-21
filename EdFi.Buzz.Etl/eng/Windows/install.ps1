@@ -101,7 +101,7 @@ function Install-NodeService {
   )
 
   $serviceName = "EdFi-Buzz-Etl"
-
+  
   # If service already exists, stop and remove it so that new settings
   # will be applied.
   $exists = Get-Service -name $serviceName -ErrorAction SilentlyContinue

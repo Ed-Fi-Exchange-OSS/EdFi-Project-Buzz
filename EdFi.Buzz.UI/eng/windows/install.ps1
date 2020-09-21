@@ -15,10 +15,18 @@ param(
   $NginxUrl = "http://nginx.org/download/nginx-1.19.0.zip",
 
   [string]
-  $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip"
-)
+  $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",
 
-# TODO: insure this is run as an administrator
+  [Parameter(Mandatory=$true)]
+  [INT] $port,
+
+  [Parameter(Mandatory=$true)]
+  [string] $graphQlEndpoint,
+
+  [string] $googleClientId,
+  [string] $adfsClientId,
+  [string] $adfsTenantId
+)
 
 function Get-FileNameWithoutExtensionFromUrl {
   param(
@@ -91,7 +99,7 @@ function Install-NginxService {
     $winSwVersion
   )
 
-  $serviceName = "edfi-buzz-ui"
+  $serviceName = "EdFi-Buzz-UI"
 
   # If service already exists, stop and remove it so that new settings
   # will be applied.
@@ -123,9 +131,61 @@ function Install-NginxService {
   &$edFiBuzzUiExe start
 }
 
+
+function New-DotEnvFile {
+  param(
+    [string]
+    $installPath
+  )
+
+  New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
+
+  if (![string]::IsNullOrEmpty($googleClientId)) {
+    $adfsClient = ""
+    $adfsTenantId = ""
+  }
+
+  $fileContents = @"
+  PORT=$port
+  REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
+  REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
+  xREACT_APP_ADFS_CLIENT_ID=$adfsClientId
+  REACT_APP_ADFS_TENANT_ID=$adfsTenantId
+  REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
+  REACT_APP_JOB_STATUS_FINISH_IDS=[3]
+"@
+  $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
+}
+
+
+function Install-DistFiles {
+  param(
+    [string]
+    $installPath
+  )
+
+  # Copy the dist directory into the NGiNX folder
+  $parameters = @{
+    Path        = "$PSScriptRoot/../dist"
+    Destination = "$installPath"
+    Recurse     = $true
+    Force       = $true
+  }
+  Copy-Item @parameters
+
+  Push-Location "$installPath/dist"
+  Write-Host "Executing: npm install --production"
+  &npm install --production
+  Pop-Location
+}
+
+
 Write-Host "Begin Ed-Fi Buzz UI installation..." -ForegroundColor Yellow
 
 New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
+
+Install-DistFiles -installPath $InstallPath
+New-DotEnvFile -installPath  "$InstallPath/dist"
 
 $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl
 Install-NginxFiles -nginxVersion $nginxVersion

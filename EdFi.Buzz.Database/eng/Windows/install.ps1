@@ -45,28 +45,20 @@ BUZZ_DB_PASSWORD = '$DbPassword'
   $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
 }
 
-function Add-Database-DotEnvFile {
-    $fileContents = @"
-BUZZ_DB_HOST = '$DbServer'
-BUZZ_DB_PORT = $DbPort
-BUZZ_DB_USERNAME ='$DbUserName'
-BUZZ_DB_PASSWORD = '$DbPassword'
-BUZZ_DB_DATABASE = '$DbName'
-"@
-
-    $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
-  }
-
 function Install-Migrations{
     try {
-        Add-Database-DotEnvFile
+        Push-Location -Path $InstallPath
         Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
+        &npm install
         &npm run migrate
         Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
     }
     catch {
         Write-Error "Database was not migrated"
         throw
+    }
+    finally {
+        Pop-Location
     }
 }
 

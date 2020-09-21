@@ -6,7 +6,7 @@
     "installApi": true,
     "idProvider": "google",
     "clientSecret": "",
-    "googleClientId": "",
+    "googleClientId": "761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com",
     "adfsClientId": "",
     "adfsTenantId": "",
     "postgresDatabase": {
@@ -24,7 +24,7 @@
         "database": "ods-with-amt"
     },
     "database": {
-        "version": "latest",
+        "version": "latest"
     },
     "etl" : {
         "version": "latest",
@@ -35,16 +35,18 @@
         "connectionTimeoutMilliseconds": 2000,
         "trustServerCertificate": false,
         "enableArithAbort": true,
-        "encrypt": false,
+        "encrypt": false
     },
     "apiApp": {
         "version": "latest",
         "installationDirectory": "C:\\inetpub\\Ed-Fi\\BuzzApi",
-        "port": 3000,
+        "url": "http://localhost:3000",
+        "port": 3000
     },
     "webApp": {
         "version": "latest",
         "installationDirectory": "C:\\inetpub\\Ed-Fi\\Buzz",
-        "port": 4200,
+        "url": "",
+        "port": 4200
     }
 }

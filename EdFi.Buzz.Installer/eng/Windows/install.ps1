@@ -44,6 +44,10 @@ $installPath = "C:/Ed-Fi/Buzz"
 $packagesPath = Join-Path $installPath "packages"
 $toolsPath = Join-Path $installPath "tools"
 
+if (-not $(Test-Path $packagesPath)) {
+    mkdir $packagesPath | Out-Null
+}
+
 function TestCommand ($path) {
     return $(Get-Command $path -ErrorAction SilentlyContinue )
 }
@@ -72,40 +76,46 @@ $artifactRepo = $conf.artifactRepo
 
 # Test the connection strings for SQL Server
 $sqlServer = @{
-    Engine = "SqlServer"
-    Server = $conf.sqlServerDatabase.host
-    Port = $conf.sqlServerDatabase.port
+    Engine                = "SqlServer"
+    Server                = $conf.sqlServerDatabase.host
+    Port                  = $conf.sqlServerDatabase.port
     UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
-    Username = $conf.sqlServerDatabase.username
-    Password = $conf.sqlServerDatabase.password
-    DatabaseName = $conf.sqlServerDatabase.database
+    Username              = $conf.sqlServerDatabase.username
+    Password              = $conf.sqlServerDatabase.password
+    DatabaseName          = $conf.sqlServerDatabase.database
 }
 Assert-DatabaseConnectionInfo $sqlServer -RequireDatabaseName
 
 # Test the connection strings for PostgreSQL
 $postgres = @{
-    Engine = "PostgreSQL"
-    Server = $conf.postgresDatabase.host
-    Port = $conf.postgresDatabase.port
+    Engine                = "PostgreSQL"
+    Server                = $conf.postgresDatabase.host
+    Port                  = $conf.postgresDatabase.port
     UseIntegratedSecurity = $false
-    Username = $conf.postgresDatabase.username
-    Password = $conf.postgresDatabase.password
-    DatabaseName = $conf.postgresDatabase.database
+    Username              = $conf.postgresDatabase.username
+    Password              = $conf.postgresDatabase.password
+    DatabaseName          = $conf.postgresDatabase.database
 }
 
 Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
 
-# Install Buzz Database - downloads and executes the database install script
-Install-AssetFromNuget -nuget $script:nuget -app "Database" -packageName "edfi.buzz.database" -version $script:conf.database.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+try {
+    # Install Buzz Database - downloads and executes the database install script
+    Install-AssetFromNuget -nuget $script:nuget -app "Database" -packageName "edfi.buzz.database" -version $script:conf.database.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-# # Install API - downloads the parameterized version (latest as default) and executes the API install script
-# Install-AssetFromNuget -nuget $script:nuget -app "API" -packageName "edfi.buzz.api" -version $script:conf.api.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+    # Install API - downloads the parameterized version (latest as default) and executes the API install script
+    Install-AssetFromNuget -nuget $script:nuget -app "API" -packageName "edfi.buzz.api" -version $script:conf.api.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-# Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
-Install-AssetFromNuget -nuget $script:nuget -app "Etl" -packageName "edfi.buzz.etl" -version $script:conf.etl.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+    # Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
+    Install-AssetFromNuget -nuget $script:nuget -app "Etl" -packageName "edfi.buzz.etl" -version $script:conf.etl.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-# # Install UI - downloads the parameterized version (latest as default) and executes the UI install script
-# Install-AssetFromNuget -nuget $script:nuget -app "UI" -packageName "edfi.buzz.ui" -version $script:conf.ui.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+    # Install UI - downloads the parameterized version (latest as default) and executes the UI install script
+    Install-AssetFromNuget -nuget $script:nuget -app "UI" -packageName "edfi.buzz.ui" -version $script:conf.ui.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+}
+catch {
+    Write-Error $PSItem.Exception.Message
+    Write-Error $PSItem.Exception.StackTrace
+}
 
 # TODO Verify all services are running
 
