@@ -58,7 +58,6 @@ export const StudentRoster: FunctionComponent<StudentRosterComponentProps> = (pr
   const [studentList, setStudentList] = useState([] as Student[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState('');
 
-  // eslint-disable-next-line no-shadow
   enum ViewTypes {
     Card,
     Grid,

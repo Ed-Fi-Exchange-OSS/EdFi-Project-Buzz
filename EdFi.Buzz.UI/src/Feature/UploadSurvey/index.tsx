@@ -3,8 +3,6 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-/* eslint react-hooks/exhaustive-deps: "off"*/
-
 import * as React from 'react';
 import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import SurveyStatus from 'Models/SurveyStatus';
@@ -179,7 +177,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     );
   };
 
-  const createFileStatusMessage = (fileStatus: FileStatus): FileStatus => {
+  const createFileStatusMessage = React.useCallback ((fileStatus: FileStatus): FileStatus => {
     if (!fileStatus || !fileStatus.fileName) {
       return fileStatusMessage;
     }
@@ -204,15 +202,15 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         }
       );
     return newFileStatus;
-  };
+  }, [fileStatusMessage]);
 
-  const saveLastUploadedSurvey = (message: FileStatus) => {
+  const saveLastUploadedSurvey = React.useCallback((message: FileStatus) => {
     if (message && message.fileName && message.fileName.length > 0) {
       storage.setItem('lastUploadedSurvey', JSON.stringify(message));
     }
-  };
+  }, [storage]);
 
-  const GetJobStatus = async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
+  const GetJobStatus = React.useCallback (async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
     const values = await api.survey.getSurveyStatus(staffkey, jobkey);
     const value = values && values.length > 0 ? values[0] : null;
     const statusMessage = currentFileStatus || fileStatusMessage;
@@ -237,9 +235,9 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         () => GetJobStatus(staffkey, jobkey, statusMessage),
         SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
-  };
+  }, [api.survey, createFileStatusMessage, fileStatusMessage, saveLastUploadedSurvey]);
 
-  const loadLastUploadedSurvey = () => {
+  const loadLastUploadedSurvey = React.useCallback(() => {
     const message = JSON.parse(storage.getItem('lastUploadedSurvey'));
     if (message && message.serverJobStatus && !api.survey.JOB_STATUS_FINISH_IDS.includes(message.serverJobStatus.jobstatuskey)) {
       setFileStatusMessage(createFileStatusMessage(message));
@@ -249,7 +247,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return undefined;
     }
     return message;
-  };
+  }, [GetJobStatus, api.survey.JOB_STATUS_FINISH_IDS, createFileStatusMessage, storage]);
 
   function SurveyStatusAreEqual(Object1: SurveyStatus, Object2: SurveyStatus): boolean {
     return Object1?.surveykey === Object2?.surveykey &&
@@ -258,8 +256,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       Object1?.staffkey === Object2?.staffkey;
   }
 
-  const PrepareIfUpdatingSurvey = async () => {
-    console.log('PrepareIfUpdatingSurvey');
+  const PrepareIfUpdatingSurvey = React.useCallback(async () => {
     if (surveyKey && surveyKey.length > 0) {
       const userSurveyList = await (api.survey.getSurveyStatus(
         api.authentication.currentUserValue.teacher.staffkey, null));
@@ -270,15 +267,15 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         }
       }
     }
-  };
+  }, [api.authentication.currentUserValue.teacher.staffkey, api.survey, surveyKey, surveyToUpdate]);
 
   useEffect(() => {
     PrepareIfUpdatingSurvey();
-  }, [surveyToUpdate]);
+  }, [surveyToUpdate, PrepareIfUpdatingSurvey]);
 
   useEffect(() => {
     loadLastUploadedSurvey();
-  }, []);
+  }, [loadLastUploadedSurvey]);
 
   useEffect(() => {
     const jobStatusKey = fileStatusMessage?.serverJobStatus?.jobstatuskey;

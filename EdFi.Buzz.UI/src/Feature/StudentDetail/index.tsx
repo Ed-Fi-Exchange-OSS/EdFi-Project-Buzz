@@ -248,7 +248,6 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
 
   document.title = 'EdFi Buzz: Student Details';
 
-  // eslint-disable-next-line no-shadow
   enum ActiveTabEnum {
     Surveys = 'SURVEYS',
     Notes = 'NOTES',
