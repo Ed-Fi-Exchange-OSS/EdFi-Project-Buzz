@@ -8,34 +8,54 @@
 
 [CmdletBinding()]
 param(
+  [Parameter(Mandatory = $true)]
   [string]
   $InstallPath = "c:\Ed-Fi\Buzz\ETL",
 
   [string]
   $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",
 
-  [string]
-  $DbServer = "127.0.0.1",
-
-  [int]
-  $DbPort = 5432,
-
-  [string]
-  $DbUserName = "postgres",
-
-  [string]
   [Parameter(Mandatory = $true)]
-  $DbPassword,
-
   [string]
-  $DbName = "edfi_buzz"
+  $SqlServerHost = "127.0.0.1",
 
+  [Parameter(Mandatory = $true)]
+  [int]
+  $SqlServerPort = 5432,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerUserName = "postgres",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerPassword,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerDbName = "edfi_buzz",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $PostgresHost = "127.0.0.1",
+
+  [Parameter(Mandatory = $true)]
+  [int]
+  $PostgresPort = 5432,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $PostgresUserName = "postgres",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $PostgresPassword,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $PostgresDbName = "edfi_buzz"
 )
 
-# TODO: ensure node.js exists with minimum version
-
-# TODO: refactor to share functions instead of duplicate them
-# in various application installer scripts.
 function Get-FileNameWithoutExtensionFromUrl {
   param(
     [string]
@@ -105,11 +125,11 @@ function Install-NodeService {
   # Inject the correct path to nginx.exe into the config XML file
   $content = Get-Content -Path $xmlFile -Encoding UTF8
   $content = $content.Replace("{0}", "$InstallPath")
-  $content = $content.Replace("{1}", "$DbUserName")
-  $content = $content.Replace("{2}", "$DbPassword")
-  $content = $content.Replace("{3}", "$DbServer")
-  $content = $content.Replace("{4}", "$DbPort")
-  $content = $content.Replace("{5}", "$DbName")
+  $content = $content.Replace("{1}", "$PostgresUserName")
+  $content = $content.Replace("{2}", "$PostgresPassword")
+  $content = $content.Replace("{3}", "$PostgresHost")
+  $content = $content.Replace("{4}", "$PostgresPort")
+  $content = $content.Replace("{5}", "$PostgresDbName")
   $content = $content.Replace("{6}", "$InstallPath/dist")
   $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
 
@@ -128,19 +148,19 @@ function New-DotEnvFile {
 
   $fileContents = @"
   BUZZ_SQLSOURCE=amt
-  BUZZ_DBSERVER=$DbServer
-  BUZZ_PORT=$DbPort
+  BUZZ_DBSERVER=$PostgresHost
+  BUZZ_PORT=$PostgresPort
   BUZZ_USER=$DbUsername
-  BUZZ_PASSWORD=$DbPassword
-  BUZZ_DBNAME=$DbName
+  BUZZ_PASSWORD=$PostgresPassword
+  BUZZ_DBNAME=$PostgresDbName
   BUZZ_MAX=20
   BUZZ_IDLETIMEOUTMILLIS=5000
   BUZZ_CONNECTIONTIMEOUTMILLIS=2000
-  ODS_DBNAME=EdFi_Application
-  ODS_SERVER=localhost
-  ODS_USER=ods_user
-  ODS_PASSWORD=P@ssw0rd
-  ODS_PORT=1433
+  ODS_DBNAME=$SqlServerDbName
+  ODS_SERVER=$SqlServerHost
+  ODS_USER=$SqlServerUserName
+  ODS_PASSWORD=$SqlServerPassword
+  ODS_PORT=$SqlServerPort
   ODS_TRUSTSERVERCERTIFICATE=false
   ODS_ENABLEARITHABORT=true
   ODS_ENCRYPT=false
