@@ -95,10 +95,10 @@
         }
       }
     ],
-    "@typescript-eslint/member-ordering": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "@typescript-eslint/member-ordering": "error",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-empty-interface": "error",
-    "@typescript-eslint/no-explicit-any": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-inferrable-types": [
       "error",
       {
@@ -106,10 +106,10 @@
       }
     ],
     "@typescript-eslint/no-misused-new": "error",
-    "@typescript-eslint/no-non-null-assertion": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "@typescript-eslint/no-non-null-assertion": "error",
     "@typescript-eslint/no-unused-expressions": "error",
-    "@typescript-eslint/no-unused-vars": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
-    "@typescript-eslint/no-use-before-define": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-use-before-define": "error",
     "@typescript-eslint/prefer-function-type": "error",
     "@typescript-eslint/quotes": [
       "error",
@@ -136,7 +136,7 @@
     "guard-for-in": "error",
     "id-blacklist": "off",
     "id-match": "off",
-    "import/no-cycle": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "import/no-cycle": "error",
     "import/no-deprecated": "warn",
     "import/prefer-default-export": "off",
     "max-len": [
@@ -182,7 +182,7 @@
       "error",
       "rxjs/Rx"
     ],
-    "no-return-assign": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "no-return-assign": "error",
     "no-shadow": [
       "error",
       {
@@ -195,8 +195,8 @@
     "no-underscore-dangle": "off",
     "no-unused-labels": "error",
     "no-use-before-define": [0],
-    "no-useless-constructor": "off", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
-    "max-classes-per-file": "error", /* TODO REPLACE WITH "error" AND CORRECT LINT ERRORS */
+    "no-useless-constructor": "off",
+    "max-classes-per-file": "error",
     "no-var": "error",
     "prefer-const": "error",
     "radix": "error",

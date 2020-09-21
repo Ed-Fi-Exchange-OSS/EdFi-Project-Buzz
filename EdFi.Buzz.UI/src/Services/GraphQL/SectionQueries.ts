@@ -15,5 +15,5 @@ query($staffkey: ID!) {
   }
 }
 `;
-// eslint-disable-next-line
+
 export { getSectionsByStaff };
