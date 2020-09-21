@@ -31,7 +31,7 @@ function Install-NugetCli {
     }
 }
 
-function Ensure-WindowsServerMinimumVersion {
+function Ensure-WindowsServer2016 {
     Param(
         [Parameter(Mandatory = $true)]
         [System.Boolean] $bypass
@@ -52,6 +52,16 @@ function Ensure-WindowsServerMinimumVersion {
 
 function Ensure-NodeJs {
 
+    if (Get-Command node -errorAction SilentlyContinue) {
+        $nodeVer = node -v
+    }
+
+    if ($nodeVer) {
+        write-host "[NODE] nodejs $current_version already installed"
+        return;
+    }
+
+    throw "[NODE] nodejs was not installed"
 }
 
 function Ensure-PostgreSQL{
@@ -63,15 +73,22 @@ function Ensure-PostgreSQL{
  Ensures we have NuGet Package Provider
  Verifies PostgreSQL database
  #>
-function Initialize-Installer($toolsPath, $downloadPath, $databasesConfig) {
-    # TODO ENSURE WINDOWS SERVER MINIMUM VERSION
-    # https://docs.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-osversioninfoexa?redirectedfrom=MSDN#remarks
-    Ensure-WindowsServerMinimumVersion -bypass $true
+function Initialize-Installer {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath,
+        [Parameter(Mandatory = $false)]
+        [string] $downloadPath,
+        [Parameter(Mandatory = $false)]
+        [string]  $databasesConfig,
+        [Parameter(Mandatory = $true)]
+        [System.Boolean]  $bypassCheck = $false
+    )
+
+    Ensure-WindowsServer2016 -bypass $bypassCheck
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
     Install-NugetCli $toolsPath
-    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | out-host
 
-    # TODO ENSURE NODE IS INSTALLED
     Ensure-NodeJs
 
     # TODO ENSURE POSTGRESQL IS INSTALLED
