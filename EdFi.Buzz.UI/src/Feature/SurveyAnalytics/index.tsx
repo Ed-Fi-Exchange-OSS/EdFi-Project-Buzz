@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
@@ -41,7 +40,7 @@ const SurveyStyledCard = styled(StyledCard)`
 
 export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> = (props: SurveyAnalyticsComponentProps) => {
   const {teacher} = props.api.authentication.currentUserValue;
-  const [sectionList, setSections] = useState(teacher.sections as Section[]);
+  const [sectionList] = useState(teacher.sections as Section[]);
   const [surveyMetadataList, setSurveyMetadataList] = useState([] as SurveyMetadata[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState(null as string);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -105,10 +104,11 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
     surveyAnswersList: AllStudentAnswers[],
     surveyQuestionSummaryList: SurveyQuestionSummary[],
     questionFilter?: string
-  ): any[][] {
+  ): string[][] {
     if (!surveyAnswersList) {
       return [];
     }
+
     return surveyAnswersList.map((student) =>
       [student.studentschoolkey, student.studentname].concat(
         surveyQuestionSummaryList
@@ -124,7 +124,12 @@ export const SurveyAnalytics: FunctionComponent<SurveyAnalyticsComponentProps> =
         <TitleSpanContainer>Surveys</TitleSpanContainer>
         <TotalRecordsContainer>Total {surveyMetadataList.length}</TotalRecordsContainer>
       </HeadlineContainer>
-      <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} searchFilterPlaceholder={'Filter survey titles'} />
+      <SearchInSections
+        sectionList={sectionList}
+        onSearch={onSearchHandle}
+        defaultValue={selectedSectionKey}
+        searchFilterPlaceholder={'Filter survey titles'}
+      />
 
       {showSearchResults && (
         <div className='row'>
