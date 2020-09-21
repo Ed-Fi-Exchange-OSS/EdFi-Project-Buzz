@@ -17,7 +17,7 @@
         "database": "edfi_buzz"
     },
     "sqlServerDatabase": {
-        "host": ".\\SQLEXPRESS",
+        "host": "127.0.0.1",
         "port": 49412,
         "username": "ods_user",
         "password": "P@ssw0rd",

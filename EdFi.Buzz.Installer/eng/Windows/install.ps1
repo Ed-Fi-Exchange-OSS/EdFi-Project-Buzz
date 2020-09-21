@@ -101,8 +101,8 @@ Install-AssetFromNuget -nuget $script:nuget -app "Database" -packageName "edfi.b
 # # Install API - downloads the parameterized version (latest as default) and executes the API install script
 # Install-AssetFromNuget -nuget $script:nuget -app "API" -packageName "edfi.buzz.api" -version $script:conf.api.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-# # Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
-# Install-AssetFromNuget -nuget $script:nuget -app "Etl" -packageName "edfi.buzz.etl" -version $script:conf.etl.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+# Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
+Install-AssetFromNuget -nuget $script:nuget -app "Etl" -packageName "edfi.buzz.etl" -version $script:conf.etl.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
 # # Install UI - downloads the parameterized version (latest as default) and executes the UI install script
 # Install-AssetFromNuget -nuget $script:nuget -app "UI" -packageName "edfi.buzz.ui" -version $script:conf.ui.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf

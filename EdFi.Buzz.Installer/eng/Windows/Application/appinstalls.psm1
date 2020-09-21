@@ -67,10 +67,24 @@ function Install-EtlApp {
         [Hashtable] $configuration
     )
 
-    Write-Host "Installing the Buzz ETL application..."
-    # & .\install.ps1 -DbPassword $configuration.
-}
+    $currDir = $PWD # We should already be in the ETL directory.
 
+    Write-Host "Installing the Buzz ETL application..."
+    $params = @{
+        "InstallPath" = $currDir;
+        "PostgresHost" = $configuration.postgresDatabase.host;
+        "PostgresPort" = $configuration.postgresDatabase.port;
+        "PostgresUserName" = $configuration.postgresDatabase.username;
+        "PostgresPassword" = $configuration.postgresDatabase.password;
+        "PostgresDbName" = $configuration.postgresDatabase.database
+        "SqlServerHost" = $configuration.sqlServerDatabase.host;
+        "SqlServerPort" = $configuration.sqlServerDatabase.port;
+        "SqlServerUserName" = $configuration.sqlServerDatabase.username;
+        "SqlServerPassword" = $configuration.sqlServerDatabase.password;
+        "SqlServerDbName" = $configuration.sqlServerDatabase.database
+    }
+    .\install.ps1 @params
+}
 function Execute-AppInstaller {
     Param(
         [Parameter(Mandatory=$true)]
@@ -106,7 +120,8 @@ function Execute-AppInstaller {
         Write-Host "Buzz $app installed."
     }
     catch {
-        Write-Error "Execute-AppInstaller ($app)"
+        Write-Error $PSItem.Exception.Message
+        throw
     }
     finally {
         Write-Debug "Move back to installer directory $currDir...."
