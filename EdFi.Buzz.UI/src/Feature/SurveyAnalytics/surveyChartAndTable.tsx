@@ -1,16 +1,21 @@
-/* eslint-disable */
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
+
 import * as React from 'react';
 import styled from 'styled-components';
 import SurveyQuestionSummary from 'Models/SurveyQuestionSummary';
 import { SurveyChart } from './surveyChart';
-import { DataTable } from '../../Components/DataTable/dataTable';
+import { DataTable , ColumnOption } from '../../Components/DataTable/dataTable';
 import ChevronDown from '../../assets/chevron-down.png';
 import ChevronUp from '../../assets/chevron-up.png';
 
+
 export interface ChartAndTableComponentProps {
   question: SurveyQuestionSummary;
-  columns: any[];
-  dataSet: any[];
+  columns: string[] | ColumnOption[];
+  dataSet: string[][];
   title?: string | React.ReactElement;
   afterSelectionChangedHandler?: (newSelection: string) => void;
 }
@@ -52,7 +57,7 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
       afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
 
     <StyledSurveyArea onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
-      <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} /></div>
+      <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} alt=""/></div>
     </StyledSurveyArea>
 
     {(viewAnswersByStudent && selectedQuestion) && <DataTable
