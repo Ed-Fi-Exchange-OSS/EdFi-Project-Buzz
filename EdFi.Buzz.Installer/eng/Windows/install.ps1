@@ -37,15 +37,9 @@ Import-Module "$PSScriptRoot\Database\Configuration.psm1" -Force
 Import-Module "$PSScriptRoot\configHelper.psm1" -Force
 Import-Module "$PSScriptRoot\init.psm1" -Force
 
-$rootPath = $PSScriptRoot
 $installPath = "C:/Ed-Fi/Buzz"
 $packagesPath = Join-Path $installPath "packages"
-
-# Ensure we have Tls12 support
-if (-not [Net.ServicePointManager]::SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12))
-{
-    [Net.ServicePointManager]::SecurityProtocol += [Net.SecurityProtocolType]::Tls12
-}
+$toolsPath = Join-Path $installPath "tools"
 
 function TestCommand ($path) {
     return $(Get-Command $path -ErrorAction SilentlyContinue )
@@ -64,14 +58,14 @@ if (-not $(TestCommand $nuget)) {
 }
 
 # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-Initialize-Installer
+Initialize-Installer -toolsPath $toolsPath -bypassCheck $true
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
 # Each NuGet should be retrieveable using NuGet.executable
 $conf = Format-BuzzConfigurationFileToHashTable $configPath
 
-$artifactRepo = $configPath.artifactRepo
+$artifactRepo = $conf.artifactRepo
 
 # Test the connection strings for SQL Server
 $sqlServer = @{
@@ -98,15 +92,64 @@ $postgres = @{
 
 Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
 
+function Uninstall-Asset {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $app
+    )
 
-#TODO REPLACE WITH ARTIFACTORY REPO
-function Install-AssetFromNuget($packageName, $version = "", $source = $script:artifactRepo) {
-    if ($version -eq "latest") {
-        & $script:nuget "install" $packageName -Source "$source" -OutputDirectory "$packagesPath"
-        return
+    $folderPath = (Join-Path $packagesPath "edfi.buzz.$($app.ToLowerInvariant())")
+
+    $matchingFolders = (gci -Path $global:packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*"}) | Select-Object -Property FullName
+
+    if ($matchingFolders.Length -lt 1) {
+        Write-Host "$app has not been installed yet."
+        exit;
     }
 
-    & $script:nuget "install" $packageName -Version $version -Source "$source" -OutputDirectory "$packagesPath"
+    Write-Host "Uninstalling Ed-Fi Buzz $app"
+    # Stop-Service -Name "EdFi-Buzz-$app"
+    # Delete-Service -Name "EdFi-Buzz-$app"
+    Write-Host "Removing app folder at $($matchingFolders[0].FullName)"
+    Remove-Item -Path $matchingFolders[0].FullName -Recurse -Force
+}
+
+function Execute-AppInstaller {
+    Param(
+        [Parameter(Mandatory=$true)]
+        [string] $app
+    )
+
+    Write-Host "Installing the Buzz $app application..."
+
+    $matchingFolders = (gci -Path $global:packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*"}) | Select-Object -Property FullName
+
+    if ($matchingFolders.Length -ne 1) {
+        throw "More than one $app folder found at $global:packagesPath"
+    }
+
+    $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
+
+    Write-Host "Moving to $installFolder to install"
+    Push-Location $installFolder
+    Write-Host "Installing $app..."
+    & .\install.ps1
+    Write-Host "Buzz $app installed."
+    Pop-Location
+}
+
+function Install-AssetFromNuget($app, $packageName, $version = "", $source = $script:artifactRepo) {
+
+    Uninstall-Asset($app)
+
+    if ($version -eq "latest") {
+        & $script:nuget "install" $packageName -Source "$source" -OutputDirectory "$packagesPath"
+    }
+    else {
+        & $script:nuget "install" $packageName -Version $version -Source "$source" -OutputDirectory "$packagesPath"
+    }
+
+    Execute-AppInstaller -app $app
 }
 
 
@@ -117,7 +160,8 @@ function Install-AssetFromNuget($packageName, $version = "", $source = $script:a
 # Install API - downloads the parameterized version (latest as default) and executes the API install script
 
 # Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
-Install-AssetFromNuget -packageName "edfi.buzz.etl" -version $conf.etl.version -source $conf.artifactRepo
+Install-AssetFromNuget -app "Etl" -packageName "edfi.buzz.etl" -version $conf.etl.version -source $conf.artifactRepo
+
 
 # Install UI - downloads the parameterized version (latest as default) and executes the UI install script
 
