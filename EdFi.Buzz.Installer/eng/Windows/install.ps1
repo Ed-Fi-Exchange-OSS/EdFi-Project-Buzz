@@ -30,12 +30,15 @@ for Buzz. Defaults to .\configuration in the same directory.
 #Requires -RunAsAdministrator
 
 param (
-    [string] $configPath = "$PSScriptRoot\configuration.json"
+    [string] $configPath = "$PSScriptRoot/configuration.json"
 )
 
-Import-Module "$PSScriptRoot\Database\Configuration.psm1" -Force
-Import-Module "$PSScriptRoot\configHelper.psm1" -Force
-Import-Module "$PSScriptRoot\init.psm1" -Force
+$currDir = $PSScriptRoot
+
+Import-Module "$PSScriptRoot/Database/Configuration.psm1" -Force
+Import-Module "$PSScriptRoot/configHelper.psm1" -Force
+Import-Module "$PSScriptRoot/init.psm1" -Force
+Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
 
 $installPath = "C:/Ed-Fi/Buzz"
 $packagesPath = Join-Path $installPath "packages"
@@ -84,7 +87,7 @@ $postgres = @{
     Engine = "PostgreSQL"
     Server = $conf.postgresDatabase.host
     Port = $conf.postgresDatabase.port
-    UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
+    UseIntegratedSecurity = $false
     Username = $conf.postgresDatabase.username
     Password = $conf.postgresDatabase.password
     DatabaseName = $conf.postgresDatabase.database
@@ -92,79 +95,18 @@ $postgres = @{
 
 Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
 
-function Uninstall-Asset {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $app
-    )
-
-    $folderPath = (Join-Path $packagesPath "edfi.buzz.$($app.ToLowerInvariant())")
-
-    $matchingFolders = (gci -Path $global:packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*"}) | Select-Object -Property FullName
-
-    if ($matchingFolders.Length -lt 1) {
-        Write-Host "$app has not been installed yet."
-        exit;
-    }
-
-    Write-Host "Uninstalling Ed-Fi Buzz $app"
-    # Stop-Service -Name "EdFi-Buzz-$app"
-    # Delete-Service -Name "EdFi-Buzz-$app"
-    Write-Host "Removing app folder at $($matchingFolders[0].FullName)"
-    Remove-Item -Path $matchingFolders[0].FullName -Recurse -Force
-}
-
-function Execute-AppInstaller {
-    Param(
-        [Parameter(Mandatory=$true)]
-        [string] $app
-    )
-
-    Write-Host "Installing the Buzz $app application..."
-
-    $matchingFolders = (gci -Path $global:packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*"}) | Select-Object -Property FullName
-
-    if ($matchingFolders.Length -ne 1) {
-        throw "More than one $app folder found at $global:packagesPath"
-    }
-
-    $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
-
-    Write-Host "Moving to $installFolder to install"
-    Push-Location $installFolder
-    Write-Host "Installing $app..."
-    & .\install.ps1
-    Write-Host "Buzz $app installed."
-    Pop-Location
-}
-
-function Install-AssetFromNuget($app, $packageName, $version = "", $source = $script:artifactRepo) {
-
-    Uninstall-Asset($app)
-
-    if ($version -eq "latest") {
-        & $script:nuget "install" $packageName -Source "$source" -OutputDirectory "$packagesPath"
-    }
-    else {
-        & $script:nuget "install" $packageName -Version $version -Source "$source" -OutputDirectory "$packagesPath"
-    }
-
-    Execute-AppInstaller -app $app
-}
-
-
-
 # Install Buzz Database - downloads and executes the database install script
+Install-AssetFromNuget -nuget $script:nuget -app "Database" -packageName "edfi.buzz.database" -version $script:conf.database.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
+# # Install API - downloads the parameterized version (latest as default) and executes the API install script
+# Install-AssetFromNuget -nuget $script:nuget -app "API" -packageName "edfi.buzz.api" -version $script:conf.api.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-# Install API - downloads the parameterized version (latest as default) and executes the API install script
+# # Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
+# Install-AssetFromNuget -nuget $script:nuget -app "Etl" -packageName "edfi.buzz.etl" -version $script:conf.etl.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-# Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
-Install-AssetFromNuget -app "Etl" -packageName "edfi.buzz.etl" -version $conf.etl.version -source $conf.artifactRepo
+# # Install UI - downloads the parameterized version (latest as default) and executes the UI install script
+# Install-AssetFromNuget -nuget $script:nuget -app "UI" -packageName "edfi.buzz.ui" -version $script:conf.ui.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
 
-
-# Install UI - downloads the parameterized version (latest as default) and executes the UI install script
-
-# Verify all services are running
+# TODO Verify all services are running
 
 exit $LASTEXITCODE;
