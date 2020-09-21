@@ -64,7 +64,7 @@ if (-not $(TestCommand $nuget)) {
 }
 
 # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-# Initialize-Installer
+Initialize-Installer
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
