@@ -43,7 +43,6 @@ const StyledFileInputLabel = styled.label`
   border-width: 2px;
   color: var(--slate-gray);
   overflow: hidden;
-
   &::after {
     height: auto;
   }
@@ -57,25 +56,20 @@ const StyledTextParent = styled.div`
     justify-content: space-between;
     flex-direction: row;
   }
-
   @media (max-width: 768px) {
     display: block;
-
     & > .label {
       width: 100%
     }
   }
-
   margin: 0.5rem 0;
   overflow: hidden;
   border: ${(props) => props.theme.border};
   border-radius: 4px;
-
   :focus-within {
     outline: none !important;
     border-color: var(--denim) !important;
   }
-
   & > input {
     height: 100%;
     padding: 10px 10px;
@@ -84,30 +78,24 @@ const StyledTextParent = styled.div`
     box-sizing: border-box;
     min-width: 15rem;
     width: 100%;
-
     :focus {
       outline: none !important;
       outline-width: 0px;
     }
-
     ::placeholder,
     ::-webkit-input-placeholder {
       font-style: italic;
     }
-
     :-moz-placeholder {
       font-style: italic;
     }
-
     ::-moz-placeholder {
       font-style: italic;
     }
-
     :-ms-input-placeholder {
       font-style: italic;
     }
   }
-
   & > .label  {
     margin: 0;
     padding: 10px 10px;
@@ -117,7 +105,6 @@ const StyledTextParent = styled.div`
 
 
 const OutlineButton = styled.button`
-
 &.outline-button {
   width: 100%;
   justify-content: center;
@@ -131,7 +118,6 @@ const OutlineButton = styled.button`
   cursor: pointer;
   background-color: transparent;
 }
-
 &.outline-button:hover {
   color: white;
   background-color: var(--denim) !important;
@@ -177,7 +163,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
     );
   };
 
-  const createFileStatusMessage = React.useCallback ((fileStatus: FileStatus): FileStatus => {
+  const createFileStatusMessage = (fileStatus: FileStatus): FileStatus => {
     if (!fileStatus || !fileStatus.fileName) {
       return fileStatusMessage;
     }
@@ -202,15 +188,15 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         }
       );
     return newFileStatus;
-  }, [fileStatusMessage]);
+  };
 
-  const saveLastUploadedSurvey = React.useCallback((message: FileStatus) => {
+  const saveLastUploadedSurvey = (message: FileStatus) => {
     if (message && message.fileName && message.fileName.length > 0) {
       storage.setItem('lastUploadedSurvey', JSON.stringify(message));
     }
-  }, [storage]);
+  };
 
-  const GetJobStatus = React.useCallback (async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
+  const GetJobStatus = async (staffkey: number, jobkey: string, currentFileStatus: FileStatus) => {
     const values = await api.survey.getSurveyStatus(staffkey, jobkey);
     const value = values && values.length > 0 ? values[0] : null;
     const statusMessage = currentFileStatus || fileStatusMessage;
@@ -235,9 +221,9 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         () => GetJobStatus(staffkey, jobkey, statusMessage),
         SURVEY_STATUS_QUERY_TIME_IN_MS));
     }
-  }, [api.survey, createFileStatusMessage, fileStatusMessage, saveLastUploadedSurvey]);
+  };
 
-  const loadLastUploadedSurvey = React.useCallback(() => {
+  const loadLastUploadedSurvey = () => {
     const message = JSON.parse(storage.getItem('lastUploadedSurvey'));
     if (message && message.serverJobStatus && !api.survey.JOB_STATUS_FINISH_IDS.includes(message.serverJobStatus.jobstatuskey)) {
       setFileStatusMessage(createFileStatusMessage(message));
@@ -247,7 +233,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       return undefined;
     }
     return message;
-  }, [GetJobStatus, api.survey.JOB_STATUS_FINISH_IDS, createFileStatusMessage, storage]);
+  };
 
   function SurveyStatusAreEqual(Object1: SurveyStatus, Object2: SurveyStatus): boolean {
     return Object1?.surveykey === Object2?.surveykey &&
@@ -275,7 +261,9 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
 
   useEffect(() => {
     loadLastUploadedSurvey();
-  }, [loadLastUploadedSurvey]);
+
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
 
   useEffect(() => {
     const jobStatusKey = fileStatusMessage?.serverJobStatus?.jobstatuskey;
@@ -527,4 +515,3 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   );
 
 };
-
