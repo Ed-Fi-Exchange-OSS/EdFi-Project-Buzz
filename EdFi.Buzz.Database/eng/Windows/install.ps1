@@ -24,12 +24,14 @@ param(
   [string]
   $DbName = "edfi_buzz"
 )
+
 $InstallPath = "$PSScriptRoot/../dist"
+
 if (-not(Test-Path $InstallPath)) {
     # Need one more parent directory if running straight from source code
     # instead of from NuGet package.
     $InstallPath = "$PSScriptRoot/../../dist"
-    if (-not(Test-Path $InstallPath)) {
+    if (-not(Test-Path $script:InstallPath)) {
         throw "Cannot find dist directory"
     }
 }
@@ -42,12 +44,12 @@ BUZZ_DB_USERNAME ='$DbUserName'
 BUZZ_DB_PASSWORD = '$DbPassword'
 "@
 
-  $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
+  $fileContents | Out-File "$script:InstallPath/.env" -Encoding UTF8 -Force
 }
 
 function Install-Migrations{
     try {
-        Push-Location -Path $InstallPath
+        Push-Location -Path $script:InstallPath
         Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
         &npm install
         &npm run migrate
@@ -63,9 +65,8 @@ function Install-Migrations{
 }
 
 function Install-Database {
-    $currDir = $PWD
     try {
-        Push-Location -Path $InstallPath
+        Push-Location -Path $script:InstallPath
         Write-Host "Executing: npm install --production" -ForegroundColor Magenta
         &npm install --production
 
@@ -83,7 +84,7 @@ function Install-Database {
 
 Write-Host "Begin EdFi Buzz database installation..." -ForegroundColor Yellow
 
-New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
+New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
 
 New-DotEnvFile
 Install-Database
