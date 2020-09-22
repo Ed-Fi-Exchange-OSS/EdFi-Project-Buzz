@@ -88,6 +88,7 @@ $sqlServer = @{
     Password              = $conf.sqlServerDatabase.password
     DatabaseName          = $conf.sqlServerDatabase.database
 }
+
 Assert-DatabaseConnectionInfo $sqlServer -RequireDatabaseName
 
 # Test the connection strings for PostgreSQL
@@ -104,23 +105,17 @@ $postgres = @{
 Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
 
 try {
-    # Install Buzz Database - downloads and executes the database install script
-    Install-AssetFromNuget -nuget $script:nuget -app "Database" -packageName "edfi.buzz.database" -version $script:conf.database.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
-
-    # Install API - downloads the parameterized version (latest as default) and executes the API install script
-    Install-AssetFromNuget -nuget $script:nuget -app "API" -packageName "edfi.buzz.api" -version $script:conf.api.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
-
-    # Install ETL - downloads the parameterized version (latest as default) and executes the ETL install script
-    Install-AssetFromNuget -nuget $script:nuget -app "Etl" -packageName "edfi.buzz.etl" -version $script:conf.etl.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
-
-    # Install UI - downloads the parameterized version (latest as default) and executes the UI install script
-    Install-AssetFromNuget -nuget $script:nuget -app "UI" -packageName "edfi.buzz.ui" -version $script:conf.ui.version -source $script:conf.artifactRepo -packagesPath $script:packagesPath -conf $script:conf
+    Install-DatabaseApp -configuration $script:conf -nuget $nuget
+    Install-ApiApp -configuration $script:conf -nuget $nuget
+    Install-EtlApp -configuration $script:conf -nuget $nuget
+    Install-UiApp -configuration $script:conf -nuget $nuget
 }
 catch {
     Write-Error $PSItem.Exception.Message
     Write-Error $PSItem.Exception.StackTrace
+    throw;
 }
 
 # TODO Verify all services are running
 
-exit $LASTEXITCODE;
+exit;

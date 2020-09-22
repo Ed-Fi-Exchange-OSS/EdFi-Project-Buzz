@@ -15,8 +15,13 @@ function Uninstall-Services {
     }
 
     try {
-        Stop-Service -Name EdFi-Buzz-$app
-        Remove-Service -Name EdFi-Buzz-$app
+
+        $serviceName = "EdFi-Buzz-$app"
+
+        if (Get-Service -Name $serviceName -ErrorAction Ignore) {
+            Stop-Service -Name $serviceName
+            Remove-Service -Name $serviceName
+        }
     }
     catch {
         Write-Error $PSItem.Exception.Message
@@ -29,22 +34,24 @@ function Uninstall-Asset {
         [Parameter(Mandatory = $true)]
         [string] $app,
         [Parameter(Mandatory = $true)]
-        [string] $packagesPath
+        [string] $appPath
     )
 
     try {
 
-        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*" }) | Select-Object -Property FullName
-
-        if ($matchingFolders.Length -lt 1) {
+        if (-not (Test-Path $appPath)) {
             Write-Host "$app has not been installed yet."
             return;
         }
 
-        $folder = "$($matchingFolders[0].FullName)/"
-        Uninstall-Services -app $app
-        Write-Host "Removing app folder at $folder"
-        Remove-Item -LiteralPath $folder -Force -Recurse
+        if ($app -ne "Database") {
+            Uninstall-Services -app $app
+        }
+
+        if (Test-Path $appPath) {
+            Write-Host "Removing app folder at $appPath"
+            Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction Ignore
+        }
     }
     catch {
         Write-Error $PSItem.Exception.Message
@@ -52,21 +59,91 @@ function Uninstall-Asset {
     }
 }
 
+function Install-BuzzApp {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [bool] $skipFlag,
+        [Parameter(Mandatory = $true)]
+        [string] $app,
+        [Parameter(Mandatory = $true)]
+        [Hashtable] $configuration,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath,
+        [Parameter(Mandatory = $true)]
+        [Hashtable] $params,
+        [Parameter(Mandatory = $true)]
+        [string] $nuget,
+        [Parameter(Mandatory = $true)]
+        [string] $version
+    )
+
+    try {
+
+        $here = $PWD
+
+        if (-not $skipFlag) {
+            Write-Host "Skipping Buzz $app installation"
+            return;
+        }
+
+        if ($params.InstallPath) {
+            Uninstall-Asset -app $app -appPath $params.InstallPath
+            if (-not (Test-Path $params.InstallPath)) {
+                New-Item -Path $params.InstallPath -ItemType Directory
+            }
+        }
+
+
+        Write-Host "Installing the Buzz $app application..."
+
+        $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
+
+        if ($version -eq "latest") {
+            & $nuget "install" $packageName -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
+        }
+        else {
+            & $nuget "install" $packageName -Version $version -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
+        }
+
+        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "$packageName*" }) | Select-Object -Property FullName
+
+        if ($matchingFolders.Length -eq 0) {
+            throw "The repository did not have a NuGet package '$packageName'"
+        }
+
+        if ($matchingFolders.Length -gt 1) {
+            throw "More than one $app folder found at $packagesPath"
+        }
+
+        $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
+
+        Write-Host "Moving to $installFolder to install"
+        Write-Host "Installing $app..."
+        Set-Location $installFolder
+        Write-Host "Current directory is now $PWD"
+        ./install.ps1 @params
+        Write-Host "Buzz $app installed."
+    }
+    catch {
+        throw $PSItem.Exception
+    }
+    finally {
+        Set-Location $here
+    }
+}
+
 function Install-ApiApp {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [Hashtable] $configuration
+        [Hashtable] $configuration,
+        [Parameter(Mandatory = $true)]
+        [string] $nuget
     )
 
-    if (-not $configuration.installApi) {
-        Write-Host "Skipping Buzz API installation"
-        return;
-    }
-
-    Write-Host "Installing the Buzz API application..."
-
     $params = @{
+        "InstallPath" = Join-Path $configuration.InstallPath "Api";
         "DbServer"   = $configuration.postgresDatabase.Host;
         "DbPort"     = $configuration.postgresDatabase.Port;
         "DbUserName" = $configuration.postgresDatabase.UserName;
@@ -75,71 +152,61 @@ function Install-ApiApp {
         "HttpPort"   = $configuration.api.Port;
     }
 
-    ./install.ps1 @params
+    Install-BuzzApp -skipFlag $configuration.installApi -app "Api" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.api.version
 }
+
 function Install-DatabaseApp {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [Hashtable]$configuration
+        [Hashtable]$configuration,
+        [Parameter(Mandatory = $true)]
+        [string] $nuget
     )
 
-    if (-not $configuration.installDatabase) {
-        Write-Host "Skipping Buzz Database installation"
-        return;
+    $params = @{
+        "DbServer"   = $configuration.postgresDatabase.host;
+        "DbPort"     = $configuration.postgresDatabase.port;
+        "DbUserName" = $configuration.postgresDatabase.username;
+        "DbPassword" = $configuration.postgresDatabase.password;
+        "DbName"     = $configuration.postgresDatabase.database
     }
 
-    Write-Host "Installing the Buzz Database application..."
-    $params = @{
-        "DbServer"   = $configuration.sqlServerDatabase.host;
-        "DbPort"     = $configuration.sqlServerDatabase.port;
-        "DbUserName" = $configuration.sqlServerDatabase.username;
-        "DbPassword" = $configuration.sqlServerDatabase.password;
-        "DbName"     = $configuration.sqlServerDatabase.database
-    }
-    ./install.ps1 @params
+    Install-BuzzApp -skipFlag $configuration.installDatabase -app "Database" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.database.version
 }
 
 function Install-UiApp {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [Hashtable] $configuration
+        [Hashtable] $configuration,
+        [Parameter(Mandatory = $true)]
+        [string] $nuget
     )
 
-    if (-not $configuration.installUi) {
-        Write-Host "Skipping Buzz UI installation"
-        return;
-    }
-
-    Write-Host "Installing the Buzz UI application..."
-    $currDir = $PWD
     $params = @{
-        "InstallPath"     = $currDir;
+        "InstallPath" = Join-Path $configuration.InstallPath "Ui";
         "port"            = $configuration.ui.port;
         "graphQlEndpoint" = $configuration.api.url;
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
         "adfsTenantId"    = $configuration.adfsTenantId;
     }
-    ./install @params
+
+    Install-BuzzApp -skipFlag $configuration.installUi -app "UI" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.ui.version
 }
 
 function Install-EtlApp {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [Hashtable] $configuration
+        [Hashtable] $configuration,
+        [Parameter(Mandatory = $true)]
+        [string] $nuget
     )
 
-    if (-not $configuration.installEtl) {
-        Write-Host "Skipping Buzz ETL installation"
-        return;
-    }
-
-    Write-Host "Installing the Buzz ETL application..."
     $params = @{
-        "InstallPath"       = $currDir;
+        "InstallPath" = Join-Path $configuration.InstallPath "Etl";
         "PostgresHost"      = $configuration.postgresDatabase.host;
         "PostgresPort"      = $configuration.postgresDatabase.port;
         "PostgresUserName"  = $configuration.postgresDatabase.username;
@@ -151,7 +218,8 @@ function Install-EtlApp {
         "SqlServerPassword" = $configuration.sqlServerDatabase.password;
         "SqlServerDbName"   = $configuration.sqlServerDatabase.database;
     }
-    ./install.ps1 @params
+
+    Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.etl.version
 }
 function Execute-AppInstaller {
     Param(
@@ -160,40 +228,22 @@ function Execute-AppInstaller {
         [Parameter(Mandatory = $true)]
         [string] $packagesPath,
         [Parameter(Mandatory = $true)]
-        [Hashtable] $conf
+        [Hashtable] $conf,
+        [Parameter(Mandatory = $true)]
+        [string] $nuget
     )
 
     try {
-        Write-Host "Installing the Buzz $app application..."
-
-        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "edfi.buzz.$($app.ToLowerInvariant())*" }) | Select-Object -Property FullName
-
-        if ($matchingFolders.Length -ne 1) {
-            throw "More than one $app folder found at $packagesPath"
-        }
-
-        $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
-
-        Write-Host "Moving to $installFolder to install"
-        Write-Host "Installing $app..."
-        Set-Location $installFolder
-        Write-Host "Current directory is now $PWD"
         switch ($app) {
-            "API" { Install-ApiApp $conf }
-            "Database" { Install-DatabaseApp $conf }
-            "Etl" { Install-EtlApp  $conf }
-            "Ui" { Install-UiApp $conf }
+            "API" { Install-ApiApp $conf -nuget $nuget }
+            "Database" { Install-DatabaseApp $conf -nuget $nuget }
+            "Etl" { Install-EtlApp  $conf -nuget $nuget }
+            "Ui" { Install-UiApp $conf -nuget $nuget }
             Default { Write-Error "There is no Buzz $app app to install" }
         }
-        Write-Host "Buzz $app installed."
     }
     catch {
-        Write-Error $PSItem.Exception.Message
-        throw
-    }
-    finally {
-        Write-Debug "Move back to installer directory $currDir...."
-        Set-Location $currDir
+        throw $PSItem.Exception
     }
 }
 
@@ -219,21 +269,10 @@ function Install-AssetFromNuget {
     $currDir = $PWD
 
     try {
-        Uninstall-Asset -app $app -packagesPath $packagesPath
-
-        if ($version -eq "latest") {
-            & $nuget "install" $packageName -Source "$source" -OutputDirectory "$packagesPath" -Verbosity quiet
-        }
-        else {
-            & $nuget "install" $packageName -Version $version -Source "$source" -OutputDirectory "$packagesPath" -Verbosity quiet
-        }
-        Execute-AppInstaller -app $app -packagesPath $packagesPath -conf $conf
-        Write-Host "Finished installing $app"
+        Execute-AppInstaller -app $app -packagesPath $packagesPath -conf $conf -nuget $nuget
     }
     catch {
-        Write-Error $PSItem.Exception.Message
-        Write-Error $PSItem.Exception.StackTrace
-        throw
+        throw $PSItem.Exception
     }
     finally {
         Set-Location -Path $currDir

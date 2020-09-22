@@ -164,16 +164,16 @@ function Install-DistFiles {
     $installPath
   )
 
-  # Copy the dist directory into the NGiNX folder
+  # Copy the build directory into the NGiNX folder
   $parameters = @{
-    Path        = "$PSScriptRoot/../dist"
+    Path        = "$PSScriptRoot/../build"
     Destination = "$installPath"
     Recurse     = $true
     Force       = $true
   }
   Copy-Item @parameters
 
-  Push-Location "$installPath/dist"
+  Push-Location "$installPath/build"
   Write-Host "Executing: npm install --production"
   &npm install --production
   Pop-Location
@@ -185,7 +185,7 @@ Write-Host "Begin Ed-Fi Buzz UI installation..." -ForegroundColor Yellow
 New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
 
 Install-DistFiles -installPath $InstallPath
-New-DotEnvFile -installPath  "$InstallPath/dist"
+New-DotEnvFile -installPath  "$InstallPath/build"
 
 $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl
 Install-NginxFiles -nginxVersion $nginxVersion
