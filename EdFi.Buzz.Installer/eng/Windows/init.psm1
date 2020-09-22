@@ -64,6 +64,11 @@ function Ensure-NodeJs {
 }
 
 function Ensure-PostgreSQL {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [hashtable] $conf
+    )
 
     # Test the connection strings for SQL Server
     $sqlServer = @{
@@ -101,11 +106,9 @@ function Initialize-Installer {
     Param(
         [Parameter(Mandatory = $true)]
         [string] $toolsPath,
-        [Parameter(Mandatory = $false)]
-        [string] $downloadPath,
-        [Parameter(Mandatory = $false)]
-        [string]  $databasesConfig,
         [Parameter(Mandatory = $true)]
+        [Hashtable] $configuration,
+        [Parameter(Mandatory = $false)]
         [System.Boolean]  $bypassCheck = $false
     )
 
@@ -115,8 +118,10 @@ function Initialize-Installer {
 
     Ensure-NodeJs
 
+    Test-SqlServerConnection -configuration $configuration
+
     # TODO ENSURE POSTGRESQL IS INSTALLED
-    Ensure-PostgreSQL
+    Ensure-PostgreSQL -conf $configuration
 }
 
 Export-ModuleMember Initialize-Installer

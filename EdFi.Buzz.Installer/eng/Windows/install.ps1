@@ -77,7 +77,7 @@ if (-not $(TestCommand $nuget)) {
 
 try {
     # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-    Initialize-Installer -toolsPath $toolsPath -bypassCheck $true
+    Initialize-Installer -toolsPath $toolsPath -configuration $script:conf  -bypassCheck $true
 
     Install-DatabaseApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
     Install-ApiApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath

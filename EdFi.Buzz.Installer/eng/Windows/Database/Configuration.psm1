@@ -3,6 +3,42 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
+#Requires –Modules SqlServer
+
+function Test-SqlServerConnection {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [hashtable] $configuration
+    )
+    try {
+
+        if ($configuration.sqlServerDatabase.UseIntegratedSecurity) {
+            $connString = "Data Source=$($configuration.sqlServerDatabase.host),$($configuration.sqlServerDatabase.port);Database=$($configuration.sqlServerDatabase.database);Integrated Security=$($configuration.sqlServerDatabase.UseIntegratedSecurity);"
+        }
+        else {
+            $connString = "Data Source=$($configuration.sqlServerDatabase.host),$($configuration.sqlServerDatabase.port);Database=$($configuration.sqlServerDatabase.database);User ID=$($configuration.sqlServerDatabase.username);Password=$($configuration.sqlServerDatabase.password)"
+        }
+
+        #Create a SQL connection object
+        $conn = New-Object System.Data.SqlClient.SqlConnection $connString
+
+        #Attempt to open the connection
+        $conn.Open()
+        if ($conn.State -eq "Open") {
+            # We have a successful connection here
+            # Notify of successful connection
+            Write-Host "Test connection successful"
+            $conn.Close()
+            return $true
+        }
+        return $false
+    }
+    catch {
+        return $false
+    }
+}
+
 function Assert-DatabaseConnectionInfo {
     <#
     .EXAMPLE
@@ -45,16 +81,16 @@ function Assert-DatabaseConnectionInfo {
         $DbConnectionInfo.Engine = "SqlServer"
     }
 
-    if (-not $DbConnectionInfo.Engine.toLower -in ("sqlserver","postgresql","postgres")) {
+    if (-not $DbConnectionInfo.Engine.toLower -in ("sqlserver", "postgresql", "postgres")) {
         throw "Database connection info specifies an invalid engine: $($DbConnectionInfo.Engine). " +
-              "Valid engines: SqlServer, PostgreSQL"
+        "Valid engines: SqlServer, PostgreSQL"
     }
 
-    if (-not $DbConnectionInfo.ContainsKey("Port")){
+    if (-not $DbConnectionInfo.ContainsKey("Port")) {
         throw $template + "Port"
     }
 
-    if (-not $DbConnectionInfo.ContainsKey("Server")){
+    if (-not $DbConnectionInfo.ContainsKey("Server")) {
         throw $template + "Server"
     }
 
@@ -76,4 +112,9 @@ function Assert-DatabaseConnectionInfo {
     }
 }
 
-Export-ModuleMember Assert-DatabaseConnectionInfo
+$functions = @(
+    "Test-SqlServerConnection",
+    "Assert-DatabaseConnectionInfo"
+)
+
+Export-ModuleMember $functions
