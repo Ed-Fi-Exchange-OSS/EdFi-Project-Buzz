@@ -139,7 +139,9 @@ function Install-ApiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $nuget
+        [string] $nuget,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath
     )
 
     $params = @{
@@ -161,7 +163,9 @@ function Install-DatabaseApp {
         [Parameter(Mandatory = $true)]
         [Hashtable]$configuration,
         [Parameter(Mandatory = $true)]
-        [string] $nuget
+        [string] $nuget,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath
     )
 
     $params = @{
@@ -181,7 +185,9 @@ function Install-UiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $nuget
+        [string] $nuget,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath
     )
 
     $params = @{
@@ -202,7 +208,9 @@ function Install-EtlApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $nuget
+        [string] $nuget,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath
     )
 
     $params = @{
@@ -221,72 +229,14 @@ function Install-EtlApp {
 
     Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.etl.version
 }
-function Execute-AppInstaller {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $app,
-        [Parameter(Mandatory = $true)]
-        [string] $packagesPath,
-        [Parameter(Mandatory = $true)]
-        [Hashtable] $conf,
-        [Parameter(Mandatory = $true)]
-        [string] $nuget
-    )
-
-    try {
-        switch ($app) {
-            "API" { Install-ApiApp $conf -nuget $nuget }
-            "Database" { Install-DatabaseApp $conf -nuget $nuget }
-            "Etl" { Install-EtlApp  $conf -nuget $nuget }
-            "Ui" { Install-UiApp $conf -nuget $nuget }
-            Default { Write-Error "There is no Buzz $app app to install" }
-        }
-    }
-    catch {
-        throw $PSItem.Exception
-    }
-}
-
-function Install-AssetFromNuget {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        [string] $nuget,
-        [Parameter(Mandatory = $true)]
-        [string] $app,
-        [Parameter(Mandatory = $true)]
-        [string] $packageName,
-        [Parameter(Mandatory = $true)]
-        [string] $version,
-        [Parameter(Mandatory = $true)]
-        [string] $source,
-        [Parameter(Mandatory = $true)]
-        [string] $packagesPath,
-        [Parameter(Mandatory = $true)]
-        [HashTable] $conf
-    )
-
-    $currDir = $PWD
-
-    try {
-        Execute-AppInstaller -app $app -packagesPath $packagesPath -conf $conf -nuget $nuget
-    }
-    catch {
-        throw $PSItem.Exception
-    }
-    finally {
-        Set-Location -Path $currDir
-    }
-}
 
 $functions = @(
     "Execute-AppInstaller",
     "Install-ApiApp",
-    "Install-databaseApp",
+    "Install-DatabaseApp",
     "Install-EtlApp",
     "Install-UiApp",
-    "Uninstall-Asset",
-    "Install-AssetFromNuget"
+    "Uninstall-Asset"
 )
 
 Export-ModuleMember $functions

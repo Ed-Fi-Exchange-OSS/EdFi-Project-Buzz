@@ -30,15 +30,15 @@ for Buzz. Defaults to .\configuration in the same directory.
 #Requires -RunAsAdministrator
 
 param (
-    [string] $configPath = "$PSScriptRoot/configuration.json"
+    [string] $configPath = "./configuration.json"
 )
 
-$currDir = $PSScriptRoot
+$currDir = $PWD
 
-Import-Module "$PSScriptRoot/Database/Configuration.psm1" -Force
-Import-Module "$PSScriptRoot/configHelper.psm1" -Force
-Import-Module "$PSScriptRoot/init.psm1" -Force
-Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
+Import-Module "$currDir/Database/Configuration.psm1" -Force
+Import-Module "$currDir/configHelper.psm1" -Force
+Import-Module "$currDir/init.psm1" -Force
+Import-Module "$currDir/Application/appinstalls.psm1" -Force
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
@@ -75,40 +75,14 @@ if (-not $(TestCommand $nuget)) {
     }
 }
 
-# Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-Initialize-Installer -toolsPath $toolsPath -bypassCheck $true
-
-# Test the connection strings for SQL Server
-$sqlServer = @{
-    Engine                = "SqlServer"
-    Server                = $conf.sqlServerDatabase.host
-    Port                  = $conf.sqlServerDatabase.port
-    UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
-    Username              = $conf.sqlServerDatabase.username
-    Password              = $conf.sqlServerDatabase.password
-    DatabaseName          = $conf.sqlServerDatabase.database
-}
-
-Assert-DatabaseConnectionInfo $sqlServer -RequireDatabaseName
-
-# Test the connection strings for PostgreSQL
-$postgres = @{
-    Engine                = "PostgreSQL"
-    Server                = $conf.postgresDatabase.host
-    Port                  = $conf.postgresDatabase.port
-    UseIntegratedSecurity = $false
-    Username              = $conf.postgresDatabase.username
-    Password              = $conf.postgresDatabase.password
-    DatabaseName          = $conf.postgresDatabase.database
-}
-
-Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
-
 try {
-    Install-DatabaseApp -configuration $script:conf -nuget $nuget
-    Install-ApiApp -configuration $script:conf -nuget $nuget
-    Install-EtlApp -configuration $script:conf -nuget $nuget
-    Install-UiApp -configuration $script:conf -nuget $nuget
+    # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
+    Initialize-Installer -toolsPath $toolsPath -bypassCheck $true
+
+    Install-DatabaseApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
+    Install-ApiApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
+    Install-EtlApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
+    Install-UiApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
 }
 catch {
     Write-Error $PSItem.Exception.Message

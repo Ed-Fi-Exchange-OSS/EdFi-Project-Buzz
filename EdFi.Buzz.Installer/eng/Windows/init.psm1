@@ -37,15 +37,14 @@ function Ensure-WindowsServer2016 {
         [System.Boolean] $bypass
     )
 
-    if($bypass) {
+    if ($bypass) {
         return
     }
 
     $major = [Environment]::OSVersion.Version.Major
     $osProductType = (Get-ComputerInfo).OsProductType
 
-    if($osProductType -ne "Server" -or $major -lt 10)
-    {
+    if ($osProductType -ne "Server" -or $major -lt 10) {
         throw "Please install on Windows Server minimum version 2016."
     }
 }
@@ -64,8 +63,33 @@ function Ensure-NodeJs {
     throw "[NODE] nodejs was not installed"
 }
 
-function Ensure-PostgreSQL{
+function Ensure-PostgreSQL {
 
+    # Test the connection strings for SQL Server
+    $sqlServer = @{
+        Engine                = "SqlServer"
+        Server                = $conf.sqlServerDatabase.host
+        Port                  = $conf.sqlServerDatabase.port
+        UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
+        Username              = $conf.sqlServerDatabase.username
+        Password              = $conf.sqlServerDatabase.password
+        DatabaseName          = $conf.sqlServerDatabase.database
+    }
+
+    Assert-DatabaseConnectionInfo $sqlServer -RequireDatabaseName
+
+    # Test the connection strings for PostgreSQL
+    $postgres = @{
+        Engine                = "PostgreSQL"
+        Server                = $conf.postgresDatabase.host
+        Port                  = $conf.postgresDatabase.port
+        UseIntegratedSecurity = $false
+        Username              = $conf.postgresDatabase.username
+        Password              = $conf.postgresDatabase.password
+        DatabaseName          = $conf.postgresDatabase.database
+    }
+
+    Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
 }
 
 <#
