@@ -12,7 +12,9 @@ import Logo from 'assets/fix-it.png';
 import ArrowDown from 'assets/dropdown-arrow.png';
 import ApiService from 'Services/ApiService';
 import styled from 'styled-components';
-
+import Icon from '@iconify/react';
+import mdUnlock from '@iconify-icons/ion/md-unlock';
+import mdBuild from '@iconify-icons/ion/md-build';
 
 interface CustomLikComponentProps {
   children: ReactFragment;
@@ -126,8 +128,13 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 
   const MenuOptions = styled.span`
   position: absolute;
-  color: #007bff;
   display:none;
+  padding-top:11px;
+  z-index:2;
+  color: var(--dark-grey);
+  @media(max-width: 768px){
+    padding-top:17px;
+  }
   ul {
 	  display: flex;
     flex-wrap: nowrap;
@@ -136,17 +143,20 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     position:relative;
     margin:0 0 0 100%;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
-    background-color: #FFFFFF;
+    background-color: #ebf1f3;
     text-align: left;
+    padding-left: 0px;
+    padding-bottom: 0.5em;
   };
   li {
     display: inline;
-    padding: .5em 0em;
+    padding: 0em 0em;
   };
   ${LinkButton} {
     display: inline-block;
 	  padding: .5em 0em;
     text-align: left;
+    color: var(--nevada);
   };
  &.active {
     display: flex;
@@ -257,13 +267,14 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                     {isAdminSurveyLoader
                       ? <li>
                         <Link to="/adminSurvey">
-                          <LinkButton>Admin Survey</LinkButton>
+
+                          <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     <li>
                       <Link to="/Login">
-                        <LinkButton onClick={logOut}>LogOut</LinkButton>
+                        <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
                       </Link>
                     </li>
                   </ul>
