@@ -58,6 +58,12 @@ function Install-ApiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration
     )
+
+    if (-not $configuration.installApi) {
+        Write-Host "Skipping Buzz API installation"
+        return;
+    }
+
     Write-Host "Installing the Buzz API application..."
 
     $params = @{
@@ -77,6 +83,12 @@ function Install-DatabaseApp {
         [Parameter(Mandatory = $true)]
         [Hashtable]$configuration
     )
+
+    if (-not $configuration.installDatabase) {
+        Write-Host "Skipping Buzz Database installation"
+        return;
+    }
+
     Write-Host "Installing the Buzz Database application..."
     $params = @{
         "DbServer"   = $configuration.sqlServerDatabase.host;
@@ -94,7 +106,13 @@ function Install-UiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration
     )
-    Write-Host "Installing the Buzz Web application..."
+
+    if (-not $configuration.installUi) {
+        Write-Host "Skipping Buzz UI installation"
+        return;
+    }
+
+    Write-Host "Installing the Buzz UI application..."
     $currDir = $PWD
     $params = @{
         "InstallPath"     = $currDir;
@@ -114,7 +132,10 @@ function Install-EtlApp {
         [Hashtable] $configuration
     )
 
-    $currDir = $PWD # We should already be in the ETL directory.
+    if (-not $configuration.installEtl) {
+        Write-Host "Skipping Buzz ETL installation"
+        return;
+    }
 
     Write-Host "Installing the Buzz ETL application..."
     $params = @{
@@ -123,12 +144,12 @@ function Install-EtlApp {
         "PostgresPort"      = $configuration.postgresDatabase.port;
         "PostgresUserName"  = $configuration.postgresDatabase.username;
         "PostgresPassword"  = $configuration.postgresDatabase.password;
-        "PostgresDbName"    = $configuration.postgresDatabase.database
+        "PostgresDbName"    = $configuration.postgresDatabase.database;
         "SqlServerHost"     = $configuration.sqlServerDatabase.host;
         "SqlServerPort"     = $configuration.sqlServerDatabase.port;
         "SqlServerUserName" = $configuration.sqlServerDatabase.username;
         "SqlServerPassword" = $configuration.sqlServerDatabase.password;
-        "SqlServerDbName"   = $configuration.sqlServerDatabase.database
+        "SqlServerDbName"   = $configuration.sqlServerDatabase.database;
     }
     ./install.ps1 @params
 }

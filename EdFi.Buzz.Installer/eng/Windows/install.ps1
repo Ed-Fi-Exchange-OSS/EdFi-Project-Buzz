@@ -72,6 +72,12 @@ Initialize-Installer -toolsPath $toolsPath -bypassCheck $true
 # Each NuGet should be retrieveable using NuGet.executable
 $conf = Format-BuzzConfigurationFileToHashTable $configPath
 
+if (-not $conf.anyApplicationsToInstall) {
+    Write-Host "You have not chosen any Buzz applications to install." -ForegroundColor Red
+    exit -1;
+}
+
+
 $artifactRepo = $conf.artifactRepo
 
 # Test the connection strings for SQL Server
