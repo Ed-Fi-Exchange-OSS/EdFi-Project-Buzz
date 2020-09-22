@@ -2,7 +2,7 @@
     "artifactRepo": "C:/nugetRepo",
     "installDatabase": true,
     "installEtl": true,
-    "installWeb": true,
+    "installUi": true,
     "installApi": true,
     "idProvider": "google",
     "clientSecret": "",

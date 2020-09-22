@@ -34,7 +34,7 @@ function Format-BuzzConfigurationFileToHashTable {
         artifactRepo = $configJson.artifactRepo
         installDatabase = $configJson.installDatabase
         installEtl = $configJson.installEtl
-        installWeb = $configJson.installWeb
+        installUi = $configJson.installUi
         installApi = $configJson.installApi
         idProvider= $configJson.idProvider
         clientSecret = $configJson.clientSecret
@@ -42,7 +42,7 @@ function Format-BuzzConfigurationFileToHashTable {
         adfsClientId = $configJson.adfsClientId
         adfsTenantId = $configJson.adfsTenantId
 
-        anyApplicationsToInstall = $configJson.installDatabase -or $configJson.installEtl -or $configJson.installApi -or $configJson.installWeb
+        anyApplicationsToInstall = $configJson.installDatabase -or $configJson.installEtl -or $configJson.installApi -or $configJson.installUi
 
         idConfigured = $configJson.idProvider
 
