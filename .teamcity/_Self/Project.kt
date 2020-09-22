@@ -27,7 +27,6 @@ object BuzzProject : Project({
     subProject(etl.ETLProject)
     subProject(api.APIProject)
     subProject(installer.InstallerProject)
-    subProject(angular.AngularProject)
     subProject(database.DatabaseProject)
 
     template(_self.templates.BuildAndTestTemplate)
