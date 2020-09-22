@@ -6,8 +6,10 @@
  */
 
 import * as React from 'react';
-import { FunctionComponent, ReactFragment } from 'react';
+import { FunctionComponent, ReactFragment, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
+import Logo from 'assets/fix-it.png';
+import ArrowDown from 'assets/dropdown-arrow.png';
 import ApiService from 'Services/ApiService';
 import styled from 'styled-components';
 
@@ -27,51 +29,251 @@ function CustomLink({
     path: to,
     exact: activeOnlyWhenExact
   });
-
+  const CustomLinkStyle = styled.div`
+    display: inline-block;
+	  padding: .0em 0.0em;
+    height: 19px;
+    font-family:'Work Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    text-transform: uppercase;
+    @media(max-width: 768px){
+      display: none;
+    }
+  `;
+  const LinkIsActive = styled.div`
+    &.active {
+      width: 100%;
+      height: 1px;
+      border: solid 4px #ffc62d;
+      text-align: center;
+    }
+    @media(max-width: 768px){
+      &.active {
+        display: none;
+      }
+    }
+  `;
   return (
-    <div className={match ? 'active' : ''}>
-      {match && '> '}
+    <CustomLinkStyle >
       <Link to={to}>{children}</Link>
-    </div>
+      <LinkIsActive className={match ? 'active' : ''}></LinkIsActive>
+    </CustomLinkStyle>
   );
 }
-
 
 export interface HeaderComponentProps {
   title?: string;
   api: ApiService;
+  isAdminSurveyLoader?: boolean;
   navigate: (url: string) => void;
 }
 
-const LinkButton = styled.button`
+export const Header: FunctionComponent<HeaderComponentProps> = (
+  props: HeaderComponentProps
+) => {
+  const [menuActive, setMenuActive] = useState(false);
+  const { teacher } = props.api.authentication.currentUserValue;
+  const { isAdminSurveyLoader } = props;
+  const LinkButton = styled.button`
+  text-transform: uppercase;
   color: #007bff;
   background: transparent;
   border: none;
   padding: 0;
-
+  height: 19px;
+  font-family:'Work Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
   &:hover {
     color: #0056b3;
-    text-decoration: underline;
+    text-decoration: none;
+  }
+
+`;
+
+  const HeaderImage = styled.img`
+  margin: 0 0 10px;
+  max-width: 100%;
+	height: auto;
+  padding-left: 10px;
+  padding-top: 20px;
+`;
+
+  const HeaderLogo = styled.span`
+  width: 80px;
+  height: 64px;
+  object-fit: contain;
+  font-family: BalooBhaina;
+  font-size: 32px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+  float:left;
+`;
+
+  const MenuOptions = styled.span`
+  position: absolute;
+  color: #007bff;
+  display:none;
+  ul {
+	  display: flex;
+    flex-wrap: nowrap;
+    flex-flow: column;
+    justify-content: flex-end;
+    position:relative;
+    margin:0 0 0 100%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+    background-color: #FFFFFF;
+    text-align: left;
+  };
+  li {
+    display: inline;
+    padding: .5em 0em;
+  };
+  ${LinkButton} {
+    display: inline-block;
+	  padding: .5em 0em;
+    text-align: left;
+  };
+ &.active {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-flow: column;
+    width: 40%
+    position: fixed;
+    right: 0px;
   }
 `;
-export const Header: FunctionComponent<HeaderComponentProps> = (
-  props: HeaderComponentProps
-) => {
-  function logOut(){
+
+  const LoggedUserMenu = styled.span`
+  width: 92px;
+  height: 15px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  align-self: left;
+  color: #ffffff;
+  cursor: pointer;
+  vertical-align: baseline;
+`;
+
+  const LoggedUser = styled.span`
+
+`;
+
+  const MainNav = styled.nav`
+  ul {
+	  margin: 1em 0 .5em;
+	  text-align: left;
+  };
+  li {
+    display: inline;
+  }
+  a {
+	  display: inline-block;
+	  padding: .5em 1.5em;
+    height: 19px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+ `;
+
+  const MenuArrow = styled.img`
+  height: 8px;
+  object-fit: contain;
+`;
+
+  const MainContainer = styled.div`
+  ${HeaderLogo} {
+    flex: 1;
+  };
+  ${MainNav} {
+    float: right;
+  };
+`;
+
+  const MainHeader = styled.header`
+  width: 100%;
+  height: 70px;
+  background-image: linear-gradient(94deg, #17b6ea 6%, #1378be 93%);
+  justify-content: flex-end;
+  ${MainContainer} {
+	  display: flex;
+    align-items: left;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }`;
+
+  const closeMenu = () => {
+    if (menuActive) {
+      setMenuActive(false);
+    }
+  };
+
+  function logOut() {
     props.api.authentication.logout();
     props.navigate('/login');
   }
-  return <div>
-    Header {props.title ?? ''}
-    <ul>
-      <li> <CustomLink to="/login">Login (/login)</CustomLink> </li>
-      <li> <CustomLink to="/" activeOnlyWhenExact={true}> Student Roster (/)</CustomLink> </li>
-      <li> <CustomLink to="/studentDetail/1">Student Detail (/studentDetail/1) </CustomLink> </li>
-      <li> <CustomLink to="/surveyAnalytics">Survey Analytics (/surveyAnalytics)</CustomLink> </li>
-      <li> <CustomLink to="/uploadSurvey" activeOnlyWhenExact={true}> Upload Survey (/uploadSurvey)</CustomLink> </li>
-      <li> <CustomLink to="/uploadSurvey/1">Upload Survey (/uploadSurvey/1)</CustomLink> </li>
-      <li> <CustomLink to="/adminSurvey">Admin Survey (/adminSurvey)</CustomLink> </li>
-      <li> <LinkButton onClick={logOut} >LogOut</LinkButton> </li>
-    </ul>
-  </div>;
+  return <>
+    <MainHeader onClick={closeMenu}>
+      <MainContainer>
+        <HeaderLogo><HeaderImage src={Logo} /></HeaderLogo>
+        <MainNav>
+          <ul>
+            <li> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
+            <li> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
+            <li>
+              <LoggedUserMenu onClick={() => setMenuActive(!menuActive)} >
+                <LoggedUser>
+                  {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>&nbsp;&nbsp;
+                </LoggedUser>
+                <MenuOptions className={menuActive ? 'active' : ''}>
+                  <ul>
+                    {isAdminSurveyLoader
+                      ? <li>
+                        <Link to="/adminSurvey">
+                          <LinkButton>Admin Survey</LinkButton>
+                        </Link>
+                      </li>
+                      : null}
+                    <li>
+                      <Link to="/Login">
+                        <LinkButton onClick={logOut}>LogOut</LinkButton>
+                      </Link>
+                    </li>
+                  </ul>
+                </MenuOptions>
+              </LoggedUserMenu>
+            </li>
+          </ul>
+        </MainNav>
+      </MainContainer>
+    </MainHeader>
+  </>;
 };
+

@@ -64,7 +64,7 @@ export default function App(): JSX.Element {
       </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
         <div>
-          <Header api={api} navigate={(url) => history.push(url)} />
+          <Header api={api} isAdminSurveyLoader={isAdminSurveyLoader} navigate={(url) => history.push(url)} />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
