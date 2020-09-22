@@ -40,7 +40,18 @@ Import-Module "$PSScriptRoot/configHelper.psm1" -Force
 Import-Module "$PSScriptRoot/init.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
 
-$installPath = "C:/Ed-Fi/Buzz"
+# Confirm required parameters to install
+# Repo location should be configuration with overrides
+# Each NuGet should be retrieveable using NuGet.executable
+$conf = Format-BuzzConfigurationFileToHashTable $configPath
+
+if (-not $conf.anyApplicationsToInstall) {
+    Write-Host "You have not chosen any Buzz applications to install." -ForegroundColor Red
+    exit -1;
+}
+
+$installPath = $conf.installPath
+$artifactRepo = $conf.artifactRepo
 $packagesPath = Join-Path $installPath "packages"
 $toolsPath = Join-Path $installPath "tools"
 
@@ -66,19 +77,6 @@ if (-not $(TestCommand $nuget)) {
 
 # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
 Initialize-Installer -toolsPath $toolsPath -bypassCheck $true
-
-# Confirm required parameters to install
-# Repo location should be configuration with overrides
-# Each NuGet should be retrieveable using NuGet.executable
-$conf = Format-BuzzConfigurationFileToHashTable $configPath
-
-if (-not $conf.anyApplicationsToInstall) {
-    Write-Host "You have not chosen any Buzz applications to install." -ForegroundColor Red
-    exit -1;
-}
-
-
-$artifactRepo = $conf.artifactRepo
 
 # Test the connection strings for SQL Server
 $sqlServer = @{

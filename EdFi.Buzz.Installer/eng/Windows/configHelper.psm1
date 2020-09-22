@@ -31,6 +31,7 @@ function Format-BuzzConfigurationFileToHashTable {
     $configJson = Get-Content $configPath | ConvertFrom-Json
 
     $formattedConfig = @{
+        installPath = $configJson.installPath
         artifactRepo = $configJson.artifactRepo
         installDatabase = $configJson.installDatabase
         installEtl = $configJson.installEtl
