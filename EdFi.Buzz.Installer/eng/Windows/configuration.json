@@ -43,7 +43,7 @@
         "url": "http://localhost:3000",
         "port": 3000
     },
-    "webApp": {
+    "uiApp": {
         "version": "latest",
         "installationDirectory": "C:\\inetpub\\Ed-Fi\\Buzz",
         "url": "",
