@@ -26,6 +26,7 @@ object BuzzProject : Project({
     subProject(ui.UIProject)
     subProject(etl.ETLProject)
     subProject(api.APIProject)
+    subProject(installer.InstallerProject)
     subProject(angular.AngularProject)
     subProject(database.DatabaseProject)
 
