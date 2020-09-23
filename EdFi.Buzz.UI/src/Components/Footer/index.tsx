@@ -65,11 +65,13 @@ export const Footer: FunctionComponent<FooterComponentProps> = (
     display: none;
     @media(max-width:768px){
       display: flex;
+      height: 68px;
       width: 100vw;
       max-width: 100vw;
       border-bottom: 1px solid #D7DBDD;
       position:fixed;
       bottom:0px;
+      align-items: flex-end;
     }
   `;
 
@@ -78,9 +80,9 @@ export const Footer: FunctionComponent<FooterComponentProps> = (
     width:100%;
     height: 68px;
     padding: 0px 0px;
-    border-bottom: 2px solid transparent;
-    border-top: 2px solid transparent;
+    border-top: solid 2px #ced5d8;
     text-align: center;
+    bottom:0px;
     a{
       color: var(--dark-grey);
     };
