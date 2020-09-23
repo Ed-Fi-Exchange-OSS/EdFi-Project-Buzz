@@ -94,7 +94,7 @@ export default createGlobalStyle`
     color: var(--nevada);
     font-weight: 400;
     line-height: 1.5rem;
-    padding-top: 2rem;
+    padding-top: 0rem;
     background-color: var(--white);
     overflow-x: hidden;
   }
