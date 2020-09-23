@@ -105,28 +105,24 @@ function Install-BuzzApp {
 
         $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
 
-        if ($version -eq "latest") {
-            & $nuget "install" $packageName -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
-        }
-        else {
-            & $nuget "install" $packageName -Version $version -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
-        }
+        # if ($version -eq "latest") {
+        #     & $nuget "install" $packageName -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
+        # }
+        # else {
+        #     & $nuget "install" $packageName -Version $version -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
+        # }
 
-        $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "$packageName*" }) | Select-Object -Property FullName
+        # $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "$packageName*" }) | Select-Object -Property FullName
 
-        if ($matchingFolders.Length -eq 0) {
-            throw "The repository did not have a package '$packageName' ($version)"
-        }
+        # $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
 
-        if ($matchingFolders.Length -gt 1) {
-            throw "More than one $app folder found at $packagesPath"
-        }
+        Import-Module "$PSScriptRoot\..\nuget-helper.psm1"
 
-        $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
+        $installFolder = Install-EdFiPackage -packageName $packageName -version $version -toolsPath $toolsPath -downloadPath $packagesPath -packageSource $configuration.artifactRepo
 
         Write-Host "Moving to $installFolder to install"
         Write-Host "Running package installation for $app..."
-        Set-Location $installFolder
+        Set-Location (Join-Path $installFolder "Windows")
         ./install.ps1 @params
         Write-Host "Package installation completed for $app."
     }

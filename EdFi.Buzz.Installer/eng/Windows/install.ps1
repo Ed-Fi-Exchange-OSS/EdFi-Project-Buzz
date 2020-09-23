@@ -52,11 +52,16 @@ if (-not $conf.anyApplicationsToInstall) {
 
 $installPath = $conf.installPath
 $artifactRepo = $conf.artifactRepo
-$packagesPath = Join-Path $installPath "packages"
-$toolsPath = Join-Path $installPath "tools"
+
+$packagesPath = "C:\temp\packages"
+$toolsPath = "C:\temp\tools"
 
 if (-not $(Test-Path $packagesPath)) {
     mkdir $packagesPath | Out-Null
+}
+
+if (-not $(Test-Path $toolsPath)) {
+    mkdir $toolsPath | Out-Null
 }
 
 function TestCommand ($path) {

@@ -3,6 +3,36 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
+Import-Module "$PSScriptRoot\nuget-helper.psm1"
+
+$root = $PSScriptRoot
+
+$AppCommonVersion = "1.0.1"
+
+function Install-AppCommon {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath,
+        [Parameter(Mandatory = $true)]
+        [string] $downloadPath,
+        [Parameter(Mandatory = $true)]
+        [string] $version
+    )
+    $packageName = "EdFi.Installer.AppCommon"
+
+    $installerPath = Install-EdFiPackage $packageName $version $toolsPath $downloadPath
+
+    $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation"
+    Import-Module -Force -Scope Global "$installerPath/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
+    Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
+    Import-Module -Force $folders.modules.invoke("tasks/TaskHelper.psm1")
+    Import-Module -Force $folders.modules.invoke("tools/ToolsHelper.psm1")
+
+    # Import the following with global scope so that they are available inside of script blocks
+    Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global
+    Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
+}
+
 function Install-NugetCli {
     Param(
         [Parameter(Mandatory = $true)]

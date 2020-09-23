@@ -1,5 +1,5 @@
 {
-    "installPath": "C:/temp/EdFi/Buzz",
+    "installPath": "C:/EdFi/Buzz",
     "artifactRepo": "C:/nugetRepo",
     "installDatabase": true,
     "installEtl": true,
@@ -26,10 +26,10 @@
         "UseIntegratedSecurity":false
     },
     "database": {
-        "version": "latest"
+        "version": "0.1.0"
     },
     "etl" : {
-        "version": "latest",
+        "version": "0.1.0",
         "datasourceFormat": "amt",
         "odsDataStandard": "ds3",
         "max": 20,
@@ -40,14 +40,12 @@
         "encrypt": false
     },
     "apiApp": {
-        "version": "latest",
-        "installationDirectory": "C:\\inetpub\\Ed-Fi\\BuzzApi",
+        "version": "0.1.0",
         "url": "http://localhost:3000",
         "port": 3000
     },
     "uiApp": {
-        "version": "latest",
-        "installationDirectory": "C:\\inetpub\\Ed-Fi\\Buzz",
+        "version": "0.1.0",
         "url": "",
         "port": 4200
     }
