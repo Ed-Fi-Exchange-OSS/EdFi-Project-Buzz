@@ -233,6 +233,11 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   height: ${height}px;
   background-image: linear-gradient(94deg, #17b6ea 6%, #1378be 93%);
   justify-content: flex-end;
+
+  @media(max-width: 768px){
+    z-index: 1;
+    position: fixed;
+  }
   ${MainContainer} {
 	  display: flex;
     align-items: left;
