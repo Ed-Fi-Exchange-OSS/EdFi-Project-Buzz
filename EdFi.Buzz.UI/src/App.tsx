@@ -22,7 +22,7 @@ import { StudentDetail } from 'Feature/StudentDetail';
 import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
 import { UploadSurvey } from 'Feature/UploadSurvey';
 import { AdminSurvey } from 'Feature/AdminSurvey';
-
+import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import GlobalFonts from 'globalstyle';
@@ -38,11 +38,19 @@ export default function App(): JSX.Element {
 
   // TODO Resolve the componentWillReceiveProps has been renamed warning.
   console.warn = () => { };
-
+  const HEADER_HEIGHT = 70;
+  const FOOTER_HEIGHT = 68;
   const [isLoggedIn, setIsLoggedIn] = useState(api.authentication.currentUserValue != null);
   const [isAdminSurveyLoader, setIsAdminSurveyLoader] =
     useState(api.authentication.currentUserValue?.teacher?.isadminsurveyloader === true);
-
+  const Content = styled.div`
+    @media(max-width:768px){
+      max-height: calc(100vh-${HEADER_HEIGHT+FOOTER_HEIGHT}px);
+      min-height: calc(100vh-${HEADER_HEIGHT+FOOTER_HEIGHT}px);
+      max-width: 100vw;
+      overflow-y: scroll;
+    }
+  `;
   useEffect(() => {
     const suscription = api.authentication.currentUser.subscribe((cu) => {
       setIsLoggedIn(cu && cu.teacher != null);
@@ -64,9 +72,10 @@ export default function App(): JSX.Element {
       </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
         <div>
-          <Header api={api} isAdminSurveyLoader={isAdminSurveyLoader} navigate={(url) => history.push(url)} />
+          <Header api={api} isAdminSurveyLoader={isAdminSurveyLoader} navigate={(url) => history.push(url)} height={HEADER_HEIGHT} />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
+          <Content>
           <Switch>
             <Route exact path="/"> <StudentRoster api={api} /> </Route>
             <Route path="/studentDetail/:studentKey"> <StudentDetail api={api} /> </Route>
@@ -77,8 +86,8 @@ export default function App(): JSX.Element {
               ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
               : <Route><div>Need survey admin rights</div></Route>}
           </Switch>
-
-          <Footer />
+          </Content>
+          <Footer height={FOOTER_HEIGHT}/>
         </div>
       </Route>}
     </Switch>;

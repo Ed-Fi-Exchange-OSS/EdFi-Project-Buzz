@@ -74,6 +74,7 @@ export interface HeaderComponentProps {
   api: ApiService;
   isAdminSurveyLoader?: boolean;
   navigate: (url: string) => void;
+  height: number;
 }
 
 export const Header: FunctionComponent<HeaderComponentProps> = (
@@ -82,6 +83,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   const [menuActive, setMenuActive] = useState(false);
   const { teacher } = props.api.authentication.currentUserValue;
   const { isAdminSurveyLoader } = props;
+  const { height } = props;
   const LinkButton = styled.button`
   text-transform: uppercase;
   color: #007bff;
@@ -228,7 +230,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 
   const MainHeader = styled.header`
   width: 100%;
-  height: 70px;
+  height: ${height}px;
   background-image: linear-gradient(94deg, #17b6ea 6%, #1378be 93%);
   justify-content: flex-end;
   ${MainContainer} {

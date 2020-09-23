@@ -57,15 +57,17 @@ function CustomTabLink({
 
 export interface FooterComponentProps {
   title?: string;
+  height: number;
 }
 
-export const Footer: FunctionComponent<FooterComponentProps> = (
+export const Footer: FunctionComponent<FooterComponentProps> = (props: FooterComponentProps
 ) => {
+  const {height} = props;
   const MobileFooter = styled.div`
     display: none;
     @media(max-width:768px){
       display: flex;
-      height: 68px;
+      height: ${height}px;
       width: 100vw;
       max-width: 100vw;
       border-bottom: 1px solid #D7DBDD;
@@ -78,7 +80,7 @@ export const Footer: FunctionComponent<FooterComponentProps> = (
   const FooterTab = styled.div`
     cursor: pointer;
     width:100%;
-    height: 68px;
+    height: ${height}px;
     padding: 0px 0px;
     border-top: solid 2px #ced5d8;
     text-align: center;
