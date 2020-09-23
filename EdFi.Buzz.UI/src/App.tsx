@@ -45,6 +45,8 @@ export default function App(): JSX.Element {
     useState(api.authentication.currentUserValue?.teacher?.isadminsurveyloader === true);
   const Content = styled.div`
     @media(max-width:768px){
+      padding-top: ${HEADER_HEIGHT}px;
+      margin-bottom: ${FOOTER_HEIGHT}px;
       max-height: calc(100vh-${HEADER_HEIGHT+FOOTER_HEIGHT}px);
       min-height: calc(100vh-${HEADER_HEIGHT+FOOTER_HEIGHT}px);
       max-width: 100vw;
