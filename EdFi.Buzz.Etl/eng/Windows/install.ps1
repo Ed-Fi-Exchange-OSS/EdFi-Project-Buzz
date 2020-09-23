@@ -101,7 +101,7 @@ function Install-NodeService {
   )
 
   $serviceName = "EdFi-Buzz-Etl"
-  
+
   # If service already exists, stop and remove it so that new settings
   # will be applied.
   $exists = Get-Service -name $serviceName -ErrorAction SilentlyContinue
@@ -185,7 +185,7 @@ function Install-DistFiles {
 
   Push-Location "$installPath/dist"
   Write-Host "Executing: npm install --production"
-  &npm install --production
+  &npm install --production --silent
   Pop-Location
 }
 

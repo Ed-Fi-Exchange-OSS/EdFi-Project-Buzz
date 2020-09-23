@@ -175,7 +175,7 @@ function Install-DistFiles {
 
   Push-Location "$installPath/build"
   Write-Host "Executing: npm install --production"
-  &npm install --production
+  &npm install --production --silent
   Pop-Location
 }
 

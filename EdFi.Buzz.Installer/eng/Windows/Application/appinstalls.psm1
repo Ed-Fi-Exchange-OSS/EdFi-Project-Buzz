@@ -3,6 +3,9 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
+#Requires -version 5
+#Requires -RunAsAdministrator
+
 function Uninstall-Services {
     Param(
         [Parameter(Mandatory = $true)]
@@ -19,6 +22,7 @@ function Uninstall-Services {
         $serviceName = "EdFi-Buzz-$app"
 
         if (Get-Service -Name $serviceName -ErrorAction Ignore) {
+            Write-Host "Removing Buzz server $serviceName"
             Stop-Service -Name $serviceName
             Remove-Service -Name $serviceName
         }
@@ -43,6 +47,8 @@ function Uninstall-Asset {
             Write-Host "$app has not been installed yet."
             return;
         }
+
+        Write-Host "Uninstalling prior installation of $app"
 
         if ($app -ne "Database") {
             Uninstall-Services -app $app
@@ -95,7 +101,7 @@ function Install-BuzzApp {
         }
 
 
-        Write-Host "Installing the Buzz $app application..."
+        Write-Host "Downloading the package for Buzz $app application ($version)..."
 
         $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
 
@@ -109,7 +115,7 @@ function Install-BuzzApp {
         $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "$packageName*" }) | Select-Object -Property FullName
 
         if ($matchingFolders.Length -eq 0) {
-            throw "The repository did not have a NuGet package '$packageName'"
+            throw "The repository did not have a package '$packageName' ($version)"
         }
 
         if ($matchingFolders.Length -gt 1) {
@@ -119,11 +125,10 @@ function Install-BuzzApp {
         $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
 
         Write-Host "Moving to $installFolder to install"
-        Write-Host "Installing $app..."
+        Write-Host "Running package installation for $app..."
         Set-Location $installFolder
-        Write-Host "Current directory is now $PWD"
         ./install.ps1 @params
-        Write-Host "Buzz $app installed."
+        Write-Host "Package installation completed for $app."
     }
     catch {
         throw $PSItem.Exception

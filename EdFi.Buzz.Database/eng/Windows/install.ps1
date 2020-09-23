@@ -68,10 +68,10 @@ function Install-Database {
     try {
         Push-Location -Path $distFolder
         Write-Host "Executing: npm install --production" -ForegroundColor Magenta
-        &npm install --production
+        &npm install --production --silent
 
         Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
-        $output = &npm run init-db $DbName 2>&1
+        $output = &npm run --silent init-db $DbName 2>&1
     }
     catch {
         Write-Error $PSItem.Exception.StackTrace
