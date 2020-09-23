@@ -34,6 +34,35 @@ function Invoke-NuGetPack{
   &nuget.exe @parameters
 }
 
+function Invoke-PrepForDistribution {
+  # The normal `nest build` output does not include the node modules required
+  # for distribution. Convert yarn.lock to package-lock.json and copy into the
+  # dist directory.
+  Push-Location "$PSScriptRoot/../"
+  Write-Host "Executing: yarn synp -s ./yarn.lock" -ForegroundColor Magenta
+  &yarn synp -s ./yarn.lock
+
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "Lock file conversion failed."
+    Pop-Location
+    Exit
+  }
+
+  Move-Item -Path "package-lock.json" -Destination "./build" -Force
+
+  # Also need a copy of package.json
+  Copy-Item -Path "package.json" -Destination "./build" -Force
+
+  Pop-Location
+}
+
+if (-not (Test-Path "$PSScriptRoot/../build")) {
+  Write-Error "Run `yarn build` before calling this script"
+  Exit
+}
+
+Invoke-PrepForDistribution
+
 $version = Read-VersionNumberFromPackageJson
 Invoke-NuGetPack -FullVersion "$version-pre$($BuildCounter.PadLeft(4,'0'))"
 Invoke-NuGetPack -FullVersion $version
