@@ -33,12 +33,11 @@ param (
     [string] $configPath = "./configuration.json"
 )
 
-$currDir = $PWD
 
-Import-Module "$currDir/Database/Configuration.psm1" -Force
-Import-Module "$currDir/configHelper.psm1" -Force
-Import-Module "$currDir/init.psm1" -Force
-Import-Module "$currDir/Application/appinstalls.psm1" -Force
+Import-Module "$PSScriptRoot/Database/Configuration.psm1" -Force
+Import-Module "$PSScriptRoot/configHelper.psm1" -Force
+Import-Module "$PSScriptRoot/init.psm1" -Force
+Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
