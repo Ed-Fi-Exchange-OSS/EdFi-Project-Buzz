@@ -6,65 +6,6 @@
 #Requires -version 5
 #Requires -RunAsAdministrator
 
-function Uninstall-Services {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $app
-    )
-
-    if ($app -eq "Database") {
-        Write-Debug "Uninstall-Services skipping database service uninstall"
-        return;
-    }
-
-    try {
-
-        $serviceName = "EdFi-Buzz-$app"
-
-        if (Get-Service -Name $serviceName -ErrorAction Ignore) {
-            Write-Host "Removing Buzz server $serviceName"
-            Stop-Service -Name $serviceName
-            Remove-Service -Name $serviceName
-        }
-    }
-    catch {
-        Write-Error $PSItem.Exception.Message
-        throw
-    }
-}
-
-function Uninstall-Asset {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $app,
-        [Parameter(Mandatory = $true)]
-        [string] $appPath
-    )
-
-    try {
-
-        if (-not (Test-Path $appPath)) {
-            Write-Host "$app has not been installed yet."
-            return;
-        }
-
-        Write-Host "Uninstalling prior installation of $app"
-
-        if ($app -ne "Database") {
-            Uninstall-Services -app $app
-        }
-
-        if (Test-Path $appPath) {
-            Write-Host "Removing app folder at $appPath"
-            Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction Ignore
-        }
-    }
-    catch {
-        Write-Error $PSItem.Exception.Message
-        throw
-    }
-}
-
 function Install-BuzzApp {
     [CmdletBinding()]
     param (
@@ -94,7 +35,7 @@ function Install-BuzzApp {
         }
 
         if ($params.InstallPath) {
-            Uninstall-Asset -app $app -appPath $params.InstallPath
+            Uninstall-BuzzApp -app $app -appPath $params.InstallPath
             if (-not (Test-Path $params.InstallPath)) {
                 New-Item -Path $params.InstallPath -ItemType Directory
             }
@@ -135,7 +76,7 @@ function Install-ApiApp {
     )
 
     $params = @{
-        "InstallPath" = "C:\inetpub\Ed-Fi\Buzz\UI";
+        "InstallPath" = "C:\inetpub\Ed-Fi\Buzz\API";
         "DbServer"   = $configuration.postgresDatabase.Host;
         "DbPort"     = $configuration.postgresDatabase.Port;
         "DbUserName" = $configuration.postgresDatabase.UserName;
@@ -225,8 +166,7 @@ $functions = @(
     "Install-ApiApp",
     "Install-DatabaseApp",
     "Install-EtlApp",
-    "Install-UiApp",
-    "Uninstall-Asset"
+    "Install-UiApp"
 )
 
 Export-ModuleMember $functions

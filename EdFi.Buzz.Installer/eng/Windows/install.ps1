@@ -18,12 +18,12 @@ this build script. Requires administrator privileges.
 
 .PARAMETER configPath
 Full path to a JSON document containing configuration settings
-for Buzz. Defaults to .\configuration in the same directory.
+for Buzz. Defaults to .\configuration.json in the same directory.
 
 .EXAMPLE
 .\install.ps1
 .EXAMPLE
-.\install.ps1 -configPath ./configuration
+.\install.ps1 -configPath c:/different/location/for/configuration.json
 #>
 
 #Requires -Version 5

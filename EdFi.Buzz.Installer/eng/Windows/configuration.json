@@ -1,5 +1,5 @@
 {
-    "installPath": "C:/EdFi/Buzz",
+    "installPath": "C:/Ed-Fi/Buzz",
     "artifactRepo": "C:/nugetRepo",
     "installDatabase": true,
     "installEtl": true,
