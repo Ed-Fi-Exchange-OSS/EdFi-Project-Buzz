@@ -8,7 +8,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useHistory, Redirect } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import EnvironmentService from 'Services/EnvironmentService';
 import configureDI from 'DIContext';
@@ -22,7 +22,7 @@ import { StudentDetail } from 'Feature/StudentDetail';
 import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
 import { UploadSurvey } from 'Feature/UploadSurvey';
 import { AdminSurvey } from 'Feature/AdminSurvey';
-import styled from 'styled-components';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import GlobalFonts from 'globalstyle';
@@ -78,16 +78,16 @@ export default function App(): JSX.Element {
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Content>
-          <Switch>
-            <Route exact path="/"> <StudentRoster api={api} /> </Route>
-            <Route path="/studentDetail/:studentKey"> <StudentDetail api={api} /> </Route>
-            <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
-            <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
-            <Route path="/uploadSurvey" > <UploadSurvey api={api}/> </Route>
-            {isAdminSurveyLoader
-              ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
-              : <Route><div>Need survey admin rights</div></Route>}
-          </Switch>
+            <Switch>
+              <Route exact path="/"> <StudentRoster api={api} /> </Route>
+              <Route path="/studentDetail/:studentKey"> <StudentDetail api={api} /> </Route>
+              <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
+              <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
+              <Route path="/uploadSurvey" > <UploadSurvey api={api}/> </Route>
+              {isAdminSurveyLoader
+                ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
+                : <Route><div>Need survey admin rights</div></Route>}
+            </Switch>
           </Content>
           <Footer height={FOOTER_HEIGHT}/>
         </div>
