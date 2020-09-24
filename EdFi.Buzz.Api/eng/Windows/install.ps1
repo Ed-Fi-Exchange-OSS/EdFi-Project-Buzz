@@ -9,7 +9,7 @@
 [CmdletBinding()]
 param(
   [string]
-  $InstallPath = "c:\Ed-Fi\Buzz\API",
+  $InstallPath = "C:\inetpub\Ed-Fi\Buzz\API",
 
   [string]
   $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",

@@ -105,17 +105,6 @@ function Install-BuzzApp {
 
         $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
 
-        # if ($version -eq "latest") {
-        #     & $nuget "install" $packageName -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
-        # }
-        # else {
-        #     & $nuget "install" $packageName -Version $version -Source $configuration.artifactRepo -OutputDirectory "$packagesPath" -Verbosity detailed
-        # }
-
-        # $matchingFolders = (gci -Path $packagesPath | ? { $_.Name -like "$packageName*" }) | Select-Object -Property FullName
-
-        # $installFolder = Join-Path $matchingFolders[0].FullName "Windows"
-
         Import-Module "$PSScriptRoot\..\nuget-helper.psm1"
 
         $installFolder = Install-EdFiPackage -packageName $packageName -version $version -toolsPath $toolsPath -downloadPath $packagesPath -packageSource $configuration.artifactRepo
@@ -146,7 +135,7 @@ function Install-ApiApp {
     )
 
     $params = @{
-        "InstallPath" = Join-Path $configuration.InstallPath "Api";
+        "InstallPath" = "C:\inetpub\Ed-Fi\Buzz\UI";
         "DbServer"   = $configuration.postgresDatabase.Host;
         "DbPort"     = $configuration.postgresDatabase.Port;
         "DbUserName" = $configuration.postgresDatabase.UserName;
@@ -192,7 +181,7 @@ function Install-UiApp {
     )
 
     $params = @{
-        "InstallPath" = Join-Path $configuration.InstallPath "Ui";
+        "InstallPath" = "C:\inetpub\Ed-Fi\Buzz\UI";
         "port"            = $configuration.ui.port;
         "graphQlEndpoint" = $configuration.api.url;
         "googleClientId"  = $configuration.googleClientId;

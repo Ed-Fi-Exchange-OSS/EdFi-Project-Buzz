@@ -9,7 +9,7 @@
 [CmdletBinding()]
 param(
   [string]
-  $InstallPath = "c:\Ed-Fi\Buzz\UI",
+  $InstallPath = "C:\inetpub\Ed-Fi\Buzz\UI",
 
   [string]
   $NginxUrl = "http://nginx.org/download/nginx-1.19.0.zip",
