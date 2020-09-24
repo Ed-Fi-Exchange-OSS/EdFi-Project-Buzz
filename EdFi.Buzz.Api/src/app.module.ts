@@ -38,7 +38,7 @@ config({ path: `${__dirname}/.env` });
     GraphQLModule.forRoot({
       typePaths: [`${__dirname}/**/*.graphql`],
       playground: true,
-      context: ({ req }) => ({ headers: req.headers }),
+      context: ({ request }) => ({ headers: request.raw.headers }),
     }),
     SectionModule,
     StaffModule,
@@ -55,4 +55,4 @@ config({ path: `${__dirname}/.env` });
   controllers: [AppController],
   providers: [AppService],
 })
-export default class AppModule {}
+export default class AppModule { }
