@@ -75,14 +75,16 @@ export const StudentRoster: FunctionComponent<StudentRosterComponentProps> = (pr
   if (!sectionList || sectionList.length === 0) {
     props.api.section.getByTeacherId().then((sectionsValue) => {
       setSections(sectionsValue);
-      onSearchHandle(sectionsValue[0].sectionkey, null);
+      if(sectionsValue.length>0){
+        onSearchHandle(sectionsValue[0].sectionkey, null);
+      }
     });
   }
 
   return (
     <MainContainer role='main' className='container'>
       <HeadlineContainer>
-        <TitleSpanContainer>Your students</TitleSpanContainer>
+        <TitleSpanContainer>Your students </TitleSpanContainer>
         <TotalRecordsContainer>Total {studentList.length}</TotalRecordsContainer>
       </HeadlineContainer>
       <SearchInSections sectionList={sectionList} onSearch={onSearchHandle} defaultValue={selectedSectionKey} />
