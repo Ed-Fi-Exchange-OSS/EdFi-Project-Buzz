@@ -1236,7 +1236,7 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-0.1.0.tgz#248435b4af4305bf6d1214d228c84926be56125a"
   integrity sha512-FfQsZK5K1OvvGqjPHCJtrNTLlKLg7bLuphtCRTFb5K2P98JTfslauMbT7bS8huOoK/86HMNmNoHR/EVLAd4FzA==
 
-"@nestjs/platform-fastify@^7.1.3":
+"@nestjs/platform-fastify@^7.4.4":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-7.4.4.tgz#b5b24576d17a04c9845890f21d9827161e9dd7e0"
   integrity sha512-R350qpat4aQY1KV27yWWgMa0UZV/5vsPlp/LoNERZjKYjTkhDCbsVhfFxmTJhXRpEbU69P+XW/EDlLa7kiQj0Q==
