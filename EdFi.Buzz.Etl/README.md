@@ -38,10 +38,11 @@ This ETL contains an executor to load the preferred contact method and the best 
 These 2 fields don't exist in ODS, and that is why we need this service.
 
 In order to execute this service you need to provide it with a csv file with the following format:
-
+```sh
 ContactPersonKey,PreferredContactMethod,BestTimeToContact
 Some_ContactPersonKey,Some_PreferredContactMethod,SomeBestTimeToContact
 ...
+```
 
 It's important to mention that Some_ContactPersonKey should represent a real Contact Person Key in the database.
 
