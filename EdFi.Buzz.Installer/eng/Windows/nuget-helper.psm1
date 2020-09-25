@@ -8,7 +8,7 @@ function Install-EdFiPackage {
         $packageName,
         $version,
         $toolsPath = "C:\temp\tools",
-        $downloadPath = "C:\temp\downloads",
+        $downloadPath = "C:\temp\packages",
         $packageSource = 'https://www.myget.org/F/ed-fi/'
     )
 

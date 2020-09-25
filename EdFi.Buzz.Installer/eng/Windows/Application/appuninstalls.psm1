@@ -23,13 +23,13 @@ function Uninstall-BuzzAppService {
 
         if (Get-Service -Name $serviceName -ErrorAction Ignore) {
             Write-Host "Removing Buzz server $serviceName"
-            Stop-Service -Name $serviceName
-            Remove-Service -Name $serviceName
+            &sc.exe stop $ServiceName
+            &sc.exe delete $ServiceName
         }
     }
     catch {
         Write-Error $PSItem.Exception.Message
-        throw
+        Write-Host "Continuing on...."
     }
 }
 

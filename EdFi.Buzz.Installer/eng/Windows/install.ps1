@@ -33,8 +33,6 @@ param (
     [string] $configPath = "./configuration.json"
 )
 
-
-Import-Module "$PSScriptRoot/Database/Configuration.psm1" -Force
 Import-Module "$PSScriptRoot/configHelper.psm1" -Force
 Import-Module "$PSScriptRoot/init.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
@@ -52,8 +50,8 @@ if (-not $conf.anyApplicationsToInstall) {
 $installPath = $conf.installPath
 $artifactRepo = $conf.artifactRepo
 
-$packagesPath = "C:\temp\packages"
-$toolsPath = "C:\temp\tools"
+$packagesPath = $conf.packagesPath
+$toolsPath = $conf.toolsPath
 
 if (-not $(Test-Path $packagesPath)) {
     mkdir $packagesPath | Out-Null
@@ -65,7 +63,7 @@ if (-not $(Test-Path $toolsPath)) {
 
 try {
     # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-    Initialize-Installer -toolsPath $toolsPath -configuration $script:conf  -bypassCheck $true
+    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath -configuration $script:conf
 
     $params = @{
         "configuration" = $script:conf;
@@ -80,7 +78,7 @@ try {
 catch {
     Write-Error $PSItem.Exception.Message
     Write-Error $PSItem.Exception.StackTrace
-    throw;
+    exit -1;
 }
 
 # TODO Verify all services are running

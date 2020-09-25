@@ -6,8 +6,6 @@
 #Requires -version 5
 #Requires -RunAsAdministrator
 
-Import-Module -Force "$PSScriptRoot/appuninstalls.psm1"
-
 function Install-BuzzApp {
     [CmdletBinding()]
     param (
@@ -26,15 +24,8 @@ function Install-BuzzApp {
     )
 
     try {
-
-        $here = $PWD
-
-        if (-not $skipFlag) {
-            Write-Host "Skipping Buzz $app installation"
-            return;
-        }
-
         if ($params.InstallPath) {
+            Import-Module -Force "$PSScriptRoot/appuninstalls.psm1"
             Uninstall-BuzzApp -app $app -appPath $params.InstallPath
             if (-not (Test-Path $params.InstallPath)) {
                 New-Item -Path $params.InstallPath -ItemType Directory
@@ -46,13 +37,20 @@ function Install-BuzzApp {
 
         $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
 
-        Import-Module "$PSScriptRoot\..\nuget-helper.psm1"
+        $installparams = @{
+            packageName = $packageName
+            packageVersion = $version
+            toolsPath = $configuration.toolsPath
+            outputDirectory = $packagesPath
+            packageSource = $configuration.artifactRepo
+        }
 
-        $installFolder = Install-EdFiPackage -packageName $packageName -version $version -toolsPath $toolsPath -downloadPath $packagesPath -packageSource $configuration.artifactRepo
+        Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
+        $installFolder = Get-NuGetPackage @installparams
 
         Write-Host "Moving to $installFolder to install"
         Write-Host "Running package installation for $app..."
-        Set-Location (Join-Path $installFolder "Windows")
+        Push-Location (Join-Path $installFolder "Windows")
         ./install.ps1 @params
         Write-Host "Package installation completed for $app."
     }
@@ -60,7 +58,7 @@ function Install-BuzzApp {
         throw $PSItem.Exception
     }
     finally {
-        Set-Location $here
+        Pop-Location
     }
 }
 
@@ -73,8 +71,13 @@ function Install-ApiApp {
         [string] $packagesPath
     )
 
+    if (-not $configuration.installApi) {
+        Write-Host "Skipping Buzz API installation"
+        return;
+    }
+
     $params = @{
-        "InstallPath" = "C:\inetpub\Ed-Fi\Buzz\API";
+        "InstallPath" = "$installPath\API";
         "DbServer"   = $configuration.postgresDatabase.Host;
         "DbPort"     = $configuration.postgresDatabase.Port;
         "DbUserName" = $configuration.postgresDatabase.UserName;
@@ -83,7 +86,26 @@ function Install-ApiApp {
         "HttpPort"   = $configuration.api.Port;
     }
 
-    Install-BuzzApp -skipFlag $configuration.installApi -app "Api" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.api.version
+    $buzzAppParams = @{
+        skipFlag = $configuration.installApi
+        app = "API"
+        configuration = $configuration
+        packagesPath = $packagesPath
+        params = $params
+        version = $configuration.api.version
+    }
+
+    Install-BuzzApp @buzzAppParams
+
+    $iisParams = @{
+        SourceLocation = "$($configuration.installPath)\API"
+        WebApplicationPath = "$($configuration.installPath)\API"
+        WebApplicationName = "BuzzAPI"
+        WebSitePort = $configuration.ui.port
+        WebSiteName = "Ed-Fi-Buzz-API"
+    }
+
+    Install-EdFiApplicationIntoIIS @iisParams
 }
 
 function Install-DatabaseApp {
@@ -94,6 +116,11 @@ function Install-DatabaseApp {
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
+
+    if (-not $configuration.installDatabase) {
+        Write-Host "Skipping Buzz Database installation"
+        return;
+    }
 
     $params = @{
         "DbServer"   = $configuration.postgresDatabase.host;
@@ -115,8 +142,13 @@ function Install-UiApp {
         [string] $packagesPath
     )
 
+    if (-not $configuration.installUi) {
+        Write-Host "Skipping Buzz UI installation"
+        return;
+    }
+
     $params = @{
-        "InstallPath" = "C:\inetpub\Ed-Fi\Buzz\UI";
+        "InstallPath" = "$($configuration.installPath)\UI";
         "port"            = $configuration.ui.port;
         "graphQlEndpoint" = $configuration.api.url;
         "googleClientId"  = $configuration.googleClientId;
@@ -124,7 +156,26 @@ function Install-UiApp {
         "adfsTenantId"    = $configuration.adfsTenantId;
     }
 
-    Install-BuzzApp -skipFlag $configuration.installUi -app "UI" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.ui.version
+    $buzzAppParams = @{
+        skipFlag = $configuration.installUi
+        app = "UI"
+        configuration = $configuration
+        packagesPath = $packagesPath
+        params = $params
+        version = $configuration.ui.version
+    }
+
+    Install-BuzzApp @buzzAppParams
+
+    $iisParams = @{
+        SourceLocation = "$($configuration.installPath)\UI"
+        WebApplicationPath = "$($configuration.installPath)\UI"
+        WebApplicationName = "BuzzUI"
+        WebSitePort = $configuration.ui.port
+        WebSiteName = "Ed-Fi-Buzz"
+    }
+
+    Install-EdFiApplicationIntoIIS @iisParams
 }
 
 function Install-EtlApp {
@@ -135,6 +186,11 @@ function Install-EtlApp {
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
+
+    if (-not $configuration.installEtl) {
+        Write-Host "Skipping Buzz ETL installation"
+        return;
+    }
 
     $params = @{
         "InstallPath" = Join-Path $configuration.InstallPath "Etl";

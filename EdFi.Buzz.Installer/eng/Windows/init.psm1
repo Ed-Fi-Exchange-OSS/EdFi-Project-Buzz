@@ -7,20 +7,26 @@ Import-Module "$PSScriptRoot\nuget-helper.psm1"
 
 $root = $PSScriptRoot
 
-$AppCommonVersion = "1.0.1"
+$AppCommonVersion = "1.0.3"
 
 function Install-AppCommon {
     Param(
         [Parameter(Mandatory = $true)]
         [string] $toolsPath,
         [Parameter(Mandatory = $true)]
+        [string] $packageSource,
+        [Parameter(Mandatory = $true)]
         [string] $downloadPath,
         [Parameter(Mandatory = $true)]
         [string] $version
     )
-    $packageName = "EdFi.Installer.AppCommon"
 
-    $installerPath = Install-EdFiPackage $packageName $version $toolsPath $downloadPath
+    $packageName = "EdFi.Installer.AppCommon"
+    $installerPath = Join-Path $packagesPath "$packageName.$version"
+
+    if (-not (Test-Path $installerPath)) {
+        $installerPath = Install-EdFiPackage -packageName $packageName -version $version -packageSource $packageSource -downloadPath $downloadPath
+    }
 
     $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation"
     Import-Module -Force -Scope Global "$installerPath/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
@@ -60,25 +66,6 @@ function Install-NugetCli {
         }
     }
 }
-
-function Ensure-WindowsServer2016 {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [System.Boolean] $bypass
-    )
-
-    if ($bypass) {
-        return
-    }
-
-    $major = [Environment]::OSVersion.Version.Major
-    $osProductType = (Get-ComputerInfo).OsProductType
-
-    if ($osProductType -ne "Server" -or $major -lt 10) {
-        throw "Please install on Windows Server minimum version 2016."
-    }
-}
-
 function Ensure-NodeJs {
 
     if (Get-Command node -errorAction SilentlyContinue) {
@@ -93,40 +80,6 @@ function Ensure-NodeJs {
     throw "[NODE] nodejs was not installed"
 }
 
-function Ensure-PostgreSQL {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [hashtable] $conf
-    )
-
-    # Test the connection strings for SQL Server
-    $sqlServer = @{
-        Engine                = "SqlServer"
-        Server                = $conf.sqlServerDatabase.host
-        Port                  = $conf.sqlServerDatabase.port
-        UseIntegratedSecurity = $false # TODO SUPPORT INTEGRATED SECURITY IN ETL
-        Username              = $conf.sqlServerDatabase.username
-        Password              = $conf.sqlServerDatabase.password
-        DatabaseName          = $conf.sqlServerDatabase.database
-    }
-
-    Assert-DatabaseConnectionInfo $sqlServer -RequireDatabaseName
-
-    # Test the connection strings for PostgreSQL
-    $postgres = @{
-        Engine                = "PostgreSQL"
-        Server                = $conf.postgresDatabase.host
-        Port                  = $conf.postgresDatabase.port
-        UseIntegratedSecurity = $false
-        Username              = $conf.postgresDatabase.username
-        Password              = $conf.postgresDatabase.password
-        DatabaseName          = $conf.postgresDatabase.database
-    }
-
-    Assert-DatabaseConnectionInfo $postgres -RequireDatabaseName
-}
-
 <#
  Initializes the installing machine
  Ensures we have NuGet Package Provider
@@ -137,21 +90,13 @@ function Initialize-Installer {
         [Parameter(Mandatory = $true)]
         [string] $toolsPath,
         [Parameter(Mandatory = $true)]
-        [Hashtable] $configuration,
-        [Parameter(Mandatory = $false)]
-        [System.Boolean]  $bypassCheck = $false
+        [string] $packagesPath,
+        [Parameter(Mandatory = $true)]
+        [Hashtable] $configuration
     )
-
-    Ensure-WindowsServer2016 -bypass $bypassCheck
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
-    Install-NugetCli $toolsPath
-
+    Install-NugetCli -toolsPath  $toolsPath
+    Install-AppCommon -toolsPath $toolsPath -packageSource $configuration.artifactRepo -downloadPath $packagesPath -version $script:AppCommonVersion
     Ensure-NodeJs
-
-    Test-SqlServerConnection -configuration $configuration
-
-    # TODO ENSURE POSTGRESQL IS INSTALLED
-    Ensure-PostgreSQL -conf $configuration
 }
 
 Export-ModuleMember Initialize-Installer

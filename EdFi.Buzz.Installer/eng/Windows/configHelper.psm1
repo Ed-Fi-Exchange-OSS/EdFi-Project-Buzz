@@ -32,6 +32,8 @@ function Format-BuzzConfigurationFileToHashTable {
 
     $formattedConfig = @{
         installPath = $configJson.installPath
+        toolsPath = $configJson.toolsPath
+        packagesPath = $configJson.packagesPath
         artifactRepo = $configJson.artifactRepo
         installDatabase = $configJson.installDatabase
         installEtl = $configJson.installEtl
