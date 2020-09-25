@@ -6,8 +6,9 @@
  */
 
 import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Icon } from '@iconify/react';
+import styled from 'styled-components';
 import mdLock from '@iconify-icons/ion/md-lock';
 
 import Logo from 'assets/Owl-Logo-GrandBend.png';
@@ -28,7 +29,19 @@ export interface LoginComponentProps {
 
 export const Login: FunctionComponent<LoginComponentProps> = (props: LoginComponentProps) => {
   document.title = 'EdFi Buzz: Login';
+  const [isUnregisteredUser, setIsUnregisteredUser]=useState(false);
 
+  const UnregistredUser = styled.div`
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    border-radius: 15px;
+    border: 3px solid #ffeeba;
+    max-width:350px;
+    width:100%;
+    display: flex;
+    justify-content: center;
+  `;
   async function onUserAuthState(user: User) {
     const returnUrl = props.returnUrl || '/';
 
@@ -40,6 +53,9 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     const isUserValid = await props.api.authentication.validateSocialUser(user.email, user.token, user.tokenProvider);
     if (isUserValid) {
       props.navigate(returnUrl);
+    } else{
+      sessionStorage.removeItem('validatingToken');
+      setIsUnregisteredUser(true);
     }
   }
 
@@ -51,6 +67,10 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
       teacher: null
     };
     onUserAuthState(_user);
+  };
+  const backToLogin=() => {
+    setIsUnregisteredUser(false);
+    props.api.authentication.logout();
   };
 
   const handleSocialLoginFailure = () => {
@@ -65,11 +85,20 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
             <div className='card-body'>
               <div className='text-center'>
                 <img src={Logo} style={{ 'width': '100%', 'maxWidth': '350px' }} alt="District Logo" />
-
               </div>
               <h1 className=' text-center m-t-25'>Buzz</h1>
+              {isUnregisteredUser && <div className='text-center m-t-20'>
+                <UnregistredUser>
+                  <span>
+                    <p>The email address you&apos;ve entered does not exist in Buzz.</p>
+                    <p>Enter a different account or contact support.</p>
+                  </span>
+                </UnregistredUser>
+                <button className='btn btn-primary' onClick={backToLogin}>Back to Login</button>
+              </div>
+              }
               {/* Boolean(0), Boolean(null), Boolean(undefined) returns false  */
-                (Boolean(props.googleClientId)) && <div className='text-center m-t-20'>
+                (!isUnregisteredUser && Boolean(props.googleClientId)) && <div className='text-center m-t-20'>
                   <SocialButton
                     className='btn btn-primary'
                     provider='google'
@@ -82,7 +111,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
                     Login with Google
                   </SocialButton>
                 </div>}
-              {(Boolean(props.adfsClientId)) && <div>
+              {(!isUnregisteredUser && Boolean(props.adfsClientId)) && <div>
                 <ADFSButton
                   className='btn btn-primary'
                   clientId={props.adfsClientId}
