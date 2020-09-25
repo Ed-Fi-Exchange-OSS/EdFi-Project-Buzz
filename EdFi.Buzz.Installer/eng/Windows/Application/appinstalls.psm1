@@ -6,6 +6,8 @@
 #Requires -version 5
 #Requires -RunAsAdministrator
 
+Import-Module -Force "$PSScriptRoot/appuninstalls.psm1"
+
 function Install-BuzzApp {
     [CmdletBinding()]
     param (
@@ -19,8 +21,6 @@ function Install-BuzzApp {
         [string] $packagesPath,
         [Parameter(Mandatory = $true)]
         [Hashtable] $params,
-        [Parameter(Mandatory = $true)]
-        [string] $nuget,
         [Parameter(Mandatory = $true)]
         [string] $version
     )
@@ -70,8 +70,6 @@ function Install-ApiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $nuget,
-        [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
 
@@ -85,7 +83,7 @@ function Install-ApiApp {
         "HttpPort"   = $configuration.api.Port;
     }
 
-    Install-BuzzApp -skipFlag $configuration.installApi -app "Api" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.api.version
+    Install-BuzzApp -skipFlag $configuration.installApi -app "Api" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.api.version
 }
 
 function Install-DatabaseApp {
@@ -93,8 +91,6 @@ function Install-DatabaseApp {
     param (
         [Parameter(Mandatory = $true)]
         [Hashtable]$configuration,
-        [Parameter(Mandatory = $true)]
-        [string] $nuget,
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
@@ -107,7 +103,7 @@ function Install-DatabaseApp {
         "DbName"     = $configuration.postgresDatabase.database
     }
 
-    Install-BuzzApp -skipFlag $configuration.installDatabase -app "Database" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.database.version
+    Install-BuzzApp -skipFlag $configuration.installDatabase -app "Database" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.database.version
 }
 
 function Install-UiApp {
@@ -115,8 +111,6 @@ function Install-UiApp {
     param (
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
-        [Parameter(Mandatory = $true)]
-        [string] $nuget,
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
@@ -130,7 +124,7 @@ function Install-UiApp {
         "adfsTenantId"    = $configuration.adfsTenantId;
     }
 
-    Install-BuzzApp -skipFlag $configuration.installUi -app "UI" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.ui.version
+    Install-BuzzApp -skipFlag $configuration.installUi -app "UI" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.ui.version
 }
 
 function Install-EtlApp {
@@ -138,8 +132,6 @@ function Install-EtlApp {
     param (
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
-        [Parameter(Mandatory = $true)]
-        [string] $nuget,
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
@@ -158,7 +150,7 @@ function Install-EtlApp {
         "SqlServerDbName"   = $configuration.sqlServerDatabase.database;
     }
 
-    Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -nuget $nuget -version $configuration.etl.version
+    Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.etl.version
 }
 
 $functions = @(

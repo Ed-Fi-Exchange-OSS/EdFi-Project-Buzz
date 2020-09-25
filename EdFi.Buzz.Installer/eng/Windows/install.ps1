@@ -63,30 +63,19 @@ if (-not $(Test-Path $toolsPath)) {
     mkdir $toolsPath | Out-Null
 }
 
-function TestCommand ($path) {
-    return $(Get-Command $path -ErrorAction SilentlyContinue )
-}
-
-$nuget = "nuget.exe"
-if (-not $(TestCommand $nuget)) {
-    $nuget = "$toolsPath/nuget.exe"
-
-    if (-not $(TestCommand $nuget)) {
-        $sourceNugetExe = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
-
-        Write-Host "Downloading nuget.exe official distribution"
-        Invoke-WebRequest $sourceNugetExe -OutFile $nuget
-    }
-}
-
 try {
     # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
     Initialize-Installer -toolsPath $toolsPath -configuration $script:conf  -bypassCheck $true
 
-    Install-DatabaseApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
-    Install-ApiApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
-    Install-EtlApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
-    Install-UiApp -configuration $script:conf -nuget $nuget -packagesPath $script:packagesPath
+    $params = @{
+        "configuration" = $script:conf;
+        "packagesPath" = $script:packagesPath;
+    }
+
+    Install-DatabaseApp @params
+    Install-ApiApp @params
+    Install-EtlApp @params
+    Install-UiApp @params
 }
 catch {
     Write-Error $PSItem.Exception.Message
