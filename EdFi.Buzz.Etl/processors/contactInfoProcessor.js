@@ -15,12 +15,12 @@ const { pgConfig } = require('../config/dbs');
 
 async function getDB() {
   const connectionString = `postgres://${pgConfig.user}:${pgConfig.password}@${pgConfig.host}:${pgConfig.port}/${pgConfig.database}`;
-  
+
   const client = new Client({ connectionString });
   await client.connect().catch((e) => console.error(e));
   return client;
 }
-  
+
 async function Extract(fileName) {
   const data = [];
   return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ async function Extract(fileName) {
       });
   });
 }
-  
+
 async function getContacts(contactPersonKey, db) {
   const uniqContactPersonKeys = [...new Set(contactPersonKey)];
   const params = [];
@@ -47,7 +47,7 @@ async function getContacts(contactPersonKey, db) {
   }
 
   return db.query(`SELECT contactpersonkey,contactfirstname,contactlastname FROM buzz.contactperson WHERE contactpersonkey IN (${params.join(',')})`,
-  uniqContactPersonKeys)
+    uniqContactPersonKeys)
     .then((result) => result.rows)
     .catch((err) => {
       console.error(`ERROR: ${err} - ${err.detail}`);
@@ -73,7 +73,7 @@ async function saveContactInfo(contactToUpdate, db) {
         [
           currentContact.ContactPersonKey,
           currentContact.PreferredContactMethod,
-          currentContact.BestTimeToContact
+          currentContact.BestTimeToContact,
         ],
       )
         .then((result) => {
@@ -100,7 +100,7 @@ const process = async (filename) => {
     console.error('ERROR: No data found in the file.');
     return;
   }
-  else if (!data.data[0].ContactPersonKey) {
+  if (!data.data[0].ContactPersonKey) {
     console.error('ERROR: ContactPersonKey columns was not properly set in the file.');
     return;
   }
@@ -108,35 +108,34 @@ const process = async (filename) => {
   console.log(`   ...${data.data.length} contacts extracted from the file.`);
 
   console.log('\r\nGet contacts from database, based on data extracted from the file...');
-  const dbContacts = await getContacts(data.data.map((contact) => contact['ContactPersonKey']), db);
+  const dbContacts = await getContacts(data.data.map((contact) => contact.ContactPersonKey), db);
 
   console.log(`   ...${dbContacts.length} contacts found in the database.`);
 
   // Find the elements in the file that do not exist in the database.
-  const noFoundContacts = data.data.filter(contact => {
-    return !dbContacts.find(dbContact => dbContact.contactpersonkey === contact.ContactPersonKey);
-  });
+  /* eslint-disable-next-line max-len */
+  const noFoundContacts = data.data.filter((c) => !dbContacts.find((dbC) => dbC.contactpersonkey === c.ContactPersonKey));
 
   if (noFoundContacts && noFoundContacts.length > 0) {
     if (noFoundContacts.length === 1) {
       console.log('\r\nWARNING: One contact found in the file does not exist in the database. This contact is: ');
       console.log(`  ${noFoundContacts[0].ContactPersonKey}`);
-    }
-    else if (noFoundContacts.length > 1) {
+    } else if (noFoundContacts.length > 1) {
       console.log('\r\nWARNING: Some contacts found in the file do not exist in the database. These contacts are: ');
-      console.log(`  [${noFoundContacts.map(contact => contact.ContactPersonKey).join(',')}]`);
+      console.log(`  [${noFoundContacts.map((contact) => contact.ContactPersonKey).join(',')}]`);
     }
   }
 
-  let contactsToUpdate = [];
+  const contactsToUpdate = [];
 
-  data.data.forEach(contact => {
-    const contactToUpdate = dbContacts.find(dbContact => dbContact.contactpersonkey === contact.ContactPersonKey);
+  data.data.forEach((contact) => {
+    /* eslint-disable-next-line max-len */
+    const contactToUpdate = dbContacts.find((dbContact) => dbContact.contactpersonkey === contact.ContactPersonKey);
     if (contactToUpdate) {
       contactsToUpdate.push({
         ...contact,
         contactfirstname: contactToUpdate.contactfirstname,
-        contactlastname: contactToUpdate.contactlastname
+        contactlastname: contactToUpdate.contactlastname,
       });
     }
   });
@@ -149,8 +148,6 @@ const process = async (filename) => {
   } else {
     console.log('... Process finished successfully.\r\n');
   }
-
 };
-  
-  exports.process = process;
-  
+
+exports.process = process;
