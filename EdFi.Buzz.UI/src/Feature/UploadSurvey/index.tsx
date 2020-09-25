@@ -3,8 +3,6 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-/* eslint react-hooks/exhaustive-deps: "off"*/
-
 import * as React from 'react';
 import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import SurveyStatus from 'Models/SurveyStatus';
@@ -45,7 +43,6 @@ const StyledFileInputLabel = styled.label`
   border-width: 2px;
   color: var(--slate-gray);
   overflow: hidden;
-
   &::after {
     height: auto;
   }
@@ -59,25 +56,20 @@ const StyledTextParent = styled.div`
     justify-content: space-between;
     flex-direction: row;
   }
-
   @media (max-width: 768px) {
     display: block;
-
     & > .label {
       width: 100%
     }
   }
-
   margin: 0.5rem 0;
   overflow: hidden;
   border: ${(props) => props.theme.border};
   border-radius: 4px;
-
   :focus-within {
     outline: none !important;
     border-color: var(--denim) !important;
   }
-
   & > input {
     height: 100%;
     padding: 10px 10px;
@@ -86,30 +78,24 @@ const StyledTextParent = styled.div`
     box-sizing: border-box;
     min-width: 15rem;
     width: 100%;
-
     :focus {
       outline: none !important;
       outline-width: 0px;
     }
-
     ::placeholder,
     ::-webkit-input-placeholder {
       font-style: italic;
     }
-
     :-moz-placeholder {
       font-style: italic;
     }
-
     ::-moz-placeholder {
       font-style: italic;
     }
-
     :-ms-input-placeholder {
       font-style: italic;
     }
   }
-
   & > .label  {
     margin: 0;
     padding: 10px 10px;
@@ -119,7 +105,6 @@ const StyledTextParent = styled.div`
 
 
 const OutlineButton = styled.button`
-
 &.outline-button {
   width: 100%;
   justify-content: center;
@@ -133,7 +118,6 @@ const OutlineButton = styled.button`
   cursor: pointer;
   background-color: transparent;
 }
-
 &.outline-button:hover {
   color: white;
   background-color: var(--denim) !important;
@@ -258,8 +242,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
       Object1?.staffkey === Object2?.staffkey;
   }
 
-  const PrepareIfUpdatingSurvey = async () => {
-    console.log('PrepareIfUpdatingSurvey');
+  const PrepareIfUpdatingSurvey = React.useCallback(async () => {
     if (surveyKey && surveyKey.length > 0) {
       const userSurveyList = await (api.survey.getSurveyStatus(
         api.authentication.currentUserValue.teacher.staffkey, null));
@@ -270,14 +253,16 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
         }
       }
     }
-  };
+  }, [api.authentication.currentUserValue.teacher.staffkey, api.survey, surveyKey, surveyToUpdate]);
 
   useEffect(() => {
     PrepareIfUpdatingSurvey();
-  }, [surveyToUpdate]);
+  }, [surveyToUpdate, PrepareIfUpdatingSurvey]);
 
   useEffect(() => {
     loadLastUploadedSurvey();
+
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
   useEffect(() => {
@@ -530,4 +515,3 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   );
 
 };
-

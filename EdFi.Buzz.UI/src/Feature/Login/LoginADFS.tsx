@@ -5,9 +5,6 @@
  * See the LICENSE and NOTICES files in the project root for more information.
  */
 
-
-/* eslint @typescript-eslint/no-explicit-any: "off"*/
-
 import * as React from 'react';
 import { AuthenticationContext, AdalConfig } from 'react-adal';
 
@@ -39,6 +36,8 @@ export interface ADFSComponentProps {
   clientId: string;
   tenantId: string;
   className: string;
+
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   children: any;
   onLoggin?: (user: User) => void;
 }
@@ -49,6 +48,7 @@ export const ADFSButton: React.FunctionComponent<ADFSComponentProps> = (props: A
   const authContext = new AuthenticationContext(adalConfig);
   const token = authContext.getCachedToken(adalConfig.endpoints.api);
 
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   function tokenCallback(errorDesc: string | null, tokenId: string | null, error: any) {
     if (!tokenId) {
       return;

@@ -14,6 +14,8 @@ export default class StudentSurveySummaryAnswers {
 
   question?: string;
 
+  questions?: number;
+
   studentschoolkey?: string;
 
   studentname?: string;

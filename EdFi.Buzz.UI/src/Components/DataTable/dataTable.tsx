@@ -1,4 +1,8 @@
-/* eslint-disable */
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
+
 import * as React from 'react';
 
 import styled from 'styled-components';
@@ -155,7 +159,7 @@ export interface ColumnOption {
   linkColumnIndex?: number;
 }
 
-function isColumnOption(column: any): column is ColumnOption {
+function isColumnOption(column: string | ColumnOption): column is ColumnOption {
   return column && typeof column === 'object' && 'label' in column;
 }
 
@@ -176,12 +180,12 @@ function convertToSortOption(sortBy: number | SortOption, desc?: boolean): SortO
 
 export interface FilterOptions {
   columnIndex: number;
-  filter: any;
+  filter: string;
 }
 
 export interface DataTableComponentProps {
   columns: string[] | ColumnOption[];
-  dataSet: any[][];
+  dataSet: string[][];
   defaultSort?: number | SortOption;
   alwaysSortLastByColumn?: number | SortOption;
   linkBaseURL?: string;
@@ -202,8 +206,25 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
           throw new Error('Action is not one of toggle, reset');
       }
     },
-    { Descending: false },
+    { Descending: false }
   );
+
+  function compareColumns(a: string[], b: string[], sortOption: SortOption) {
+    if (!sortOption) {
+      return 0;
+    }
+    let compare: number;
+    if (sortOption && a[sortOption.columnIndex] > b[sortOption.columnIndex]) {
+      compare = 1;
+    } else if (sortOption && a[sortOption.columnIndex] < b[sortOption.columnIndex]) {
+      compare = -1;
+    } else {
+      compare = 0;
+    }
+    return (
+      compare  * (sortOption.desc ? -1 : 1)
+    );
+  }
 
   const sortedDataset = props.dataSet
     .filter((row) => {
@@ -214,7 +235,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
     })
     .sort((a, b) => {
       const sortByCol = convertToSortOption(sortByColIndex, sortDirection.Descending);
-      const currentSortBy = sortByCol ? sortByCol : convertToSortOption(props.defaultSort);
+      const currentSortBy = sortByCol || convertToSortOption(props.defaultSort);
 
       const firstColSort = compareColumns(a, b, currentSortBy);
       if (firstColSort !== 0) {
@@ -224,19 +245,6 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
       const alwaysSortLastByColumn = convertToSortOption(props.alwaysSortLastByColumn);
       return compareColumns(a, b, alwaysSortLastByColumn);
     });
-
-  function compareColumns(a: any[], b: any[], sortOption: SortOption) {
-    if (!sortOption) {
-      return 0;
-    }
-    return (
-      (sortOption && a[sortOption.columnIndex] > b[sortOption.columnIndex]
-        ? 1
-        : sortOption && a[sortOption.columnIndex] < b[sortOption.columnIndex]
-        ? -1
-        : 0) * (sortOption.desc ? -1 : 1)
-    );
-  }
 
   function sortByEventHandler(colIndex: number) {
     if (sortByColIndex !== colIndex) {
@@ -255,6 +263,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
     >
       <thead>
         <tr>
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {(props.columns as any).map((column, index) => {
             let label: string;
             if (typeof column === 'string') {

@@ -10,11 +10,8 @@ import { getSectionsByStaff } from './GraphQL/SectionQueries';
 import AuthenticationService from './AuthenticationService';
 
 export default class SectionApiService {
-  controllerName = 'section';
-
   sections: Section[];
 
-  /* eslint no-useless-constructor: "off"*/
   constructor(
     private authenticationService: AuthenticationService,
     private apolloClient: ApolloClient<InMemoryCache>

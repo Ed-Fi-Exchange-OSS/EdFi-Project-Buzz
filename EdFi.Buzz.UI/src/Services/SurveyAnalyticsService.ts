@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import Teacher from 'Models/Teacher';
+import { SurveyQuestionAnswer } from 'Models';
 import StudentApiService from './StudentService';
 import { getSurveySummaryBySectionKey, getSurveyQuestionsSummary } from './GraphQL/SurveyQueries';
 import AuthenticationService from './AuthenticationService';
@@ -14,7 +15,6 @@ import AllStudentAnswers from '../Models/AllStudentAnswers';
 
 export default class SurveyAnalyticsApiService{
 
-  /* eslint no-useless-constructor: "off"*/
   constructor(private studentService: StudentApiService,
     private authenticationService: AuthenticationService,
     private apolloClient: ApolloClient<InMemoryCache>) {
@@ -133,8 +133,8 @@ export default class SurveyAnalyticsApiService{
   }]
   */
   public getSurveyQuestionSummaryList = async(surveyKey: number, sectionKey: string): Promise<SurveyQuestionSummary[]> => {
-    // eslint-disable-next-line
-    const calculateTopAnswers = (answers: any[]) => {
+
+    const calculateTopAnswers = (answers: SurveyQuestionAnswer[]) => {
       const countAnswers = answers
         .reduce((aaccParam, acur) => {
           const aacc = aaccParam;
@@ -143,8 +143,7 @@ export default class SurveyAnalyticsApiService{
         }, {});
 
       return Object.keys(countAnswers)
-      // eslint-disable-next-line
-        .map((cur, idx, arr) => ({
+        .map((cur) => ({
           label: cur,
           count: countAnswers[cur]
         }));
@@ -165,8 +164,7 @@ export default class SurveyAnalyticsApiService{
     }
     const surveysummary = data.surveysummary[0];
     const questions = surveysummary.questions
-    // eslint-disable-next-line
-      .map((qcur, qidx, qarr) => ({
+      .map((qcur) => ({
         surveykey: data.surveysummary[0].surveykey,
         surveyquestionkey: qcur.surveyquestionkey,
         question: qcur.question,

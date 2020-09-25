@@ -1,10 +1,6 @@
-/* eslint-disable */
-
 import * as React from 'react';
 import { ChartComponentProps, HorizontalBar } from 'react-chartjs-2';
-import { Easing } from 'chart.js';
 import SurveyQuestionSummary from 'Models/SurveyQuestionSummary';
-
 
 export interface SurveyChartComponentProps {
   question: SurveyQuestionSummary;
@@ -23,7 +19,7 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
 
   const chartData: ChartComponentProps = {
     height: 30 + question.answers.length * 40,
-    data: (canvas) => {
+    data: () => {
       const bgs = typeof props.color === 'string' ? props.color
         : question.answers.map((_, idx) => {
           if (selectedAnswer && question.answers[idx].label === selectedAnswer) {
@@ -33,16 +29,23 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
         });
 
       const labelsSort = -1;
+
+      const dataSorting = question.answers
+        .sort((a, b) => {
+          if (a.count > b.count) {
+            return labelsSort;
+          }
+          if (a.count < b.count) {
+            return -labelsSort;
+          }
+          return 0;
+        });
+
       return {
         labels: question.answers.map(a => a.label),
         datasets: [
           {
-            data: question.answers
-              .sort((a, b) => a.count > b.count
-                ? labelsSort
-                : a.count < b.count
-                  ? -labelsSort : 0)
-              .map(a => a.count),
+            data: dataSorting.map(a => a.count),
             label: question.question,
             barPercentage: 0.5,
             backgroundColor: bgs,
@@ -82,7 +85,7 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
     legend: { display: false },
     plugins: [
       {
-        afterDatasetDraw (chartInstance/* : Chart*/, easing: Easing, options?: any) {
+        afterDatasetDraw (chartInstance) {
           const {ctx} = chartInstance;
 
           const height = chartInstance.chartArea.bottom;
@@ -106,7 +109,7 @@ export const SurveyChart: React.FunctionComponent<SurveyChartComponentProps> = (
 
           const totalData = chartInstance.data.datasets[0].data.reduce((a, b) => a + b, 0);
           const selectedLegend = chartInstance.options.plugins.legendOnBar.selectdBarLegend();
-          for (let i = 0; i < chartInstance.data.labels.length; i++) {
+          for (let i = 0; i < chartInstance.data.labels.length; i += 1) {
             ctx.font = chartInstance.data.labels[i] === selectedLegend ? fontSelected : fontNormal;
             const textY = (i * stepH) + fontSize;
             const textLabel = chartInstance.data.labels[i] as string;

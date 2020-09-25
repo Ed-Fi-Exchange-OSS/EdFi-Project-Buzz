@@ -5,12 +5,11 @@
  * See the LICENSE and NOTICES files in the project root for more information.
  */
 
-/* eslint @typescript-eslint/no-explicit-any: "off"*/
-
 import * as React from 'react';
 import SocialLogin from 'react-social-login';
 import Button from 'react-bootstrap/Button';
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 class SocialButton extends React.Component<any> {
 
   render() {

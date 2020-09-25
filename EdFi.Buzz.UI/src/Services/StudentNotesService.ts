@@ -8,7 +8,6 @@ import { StudentNote } from '../Models';
 
 export default class StudentNotesApiService {
 
-  /* eslint no-useless-constructor: "off"*/
   constructor(private apolloClient: ApolloClient<InMemoryCache>) { }
 
   public addStudentNote = (staffKey: number, studentSchoolKey: string, note: string): Promise<StudentNote> => {

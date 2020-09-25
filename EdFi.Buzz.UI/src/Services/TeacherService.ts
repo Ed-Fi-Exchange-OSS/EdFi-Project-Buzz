@@ -8,9 +8,6 @@ import Teacher from 'Models/Teacher';
 import { getStaffNameById, getStaffByEMail } from './GraphQL/StaffQueries';
 
 export default class TeacherApiService {
-  controllerName = 'teacher';
-
-  /* eslint no-useless-constructor: "off"*/
   constructor(private apolloClient: ApolloClient<InMemoryCache>) {  }
 
   getTeacher = async(): Promise<Teacher> => {
