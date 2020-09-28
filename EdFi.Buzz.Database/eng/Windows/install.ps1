@@ -88,4 +88,4 @@ New-DotEnvFile
 Install-Database
 Install-Migrations
 
-Write-Host "End EdFi Buzz API installation." -ForegroundColor Yellow
+Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow
