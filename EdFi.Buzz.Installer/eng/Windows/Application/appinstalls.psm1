@@ -99,7 +99,7 @@ function Install-ApiApp {
 
     $iisParams = @{
         SourceLocation = "$($configuration.installPath)\API"
-        WebApplicationPath = "$($configuration.installPath)\API"
+        WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\API"
         WebApplicationName = "BuzzAPI"
         WebSitePort = $configuration.ui.port
         WebSiteName = "Ed-Fi-Buzz-API"
@@ -169,7 +169,7 @@ function Install-UiApp {
 
     $iisParams = @{
         SourceLocation = "$($configuration.installPath)\UI"
-        WebApplicationPath = "$($configuration.installPath)\UI"
+        WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\UI"
         WebApplicationName = "BuzzUI"
         WebSitePort = $configuration.ui.port
         WebSiteName = "Ed-Fi-Buzz"

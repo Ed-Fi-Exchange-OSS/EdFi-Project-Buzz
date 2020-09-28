@@ -12,6 +12,9 @@ param(
   $InstallPath = "C:\inetpub\Ed-Fi\Buzz\API",
 
   [string]
+  $NginxUrl = "http://nginx.org/download/nginx-1.19.0.zip",
+
+  [string]
   $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",
 
   [string]
@@ -74,22 +77,32 @@ function Get-HelperAppIfNotExists {
   return $version
 }
 
-function Install-WebApplication {
+
+function Install-NginxFiles{
+  param(
+    [string]
+    $nginxVersion
+  )
+
+  # Copy the dist directory into the NGiNX folder
   $parameters = @{
     Path = "$PSScriptRoot\..\dist"
-    Destination = $InstallPath
+    Destination = "$InstallPath\$nginxVersion\dist"
     Recurse = $true
     Force = $true
   }
   Copy-Item @parameters
 
-  Push-Location "$InstallPath\dist"
-  Write-Host "Executing: npm install --production"
-  &npm install --production --silent
-  Pop-Location
+  # Overwrite the NGiNX conf file with our conf file
+  $paramaters = @{
+    Path = "$PSScriptRoot\..\nginx.conf"
+    Destination = "$InstallPath\$nginxVersion\conf\nginx.conf"
+    Force = $true
+  }
+  Copy-Item @paramaters
 }
 
-function Install-NodeService {
+function Install-NginxService {
   param(
     [string]
     $winSwVersion
@@ -128,6 +141,14 @@ function Install-NodeService {
 }
 
 function New-DotEnvFile {
+
+  param(
+    [string]
+    $installPath
+  )
+
+  New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
+
   $fileContents = @"
 BUZZ_API_DB_HOST = '$DbServer'
 BUZZ_API_DB_PORT = $DbPort
@@ -137,17 +158,36 @@ BUZZ_API_DB_DATABASE = '$DbName'
 BUZZ_API_HTTP_PORT = $HttpPort
 "@
 
-  $fileContents | Out-File "$InstallPath\dist\.env" -Encoding UTF8 -Force
+  $fileContents | Out-File "$InstallPath\.env" -Encoding UTF8 -Force
+}
+
+function Install-DistFiles {
+  param(
+    [string]
+    $installPath
+  )
+
+  # Copy the dist directory into the NGiNX folder
+  $parameters = @{
+    Path        = "$PSScriptRoot/../dist"
+    Destination = "$installPath"
+    Recurse     = $true
+    Force       = $true
+  }
+  Copy-Item @parameters
 }
 
 Write-Host "Begin Ed-Fi Buzz API installation..." -ForegroundColor Yellow
 
 New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
 
-Install-WebApplication
-New-DotEnvFile
+Install-DistFiles -installPath $InstallPath
+New-DotEnvFile -installPath  "$InstallPath/dist"
+
+$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl
+Install-NginxFiles -nginxVersion $nginxVersion
 
 $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
-Install-NodeService -winSwVersion $winSwVersion
+Install-NginxService -winSwVersion $winSwVersion
 
 Write-Host "End Ed-Fi Buzz API installation." -ForegroundColor Yellow

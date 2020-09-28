@@ -12,8 +12,8 @@
     <description>Buzz end-user web site</description>
   </metadata>
   <files>
-    <file src=".\Windows\*" target="windows" />
-    <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
-    <file src="..\dist\**" target="dist" exclude="**\*.tsbuildinfo" />
+    <file src="..\dist\**" target="dist" />
+    <file src="windows\**" target="windows" />
+    <file src="nginx.conf" />
   </files>
 </package>
