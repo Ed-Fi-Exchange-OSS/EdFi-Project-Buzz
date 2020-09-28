@@ -53,8 +53,8 @@ function Format-BuzzConfigurationFileToHashTable {
         sqlServerDatabase = Convert-PsObjectToHashTable $configJson.sqlServerDatabase
         database = Convert-PsObjectToHashTable $configJson.database
         etl = Convert-PsObjectToHashTable $configJson.etl
-        api = Convert-PsObjectToHashTable $configJson.apiApp
-        ui = Convert-PsObjectToHashTable $configJson.uiApp
+        api = Convert-PsObjectToHashTable $configJson.api
+        ui = Convert-PsObjectToHashTable $configJson.ui
     }
 
     return $formattedConfig
