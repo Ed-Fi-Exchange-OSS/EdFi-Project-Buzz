@@ -105,7 +105,7 @@ function Install-ApiApp {
         WebSiteName = "Ed-Fi-Buzz-API"
     }
 
-    Install-EdFiApplicationIntoIIS @iisParams
+    # Install-EdFiApplicationIntoIIS @iisParams
 }
 
 function Install-DatabaseApp {
@@ -175,7 +175,7 @@ function Install-UiApp {
         WebSiteName = "Ed-Fi-Buzz"
     }
 
-    Install-EdFiApplicationIntoIIS @iisParams
+    # Install-EdFiApplicationIntoIIS @iisParams
 }
 
 function Install-EtlApp {
