@@ -32,6 +32,27 @@ $ cd edfi.buzz.etl
 $ yarn start:survey
 ```
 
+## Executing Contact Information Loader as an executable service.
+
+This ETL contains an executor to load the preferred contact method and the best time to contact. 
+These 2 fields don't exist in ODS, and that is why we need this service.
+
+In order to execute this service you need to provide it with a csv file with the following format:
+```sh
+ContactPersonKey,PreferredContactMethod,BestTimeToContact
+Some_ContactPersonKey,Some_PreferredContactMethod,SomeBestTimeToContact
+...
+```
+
+It's important to mention that Some_ContactPersonKey should represent a real Contact Person Key in the database.
+
+Once the csv file has been properly formatted and saved, you can execute the service with this command:
+
+```bash
+$ cd edfi.buzz.etl
+$ node .\tasks\buzzContactInfo.js <filename>
+```
+
 ## Running the Database Loader
 
 The ETL Database module (./src/dbETL.js) is executed by yarn via the start:db task, or directly by node.
