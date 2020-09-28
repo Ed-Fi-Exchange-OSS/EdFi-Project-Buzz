@@ -50,8 +50,28 @@ function Uninstall-BuzzApp {
 
         Write-Host "Uninstalling prior installation of $app"
 
-        if ($app -ne "Database") {
-            Uninstall-BuzzAppService -app $app
+        $inetpubBuzzDir = Join-Path "C:\inetpub\Buzz" $app
+
+        switch ($app) {
+            "Database" { }
+            "UI" {
+                Uninstall-BuzzAppService -app $app
+                if (Test-Path $inetpubBuzzDir) {
+                    Write-Host "Removing app folder at $inetpubBuzzDir"
+                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Ignore
+                }
+
+            }
+            "API"{
+                Uninstall-BuzzAppService -app $app
+                if (Test-Path $inetpubBuzzDir) {
+                    Write-Host "Removing app folder at $inetpubBuzzDir"
+                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Ignore
+                }
+            }
+            Default {
+
+            }
         }
 
         if (Test-Path $appPath) {

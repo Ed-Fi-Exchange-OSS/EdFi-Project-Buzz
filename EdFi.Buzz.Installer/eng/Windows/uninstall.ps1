@@ -40,10 +40,10 @@ $conf = Format-BuzzConfigurationFileToHashTable $configPath
 $installPath = $conf.installPath
 
 try {
-    Uninstall-BuzzApp -app "Database" -appPath "C:\Ed-Fi\Buzz\Database"
-    Uninstall-BuzzApp -app "ETL" -appPath "C:\Ed-Fi\Buzz\ETL"
-    Uninstall-BuzzApp -app "API" -appPath "C:\inetpub\Ed-Fi\Buzz\API"
-    Uninstall-BuzzApp -app "UI" -appPath "C:\inetpub\Ed-Fi\Buzz\UI"
+    Uninstall-BuzzApp -app "Database" -appPath (Join-Path $installPath "Database")
+    Uninstall-BuzzApp -app "ETL" -appPath  (Join-Path $installPath "ETL")
+    Uninstall-BuzzApp -app "API" -appPath  (Join-Path $installPath "API")
+    Uninstall-BuzzApp -app "UI" -appPath  (Join-Path $installPath "UI")
 }
 catch {
     Write-Error $PSItem.Exception.Message
