@@ -11,8 +11,6 @@ param (
 )
 $ErrorActionPreference = "Stop"
 
-Push-Location $PackageDirectory
-
 $dependencyVersions = @{
     AppCommon = "1.0.3"
 }
@@ -28,7 +26,10 @@ $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation;"
 Import-Module -Force -Scope Global "$edFiRepoContainer/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
 #>
 
-Import-Module -Force ".\nuget-helper.psm1"
+Import-Module ".\nuget-helper.psm1" -Force
+
+
+Push-Location $PackageDirectory
 
 # Download App Common
 $parameters = @{

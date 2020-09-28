@@ -50,6 +50,8 @@ function Install-NugetCli {
         mkdir $toolsPath | Out-Null
     }
 
+    Copy-Item -path .\nuget.config -Destination $toolsPath
+
     $nuget = (Join-Path $toolsPath "nuget.exe")
 
     if (-not $(Test-Path $nuget)) {
@@ -95,7 +97,7 @@ function Initialize-Installer {
         [Hashtable] $configuration
     )
     Install-NugetCli -toolsPath  $toolsPath
-    Install-AppCommon -toolsPath $toolsPath -packageSource $configuration.artifactRepo -downloadPath $packagesPath -version $script:AppCommonVersion
+    Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
     Ensure-NodeJs
 }
 
