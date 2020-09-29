@@ -39,48 +39,6 @@ function Install-AppCommon {
     Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
 }
 
-function Install-NugetCli {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $toolsPath,
-        [string] $sourceNugetExe = "https://dist.nuget.org/win-x86-commandline/v5.3.1/nuget.exe"
-    )
-
-    if (-not $(Test-Path $toolsPath)) {
-        mkdir $toolsPath | Out-Null
-    }
-
-    Copy-Item -path .\nuget.config -Destination $toolsPath
-
-    $nuget = (Join-Path $toolsPath "nuget.exe")
-
-    if (-not $(Test-Path $nuget)) {
-        Write-Host "Downloading nuget.exe official distribution from " $sourceNugetExe
-        Invoke-WebRequest $sourceNugetExe -OutFile $nuget
-    }
-    else {
-        $info = Get-Command $nuget
-        Write-Host "Found nuget exe in: $toolsPath"
-
-        if ("5.3.1.0" -ne $info.Version.ToString()) {
-            Write-Host "Updating nuget.exe official distribution from " $sourceNugetExe
-            Invoke-WebRequest $sourceNugetExe -OutFile $nuget
-        }
-    }
-}
-function Ensure-NodeJs {
-
-    if (Get-Command node -errorAction SilentlyContinue) {
-        $nodeVer = node -v
-    }
-
-    if ($nodeVer) {
-        write-host "[NODE] nodejs $current_version already installed"
-        return;
-    }
-
-    throw "[NODE] nodejs was not installed"
-}
 
 <#
  Initializes the installing machine
@@ -94,9 +52,7 @@ function Initialize-Installer {
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
-    Install-NugetCli -toolsPath  $toolsPath
     Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
-    Ensure-NodeJs
 }
 
 Export-ModuleMember Initialize-Installer

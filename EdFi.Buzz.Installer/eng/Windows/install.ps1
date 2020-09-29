@@ -26,6 +26,7 @@ for Buzz. Defaults to .\configuration.json in the same directory.
 .\install.ps1 -configPath c:/different/location/for/configuration.json
 #>
 
+# WebAdministration will not load on PS Core
 #Requires -Version 5 -PSEdition Desktop
 #Requires -RunAsAdministrator
 
@@ -63,11 +64,12 @@ if (-not $(Test-Path $toolsPath)) {
 
 try {
     # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath -configuration $script:conf
+    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
     $params = @{
         "configuration" = $script:conf;
         "packagesPath" = $script:packagesPath;
+        "toolsPath" = $script:toolsPath;
     }
 
     Install-DatabaseApp @params
