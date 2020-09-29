@@ -26,7 +26,7 @@ for Buzz. Defaults to .\configuration.json in the same directory.
 .\install.ps1 -configPath c:/different/location/for/configuration.json
 #>
 
-#Requires -Version 5
+#Requires -Version 5 -PSEdition Desktop
 #Requires -RunAsAdministrator
 
 param (

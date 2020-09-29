@@ -15,5 +15,6 @@
     <file src="..\dist\**" target="dist" />
     <file src="windows\**" target="windows" />
     <file src="nginx.conf" />
+    <file src="web.config" />
   </files>
 </package>
