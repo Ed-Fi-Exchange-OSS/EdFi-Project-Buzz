@@ -153,6 +153,8 @@ function Install-UiApp {
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
         "nginxPort"       = $configuration.ui.nginxPort;
+        "rootDir"         = "build";
+        "app"             = "UI";
     }
 
     $buzzAppParams = @{
