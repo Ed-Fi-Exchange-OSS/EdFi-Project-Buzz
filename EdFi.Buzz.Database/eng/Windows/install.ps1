@@ -42,6 +42,7 @@ BUZZ_DB_HOST = '$DbServer'
 BUZZ_DB_PORT = $DbPort
 BUZZ_DB_USERNAME ='$DbUserName'
 BUZZ_DB_PASSWORD = '$DbPassword'
+BUZZ_DB_DATABASE = '$DbName'
 "@
 
   $fileContents | Out-File "$distFolder/.env" -Encoding UTF8 -Force
