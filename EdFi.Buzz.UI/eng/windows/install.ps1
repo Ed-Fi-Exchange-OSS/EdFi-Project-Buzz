@@ -9,7 +9,7 @@
 [CmdletBinding()]
 param(
   [string]
-  $InstallPath = "C:\inetpub\Ed-Fi\Buzz\UI",
+  $InstallPath = "C:\Ed-Fi\Buzz",
 
   [string]
   $NginxUrl = "http://nginx.org/download/nginx-1.19.0.zip",
@@ -25,8 +25,19 @@ param(
 
   [string] $googleClientId,
   [string] $adfsClientId,
-  [string] $adfsTenantId
+  [string] $adfsTenantId,
+  [Parameter(Mandatory=$true)]
+  [string] $toolsPath,
+  [Parameter(Mandatory=$true)]
+  [string] $packagesPath,
+  [Parameter(Mandatory=$true)]
+  [string] $nginxPort
 )
+
+Import-Module "$PSScriptRoot/init.psm1" -Force
+Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
+
+$rootDir = "build"
 
 function Get-FileNameWithoutExtensionFromUrl {
   param(
@@ -44,22 +55,24 @@ function Get-FileNameWithoutExtensionFromUrl {
 function Get-HelperAppIfNotExists {
   param(
     [string]
-    $Url
+    $Url,
+    [string]
+    $targetLocation
   )
   $version = Get-FileNameWithoutExtensionFromUrl -Url $Url
 
-  if (-not (Test-Path -Path "$InstallPath\$version")) {
+  if (-not (Test-Path -Path "$targetLocation\$version")) {
     $outFile = ".\$version.zip"
     Invoke-WebRequest -Uri $Url -OutFile $outFile
 
     Expand-Archive -Path $outFile
 
     if ((Test-Path -Path "$version\$version")) {
-      Move-Item -Path "$version\$version" -Destination $InstallPath
+      Move-Item -Path "$version\$version" -Destination $targetLocation
       Remove-Item -Path $version
     }
     else {
-      Move-Item -Path "$version" -Destination $InstallPath
+      Move-Item -Path "$version" -Destination $targetLocation
     }
   }
 
@@ -69,22 +82,26 @@ function Get-HelperAppIfNotExists {
 function Install-NginxFiles{
   param(
     [string]
-    $nginxVersion
+    $nginxVersion,
+    [string]
+    $webSitePath
   )
 
   # Copy the build directory into the NGiNX folder
   $parameters = @{
-    Path = "$PSScriptRoot\..\build"
-    Destination = "$InstallPath\$nginxVersion\build"
+    Path = "$webSitePath\$rootDir"
+    Destination = "$webSitePath\$nginxVersion\$rootDir"
     Recurse = $true
     Force = $true
   }
   Copy-Item @parameters
 
+  Update-NginxConf -installPath $iisParams.WebApplicationPath
+
   # Overwrite the NGiNX conf file with our conf file
   $paramaters = @{
-    Path = "$PSScriptRoot\..\nginx.conf"
-    Destination = "$InstallPath\$nginxVersion\conf\nginx.conf"
+    Path = "$webSitePath\nginx.conf"
+    Destination = "$webSitePath\$nginxVersion\conf\nginx.conf"
     Force = $true
   }
   Copy-Item @paramaters
@@ -96,7 +113,9 @@ function Install-NginxService {
     $nginxVersion,
 
     [string]
-    $winSwVersion
+    $winSwVersion,
+    [string]
+    $webSitePath
   )
 
   $serviceName = "EdFi-Buzz-UI"
@@ -111,19 +130,19 @@ function Install-NginxService {
   }
 
   # Rename WindowsService.exe to EdFiBuzzUi.exe
-  $winServiceExe = "$InstallPath\$winSwVersion\WindowsService.exe"
-  $edFiBuzzUiExe = "$InstallPath\$winSwVersion\EdFiBuzzUi.exe"
-  if ((Test-Path -Path "$InstallPath\$winSwVersion\WindowsService.exe")) {
+  $winServiceExe = "$webSitePath\$winSwVersion\WindowsService.exe"
+  $edFiBuzzUiExe = "$webSitePath\$winSwVersion\EdFiBuzzUi.exe"
+  if ((Test-Path -Path "$webSitePath\$winSwVersion\WindowsService.exe")) {
     Move-Item -Path $winServiceExe -Destination $edFiBuzzUiExe
   }
 
   # Copy the config XML file to install directory
-  $xmlFile = "$InstallPath\$winSwVersion\EdFiBuzzUi.xml"
+  $xmlFile = "$webSitePath\$winSwVersion\EdFiBuzzUi.xml"
   Copy-Item -Path "$PSScriptRoot\EdFiBuzzUi.xml" -Destination $xmlFile -Force
 
   # Inject the correct path to nginx.exe into the config XML file
   $content = Get-Content -Path $xmlFile -Encoding UTF8
-  $content = $content.Replace("{0}", "$InstallPath\$nginxVersion")
+  $content = $content.Replace("{0}", "$webSitePath\$nginxVersion")
   $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
 
   # Create and start the service
@@ -157,6 +176,31 @@ function New-DotEnvFile {
   $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }
 
+function Update-WebConfig {
+  param(
+    [string]
+    $installPath,
+    [string]
+    $nginxPort
+  )
+
+  $fileContents = (Get-Content -Path "$installPath/web.config" -Encoding UTF8).Replace("%NGINXPORT%", $script:nginxPort)
+  $fileContents | Out-File "$installPath/web.config" -Encoding UTF8 -Force
+}
+
+function Update-NginxConf {
+  param(
+    [string]
+    $installPath
+  )
+
+  $fileContents = (Get-Content -Path "$installPath/nginx.conf" -Encoding UTF8)
+  $fileContents = $fileContents.Replace("%NGINXPORT%", $script:nginxPort)
+  $fileContents = $fileContents.Replace("%WEBROOT%", "./$script:rootDir")
+  $fileContents = $fileContents.Replace("`r`n", "`n")
+  $nginxFile = Resolve-Path("$installPath/nginx.conf")
+  [IO.File]::WriteAllText($nginxFile, $fileContents) # prevents final CR-LF
+}
 
 function Install-DistFiles {
   param(
@@ -166,7 +210,7 @@ function Install-DistFiles {
 
   # Copy the build directory into the NGiNX folder
   $parameters = @{
-    Path        = "$PSScriptRoot/../build"
+    Path        = "$PSScriptRoot/../$rootDir"
     Destination = "$installPath"
     Recurse     = $true
     Force       = $true
@@ -177,15 +221,28 @@ function Install-DistFiles {
 
 Write-Host "Begin Ed-Fi Buzz UI installation..." -ForegroundColor Yellow
 
-New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
+$iisParams = @{
+  SourceLocation = "$PSScriptRoot\.."
+  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\UI"
+  WebApplicationName = "BuzzUI"
+  WebSitePort = $configuration.ui.port
+  WebSiteName = "Ed-Fi-Buzz"
+}
+
+New-Item -Path $iisParams.WebApplicationPath -ItemType Directory -Force | Out-Null
 
 Install-DistFiles -installPath $InstallPath
-New-DotEnvFile -installPath  "$InstallPath/build"
+New-DotEnvFile -installPath "$InstallPath/$rootDir"
 
-$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl
-Install-NginxFiles -nginxVersion $nginxVersion
+Install-EdFiApplicationIntoIIS @iisParams
 
-$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
-Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion
+$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $iisParams.WebApplicationPath
+Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $iisParams.WebApplicationPath
+
+Update-WebConfig -installPath $iisParams.WebApplicationPath
+
+# NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
+$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $iisParams.WebApplicationPath
+Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $iisParams.WebApplicationPath
 
 Write-Host "End Ed-Fi Buzz UI installation." -ForegroundColor Yellow

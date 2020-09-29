@@ -77,17 +77,18 @@ function Get-HelperAppIfNotExists {
   return $version
 }
 
-
 function Install-NginxFiles{
   param(
     [string]
-    $nginxVersion
+    $nginxVersion,
+    [string]
+    $webSitePath
   )
 
-  # Copy the dist directory into the NGiNX folder
+  # Copy the build directory into the NGiNX folder
   $parameters = @{
-    Path = "$PSScriptRoot\..\dist"
-    Destination = "$InstallPath\$nginxVersion\dist"
+    Path = "$webSitePath\build"
+    Destination = "$webSitePath\$nginxVersion\build"
     Recurse = $true
     Force = $true
   }
@@ -95,8 +96,8 @@ function Install-NginxFiles{
 
   # Overwrite the NGiNX conf file with our conf file
   $paramaters = @{
-    Path = "$PSScriptRoot\..\nginx.conf"
-    Destination = "$InstallPath\$nginxVersion\conf\nginx.conf"
+    Path = "$webSitePath\nginx.conf"
+    Destination = "$webSitePath\$nginxVersion\conf\nginx.conf"
     Force = $true
   }
   Copy-Item @paramaters
@@ -183,6 +184,16 @@ New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
 
 Install-DistFiles -installPath $InstallPath
 New-DotEnvFile -installPath  "$InstallPath/dist"
+
+$iisParams = @{
+  SourceLocation = "$PSScriptRoot\API"
+  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\API"
+  WebApplicationName = "BuzzAPI"
+  WebSitePort = $configuration.ui.port
+  WebSiteName = "Ed-Fi-Buzz-API"
+}
+
+# Install-EdFiApplicationIntoIIS @iisParams
 
 $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl
 Install-NginxFiles -nginxVersion $nginxVersion

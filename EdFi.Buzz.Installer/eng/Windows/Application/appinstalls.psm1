@@ -68,7 +68,9 @@ function Install-ApiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $packagesPath
+        [string] $packagesPath,
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath
     )
 
     if (-not $configuration.installApi) {
@@ -96,16 +98,6 @@ function Install-ApiApp {
     }
 
     Install-BuzzApp @buzzAppParams
-
-    $iisParams = @{
-        SourceLocation = "$($configuration.installPath)\API"
-        WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\API"
-        WebApplicationName = "BuzzAPI"
-        WebSitePort = $configuration.ui.port
-        WebSiteName = "Ed-Fi-Buzz-API"
-    }
-
-    # Install-EdFiApplicationIntoIIS @iisParams
 }
 
 function Install-DatabaseApp {
@@ -114,7 +106,9 @@ function Install-DatabaseApp {
         [Parameter(Mandatory = $true)]
         [Hashtable]$configuration,
         [Parameter(Mandatory = $true)]
-        [string] $packagesPath
+        [string] $packagesPath,
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath
     )
 
     if (-not $configuration.installDatabase) {
@@ -139,7 +133,9 @@ function Install-UiApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $packagesPath
+        [string] $packagesPath,
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath
     )
 
     if (-not $configuration.installUi) {
@@ -154,6 +150,9 @@ function Install-UiApp {
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
         "adfsTenantId"    = $configuration.adfsTenantId;
+        "toolsPath"       = $toolsPath;
+        "packagesPath"    = $packagesPath;
+        "nginxPort"       = $configuration.ui.nginxPort;
     }
 
     $buzzAppParams = @{
@@ -166,16 +165,6 @@ function Install-UiApp {
     }
 
     Install-BuzzApp @buzzAppParams
-
-    $iisParams = @{
-        SourceLocation = "$($configuration.installPath)\UI"
-        WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\UI"
-        WebApplicationName = "BuzzUI"
-        WebSitePort = $configuration.ui.port
-        WebSiteName = "Ed-Fi-Buzz"
-    }
-
-    # Install-EdFiApplicationIntoIIS @iisParams
 }
 
 function Install-EtlApp {
@@ -184,7 +173,9 @@ function Install-EtlApp {
         [Parameter(Mandatory = $true)]
         [Hashtable] $configuration,
         [Parameter(Mandatory = $true)]
-        [string] $packagesPath
+        [string] $packagesPath,
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath
     )
 
     if (-not $configuration.installEtl) {
