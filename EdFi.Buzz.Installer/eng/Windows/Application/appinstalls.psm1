@@ -79,13 +79,18 @@ function Install-ApiApp {
     }
 
     $params = @{
-        "InstallPath" = "$installPath\API";
-        "DbServer"   = $configuration.postgresDatabase.Host;
-        "DbPort"     = $configuration.postgresDatabase.Port;
-        "DbUserName" = $configuration.postgresDatabase.UserName;
-        "DbPassword" = $configuration.postgresDatabase.Password;
-        "DbName"     = $configuration.postgresDatabase.DbName;
-        "HttpPort"   = $configuration.api.Port;
+        "InstallPath" = "$($configuration.installPath)\API";
+        "DbServer"   = $configuration.postgresDatabase.host;
+        "DbPort"     = $configuration.postgresDatabase.port;
+        "DbUserName" = $configuration.postgresDatabase.username;
+        "DbPassword" = $configuration.postgresDatabase.password;
+        "DbName"     = $configuration.postgresDatabase.database;
+        "port"   = $configuration.api.Port;
+        "toolsPath"       = $toolsPath;
+        "packagesPath"    = $packagesPath;
+        "nginxPort"       = $configuration.ui.nginxPort;
+        "rootDir"         = "dist";
+        "app"             = "API";
     }
 
     $buzzAppParams = @{
