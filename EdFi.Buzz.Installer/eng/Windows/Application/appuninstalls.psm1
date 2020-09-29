@@ -58,16 +58,19 @@ function Uninstall-BuzzApp {
                 Uninstall-BuzzAppService -app $app
                 if (Test-Path $inetpubBuzzDir) {
                     Write-Host "Removing app folder at $inetpubBuzzDir"
-                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Ignore
+                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Continue
                 }
-
+                Uninstall-WebApplication -WebSiteName "Ed-Fi-Buzz-$app" -WebApplicationName "BuzzA$app" -WebApplicationPath "C:/inetpub/Ed-Fi/$app"
+                Uninstall-WebSite -WebSiteName "Ed-Fi-Buzz-$app"
             }
             "API"{
                 Uninstall-BuzzAppService -app $app
                 if (Test-Path $inetpubBuzzDir) {
                     Write-Host "Removing app folder at $inetpubBuzzDir"
-                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Ignore
+                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Continue
                 }
+                Uninstall-WebApplication -WebSiteName "Ed-Fi-Buzz-$app" -WebApplicationName "Buzz$app" -WebApplicationPath "C:/inetpub/Ed-Fi/$app" -ErrorAction Continue
+                Uninstall-WebSite -WebSiteName "Ed-Fi-Buzz-$app" -ErrorAction Continue
             }
             Default {
 
@@ -76,7 +79,7 @@ function Uninstall-BuzzApp {
 
         if (Test-Path $appPath) {
             Write-Host "Removing app folder at $appPath"
-            Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction Ignore
+            Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction Continue
         }
     }
     catch {
