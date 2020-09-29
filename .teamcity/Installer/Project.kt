@@ -14,6 +14,7 @@ object InstallerProject : Project({
 
     buildType(installer.buildTypes.PullRequestInstallerBuild)
     buildType(installer.buildTypes.BranchInstallerBuild)
+    buildType(installer.buildTypes.BuildPackagesBuild)
     buildType(installer.buildTypes.DeployInstallerBuild)
 
     params{
