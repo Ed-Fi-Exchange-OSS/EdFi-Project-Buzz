@@ -16,5 +16,6 @@
     <file src="..\build\**" target="build" />
     <file src="windows\**" target="windows" />
     <file src="nginx.conf" />
+    <file src="web.config" />
   </files>
 </package>
