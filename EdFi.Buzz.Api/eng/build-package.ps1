@@ -39,8 +39,8 @@ function Invoke-PrepForDistribution {
   # for distribution. Convert yarn.lock to package-lock.json and copy into the
   # dist directory.
   Push-Location "$PSScriptRoot/../"
-  Write-Host "Executing: yarn synp -s ./yarn.lock" -ForegroundColor Magenta
-  &yarn synp -s .\yarn.lock
+  Write-Host "Executing: npx synp -s yarn.lock" -ForegroundColor Magenta
+  &npx synp -s yarn.lock -f
 
   if ($LASTEXITCODE -ne 0) {
     Write-Error "Lock file conversion failed."

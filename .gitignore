@@ -46,3 +46,5 @@ launchSettings.json
 tempkey.rsa
 
 .env
+EdFi.Buzz.Installer/Ed-Fi-ODS
+EdFi.Buzz.Installer/Ed-Fi-ODS-Implementation

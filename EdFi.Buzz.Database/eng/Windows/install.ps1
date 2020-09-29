@@ -3,7 +3,8 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
-#requires -version 5
+#Requires -version 5
+#Requires -RunAsAdministrator
 
 [CmdletBinding()]
 param(
@@ -23,12 +24,14 @@ param(
   [string]
   $DbName = "edfi_buzz"
 )
-$InstallPath = "$PSScriptRoot/../dist"
-if (-not(Test-Path $InstallPath)) {
+
+$distFolder = Resolve-Path "$PSScriptRoot/../dist"
+
+if (-not(Test-Path $distFolder)) {
     # Need one more parent directory if running straight from source code
     # instead of from NuGet package.
-    $InstallPath = "$PSScriptRoot/../../dist"
-    if (-not(Test-Path $InstallPath)) {
+    $distFolder = "$PSScriptRoot/../../dist"
+    if (-not(Test-Path $distFolder)) {
         throw "Cannot find dist directory"
     }
 }
@@ -39,58 +42,51 @@ BUZZ_DB_HOST = '$DbServer'
 BUZZ_DB_PORT = $DbPort
 BUZZ_DB_USERNAME ='$DbUserName'
 BUZZ_DB_PASSWORD = '$DbPassword'
-"@
-
-  $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
-}
-
-function Add-Database-DotEnvFile {
-    $fileContents = @"
-BUZZ_DB_HOST = '$DbServer'
-BUZZ_DB_PORT = $DbPort
-BUZZ_DB_USERNAME ='$DbUserName'
-BUZZ_DB_PASSWORD = '$DbPassword'
 BUZZ_DB_DATABASE = '$DbName'
 "@
 
-    $fileContents | Out-File "$InstallPath/.env" -Encoding UTF8 -Force
-  }
+  $fileContents | Out-File "$distFolder/.env" -Encoding UTF8 -Force
+}
 
 function Install-Migrations{
-    Add-Database-DotEnvFile
-    Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
-    &npm run migrate
+    try {
+        Push-Location -Path $distFolder
+        Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
+        &npm install
+        &npm run migrate
+        Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
+    }
+    catch {
+        Write-Error "Database was not migrated"
+        throw
+    }
+    finally {
+        Pop-Location
+    }
 }
 
 function Install-Database {
-    Push-Location -Path $InstallPath
-    Write-Host "Executing: npm install --production" -ForegroundColor Magenta
-    &npm install --production
+    try {
+        Push-Location -Path $distFolder
+        Write-Host "Executing: npm install --production" -ForegroundColor Magenta
+        &npm install --production --silent
 
-    Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
-    $output = &npm run init-db $DbName 2>&1
-
-    if ($LASTEXITCODE -ne 0)
-    {
-        $err = $output.Where{$PSItem -match 'already exists'}
-        if($err.Length -gt 0){
-            Install-Migrations
-        }
-        else{
-            Write-Host "Error: Unable to connect to the database '$($DbName)'." -ForegroundColor Red
-        }
+        Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
+        $output = &npm run --silent init-db $DbName 2>&1
     }
-    else{
-        Install-Migrations
+    catch {
+        Write-Error $PSItem.Exception.StackTrace
+        throw "Database was not installed"
     }
-    Pop-Location
+    finally {
+        Pop-Location
+    }
 }
 
 Write-Host "Begin EdFi Buzz database installation..." -ForegroundColor Yellow
 
-New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
-
 New-DotEnvFile
 Install-Database
+Install-Migrations
 
-Write-Host "End EdFi Buzz API installation." -ForegroundColor Yellow
+Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow

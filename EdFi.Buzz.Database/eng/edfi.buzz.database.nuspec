@@ -14,7 +14,6 @@
   <files>
     <file src=".\Windows\*" target="windows" />
     <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
-    <file src="..\dist\*.json" target="dist" />
-    <file src="..\dist\migrations\**" target="dist/migrations" />
+    <file src="..\dist\**" target="dist/" />
   </files>
 </package>
