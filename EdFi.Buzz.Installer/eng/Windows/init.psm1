@@ -37,6 +37,7 @@ function Install-AppCommon {
     # Import the following with global scope so that they are available inside of script blocks
     Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global
     Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
+    Import-Module -Force "$installerPath/IIS/IIS-Components.psm1" -Scope Global
 }
 
 function Install-NugetCli {
