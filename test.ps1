@@ -27,6 +27,15 @@ function Process-Projects() {
 }
 
 function Clean-Directories(){
+
+    if (-not $(Test-Path C:\nugetRepo)) {
+        mkdir C:\nugetRepo | Out-Null
+    }
+
+    if (-not $(Test-Path C:\temp\packages)) {
+        mkdir C:\temp\packages | Out-Null
+    }
+
     Write-Host "* Cleaning C:\nugetRepo" -ForegroundColor Yellow
     Remove-Item -Recurse -Force C:\nugetRepo\*
     Write-Host "* Cleaning C:\temp\packages" -ForegroundColor Yellow
