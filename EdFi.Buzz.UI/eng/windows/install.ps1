@@ -17,27 +17,29 @@ param(
   [string]
   $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",
 
-  [Parameter(Mandatory=$true)]
+  [Parameter(Mandatory = $true)]
   [INT] $port,
 
-  [Parameter(Mandatory=$true)]
+  [Parameter(Mandatory = $true)]
   [string] $graphQlEndpoint,
 
   [string] $googleClientId,
   [string] $adfsClientId,
   [string] $adfsTenantId,
-  [Parameter(Mandatory=$true)]
+  [Parameter(Mandatory = $true)]
   [string] $toolsPath,
-  [Parameter(Mandatory=$true)]
+  [Parameter(Mandatory = $true)]
   [string] $packagesPath,
-  [Parameter(Mandatory=$true)]
-  [string] $nginxPort
+  [Parameter(Mandatory = $true)]
+  [string] $nginxPort,
+  [Parameter(Mandatory = $true)]
+  [string] $rootDir = "build",
+  [Parameter(Mandatory = $true)]
+  [string] $app = "UI"
 )
 
 Import-Module "$PSScriptRoot/init.psm1" -Force
 Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
-
-$rootDir = "build"
 
 function Get-FileNameWithoutExtensionFromUrl {
   param(
@@ -79,7 +81,7 @@ function Get-HelperAppIfNotExists {
   return $version
 }
 
-function Install-NginxFiles{
+function Install-NginxFiles {
   param(
     [string]
     $nginxVersion,
@@ -89,10 +91,10 @@ function Install-NginxFiles{
 
   # Copy the build directory into the NGiNX folder
   $parameters = @{
-    Path = "$webSitePath\$rootDir"
+    Path        = "$webSitePath\$rootDir"
     Destination = "$webSitePath\$nginxVersion\$rootDir"
-    Recurse = $true
-    Force = $true
+    Recurse     = $true
+    Force       = $true
   }
   Copy-Item @parameters
 
@@ -100,9 +102,9 @@ function Install-NginxFiles{
 
   # Overwrite the NGiNX conf file with our conf file
   $paramaters = @{
-    Path = "$webSitePath\nginx.conf"
+    Path        = "$webSitePath\nginx.conf"
     Destination = "$webSitePath\$nginxVersion\conf\nginx.conf"
-    Force = $true
+    Force       = $true
   }
   Copy-Item @paramaters
 }
@@ -118,7 +120,7 @@ function Install-NginxService {
     $webSitePath
   )
 
-  $serviceName = "EdFi-Buzz-UI"
+  $serviceName = "EdFi-Buzz-$script:app"
 
   # If service already exists, stop and remove it so that new settings
   # will be applied.
@@ -131,14 +133,14 @@ function Install-NginxService {
 
   # Rename WindowsService.exe to EdFiBuzzUi.exe
   $winServiceExe = "$webSitePath\$winSwVersion\WindowsService.exe"
-  $edFiBuzzUiExe = "$webSitePath\$winSwVersion\EdFiBuzzUi.exe"
+  $edFiBuzzExe = "$webSitePath\$winSwVersion\EdFiBuzz$($script:app).exe"
   if ((Test-Path -Path "$webSitePath\$winSwVersion\WindowsService.exe")) {
-    Move-Item -Path $winServiceExe -Destination $edFiBuzzUiExe
+    Move-Item -Path $winServiceExe -Destination $edFiBuzzExe
   }
 
   # Copy the config XML file to install directory
-  $xmlFile = "$webSitePath\$winSwVersion\EdFiBuzzUi.xml"
-  Copy-Item -Path "$PSScriptRoot\EdFiBuzzUi.xml" -Destination $xmlFile -Force
+  $xmlFile = "$webSitePath\$winSwVersion\EdFiBuzz$($script:app).xml"
+  Copy-Item -Path "$PSScriptRoot\EdFiBuzz$($script:app).xml" -Destination $xmlFile -Force
 
   # Inject the correct path to nginx.exe into the config XML file
   $content = Get-Content -Path $xmlFile -Encoding UTF8
@@ -146,8 +148,8 @@ function Install-NginxService {
   $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
 
   # Create and start the service
-  &$edFiBuzzUiExe install
-  &$edFiBuzzUiExe start
+  &$edFiBuzzExe install
+  &$edFiBuzzExe start
 }
 
 
@@ -164,15 +166,31 @@ function New-DotEnvFile {
     $adfsTenantId = ""
   }
 
-  $fileContents = @"
-  PORT=$port
-  REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
-  REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
-  xREACT_APP_ADFS_CLIENT_ID=$adfsClientId
-  REACT_APP_ADFS_TENANT_ID=$adfsTenantId
-  REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
-  REACT_APP_JOB_STATUS_FINISH_IDS=[3]
+  $googleFileContents = @"
+PORT=$port
+REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
+REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
+REACT_APP_ADFS_CLIENT_ID=
+REACT_APP_ADFS_TENANT_ID=
+REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
+REACT_APP_JOB_STATUS_FINISH_IDS=[3]"@
+
+  $adfsFileContents = @"
+PORT=$port
+REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
+REACT_APP_GOOGLE_CLIENT_ID=
+REACT_APP_ADFS_CLIENT_ID=$adfsClientId
+REACT_APP_ADFS_TENANT_ID=$adfsTenantId
+REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
+REACT_APP_JOB_STATUS_FINISH_IDS=[3]
 "@
+
+  # Use Google unless ADFS is populated
+  $fileContents = $googleFileContents
+  if ($adfsClientId.Length -gt 1) {
+    $fileContents = $adfsFileContents
+  }
+
   $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }
 
@@ -219,14 +237,14 @@ function Install-DistFiles {
 }
 
 
-Write-Host "Begin Ed-Fi Buzz UI installation..." -ForegroundColor Yellow
+Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Yellow
 
 $iisParams = @{
-  SourceLocation = "$PSScriptRoot\.."
-  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\UI"
-  WebApplicationName = "BuzzUI"
-  WebSitePort = $configuration.ui.port
-  WebSiteName = "Ed-Fi-Buzz"
+  SourceLocation     = "$PSScriptRoot\.."
+  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\$($script:app)"
+  WebApplicationName = "Buzz$($script:app)"
+  WebSitePort        = $configuration.ui.port
+  WebSiteName        = "Ed-Fi-Buzz"
 }
 
 New-Item -Path $iisParams.WebApplicationPath -ItemType Directory -Force | Out-Null
@@ -245,4 +263,4 @@ Update-WebConfig -installPath $iisParams.WebApplicationPath
 $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $iisParams.WebApplicationPath
 Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $iisParams.WebApplicationPath
 
-Write-Host "End Ed-Fi Buzz UI installation." -ForegroundColor Yellow
+Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow
