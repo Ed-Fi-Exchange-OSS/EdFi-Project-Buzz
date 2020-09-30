@@ -4,8 +4,11 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache, ApolloLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+
+
 
 import DIContainer, { object, get } from 'rsdi';
 
@@ -43,8 +46,18 @@ function createApolloClient() {
     };
   });
 
+  const errorLink = onError(
+    ({ response, graphQLErrors, networkError, operation, forward }) => {
+      if(graphQLErrors[0].extensions.exception.status === 401){
+        window.location.replace('/login');
+        response.errors = undefined;
+      }
+    }
+  );
+
   return new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: ApolloLink.from([errorLink, authLink, httpLink]),
+    //link: authLink.concat(httpLink),
     cache: new InMemoryCache()
   });
 
