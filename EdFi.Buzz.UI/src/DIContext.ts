@@ -46,11 +46,43 @@ function createApolloClient() {
     };
   });
 
+
+/*
+Change the implemention of the client to Apollo-boost will avoid the flash for 1 second showing the error page
+but will require to update some API calls from UI to hanlde asyn errors:
+
+new ApolloClient({
+  uri: `${window.location.origin}/api`,
+  cache: new InMemoryCache(),
+  onError({ graphQLErrors, networkError }) {
+    if(graphQLErrors)
+      graphQLErrors.forEach(error => notification.error({
+        message: 'Error',
+        description: error.message
+      }))
+    if(networkError)
+      notification.error({
+        message: 'Network Error',
+        description: `A network error has occurred. Please check out your connection.`
+      })
+  },
+  request(operation) {
+    const currentUser = readStore('currentUser')
+    currentUser && operation.setContext({
+      headers: { authorization: currentUser.token }
+    })
+  }
+})
+
+
+
+*/
+
   const errorLink = onError(
     ({ response, graphQLErrors, networkError, operation, forward }) => {
       if(graphQLErrors[0].extensions.exception.status === 401){
         window.location.replace('/login');
-        response.errors = undefined;
+        response.errors = null;
       }
     }
   );
