@@ -253,16 +253,13 @@ Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Ye
 
 $iisParams = @{
   SourceLocation = "$PSScriptRoot\.."
-  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\API"
-  WebApplicationName = "BuzzAPI"
+  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz-$script:app"
+  WebApplicationName = "Buzz$script:app"
   WebSitePort = $configuration.ui.port
   WebSiteName = "Ed-Fi-Buzz-API"
 }
 
 New-Item -Path $iisParams.WebApplicationPath -ItemType Directory -Force | Out-Null
-
-Install-DistFiles -installPath $InstallPath
-New-DotEnvFile -installPath  "$InstallPath/dist"
 
 Install-EdFiApplicationIntoIIS @iisParams
 

@@ -60,8 +60,8 @@ try {
     Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
     Uninstall-BuzzApp -app "ETL" -appPath  (Join-Path $installPath "ETL")
-    Uninstall-BuzzApp -app "API" -appPath  "C:/inetpub/Ed-Fi/Buzz/API"
-    Uninstall-BuzzApp -app "UI" -appPath  "C:/inetpub/Ed-Fi/Buzz/UI"
+    Uninstall-BuzzApp -app "API" -appPath  "C:/inetpub/Ed-Fi/Buzz-API"
+    Uninstall-BuzzApp -app "UI" -appPath  "C:/inetpub/Ed-Fi/Buzz-UI"
 }
 catch {
     Write-Error $PSItem.Exception.Message
