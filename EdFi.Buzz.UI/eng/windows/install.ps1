@@ -241,7 +241,7 @@ Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Ye
 
 $iisParams = @{
   SourceLocation     = "$PSScriptRoot\.."
-  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz\$($script:app)"
+  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz-$script:app"
   WebApplicationName = "Buzz$($script:app)"
   WebSitePort        = $configuration.ui.port
   WebSiteName        = "Ed-Fi-Buzz"
