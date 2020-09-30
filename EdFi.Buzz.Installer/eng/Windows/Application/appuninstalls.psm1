@@ -28,8 +28,45 @@ function Uninstall-BuzzAppService {
         }
     }
     catch {
-        Write-Error $PSItem.Exception.Message
-        Write-Host "Continuing on...."
+
+    }
+}
+
+function Uninstall-BuzzWebApp {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]
+        $Websitename,
+        [Parameter(Mandatory=$true)]
+        [string]
+        $WebApplicationName,
+        [Parameter(Mandatory=$true)]
+        [string]
+        $WebApplicationPath
+    )
+
+    try {
+        Uninstall-WebApplication -WebSiteName $websitename -WebApplicationName $WebApplicationName -WebApplicationPath $WebApplicationPath -ErrorAction Continue
+    }
+    catch {
+        Write-Host "Encountered an error uninstalling the Buzz Web Application. Continuing..."
+    }
+}
+
+function Uninstall-BuzzWebSite {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]
+        $websitename
+    )
+
+    try {
+        Uninstall-WebSite -WebSiteName $websitename
+    }
+    catch {
+        Write-Host "Encountered an error uninstalling the Buzz WebSite. Continuing..."
     }
 }
 
@@ -42,44 +79,42 @@ function Uninstall-BuzzApp {
     )
 
     try {
-
-        if (-not (Test-Path $appPath)) {
-            Write-Host "$app has not been installed yet."
-            return;
-        }
-
         Write-Host "Uninstalling prior installation of $app"
 
-        $inetpubBuzzDir = Join-Path "C:\inetpub\Buzz" $app
+        $inetpubBuzzDir = Join-Path "C:\inetpub\Ed-Fi\Buzz" $app -ErrorAction Ignore
 
         switch ($app) {
             "Database" { }
             "UI" {
-                Uninstall-BuzzAppService -app $app
-                if (Test-Path $inetpubBuzzDir) {
-                    Write-Host "Removing app folder at $inetpubBuzzDir"
-                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Continue
+                if (-not (Test-Path $inetpubBuzzDir -ErrorAction Ignore)) {
+                    Write-Host "$app is not installed"
                 }
-                Uninstall-WebApplication -WebSiteName "Ed-Fi-Buzz-$app" -WebApplicationName "BuzzA$app" -WebApplicationPath "C:/inetpub/Ed-Fi/$app"
-                Uninstall-WebSite -WebSiteName "Ed-Fi-Buzz-$app"
+                Uninstall-BuzzAppService -app $app
+                Uninstall-BuzzWebApp -WebSiteName "Ed-Fi-Buzz-$app" -WebApplicationName "Buzz$app" -WebApplicationPath "C:/inetpub/Ed-Fi/Buzz/$app"
+                Uninstall-BuzzWebSite -WebSiteName "Ed-Fi-Buzz-$app"
+
+                Write-Host "Removing app folder at $inetpubBuzzDir"
+                Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Ignore
             }
             "API"{
-                Uninstall-BuzzAppService -app $app
-                if (Test-Path $inetpubBuzzDir) {
-                    Write-Host "Removing app folder at $inetpubBuzzDir"
-                    Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Continue
+                if (-not (Test-Path $inetpubBuzzDir -ErrorAction Ignore)) {
+                    Write-Host "$app is not installed"
                 }
-                Uninstall-WebApplication -WebSiteName "Ed-Fi-Buzz-$app" -WebApplicationName "Buzz$app" -WebApplicationPath "C:/inetpub/Ed-Fi/$app" -ErrorAction Continue
-                Uninstall-WebSite -WebSiteName "Ed-Fi-Buzz-$app" -ErrorAction Continue
+                Uninstall-BuzzAppService -app $app
+                Uninstall-BuzzWebApp -WebSiteName "Ed-Fi-Buzz-$app" -WebApplicationName "Buzz$app" -WebApplicationPath "C:/inetpub/Ed-Fi/Buzz/$app"
+                Uninstall-BuzzWebSite -WebSiteName "Ed-Fi-Buzz-$app" -ErrorAction Continue
+
+                Write-Host "Removing app folder at $inetpubBuzzDir"
+                Remove-Item -LiteralPath $inetpubBuzzDir -Force -Recurse -ErrorAction Ignore
             }
             Default {
-
+                Uninstall-BuzzAppService -app $app
             }
         }
 
-        if (Test-Path $appPath) {
+        if (Test-Path $appPath -ErrorAction Ignore) {
             Write-Host "Removing app folder at $appPath"
-            Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction Continue
+            Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction Ignore
         }
     }
     catch {
