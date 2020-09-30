@@ -89,6 +89,28 @@ function Get-HelperAppIfNotExists {
 
   return $version
 }
+
+function Install-NpmPackages {
+  [CmdletBinding()]
+  param (
+      [Parameter(Mandatory=$true)]
+      [string]
+      $appPath
+  )
+  try {
+    Write-Host "Installing NPM packages..." -ForegroundColor Green
+    Push-Location $appPath
+    npm install --production --silent
+  } catch {
+    Write-Error "Error on npm install"
+    Write-Error $PSItem.Exception.Message
+    Write-Error $PSItem.Exception.StackTrace
+  }
+  finally {
+    Pop-Location
+  }
+}
+
 function Install-NginxFiles {
   param(
     [string]
@@ -107,6 +129,10 @@ function Install-NginxFiles {
   Copy-Item @parameters
 
   Update-NginxConf -installPath $iisParams.WebApplicationPath
+
+  Install-NpmPackages -appPath "$webSitePath\$nginxVersion\$rootDir"
+
+  New-DotEnvFile -installPath "$webSitePath\$nginxVersion\$rootDir"
 
   # Overwrite the NGiNX conf file with our conf file
   $paramaters = @{
@@ -206,7 +232,6 @@ function Update-NginxConf {
   $nginxFile = Resolve-Path("$installPath/nginx.conf")
   [IO.File]::WriteAllText($nginxFile, $fileContents) # prevents final CR-LF
 }
-
 
 function Install-DistFiles {
   param(
