@@ -33,8 +33,15 @@ param(
   [string]
   $DbName = "Buzz",
 
+  [string] $schema = "buzz",
+  [string] $uriDiscovery,
+  [string] $googleClientID,
+  [string] $clientSecret,
+  [string] $googleAuthCallback,
+  [string] $surveyFilesFolder,
   [int]
   $port = 3000,
+
   [Parameter(Mandatory = $true)]
   [string] $toolsPath,
   [Parameter(Mandatory = $true)]
@@ -196,12 +203,23 @@ function New-DotEnvFile {
   New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
 
   $fileContents = @"
+NODE_TLS_REJECT_UNAUTHORIZED='1'
 BUZZ_API_DB_HOST = '$DbServer'
 BUZZ_API_DB_PORT = $DbPort
 BUZZ_API_DB_USERNAME ='$DbUserName'
 BUZZ_API_DB_PASSWORD = '$DbPassword'
 BUZZ_API_DB_DATABASE = '$DbName'
 BUZZ_API_HTTP_PORT = $port
+BUZZ_API_DB_SCHEMA = '$schema'
+BUZZ_WORKER_JOB_NAME = 'buzzSurvey'
+BUZZ_WORKER_CLEANUP_JOB_NAME = 'buzzCleanUp'
+URI_DISCOVERY = $uriDiscovery
+GOOGLE_CLIENT_ID= $googleClientID
+GOOGLE_SECRET = $clientSecret
+GOOGLE_AUTH_CALLBACK= $googleAuthCallback
+SURVEY_FILES_FOLDER=$surveyFilesFolder
+SURVEY_FILES_RETENTION_DAYS=30
+SURVEY_PROCESS_INITIAL_STATUS_KEY=1
 "@
 
   $fileContents | Out-File "$InstallPath\.env" -Encoding UTF8 -Force
@@ -255,7 +273,7 @@ $iisParams = @{
   SourceLocation = "$PSScriptRoot\.."
   WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz-$script:app"
   WebApplicationName = "Buzz$script:app"
-  WebSitePort = $configuration.ui.port
+  WebSitePort = $configuration.api.port
   WebSiteName = "Ed-Fi-Buzz-API"
 }
 
