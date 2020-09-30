@@ -24,14 +24,6 @@ function Install-BuzzApp {
     )
 
     try {
-        if ($params.InstallPath) {
-            Import-Module -Force "$PSScriptRoot/appuninstalls.psm1"
-            Uninstall-BuzzApp -app $app -appPath $params.InstallPath
-            if (-not (Test-Path $params.InstallPath)) {
-                New-Item -Path $params.InstallPath -ItemType Directory
-            }
-        }
-
 
         Write-Host "Downloading the package for Buzz $app application ($version)..."
 
