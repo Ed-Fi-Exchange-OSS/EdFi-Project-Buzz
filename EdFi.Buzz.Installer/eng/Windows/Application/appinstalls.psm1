@@ -77,13 +77,25 @@ function Install-ApiApp {
         "DbUserName" = $configuration.postgresDatabase.username;
         "DbPassword" = $configuration.postgresDatabase.password;
         "DbName"     = $configuration.postgresDatabase.database;
+        "schema" = $configuration.postgresDatabase.schema;
+        "uriDiscovery" = "";
+        "googleClientID" = $configuration.googleClientID;
+        "clientSecret" = $configuration.clientSecret;
+        "googleAuthCallback" = $configuration.googleAuthCallback;
+        "surveyFilesFolder" = $configuration.api.surveyFilesFolder;
         "port"   = $configuration.api.Port;
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
-        "nginxPort"       = $configuration.ui.nginxPort;
+        "nginxPort"       = $configuration.api.nginxPort;
         "rootDir"         = "dist";
         "app"             = "API";
     }
+
+    if ("google" -eq $configuration.idProvider) {
+        $params.uriDiscovery = "https://accounts.google.com/.well-known/openid-configuration"
+    } else {
+        $params.uriDiscovery = "https://login.microsoftonline.com/common/.well-known/openid-configuration"
+    };
 
     $buzzAppParams = @{
         skipFlag = $configuration.installApi

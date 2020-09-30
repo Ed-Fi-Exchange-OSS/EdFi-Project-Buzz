@@ -10,14 +10,16 @@
     "idProvider": "google",
     "clientSecret": "",
     "googleClientId": "761615059487-5tuhthkic53s5m0e40k6n68hrc7i3udp.apps.googleusercontent.com",
-    "adfsClientId": "",
-    "adfsTenantId": "",
+    "googleCallback": "https://localhost:8124",
+    "adfsClientId": null,
+    "adfsTenantId": null,
     "postgresDatabase": {
         "host": "localhost",
         "port": 5432,
         "username": "postgres",
         "password": "pa55w0rd",
-        "database": "edfi_buzz"
+        "database": "edfi_buzz",
+        "schema":  "buzz"
     },
     "sqlServerDatabase": {
         "host": "127.0.0.1",
@@ -45,7 +47,8 @@
         "version": "0.1.0",
         "url": "http://localhost:3000",
         "port": 3000,
-        "nginxPort": 8124
+        "nginxPort": 8124,
+        "surveyFilesFolder": "C:/Ed-Fi/Buzz"
     },
     "ui": {
         "version": "0.1.0",
