@@ -63,4 +63,5 @@ object BuildPackagesTemplate : BuildAndTestBaseClass() {
                 forceCleanCheckout = true
             }
         }
-})
+    }
+}
