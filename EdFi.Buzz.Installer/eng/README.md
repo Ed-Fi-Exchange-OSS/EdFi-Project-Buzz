@@ -78,7 +78,7 @@ Instalation script:
 - It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
 
 The installation script must be run in PowerShell as an administrator.
-`>.\install.ps1 .\configuration.json`
+**`>.\install.ps1 .\configuration.json`**
 
 ## Developer READMEs
 
@@ -86,7 +86,7 @@ Developer information for each Project Buzz application is outlined in a README 
 
 * [API - Developer README](../../EdFi.Buzz.Api/README.md)
 * [Database -  Developer README](../../EdFi.Buzz.Database/README.md)
-* [ETL -  Developer README](../../EdFi.Buzz.ETL/README.md)
+* [ETL -  Developer README](../../EEdFi.Buzz.Etl/README.md)
 * [User Interface -  Developer README](../../EdFi.Buzz.UI/README.md)
 
 
