@@ -31,8 +31,9 @@ object BuzzProject : Project({
 
     template(_self.templates.BuildAndTestTemplate)
     template(_self.templates.PullRequestTemplate)
-    template(_self.templates.PsPullRequestTemplate)
     template(_self.templates.BuildOnlyTemplate)
     template(_self.templates.BuildOnlyPullRequestTemplate)
+    template(_self.templates.PsPullRequestTemplate)
+    template(_self.templates.PsBuildOnlyTemplate)
 
 })

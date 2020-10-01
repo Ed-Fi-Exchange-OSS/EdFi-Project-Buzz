@@ -13,7 +13,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 object PsBuildOnlyTemplate : PsBuildBaseClass() {
     init {
-        name = "Build Installer Template"
+        name = "Build Installer PowerShell Template"
         id = RelativeId("PsBuildOnlyTemplate")
 
         artifactRules = "+:%project.directory%/eng/*.nupkg"

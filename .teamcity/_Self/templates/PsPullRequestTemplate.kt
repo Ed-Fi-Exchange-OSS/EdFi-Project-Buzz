@@ -16,7 +16,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 object PsPullRequestTemplate : PsBuildBaseClass() {
     init {
-        name = "Pull Request Node.js Template"
+        name = "Pull Request PowerShell Template"
         id = RelativeId("PsPullRequestTemplate")
 
         features {
