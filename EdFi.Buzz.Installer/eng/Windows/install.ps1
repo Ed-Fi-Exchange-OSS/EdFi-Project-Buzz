@@ -76,13 +76,13 @@ try {
     Install-ApiApp @params
     Install-EtlApp @params
     Install-UiApp @params
+
+    Check-BuzzServices
 }
 catch {
     Write-Error $PSItem.Exception.Message
     Write-Error $PSItem.Exception.StackTrace
     exit -1;
 }
-
-# TODO Verify all services are running
 
 exit;

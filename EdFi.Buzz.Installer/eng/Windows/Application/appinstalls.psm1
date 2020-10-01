@@ -211,12 +211,33 @@ function Install-EtlApp {
     Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.etl.version
 }
 
+function Check-BuzzServices {
+    [CmdletBinding()]
+    $services = @{
+        "EdFi-Buzz-ETL" = "Not installed";
+        "EdFi-Buzz-Api" = "Not installed";
+        "EdFi-Buzz-UI"  = "Not installed";
+    }
+
+    $output = @{}
+
+    $services.Keys | ForEach-Object {
+        if (Get-Service -Name $_ -ErrorAction SilentlyContinue) {
+            $output.Add($_, (Get-Service -Name $_ -ErrorAction SilentlyContinue).Status)
+        }
+     }
+
+     Write-Host "Checking Ed-Fi Buzz Service...."
+     $output | Format-Table
+}
+
 $functions = @(
     "Execute-AppInstaller",
     "Install-ApiApp",
     "Install-DatabaseApp",
     "Install-EtlApp",
-    "Install-UiApp"
+    "Install-UiApp",
+    "Check-BuzzServices"
 )
 
 Export-ModuleMember $functions
