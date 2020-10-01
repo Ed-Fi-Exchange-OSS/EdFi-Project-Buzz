@@ -17,7 +17,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 object PsPullRequestTemplate : BuildPsBaseClass() {
     init {
         name = "Pull Request Node.js Template"
-        id = RelativeId("PullRequestTemplate")
+        id = RelativeId("PsPullRequestTemplate")
 
         features {
             commitStatusPublisher {
