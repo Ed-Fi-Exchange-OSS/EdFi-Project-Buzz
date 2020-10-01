@@ -13,10 +13,9 @@ object InstallerProject : Project({
     description = "Buzz App Installer"
 
     buildType(installer.buildTypes.BranchInstallerBuild)
-    buildType(installer.buildTypes.BuildPackagesBuild)
     buildType(installer.buildTypes.DeployInstallerBuild)
     buildType(installer.buildTypes.PullRequestInstallerBuild)
-    
+
     params{
         param("project.directory", "./EdFi.Buzz.Installer");
         param("octopus.release.version","<placeholder value>")
