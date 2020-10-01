@@ -40,6 +40,9 @@ function Install-BuzzApp {
         Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
         $installFolder = Get-NuGetPackage @installparams
 
+        Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows")
+        Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows")
+
         Write-Host "Moving to $installFolder to install"
         Write-Host "Running package installation for $app..."
         Push-Location (Join-Path $installFolder "Windows")
@@ -195,6 +198,16 @@ function Install-EtlApp {
         return;
     }
 
+    $installparams = @{
+        packageName     = "edfi.buzz.etl"
+        packageVersion  = $configuration.etl.version
+        toolsPath       = $configuration.toolsPath
+        outputDirectory = $packagesPath
+        packageSource   = $configuration.artifactRepo
+    }
+    
+    $installFolder = Get-NuGetPackage @installparams
+
     $params = @{
         "InstallPath"       = Join-Path $configuration.InstallPath "Etl";
         "PostgresHost"      = $configuration.postgresDatabase.host;
@@ -207,6 +220,7 @@ function Install-EtlApp {
         "SqlServerUserName" = $configuration.sqlServerDatabase.username;
         "SqlServerPassword" = $configuration.sqlServerDatabase.password;
         "SqlServerDbName"   = $configuration.sqlServerDatabase.database;
+        "packagesPath"      = Join-Path $installFolder "Windows";
     }
 
     Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.etl.version
