@@ -4,7 +4,7 @@ These scripts were made possible thanks to the Ed-Fi Alliance and the Michael an
 
 ## Description
 
-The instalation script downloads all the assets needed for the Ed-Fi Buzz. Artifacts are placed in the dist/ directory at the root of this project 
+The installation script downloads all the assets needed for the Ed-Fi Buzz. Artifacts are placed in the dist/ directory at the root of this project 
 
 It validates existence of NuGet Package Provider, Node JS, IIS, SQL Server and Postgres. Retrieves the latest release of several Ed-Fi Buzz NuGet packages. Downloads prequisites from the web. 
 
@@ -66,16 +66,19 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **odsDataStandard:** Database standard to use, if it is Data Standard 2 or 3.x. Allowed values: ds2, ds3.
 
 #### api
-- **url:** API Url.
+- **version:** The NuGet version to download. Blank gets latest.
+- **url:**  URL for the GraphQL endpoint setting in the UI env file.
 - **port:** API port.
 
 #### ui
+- **version:** The NuGet version to download. Blank gets latest.
 - **port:** Port to access UI.
 
 ### Instalation
-Instalation script:
+Installation script:
 - It requires administrator privileges.
 - It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
+- The script will not run on PowerShell Core because WebAdministration does not load properly.
 
 The installation script must be run in PowerShell as an administrator.
 **`>.\install.ps1 .\configuration.json`**
