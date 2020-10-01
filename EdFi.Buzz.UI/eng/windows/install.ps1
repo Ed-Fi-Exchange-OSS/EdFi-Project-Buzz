@@ -9,7 +9,7 @@
 [CmdletBinding()]
 param(
   [string]
-  $InstallPath = "C:\Ed-Fi\Buzz",
+  $InstallPath = "C:\Ed-Fi\Buzz\UI",
 
   [string]
   $NginxUrl = "http://nginx.org/download/nginx-1.19.0.zip",
@@ -39,143 +39,41 @@ param(
 )
 
 Import-Module "$PSScriptRoot/init.psm1" -Force
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
 Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
-function Get-FileNameWithoutExtensionFromUrl {
-  param(
-    [string]
-    $Url
-  )
+Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Yellow
 
-  if (($Url -match "([a-zA-Z0-9\.\-]+)\.zip")) {
-    return $Matches[1];
-  }
-
-  throw "Unable to parse file name from $Url"
+if (![string]::IsNullOrEmpty($googleClientId)) {
+  $adfsClient = ""
+  $adfsTenantId = ""
 }
 
-function Get-HelperAppIfNotExists {
-  param(
-    [string]
-    $Url,
-    [string]
-    $targetLocation
-  )
-  $version = Get-FileNameWithoutExtensionFromUrl -Url $Url
-
-  if (-not (Test-Path -Path "$targetLocation\$version")) {
-    $outFile = ".\$version.zip"
-    Invoke-WebRequest -Uri $Url -OutFile $outFile
-
-    Expand-Archive -Path $outFile
-
-    if ((Test-Path -Path "$version\$version")) {
-      Move-Item -Path "$version\$version" -Destination $targetLocation
-      Remove-Item -Path $version
-    }
-    else {
-      Move-Item -Path "$version" -Destination $targetLocation
-    }
-  }
-
-  return $version
-}
-
-function Install-NginxFiles {
-  param(
-    [string]
-    $nginxVersion,
-    [string]
-    $webSitePath
-  )
-
-  # Copy the build directory into the NGiNX folder
-  $parameters = @{
-    Path        = "$webSitePath\$rootDir"
-    Destination = "$webSitePath\$nginxVersion\$rootDir"
-    Recurse     = $true
-    Force       = $true
-  }
-  Copy-Item @parameters
-
-  Update-NginxConf -installPath $iisParams.WebApplicationPath
-
-  # Overwrite the NGiNX conf file with our conf file
-  $paramaters = @{
-    Path        = "$webSitePath\nginx.conf"
-    Destination = "$webSitePath\$nginxVersion\conf\nginx.conf"
-    Force       = $true
-  }
-  Copy-Item @paramaters
-}
-
-function Install-NginxService {
-  param(
-    [string]
-    $nginxVersion,
-
-    [string]
-    $winSwVersion,
-    [string]
-    $webSitePath
-  )
-
-  $serviceName = "EdFi-Buzz-$script:app"
-
-  # If service already exists, stop and remove it so that new settings
-  # will be applied.
-  $exists = Get-Service -name $serviceName -ErrorAction SilentlyContinue
-
-  if ($exists) {
-    Stop-Service -name $serviceName
-    &sc.exe delete $serviceName
-  }
-
-  # Rename WindowsService.exe to EdFiBuzzUi.exe
-  $winServiceExe = "$webSitePath\$winSwVersion\WindowsService.exe"
-  $edFiBuzzExe = "$webSitePath\$winSwVersion\EdFiBuzz$($script:app).exe"
-  if ((Test-Path -Path "$webSitePath\$winSwVersion\WindowsService.exe")) {
-    Move-Item -Path $winServiceExe -Destination $edFiBuzzExe
-  }
-
-  # Copy the config XML file to install directory
-  $xmlFile = "$webSitePath\$winSwVersion\EdFiBuzz$($script:app).xml"
-  Copy-Item -Path "$PSScriptRoot\EdFiBuzz$($script:app).xml" -Destination $xmlFile -Force
-
-  # Inject the correct path to nginx.exe into the config XML file
-  $content = Get-Content -Path $xmlFile -Encoding UTF8
-  $content = $content.Replace("{0}", "$webSitePath\$nginxVersion")
-  $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
-
-  # Create and start the service
-  &$edFiBuzzExe install
-  &$edFiBuzzExe start
-}
-
-
-function New-DotEnvFile {
-  param(
-    [string]
-    $installPath
-  )
-
-  New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
-
-  if (![string]::IsNullOrEmpty($googleClientId)) {
-    $adfsClient = ""
-    $adfsTenantId = ""
-  }
-
-  $googleFileContents = @"
+# Use Google unless ADFS is populated
+$envFile = @"
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Licensed to the Ed-Fi Alliance under one or more agreements.
+ * The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+ * See the LICENSE and NOTICES files in the project root for more information.
+ */
 PORT=$port
 REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
 REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
 REACT_APP_ADFS_CLIENT_ID=
 REACT_APP_ADFS_TENANT_ID=
 REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
-REACT_APP_JOB_STATUS_FINISH_IDS=[3]"@
+REACT_APP_JOB_STATUS_FINISH_IDS=[3]
+"@
 
-  $adfsFileContents = @"
+if ($adfsClientId.Length -gt 1) {
+  $envFile = @"
+/*
+* SPDX-License-Identifier: Apache-2.0
+* Licensed to the Ed-Fi Alliance under one or more agreements.
+* The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+* See the LICENSE and NOTICES files in the project root for more information.
+*/
 PORT=$port
 REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
 REACT_APP_GOOGLE_CLIENT_ID=
@@ -184,83 +82,17 @@ REACT_APP_ADFS_TENANT_ID=$adfsTenantId
 REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
 REACT_APP_JOB_STATUS_FINISH_IDS=[3]
 "@
-
-  # Use Google unless ADFS is populated
-  $fileContents = $googleFileContents
-  if ($adfsClientId.Length -gt 1) {
-    $fileContents = $adfsFileContents
-  }
-
-  $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }
 
-function Update-WebConfig {
-  param(
-    [string]
-    $installPath,
-    [string]
-    $nginxPort
-  )
+New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
 
-  $fileContents = (Get-Content -Path "$installPath/web.config" -Encoding UTF8).Replace("%NGINXPORT%", $script:nginxPort)
-  $fileContents | Out-File "$installPath/web.config" -Encoding UTF8 -Force
-}
+$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
+Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $script:InstallPath -fileContents $envFile -rootDir $rootDir -nginxPort $nginxPort
 
-function Update-NginxConf {
-  param(
-    [string]
-    $installPath
-  )
-
-  $fileContents = (Get-Content -Path "$installPath/nginx.conf" -Encoding UTF8)
-  $fileContents = $fileContents.Replace("%NGINXPORT%", $script:nginxPort)
-  $fileContents = $fileContents.Replace("%WEBROOT%", "./$script:rootDir")
-  $fileContents = $fileContents.Replace("`r`n", "`n")
-  $nginxFile = Resolve-Path("$installPath/nginx.conf")
-  [IO.File]::WriteAllText($nginxFile, $fileContents) # prevents final CR-LF
-}
-
-function Install-DistFiles {
-  param(
-    [string]
-    $installPath
-  )
-
-  # Copy the build directory into the NGiNX folder
-  $parameters = @{
-    Path        = "$PSScriptRoot/../$rootDir"
-    Destination = "$installPath"
-    Recurse     = $true
-    Force       = $true
-  }
-  Copy-Item @parameters
-}
-
-
-Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Yellow
-
-$iisParams = @{
-  SourceLocation     = "$PSScriptRoot\.."
-  WebApplicationPath = "C:\inetpub\Ed-Fi\Buzz-$script:app"
-  WebApplicationName = "Buzz$($script:app)"
-  WebSitePort        = $configuration.ui.port
-  WebSiteName        = "Ed-Fi-Buzz"
-}
-
-New-Item -Path $iisParams.WebApplicationPath -ItemType Directory -Force | Out-Null
-
-Install-DistFiles -installPath $InstallPath
-New-DotEnvFile -installPath "$InstallPath/$rootDir"
-
-Install-EdFiApplicationIntoIIS @iisParams
-
-$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $iisParams.WebApplicationPath
-Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $iisParams.WebApplicationPath
-
-Update-WebConfig -installPath $iisParams.WebApplicationPath
+New-DotEnvFile -appPath "$script:InstallPath\$nginxVersion\$rootDir" -fileContents $envFile
 
 # NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
-$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $iisParams.WebApplicationPath
-Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $iisParams.WebApplicationPath
+$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
+Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $script:InstallPath -app $app
 
 Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow

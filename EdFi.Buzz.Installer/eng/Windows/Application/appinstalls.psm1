@@ -71,7 +71,7 @@ function Install-ApiApp {
     }
 
     $params = @{
-        "InstallPath" = "$($configuration.installPath)\API";
+        "InstallPath" = Join-Path $configuration.InstallPath "API";
         "DbServer"   = $configuration.postgresDatabase.host;
         "DbPort"     = $configuration.postgresDatabase.port;
         "DbUserName" = $configuration.postgresDatabase.username;
@@ -153,7 +153,7 @@ function Install-UiApp {
     }
 
     $params = @{
-        "InstallPath" = "$($configuration.installPath)\UI";
+        "InstallPath" = Join-Path $configuration.InstallPath "UI";
         "port"            = $configuration.ui.port;
         "graphQlEndpoint" = $configuration.api.url;
         "googleClientId"  = $configuration.googleClientId;
