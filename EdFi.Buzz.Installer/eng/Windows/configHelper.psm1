@@ -42,7 +42,6 @@ function Format-BuzzConfigurationFileToHashTable {
         idProvider= $configJson.idProvider
         clientSecret = $configJson.clientSecret
         googleClientId = $configJson.googleClientId
-        googleCallBack = $configJson.googleCallback
         adfsClientId = $configJson.adfsClientId
         adfsTenantId = $configJson.adfsTenantId
 

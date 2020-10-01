@@ -10,7 +10,6 @@
     "idProvider": "google",
     "clientSecret": "*******",
     "googleClientId": "********",
-    "googleCallback": "https://localhost:3000",
     "adfsClientId": null,
     "adfsTenantId": null,
     "postgresDatabase": {
