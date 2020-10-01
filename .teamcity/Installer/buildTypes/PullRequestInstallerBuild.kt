@@ -10,5 +10,4 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 object PullRequestInstallerBuild : BuildType ({
     name = "Pull Request Build and Test"
     templates(_self.templates.PsPullRequestTemplate)
-
 })
