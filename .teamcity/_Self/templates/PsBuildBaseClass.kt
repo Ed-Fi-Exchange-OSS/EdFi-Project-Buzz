@@ -10,7 +10,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.freeDiskSpace
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 
-open class BuildPsBaseClass : Template({
+open class PsBuildBaseClass : Template({
 
     option("shouldFailBuildOnAnyErrorMessage", "true")
 

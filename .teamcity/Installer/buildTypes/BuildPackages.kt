@@ -9,5 +9,5 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
 object BuildPackagesBuild : BuildType ({
     name = "Build Packages"
-    templates(_self.templates.BuildOnlyTemplate)
+    templates(_self.templates.PsBuildOnlyTemplate)
 })
