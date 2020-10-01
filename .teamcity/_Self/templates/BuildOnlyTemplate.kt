@@ -11,9 +11,9 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
-object BuildOnlyTemplate : BuildBaseClass() {
+object BuildOnlyTemplate : BuildPsBaseClass() {
     init {
-        name = "Build Node.js Template"
+        name = "Build Installer Template"
         id = RelativeId("BuildOnlyTemplate")
 
         artifactRules = "+:%project.directory%/eng/*.nupkg"
