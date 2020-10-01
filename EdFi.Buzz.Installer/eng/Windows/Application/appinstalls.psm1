@@ -30,11 +30,11 @@ function Install-BuzzApp {
         $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
 
         $installparams = @{
-            packageName = $packageName
-            packageVersion = $version
-            toolsPath = $configuration.toolsPath
+            packageName     = $packageName
+            packageVersion  = $version
+            toolsPath       = $configuration.toolsPath
             outputDirectory = $packagesPath
-            packageSource = $configuration.artifactRepo
+            packageSource   = $configuration.artifactRepo
         }
 
         Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
@@ -71,39 +71,40 @@ function Install-ApiApp {
     }
 
     $params = @{
-        "InstallPath" = Join-Path $configuration.InstallPath "API";
-        "DbServer"   = $configuration.postgresDatabase.host;
-        "DbPort"     = $configuration.postgresDatabase.port;
-        "DbUserName" = $configuration.postgresDatabase.username;
-        "DbPassword" = $configuration.postgresDatabase.password;
-        "DbName"     = $configuration.postgresDatabase.database;
-        "schema" = $configuration.postgresDatabase.schema;
-        "uriDiscovery" = "";
-        "googleClientID" = $configuration.googleClientID;
-        "clientSecret" = $configuration.clientSecret;
+        "InstallPath"        = Join-Path $configuration.InstallPath "API";
+        "DbServer"           = $configuration.postgresDatabase.host;
+        "DbPort"             = $configuration.postgresDatabase.port;
+        "DbUserName"         = $configuration.postgresDatabase.username;
+        "DbPassword"         = $configuration.postgresDatabase.password;
+        "DbName"             = $configuration.postgresDatabase.database;
+        "schema"             = $configuration.postgresDatabase.schema;
+        "uriDiscovery"       = "";
+        "googleClientID"     = $configuration.googleClientID;
+        "clientSecret"       = $configuration.clientSecret;
         "googleAuthCallback" = $configuration.googleAuthCallback;
-        "surveyFilesFolder" = $configuration.api.surveyFilesFolder;
-        "port"   = $configuration.api.Port;
-        "toolsPath"       = $toolsPath;
-        "packagesPath"    = $packagesPath;
-        "nginxPort"       = $configuration.api.nginxPort;
-        "rootDir"         = "dist";
-        "app"             = "API";
+        "surveyFilesFolder"  = $configuration.api.surveyFilesFolder;
+        "port"               = $configuration.api.Port;
+        "toolsPath"          = $toolsPath;
+        "packagesPath"       = $packagesPath;
+        "nginxPort"          = $configuration.api.nginxPort;
+        "rootDir"            = "dist";
+        "app"                = "API";
     }
 
     if ("google" -eq $configuration.idProvider) {
         $params.uriDiscovery = "https://accounts.google.com/.well-known/openid-configuration"
-    } else {
+    }
+    else {
         $params.uriDiscovery = "https://login.microsoftonline.com/common/.well-known/openid-configuration"
     };
 
     $buzzAppParams = @{
-        skipFlag = $configuration.installApi
-        app = "API"
+        skipFlag      = $configuration.installApi
+        app           = "API"
         configuration = $configuration
-        packagesPath = $packagesPath
-        params = $params
-        version = $configuration.api.version
+        packagesPath  = $packagesPath
+        params        = $params
+        version       = $configuration.api.version
     }
 
     Install-BuzzApp @buzzAppParams
@@ -153,7 +154,7 @@ function Install-UiApp {
     }
 
     $params = @{
-        "InstallPath" = Join-Path $configuration.InstallPath "UI";
+        "InstallPath"     = Join-Path $configuration.InstallPath "UI";
         "port"            = $configuration.ui.port;
         "graphQlEndpoint" = $configuration.api.url;
         "googleClientId"  = $configuration.googleClientId;
@@ -167,12 +168,12 @@ function Install-UiApp {
     }
 
     $buzzAppParams = @{
-        skipFlag = $configuration.installUi
-        app = "UI"
+        skipFlag      = $configuration.installUi
+        app           = "UI"
         configuration = $configuration
-        packagesPath = $packagesPath
-        params = $params
-        version = $configuration.ui.version
+        packagesPath  = $packagesPath
+        params        = $params
+        version       = $configuration.ui.version
     }
 
     Install-BuzzApp @buzzAppParams
@@ -195,7 +196,7 @@ function Install-EtlApp {
     }
 
     $params = @{
-        "InstallPath" = Join-Path $configuration.InstallPath "Etl";
+        "InstallPath"       = Join-Path $configuration.InstallPath "Etl";
         "PostgresHost"      = $configuration.postgresDatabase.host;
         "PostgresPort"      = $configuration.postgresDatabase.port;
         "PostgresUserName"  = $configuration.postgresDatabase.username;
@@ -211,8 +212,34 @@ function Install-EtlApp {
     Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.etl.version
 }
 
+function Get-WebStatus {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]
+        $url
+    )
+
+    $request = (Invoke-WebRequest -Uri $url -ErrorAction SilentlyContinue)
+    $status = "Not running"
+    if ($request.StatusCode -eq 200)
+    {
+        $status = "Running"
+    }
+    else {
+        $status = "Status code returned $apiStatus"
+    }
+    return $status
+}
+
 function Check-BuzzServices {
     [CmdletBinding()]
+    param (
+        [Parameter()]
+        [Hashtable]
+        $ParameterName
+    )
+
     $services = @{
         "EdFi-Buzz-ETL" = "Not installed";
         "EdFi-Buzz-Api" = "Not installed";
@@ -225,10 +252,13 @@ function Check-BuzzServices {
         if (Get-Service -Name $_ -ErrorAction SilentlyContinue) {
             $output.Add($_, (Get-Service -Name $_ -ErrorAction SilentlyContinue).Status)
         }
-     }
+    }
 
-     Write-Host "Checking Ed-Fi Buzz Service...."
-     $output | Format-Table
+    $output.Add("Buzz UI URL", (Get-WebStatus -url $conf.ui.url))
+    $output.Add("Buzz API URL", (Get-WebStatus -url $conf.api.url))
+
+    Write-Host "Checking Ed-Fi Buzz App Services and Webs ..." -ForegroundColor Yellow
+    $output | Format-Table
 }
 
 $functions = @(
