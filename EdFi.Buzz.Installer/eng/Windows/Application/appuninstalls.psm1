@@ -22,9 +22,9 @@ function Uninstall-BuzzAppService {
         $serviceName = "EdFi-Buzz-$app"
 
         if (Get-Service -Name $serviceName -ErrorAction Ignore) {
-            Write-Host "Removing Buzz server $serviceName"
-            &sc.exe stop $ServiceName
-            &sc.exe delete $ServiceName
+            Write-Host "Removing Ed-Fi Buzz service $serviceName"
+            &sc.exe stop $ServiceName | Out-Null
+            &sc.exe delete $ServiceName | Out-Null
         }
     }
     catch {
@@ -43,34 +43,32 @@ function Uninstall-BuzzApp {
     try {
         Write-Host "Uninstalling prior installation of $app"
 
-        $buzzAppDir = Join-Path $appPath $app -ErrorAction SilentlyContinue
-
         switch ($app) {
             "Database" { }
             "UI" {
-                if (-not (Test-Path $buzzAppDir -ErrorAction SilentlyContinue)) {
+                if (-not (Test-Path $appPath -ErrorAction SilentlyContinue)) {
                     Write-Host "$app is not installed"
                 }
                 Uninstall-BuzzAppService -app $app
 
-                Write-Host "Removing app folder at $buzzAppDir"
-                Remove-Item -LiteralPath $buzzAppDir -Force -Recurse -ErrorAction SilentlyContinue
+                Write-Host "Removing app folder at $appPath"
+                Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction SilentlyContinue
             }
             "API"{
-                if (-not (Test-Path $buzzAppDir -ErrorAction  SilentlyContinue)) {
+                if (-not (Test-Path $appPath -ErrorAction  SilentlyContinue)) {
                     Write-Host "$app is not installed"
                 }
                 Uninstall-BuzzAppService -app $app
 
-                Write-Host "Removing app folder at $buzzAppDir"
-                Remove-Item -LiteralPath $buzzAppDir -Force -Recurse -ErrorAction SilentlyContinue
+                Write-Host "Removing app folder at $appPath"
+                Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction SilentlyContinue
             }
             Default {
                 Uninstall-BuzzAppService -app $app
             }
         }
 
-        if (Test-Path $appPath -ErrorAction Ignore) {
+        if (Test-Path $appPath -ErrorAction SilentlyContinue) {
             Write-Host "Removing app folder at $appPath"
             Remove-Item -LiteralPath $appPath -Force -Recurse -ErrorAction SilentlyContinue
         }
