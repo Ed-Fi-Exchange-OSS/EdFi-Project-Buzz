@@ -220,44 +220,45 @@ function Get-WebStatus {
         $url
     )
 
-    $request = (Invoke-WebRequest -Uri $url -ErrorAction SilentlyContinue)
+    $global:ProgressPreference = 'SilentlyContinue'
+    $request = (Invoke-WebRequest -Uri $url)
     $status = "Not running"
-    if ($request.StatusCode -eq 200)
+    if ($request.StatusCode)
     {
-        $status = "Running"
+        $status = "Status code returned: " + $request.StatusCode
     }
-    else {
-        $status = "Status code returned $apiStatus"
-    }
+    $global:ProgressPreference = 'Continue'
     return $status
 }
 
 function Check-BuzzServices {
     [CmdletBinding()]
     param (
-        [Parameter()]
+        [Parameter(Mandatory=$true)]
         [Hashtable]
-        $ParameterName
+        $conf
     )
 
     $services = @{
-        "EdFi-Buzz-ETL" = "Not installed";
-        "EdFi-Buzz-Api" = "Not installed";
-        "EdFi-Buzz-UI"  = "Not installed";
+        "ETL" = "Not installed";
+        "Api" = "Not installed";
+        "UI"  = "Not installed";
     }
 
     $output = @{}
 
     $services.Keys | ForEach-Object {
-        if (Get-Service -Name $_ -ErrorAction SilentlyContinue) {
-            $output.Add($_, (Get-Service -Name $_ -ErrorAction SilentlyContinue).Status)
+        $status = "Not installed"
+        if (Get-Service -Name "EdFi-Buzz-$_" -ErrorAction SilentlyContinue) {
+            $status = (Get-Service -Name "EdFi-Buzz-$_" -ErrorAction SilentlyContinue).Status
         }
+        $output.Add("Ed-Fi Buzz $_ Service", $status)
     }
 
-    $output.Add("Buzz UI URL", (Get-WebStatus -url $conf.ui.url))
-    $output.Add("Buzz API URL", (Get-WebStatus -url $conf.api.url))
+    $output.Add("Ed-Fi Buzz UI Website", (Get-WebStatus -url $conf.ui.url))
+    $output.Add("Ed-Fi Buzz API Website", (Get-WebStatus -url $conf.api.url))
 
-    Write-Host "Checking Ed-Fi Buzz App Services and Webs ..." -ForegroundColor Yellow
+    Write-Host "Checking Ed-Fi Buzz App Services and Webs statuses ..." -ForegroundColor Yellow
     $output | Format-Table
 }
 
