@@ -54,16 +54,7 @@ $artifactRepo = $conf.artifactRepo
 $packagesPath = $conf.packagesPath
 $toolsPath = $conf.toolsPath
 
-if (-not $(Test-Path $packagesPath)) {
-    mkdir $packagesPath | Out-Null
-}
-
-if (-not $(Test-Path $toolsPath)) {
-    mkdir $toolsPath | Out-Null
-}
-
 try {
-    # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
     Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
     $params = @{

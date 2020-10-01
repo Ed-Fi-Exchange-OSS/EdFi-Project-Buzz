@@ -10,33 +10,33 @@ $root = $PSScriptRoot
 $AppCommonVersion = "1.0.3"
 
 function Install-AppCommon {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $toolsPath,
-        [Parameter(Mandatory = $true)]
-        [string] $packageSource,
-        [Parameter(Mandatory = $true)]
-        [string] $downloadPath,
-        [Parameter(Mandatory = $true)]
-        [string] $version
-    )
+  Param(
+    [Parameter(Mandatory = $true)]
+    [string] $toolsPath,
+    [Parameter(Mandatory = $true)]
+    [string] $packageSource,
+    [Parameter(Mandatory = $true)]
+    [string] $downloadPath,
+    [Parameter(Mandatory = $true)]
+    [string] $version
+  )
 
-    $packageName = "EdFi.Installer.AppCommon"
-    $installerPath = Join-Path $packagesPath "$packageName.$version"
+  $packageName = "EdFi.Installer.AppCommon"
+  $installerPath = Join-Path $packagesPath "$packageName.$version"
 
-    if (-not (Test-Path $installerPath)) {
-        $installerPath = Install-EdFiPackage -packageName $packageName -version $version -packageSource $packageSource -downloadPath $downloadPath
-    }
+  if (-not (Test-Path $installerPath)) {
+    $installerPath = Install-EdFiPackage -packageName $packageName -version $version -packageSource $packageSource -downloadPath $downloadPath
+  }
 
-    $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation"
-    Import-Module -Force -Scope Global "$installerPath/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
-    Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
-    Import-Module -Force $folders.modules.invoke("tasks/TaskHelper.psm1")
-    Import-Module -Force $folders.modules.invoke("tools/ToolsHelper.psm1")
+  $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation"
+  Import-Module -Force -Scope Global "$installerPath/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
+  Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
+  Import-Module -Force $folders.modules.invoke("tasks/TaskHelper.psm1")
+  Import-Module -Force $folders.modules.invoke("tools/ToolsHelper.psm1")
 
-    # Import the following with global scope so that they are available inside of script blocks
-    Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global
-    Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
+  # Import the following with global scope so that they are available inside of script blocks
+  Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global
+  Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
 }
 
 
@@ -46,13 +46,22 @@ function Install-AppCommon {
  Verifies PostgreSQL database
  #>
 function Initialize-Installer {
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string] $toolsPath,
-        [Parameter(Mandatory = $true)]
-        [string] $packagesPath
-    )
-    Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
+  Param(
+    [Parameter(Mandatory = $true)]
+    [string] $toolsPath,
+    [Parameter(Mandatory = $true)]
+    [string] $packagesPath
+  )
+
+  if (-not $(Test-Path $packagesPath)) {
+    mkdir $packagesPath | Out-Null
+  }
+
+  if (-not $(Test-Path $toolsPath)) {
+    mkdir $toolsPath | Out-Null
+  }
+
+  Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
 }
 
 Export-ModuleMember Initialize-Installer
