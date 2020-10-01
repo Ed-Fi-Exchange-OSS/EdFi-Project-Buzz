@@ -68,7 +68,7 @@ try {
     Install-EtlApp @params
     Install-UiApp @params
 
-    Check-BuzzServices
+    Check-BuzzServices $script:conf
 }
 catch {
     Write-Error $PSItem.Exception.Message
