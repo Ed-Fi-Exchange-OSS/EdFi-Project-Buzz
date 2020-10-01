@@ -9,5 +9,5 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 
 object BranchInstallerBuild : BuildType ({
     name = "Branch Build and Test"
-    templates(_self.templates.BuildAndTestTemplate)
+    templates(_self.templates.PsBuildOnlyTemplate)
 })
