@@ -69,6 +69,7 @@ try {
     Install-UiApp @params
 
     Check-BuzzServices $script:conf
+    Write-Host "Ed-Fi Buzz installation complete."
 }
 catch {
     Write-Error $PSItem.Exception.Message
