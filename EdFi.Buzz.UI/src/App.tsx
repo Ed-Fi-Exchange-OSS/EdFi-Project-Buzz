@@ -43,6 +43,8 @@ export default function App(): JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(api.authentication.currentUserValue != null);
   const [isAdminSurveyLoader, setIsAdminSurveyLoader] =
     useState(api.authentication.currentUserValue?.teacher?.isadminsurveyloader === true);
+  const [isTeacherSurveyLoader, setIsTeacherSurveyLoader] =
+    useState(api.authentication.currentUserValue?.teacher?.isteachersurveyloader === true);
   const Content = styled.div`
     @media(max-width:768px){
       padding-top: ${HEADER_HEIGHT}px;
@@ -57,6 +59,7 @@ export default function App(): JSX.Element {
     const suscription = api.authentication.currentUser.subscribe((cu) => {
       setIsLoggedIn(cu && cu.teacher != null);
       setIsAdminSurveyLoader(cu?.teacher?.isadminsurveyloader === true);
+      setIsTeacherSurveyLoader(cu?.teacher?.isteachersurveyloader === true);
     });
     return () => suscription.unsubscribe();
   });
@@ -74,7 +77,11 @@ export default function App(): JSX.Element {
       </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
         <div>
-          <Header api={api} isAdminSurveyLoader={isAdminSurveyLoader} navigate={(url) => history.push(url)} height={HEADER_HEIGHT} />
+          <Header api={api}
+            isAdminSurveyLoader={isAdminSurveyLoader}
+            isTeacherSurveyLoader={isTeacherSurveyLoader}
+            navigate={(url) => history.push(url)}
+            height={HEADER_HEIGHT} />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Content>
@@ -83,10 +90,13 @@ export default function App(): JSX.Element {
               <Route path="/studentDetail/:studentKey"> <StudentDetail api={api} /> </Route>
               <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
               <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
-              <Route path="/uploadSurvey" > <UploadSurvey api={api}/> </Route>
+              {isAdminSurveyLoader || isTeacherSurveyLoader
+                ? <Route path="/uploadSurvey"> <UploadSurvey api={api} /> </Route>
+                : <Route><div>Need upload survey rights</div></Route>}
               {isAdminSurveyLoader
                 ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
                 : <Route><div>Need survey admin rights</div></Route>}
+
             </Switch>
           </Content>
           <Footer height={FOOTER_HEIGHT}/>
