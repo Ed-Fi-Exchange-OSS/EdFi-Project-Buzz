@@ -50,7 +50,7 @@ Once the csv file has been properly formatted and saved, you can execute the ser
 
 ```bash
 $ cd edfi.buzz.etl
-$ node .\tasks\buzzContactInfo.js <filename>
+$ node .\src\ContactInfoImporter\buzzContactInfo.js <filename>
 ```
 
 ## Running the Database Loader
