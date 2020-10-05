@@ -26,7 +26,7 @@ $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation;"
 Import-Module -Force -Scope Global "$edFiRepoContainer/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
 #>
 
-Import-Module ".\nuget-helper.psm1" -Force
+Import-Module ".\AppSharedLibrary\nuget-helper.psm1" -Force
 
 
 Push-Location $PackageDirectory

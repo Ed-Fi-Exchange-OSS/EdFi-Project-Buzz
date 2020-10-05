@@ -3,7 +3,7 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
-Import-Module "$PSScriptRoot\nuget-helper.psm1"
+Import-Module "$PSScriptRoot\AppSharedLibrary\nuget-helper.psm1"
 
 $root = $PSScriptRoot
 
@@ -69,6 +69,7 @@ function Install-NugetCli {
         }
     }
 }
+
 function Ensure-NodeJs {
 
     if (Get-Command node -errorAction SilentlyContinue) {
@@ -76,7 +77,15 @@ function Ensure-NodeJs {
     }
 
     if ($nodeVer) {
-        write-host "[NODE] nodejs $current_version already installed"
+        write-host "[NODE] nodejs $nodeVer already installed"
+
+        $node_version_number = [int]$nodeVer.substring(1,2);
+
+        if ($node_version_number -lt 12) {
+            Write-Error "[NODE] nodejs version installed is not supported. Please install version 12 or higher"
+            exit -1;
+        }
+
         return;
     }
 
@@ -95,6 +104,7 @@ function Initialize-Installer {
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
+    
     Install-NugetCli -toolsPath  $toolsPath
     Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
     Ensure-NodeJs

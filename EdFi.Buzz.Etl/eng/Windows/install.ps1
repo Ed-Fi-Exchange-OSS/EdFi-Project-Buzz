@@ -53,46 +53,14 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $PostgresDbName = "edfi_buzz"
+  $PostgresDbName = "edfi_buzz",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $packagesPath
 )
 
-function Get-FileNameWithoutExtensionFromUrl {
-  param(
-    [string]
-    $Url
-  )
-
-  if (($Url -match "([a-zA-Z0-9\.\-]+)\.zip")) {
-    return $Matches[1];
-  }
-
-  throw "Unable to parse file name from $Url"
-}
-
-function Get-HelperAppIfNotExists {
-  param(
-    [string]
-    $Url
-  )
-  $version = Get-FileNameWithoutExtensionFromUrl -Url $Url
-
-  if (-not (Test-Path -Path "$InstallPath\$version")) {
-    $outFile = ".\$version.zip"
-    Invoke-WebRequest -Uri $Url -OutFile $outFile
-
-    Expand-Archive -Path $outFile
-
-    if ((Test-Path -Path "$version\$version")) {
-      Move-Item -Path "$version\$version" -Destination $InstallPath
-      Remove-Item -Path $version
-    }
-    else {
-      Move-Item -Path "$version" -Destination $InstallPath
-    }
-  }
-
-  return $version
-}
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
 
 function Install-NodeService {
   param(
@@ -192,7 +160,7 @@ function Install-DistFiles {
 Write-Host "Begin Ed-Fi Buzz ETL installation..." -ForegroundColor Yellow
 
 New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
-$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
+$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $installPath
 Install-DistFiles -installPath $InstallPath
 New-DotEnvFile -installPath  "$InstallPath/dist"
 Install-NodeService -winSwVersion $winSwVersion
