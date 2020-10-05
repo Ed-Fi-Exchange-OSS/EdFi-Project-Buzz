@@ -15,8 +15,6 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Windows/**" />
-        <file src="Ed-Fi-ODS/**"/>
-        <file src="Ed-Fi-ODS-Implementation/**" />
+        <file src="Windows/**" exclude="Windows/configuration.json" />
     </files>
 </package>

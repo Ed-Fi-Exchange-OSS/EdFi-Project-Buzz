@@ -150,7 +150,7 @@ function New-DotEnvFile {
   BUZZ_SQLSOURCE=amt
   BUZZ_DBSERVER=$PostgresHost
   BUZZ_PORT=$PostgresPort
-  BUZZ_USER=$DbUsername
+  BUZZ_USER=$PostgresUserName
   BUZZ_PASSWORD=$PostgresPassword
   BUZZ_DBNAME=$PostgresDbName
   BUZZ_MAX=20

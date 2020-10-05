@@ -27,20 +27,38 @@ param (
     [string] $configPath = "./configuration.json"
 )
 
-$currDir = $PWD
-
-Import-Module "$currDir/configHelper.psm1" -Force
-Import-Module "$currDir/Application/appuninstalls.psm1" -Force
+Import-Module "$PSScriptRoot/configHelper.psm1" -Force
+Import-Module "$PSScriptRoot/init.psm1" -Force
+Import-Module "$PSScriptRoot/Application/appuninstalls.psm1" -Force
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
 # Each NuGet should be retrieveable using NuGet.executable
 $conf = Format-BuzzConfigurationFileToHashTable $configPath
 
+if (-not $conf.anyApplicationsToInstall) {
+    Write-Host "You have not chosen any Buzz applications to install." -ForegroundColor Red
+    exit -1;
+}
+
 $installPath = $conf.installPath
+$artifactRepo = $conf.artifactRepo
+
+$packagesPath = $conf.packagesPath
+$toolsPath = $conf.toolsPath
+
+if (-not $(Test-Path $packagesPath)) {
+    mkdir $packagesPath | Out-Null
+}
+
+if (-not $(Test-Path $toolsPath)) {
+    mkdir $toolsPath | Out-Null
+}
 
 try {
-    Uninstall-BuzzApp -app "Database" -appPath (Join-Path $installPath "Database")
+    # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
+    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
+
     Uninstall-BuzzApp -app "ETL" -appPath  (Join-Path $installPath "ETL")
     Uninstall-BuzzApp -app "API" -appPath  (Join-Path $installPath "API")
     Uninstall-BuzzApp -app "UI" -appPath  (Join-Path $installPath "UI")

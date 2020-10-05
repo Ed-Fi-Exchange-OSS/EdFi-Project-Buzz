@@ -26,7 +26,8 @@ for Buzz. Defaults to .\configuration.json in the same directory.
 .\install.ps1 -configPath c:/different/location/for/configuration.json
 #>
 
-#Requires -Version 5
+# WebAdministration will not load on PS Core
+#Requires -Version 5 -PSEdition Desktop
 #Requires -RunAsAdministrator
 
 param (
@@ -53,34 +54,27 @@ $artifactRepo = $conf.artifactRepo
 $packagesPath = $conf.packagesPath
 $toolsPath = $conf.toolsPath
 
-if (-not $(Test-Path $packagesPath)) {
-    mkdir $packagesPath | Out-Null
-}
-
-if (-not $(Test-Path $toolsPath)) {
-    mkdir $toolsPath | Out-Null
-}
-
 try {
-    # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath -configuration $script:conf
+    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
     $params = @{
         "configuration" = $script:conf;
         "packagesPath" = $script:packagesPath;
+        "toolsPath" = $script:toolsPath;
     }
 
     Install-DatabaseApp @params
     Install-ApiApp @params
     Install-EtlApp @params
     Install-UiApp @params
+
+    Check-BuzzServices $script:conf
+    Write-Host "Ed-Fi Buzz installation complete."
 }
 catch {
     Write-Error $PSItem.Exception.Message
     Write-Error $PSItem.Exception.StackTrace
     exit -1;
 }
-
-# TODO Verify all services are running
 
 exit;
