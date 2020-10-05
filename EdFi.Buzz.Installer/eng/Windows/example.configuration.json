@@ -13,7 +13,7 @@
     "adfsClientId": null,
     "adfsTenantId": null,
     "postgresDatabase": {
-        "host": "localhost",
+        "host": "127.0.0.1",
         "port": 5432,
         "username": "postgres",
         "password": "pa55w0rd",
