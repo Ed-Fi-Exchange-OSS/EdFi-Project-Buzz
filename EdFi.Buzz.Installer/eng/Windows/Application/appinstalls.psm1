@@ -220,14 +220,19 @@ function Get-WebStatus {
         $url
     )
 
-    $global:ProgressPreference = 'SilentlyContinue'
-    $request = (Invoke-WebRequest -Uri $url)
-    $status = "Not running"
-    if ($request.StatusCode)
-    {
-        $status = "Status code returned: " + $request.StatusCode
+    try {
+        $status = "Not running"
+        $global:ProgressPreference = 'SilentlyContinue'
+        $request = (Invoke-WebRequest -Uri $url )
+        if ($request.StatusCode)
+        {
+            $status = "Status code returned: " + $request.StatusCode
+        }
+        $global:ProgressPreference = 'Continue'
     }
-    $global:ProgressPreference = 'Continue'
+    catch {
+
+    }
     return $status
 }
 
