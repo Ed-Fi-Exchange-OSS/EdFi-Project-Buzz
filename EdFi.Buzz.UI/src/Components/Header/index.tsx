@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdUnlock from '@iconify-icons/ion/md-unlock';
 import mdBuild from '@iconify-icons/ion/md-build';
+import mdUpload from '@iconify-icons/ion/md-cloud-upload';
 
 interface CustomLikComponentProps {
   children: ReactFragment;
@@ -73,6 +74,7 @@ export interface HeaderComponentProps {
   title?: string;
   api: ApiService;
   isAdminSurveyLoader?: boolean;
+  isTeacherSurveyLoader?: boolean;
   navigate: (url: string) => void;
   height: number;
 }
@@ -82,7 +84,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 ) => {
   const [menuActive, setMenuActive] = useState(false);
   const { teacher } = props.api.authentication.currentUserValue;
-  const { isAdminSurveyLoader } = props;
+  const { isAdminSurveyLoader, isTeacherSurveyLoader } = props;
   const { height } = props;
   const LinkButton = styled.button`
   text-transform: uppercase;
@@ -274,8 +276,14 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                     {isAdminSurveyLoader
                       ? <li>
                         <Link to="/adminSurvey">
-
                           <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
+                        </Link>
+                      </li>
+                      : null}
+                    {isAdminSurveyLoader || isTeacherSurveyLoader
+                      ? <li>
+                        <Link to="/uploadSurvey">
+                          <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
