@@ -160,6 +160,7 @@ function Install-UiApp {
         "InstallPath"     = Join-Path $configuration.InstallPath "UI";
         "port"            = $configuration.ui.port;
         "graphQlEndpoint" = $configuration.api.url;
+        "idProvider"      = $configuration.idProvider;
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
         "adfsTenantId"    = $configuration.adfsTenantId;

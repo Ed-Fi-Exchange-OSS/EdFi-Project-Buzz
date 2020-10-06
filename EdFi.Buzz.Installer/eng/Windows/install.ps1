@@ -37,6 +37,7 @@ param (
 Import-Module "$PSScriptRoot/configHelper.psm1" -Force
 Import-Module "$PSScriptRoot/init.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
+Import-Module "$PSScriptRoot/Application/appinstallValidations.psm1" -Force
 
 # Confirm required parameters to install
 # Repo location should be configuration with overrides
@@ -55,6 +56,12 @@ $packagesPath = $conf.packagesPath
 $toolsPath = $conf.toolsPath
 
 try {
+    # Validating Auth configuration
+    if (-not (Authentication-Configuration-Valid -idProvider $conf.idProvider -clientSecret $conf.clientSecret -googleClientId $conf.googleClientId -adfsClientId $conf.adfsClientId -adfsTenantId $conf.adfsTenantId)) {
+        Write-Error "Buzz authentication configuration has not been provided properly. Please either provide Google's client identifier and sercret, or ADFS's client and tenant identifiers."
+        exit -1;
+    }
+
     Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
     $params = @{

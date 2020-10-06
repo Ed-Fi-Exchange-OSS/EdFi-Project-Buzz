@@ -23,6 +23,8 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $graphQlEndpoint,
 
+  [Parameter(Mandatory = $true)]
+  [string] $idProvider,
   [string] $googleClientId,
   [string] $adfsClientId,
   [string] $adfsTenantId,
@@ -44,19 +46,16 @@ Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
 
 Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Yellow
 
-if (![string]::IsNullOrEmpty($googleClientId)) {
-  $adfsClient = ""
-  $adfsTenantId = ""
-}
+$envFile = ""
 
-# Use Google unless ADFS is populated
-$envFile = @"
+if ("google" -eq $idProvider) {
+  $envFile = @"
 /*
- * SPDX-License-Identifier: Apache-2.0
- * Licensed to the Ed-Fi Alliance under one or more agreements.
- * The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
- * See the LICENSE and NOTICES files in the project root for more information.
- */
+* SPDX-License-Identifier: Apache-2.0
+* Licensed to the Ed-Fi Alliance under one or more agreements.
+* The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+* See the LICENSE and NOTICES files in the project root for more information.
+*/
 PORT=$port
 REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
 REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
@@ -65,8 +64,8 @@ REACT_APP_ADFS_TENANT_ID=
 REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
 REACT_APP_JOB_STATUS_FINISH_IDS=[3]
 "@
-
-if ($adfsClientId.Length -gt 1) {
+}
+else {
   $envFile = @"
 /*
 * SPDX-License-Identifier: Apache-2.0
