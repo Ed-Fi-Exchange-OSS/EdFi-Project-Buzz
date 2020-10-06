@@ -4,11 +4,11 @@ These scripts were made possible thanks to the Ed-Fi Alliance and the Michael an
 
 ## Description
 
-The installation script downloads all the assets needed for the Ed-Fi Buzz. Artifacts are placed in the dist/ directory at the root of this project 
+The installation script downloads all the assets needed for the Ed-Fi Buzz. Artifacts are placed in the dist/ directory at the root of this project
 
-It validates existence of NuGet Package Provider, Node JS, IIS, SQL Server and Postgres. Retrieves the latest release of several Ed-Fi Buzz NuGet packages. Downloads prequisites from the web. 
+It validates existence of NuGet Package Provider, Node JS, IIS, SQL Server and Postgres. Retrieves the latest release of several Ed-Fi Buzz NuGet packages. Downloads prequisites from the web.
 
-The ETL requires a default, local instance of SQL Server, and the user executing the script must have sufficient permissions. Any existing Buzz databases on the build server should be backed-up and removed before running this build script. 
+The ETL requires a default, local instance of SQL Server, and the user executing the script must have sufficient permissions. Any existing Buzz databases on the build server should be backed-up and removed before running this build script.
 
 ## Installation
 - **Database:** This application provides the scripts to create the database structures necessary to execute Ed-Fi Buzz.
@@ -24,7 +24,7 @@ We recommend that the following prerequisites are installed on the machine that 
 
 ## Setup Instructions
 1. Edit the configuration file to include the values according to your installation environment.
-2. Run as administrator the installation script 
+2. Run as administrator the installation script
 
 
 
@@ -74,7 +74,7 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **version:** The NuGet version to download. Blank gets latest.
 - **port:** Port to access UI.
 
-### Instalation
+### Installation
 Installation script:
 - It requires administrator privileges.
 - It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
