@@ -28,7 +28,7 @@ object DeployETLBuild : BuildType ({
     }
 
     dependencies {
-        artifacts(BranchETLBuild) {
+        artifacts(PullRequestETLBuild) {
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }

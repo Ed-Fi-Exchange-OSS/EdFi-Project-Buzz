@@ -28,7 +28,7 @@ object DeployUIBuild : BuildType ({
     }
 
     dependencies {
-        artifacts(BranchUIBuild) {
+        artifacts(PullRequestUIBuild) {
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }
