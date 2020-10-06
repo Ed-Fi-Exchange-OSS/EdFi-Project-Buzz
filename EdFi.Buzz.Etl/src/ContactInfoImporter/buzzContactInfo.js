@@ -7,7 +7,7 @@
 const dotnet = require('dotenv');
 
 dotnet.config();
-const processor = require('../processors/contactInfoProcessor');
+const processor = require('../../processors/contactInfoProcessor');
 
 async function main() {
   console.time('Load time');
