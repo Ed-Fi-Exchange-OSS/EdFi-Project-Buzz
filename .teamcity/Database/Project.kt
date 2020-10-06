@@ -19,9 +19,6 @@ object DatabaseProject : Project({
 
     params{
         param("project.directory", "./edfi.buzz.database");
-        param("octopus.release.version","<placeholder value>")
-        param("octopus.release.project", "Buzz Database")
-        param("octopus.project.id", "Projects-111")
         // Include the root - giving us license, notices.md, and .teamcity.
         // Then exclude the other projects.
         param("vcs.checkout.rules","""

@@ -7,6 +7,7 @@ package installer.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.nuGetFeedCredentials
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 
@@ -17,6 +18,12 @@ object DeployInstallerBuild : BuildType ({
     features {
         // Default setting is to clean before next build
         swabra {
+        }
+
+        nuGetFeedCredentials {
+            feedUrl = "%azureArtifacts.feed.nuget%"
+            username = "%azureArtifacts.edFiBuildAgent.userName%"
+            password = "%azureArtifacts.edFiBuildAgent.accessToken%"
         }
     }
 
@@ -29,10 +36,10 @@ object DeployInstallerBuild : BuildType ({
 
     steps {
         nuGetPublish {
-            name = "Publish NuGet Packages to Octopus Feed"
+            name = "Publish NuGet Packages to Azure Artifacts"
             toolPath = "%teamcity.tool.NuGet.CommandLine.DEFAULT%"
             packages = "**/*.nupkg"
-            serverUrl = "%octopus.server.nugetFeed%"
+            serverUrl = "%azureArtifacts.feed.nuget%"
             apiKey = "%octopus.apiKey%"
             args = "-SkipDuplicate"
         }
