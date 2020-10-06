@@ -33,6 +33,16 @@ open class BuildAndTestBaseClass : BuildBaseClass() {
                     """.trimIndent()
                 }
             }
+            powerShell {
+                name = "Package"
+                workingDir = "%project.directory%/eng"
+                formatStderrAsError = true
+                scriptMode = script {
+                    content = """
+                        .\build-package.ps1 -BuildCounter %build.counter%
+                    """.trimIndent()
+                }
+            }
         }
     }
 }
