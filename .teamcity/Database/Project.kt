@@ -14,8 +14,7 @@ object DatabaseProject : Project({
 
     buildType(database.buildTypes.PullRequestDatabaseBuild)
     buildType(database.buildTypes.BranchDatabaseBuild)
-    // Not ready for deploy yet
-    // buildType(database.buildTypes.DeployDatabaseBuild)
+    buildType(database.buildTypes.DeployDatabaseBuild)
 
     params{
         param("project.directory", "./edfi.buzz.database");
