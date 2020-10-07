@@ -19,16 +19,14 @@ import SurveyAnalyticsApiService from 'Services/SurveyAnalyticsService';
 import SurveyService from 'Services/SurveyService';
 import TeacherApiService from 'Services/TeacherService';
 
-
-
-function createApolloClient() {
+function createApolloClient(container: DIContainer) {
+  const env: EnvironmentService = container.get('EnvironmentService');
   const httpLink = createHttpLink({
-    uri: 'http://localhost:3000/graphql',
+    uri: env.environment.GQL_ENDPOINT,
     fetchOptions: {
       mode: 'cors'
     }
   });
-
 
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
@@ -47,15 +45,15 @@ function createApolloClient() {
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
   });
-
 }
-
 
 export default function configureDI(): DIContainer {
   const container = new DIContainer();
   container.addDefinitions({
-    'EnvironmentService': object(EnvironmentService).construct(),
-    'ApolloClient': createApolloClient(),
+    'EnvironmentService': object(EnvironmentService).construct()
+  })
+  container.addDefinitions({
+    'ApolloClient': createApolloClient(container),
     'ApiService': object(ApiService).construct(
       get('AuthenticationService'),
       get('SectionApiService'),
@@ -92,8 +90,6 @@ export default function configureDI(): DIContainer {
       get('EnvironmentService'),
       get('ApolloClient')
     )
-
-
   });
   return container;
 }
