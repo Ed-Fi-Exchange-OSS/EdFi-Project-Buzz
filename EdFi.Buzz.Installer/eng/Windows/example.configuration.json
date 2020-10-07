@@ -8,8 +8,8 @@
     "installUi": true,
     "installApi": true,
     "idProvider": "google",
-    "clientSecret": "*******",
-    "googleClientId": "********",
+    "clientSecret": null,
+    "googleClientId": null,
     "adfsClientId": null,
     "adfsTenantId": null,
     "postgresDatabase": {
