@@ -17,9 +17,7 @@ object DatabaseProject : Project({
     buildType(database.buildTypes.DeployDatabaseBuild)
 
     params{
-        param("project.directory", "./edfi.buzz.database");
-        // Include the root - giving us license, notices.md, and .teamcity.
-        // Then exclude the other projects.
+        param("project.directory", "./EdFi.Buzz.Database");
         param("vcs.checkout.rules","""
             +:.teamcity => .teamcity
             +:%project.directory% => %project.directory%
