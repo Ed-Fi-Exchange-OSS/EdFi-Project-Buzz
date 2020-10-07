@@ -57,7 +57,7 @@ $toolsPath = $conf.toolsPath
 
 try {
     # Validating Auth configuration
-    if (-not (Authentication-Configuration-Valid -idProvider $conf.idProvider -clientSecret $conf.clientSecret -googleClientId $conf.googleClientId -adfsClientId $conf.adfsClientId -adfsTenantId $conf.adfsTenantId)) {
+    if (-not (Test-AuthConfiguration -idProvider $conf.idProvider -clientSecret $conf.clientSecret -googleClientId $conf.googleClientId -adfsClientId $conf.adfsClientId -adfsTenantId $conf.adfsTenantId)) {
         Write-Error "Buzz authentication configuration has not been provided properly. Please either provide Google's client identifier and sercret, or ADFS's client and tenant identifiers."
         exit -1;
     }
@@ -75,7 +75,7 @@ try {
     Install-EtlApp @params
     Install-UiApp @params
 
-    Check-BuzzServices $script:conf
+    Test-BuzzServices $script:conf
     Write-Host "Ed-Fi Buzz installation complete."
 }
 catch {

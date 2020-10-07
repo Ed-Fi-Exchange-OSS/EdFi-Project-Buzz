@@ -251,7 +251,7 @@ function Get-WebStatus {
     return $status
 }
 
-function Check-BuzzServices {
+function Test-BuzzServices {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -288,7 +288,7 @@ $functions = @(
     "Install-DatabaseApp",
     "Install-EtlApp",
     "Install-UiApp",
-    "Check-BuzzServices"
+    "Test-BuzzServices"
 )
 
 Export-ModuleMember $functions

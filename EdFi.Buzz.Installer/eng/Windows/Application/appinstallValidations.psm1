@@ -6,7 +6,7 @@
 #Requires -version 5
 #Requires -RunAsAdministrator
 
-function Authentication-Configuration-Valid {
+function Test-AuthConfiguration {
     param (
         [string] $idProvider,
         [string] $clientSecret,
@@ -26,7 +26,7 @@ function Authentication-Configuration-Valid {
 }
 
 $functions = @(
-    "Authentication-Configuration-Valid"
+    "Test-AuthConfiguration"
 )
 
 Export-ModuleMember $functions
