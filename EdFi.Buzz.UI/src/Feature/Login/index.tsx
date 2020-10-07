@@ -12,15 +12,18 @@ import styled from 'styled-components';
 import mdLock from '@iconify-icons/ion/md-lock';
 
 import Logo from 'assets/Owl-Logo-GrandBend.png';
+import WaitRefreshToken from 'assets/waiting.gif';
 import ApiService from 'Services/ApiService';
 import User from 'Models/User';
 
 import SocialButton from './SocialButton';
 import { ADFSButton } from './LoginADFS';
+import { useParams } from 'react-router-dom';
 
 export interface LoginComponentProps {
   api: ApiService;
   returnUrl?: string;
+  refreshToken?: boolean;
   navigate: (url: string) => void;
   googleClientId?: string;
   adfsClientId?: string;
@@ -29,8 +32,10 @@ export interface LoginComponentProps {
 
 export const Login: FunctionComponent<LoginComponentProps> = (props: LoginComponentProps) => {
   document.title = 'EdFi Buzz: Login';
+  const params: { lastUrl: string } = useParams();
+  const {lastUrl} = params;
   const [isUnregisteredUser, setIsUnregisteredUser]=useState(false);
-
+  const refreshToken = props.refreshToken;
   const UnregistredUser = styled.div`
     color: #856404;
     background-color: #fff3cd;
@@ -42,8 +47,16 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     display: flex;
     justify-content: center;
   `;
+  const RefreshToken = styled.div`
+    width:100vw;
+    height:100vh;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `;
   async function onUserAuthState(user: User) {
-    const returnUrl = props.returnUrl || '/';
+    const returnUrl = refreshToken ? (lastUrl ? `${decodeURIComponent(lastUrl)}` :'/') : props.returnUrl || '/';
 
     if (!user) {
       return;
@@ -79,6 +92,13 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
 
   return (
     <main role='main' className='container h-100'>
+      {refreshToken &&
+      <div className='row justify-content-center h-100'>
+        <RefreshToken className='text-center'>
+          <img src={WaitRefreshToken} style={{ 'width': '40px', 'maxWidth': '50px' }} alt="District Logo" />
+          <h5 className=' text-center m-t-25'>Please wait</h5>
+        </RefreshToken>
+      </div>}
       <div className='row justify-content-center h-100'>
         <div className=''>
           <div className='card m-t--50'>
@@ -102,7 +122,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
                   <SocialButton
                     className='btn btn-primary'
                     provider='google'
-                    autoLogin={false}
+                    autoLogin={refreshToken ? true : false}
                     appId={props.googleClientId}
                     onLoginSuccess={handleSocialLogin}
                     onLoginFailure={handleSocialLoginFailure}

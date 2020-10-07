@@ -5,6 +5,7 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import jwt from 'jsonwebtoken';
 import ApolloHelper from 'Helpers/ApolloHelper';
 import TeacherApiService from './TeacherService';
 import User from '../Models/User';
@@ -25,6 +26,7 @@ export default class AuthenticationService {
   }
 
   public get currentUserValue(): User {
+    this.validateJWT();
     return this.currentUserSubject.value;
   }
 
@@ -50,6 +52,40 @@ export default class AuthenticationService {
     return true;
   }
 
+  public validateJWT = (): boolean =>{
+    const token = sessionStorage.getItem('validatingToken');
+    if(token){
+      const decodedToken = jwt.decode(token, { complete: true, json: true })
+      var dateNow = new Date();
+      if(decodedToken && decodedToken.payload.exp >= Math.round(dateNow.getTime()/1000)){
+        return true;
+      }
+      else if(decodedToken && decodedToken.payload.exp < Math.round(dateNow.getTime()/1000)){
+        const currentUrl = encodeURIComponent(window.location.pathname);
+        sessionStorage.removeItem('validatingToken');
+        window.location.replace(`/autologin/${currentUrl}`);
+        return false
+      }
+      else{
+        this.cleanUpUser();
+        window.location.replace(`/login`);
+        return false
+      }
+    }
+    if(token === ''){
+      this.cleanUpUser();
+      window.location.replace(`/login`);
+    }
+    else{
+      return true;
+    }
+  }
+  cleanUpUser = (): void =>{
+    this.storage.removeItem('currentUser');
+    this.storage.removeItem('lastUploadedSurvey');
+    localStorage.clear();
+    sessionStorage.clear();
+  }
   logout = (): void => {
     // remove user from local storage to log user out
     this.storage.removeItem('currentUser');
