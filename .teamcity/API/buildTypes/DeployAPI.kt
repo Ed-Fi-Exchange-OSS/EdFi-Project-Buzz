@@ -28,7 +28,7 @@ object DeployAPIBuild : BuildType ({
     }
 
     dependencies {
-        artifacts(PullRequestAPIBuild) {
+        artifacts(BranchAPIBuild) {
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }

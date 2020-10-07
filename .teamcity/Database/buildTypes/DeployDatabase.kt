@@ -28,7 +28,7 @@ object DeployDatabaseBuild : BuildType ({
     }
 
     dependencies {
-        artifacts(PullRequestDatabaseBuild) {
+        artifacts(BranchDatabaseBuild) {
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }
