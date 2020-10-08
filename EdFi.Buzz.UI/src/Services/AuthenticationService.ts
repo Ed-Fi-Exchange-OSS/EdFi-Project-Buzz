@@ -60,21 +60,16 @@ export default class AuthenticationService {
       if(decodedToken && decodedToken.payload.exp >= Math.round(dateNow.getTime()/1000)){
         return true;
       }
-      else if(decodedToken && decodedToken.payload.exp < Math.round(dateNow.getTime()/1000)){
-        const currentUrl = encodeURIComponent(window.location.pathname);
-        sessionStorage.removeItem('validatingToken');
-        window.location.replace(`/autologin/${currentUrl}`);
-        return false
-      }
       else{
         this.cleanUpUser();
         window.location.replace(`/login`);
         return false
       }
     }
-    if(token === ''){
+    else if(token === ''){
       this.cleanUpUser();
       window.location.replace(`/login`);
+      return false
     }
     else{
       return true;

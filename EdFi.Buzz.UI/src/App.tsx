@@ -75,15 +75,6 @@ export default function App(): JSX.Element {
           returnUrl="/"
         />
       </Route>
-      <Route path="/autologin/:lastUrl?" >
-        <Login
-          api={api}
-          navigate={(url) => history.replace(url)}
-          googleClientId={env.GOOGLE_CLIENT_ID}
-          returnUrl="/"
-          refreshToken={true}
-        />
-      </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
         <div>
           <Header api={api}
