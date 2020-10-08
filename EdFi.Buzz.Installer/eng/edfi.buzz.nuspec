@@ -11,7 +11,11 @@
         <summary>Buzz end-user website, API, ETL and database</summary>
         <description>Buzz end-user website, API, ETL and database</description>
         <dependencies>
-            <dependency id="EdFi.Installer.AppCommon" version="1.0.3" />
+            <dependency id="EdFi.Installer.AppCommon" version="[1.0.3]" />
+            <dependency id="edfi.buzz.database" version="$version$" />
+            <dependency id="edfi.buzz.api" version="$version$" />
+            <dependency id="edfi.buzz.etl" version="$version$" />
+            <dependency id="edfi.buzz.ui" version="$version$" />
         </dependencies>
     </metadata>
     <files>
