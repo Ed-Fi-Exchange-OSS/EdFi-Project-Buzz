@@ -5,9 +5,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const dsHelper = require('./dsHelper');
 
 const sqlSourceDir = `./../sql/${process.env.BUZZ_SQLSOURCE || 'amt'}/`;
-const dbDataStandard = `${process.env.BUZZ_DB_DS || 'ds3'}/`;
 
 const schoolSource = `${sqlSourceDir}/0001-ImportSchool.sql`;
 const studentSchoolSource = `${sqlSourceDir}/0002-ImportStudentSchool.sql`;
@@ -15,7 +15,6 @@ const contactPersonSource = `${sqlSourceDir}/0003-ImportContactPerson.sql`;
 const studentContactSource = `${sqlSourceDir}/0004-ImportStudentContact.sql`;
 const sectionSource = `${sqlSourceDir}/0005-ImportSection.sql`;
 const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
-const staffSectioNSource = `${sqlSourceDir}/${dbDataStandard}/0007-ImportStaffSectionAssociation.sql`;
 const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
 
 const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');
@@ -24,8 +23,33 @@ const contactPersonSourceSQL = fs.readFileSync(path.join(__dirname, contactPerso
 const studentContactSourceSQL = fs.readFileSync(path.join(__dirname, studentContactSource), 'utf8');
 const sectionSourceSQL = fs.readFileSync(path.join(__dirname, sectionSource), 'utf8');
 const staffSourceSQL = fs.readFileSync(path.join(__dirname, staffSource), 'utf8');
-const staffSectionSourceSQL = fs.readFileSync(path.join(__dirname, staffSectioNSource), 'utf8');
 const studentSectionSourceSQL = fs.readFileSync(path.join(__dirname, studentSectionSource), 'utf8');
+let staffSectionSourceSQL = '';
+
+let staffSectionConfig = {};
+
+exports.dbDataStandard = async (msConfig) => {
+  const dbDataStandard = await dsHelper.dbDataStandard(msConfig);
+  const staffSectioNSource = `${sqlSourceDir}/${dbDataStandard}/0007-ImportStaffSectionAssociation.sql`;
+  staffSectionSourceSQL = fs.readFileSync(path.join(__dirname, staffSectioNSource), 'utf8');
+  
+  staffSectionConfig = {
+    recordType: 'StaffSection',
+    deleteSql: 'DELETE FROM buzz.staffsectionassociation',
+    insertSql: 'INSERT INTO buzz.staffsectionassociation (staffkey, sectionkey, begindate, enddate)  VALUES ($1, $2::text, $3, $4) ON CONFLICT (sectionkey, staffkey) DO NOTHING',
+    sourceSql: staffSectionSourceSQL,
+    keyIndex: 0,
+    isEntityMap: true,
+    valueFunc: (row) => [
+      row.staffkey,
+      row.sectionkey,
+      row.begindate,
+      row.enddate,
+    ],
+  };
+
+  console.log(`ODS Data Standard: ${dbDataStandard}`);
+};
 
 exports.schoolConfig = {
   recordType: 'School',
@@ -152,19 +176,8 @@ exports.staffConfig = {
   ],
 };
 
-exports.staffSectionConfig = {
-  recordType: 'StaffSection',
-  deleteSql: 'DELETE FROM buzz.staffsectionassociation',
-  insertSql: 'INSERT INTO buzz.staffsectionassociation (staffkey, sectionkey, begindate, enddate)  VALUES ($1, $2::text, $3, $4) ON CONFLICT (sectionkey, staffkey) DO NOTHING',
-  sourceSql: staffSectionSourceSQL,
-  keyIndex: 0,
-  isEntityMap: true,
-  valueFunc: (row) => [
-    row.staffkey,
-    row.sectionkey,
-    row.begindate,
-    row.enddate,
-  ],
+exports.staffSectionConfig = () => {
+  return staffSectionConfig;
 };
 
 exports.studentSectionConfig = {

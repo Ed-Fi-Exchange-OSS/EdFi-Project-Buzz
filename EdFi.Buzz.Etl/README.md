@@ -61,7 +61,6 @@ The ETL Database module (./src/dbETL.js) is executed by yarn via the start:db ta
 
 - You have created a .env file, or renamed the sample.env and edited it to match your configuration.
 - You have a SQL Server install with an EdFi database with AMT views. If you want to load ODS only - update the - BUZZ_SQLSOURCE value to 'ods' in your your .env file.
-- Additionally the installer assumes, by default, that ODS contains data standard 3. To change this value to use DS2, just change BUZZ_DB_DS value to 'ds2'.
 - You have a Postgres local database called Buzz. (Run db-migrate up in the database sub).
 
 ### Running the Database Loader
@@ -116,7 +115,6 @@ BUZZ_PORT=5432
 BUZZ_USER=postgres
 BUZZ_PASSWORD=pa55w0rd
 BUZZ_DBNAME=edfi_buzz
-BUZZ_DB_DS=ds3
 BUZZ_MAX=20
 BUZZ_IDLETIMEOUTMILLIS=5000
 BUZZ_CONNECTIONTIMEOUTMILLIS=2000
