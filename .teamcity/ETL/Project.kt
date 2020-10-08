@@ -18,9 +18,6 @@ object ETLProject : Project({
 
     params{
         param("project.directory", "./EdFi.Buzz.Etl");
-        param("octopus.release.version","<placeholder value>")
-        param("octopus.release.project", "Buzz ETL")
-        param("octopus.project.id", "Projects-111")
         param("vcs.checkout.rules","""
             +:.teamcity => .teamcity
             +:%project.directory% => %project.directory%

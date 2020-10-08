@@ -3,7 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-package ui.buildTypes
+package database.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
@@ -12,7 +12,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 
 
-object DeployUIBuild : BuildType ({
+object DeployDatabaseBuild : BuildType ({
     name = "Deploy"
 
     features {
@@ -28,7 +28,7 @@ object DeployUIBuild : BuildType ({
     }
 
     dependencies {
-        artifacts(BranchUIBuild) {
+        artifacts(BranchDatabaseBuild) {
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }
@@ -40,7 +40,7 @@ object DeployUIBuild : BuildType ({
             toolPath = "%teamcity.tool.NuGet.CommandLine.DEFAULT%"
             packages = "**/*.nupkg"
             serverUrl = "%azureArtifacts.feed.nuget%"
-            apiKey = "this-value-is-ignored"
+            apiKey = "%octopus.apiKey%"
             args = "-SkipDuplicate"
         }
     }
