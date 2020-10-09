@@ -29,6 +29,7 @@ object DeployAPIBuild : BuildType ({
 
     dependencies {
         artifacts(BranchAPIBuild) {
+            cleanDestination = true
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }

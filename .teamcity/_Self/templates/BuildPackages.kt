@@ -50,7 +50,7 @@ object BuildPackagesTemplate : BuildAndTestBaseClass() {
                 id ="vcsTrigger"
                 quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_CUSTOM
                 quietPeriod = 120
-                branchFilter = "+:FIF-303:<default>"
+                branchFilter = "+:<default>"
             }
         }
 

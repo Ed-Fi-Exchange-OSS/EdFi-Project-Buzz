@@ -51,14 +51,15 @@ BUZZ_DB_DATABASE = '$DbName'
 function Install-Migrations{
     try {
         Push-Location -Path $distFolder
-        Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
-        &npm install
-        &npm run migrate
+        Write-Host "Executing: npm run migrate $DbName --config ./migrate-database.json" -ForegroundColor Magenta
+        &npm run migrate "$DbName" --config ./migrate-database.json
         Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
     }
     catch {
-        Write-Error "Database was not migrated"
-        throw
+		Write-Error "Database was not migrated" -ErrorAction Continue
+		Write-Error $_.Exception.Message -ErrorAction Continue
+        Write-Error $_.Exception.StackTrace -ErrorAction Continue
+		throw $_.Exception
     }
     finally {
         Pop-Location
@@ -66,17 +67,21 @@ function Install-Migrations{
 }
 
 function Install-Database {
+	$output = ""
     try {
         Push-Location -Path $distFolder
         Write-Host "Executing: npm install --production" -ForegroundColor Magenta
         &npm install --production --silent
 
-        Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
-        $output = &npm run --silent init-db $DbName 2>&1
+        Write-Host "Executing: npm run init-db $DbName --config ./create-database.json" -ForegroundColor Magenta
+        $ErrorActionPreference = "Continue"
+        $output = &npm run init-db "$DbName" --config ./create-database.json 2>&1
+        $ErrorActionPreference = "Stop"
     }
     catch {
-        Write-Error $PSItem.Exception.StackTrace
-        throw "Database was not installed"
+		Write-Host "Database creation process threw an exception, but will still run migrations..."
+		Write-Host $_.Exception.Message
+		Write-Host "Continuing on..."
     }
     finally {
         Pop-Location

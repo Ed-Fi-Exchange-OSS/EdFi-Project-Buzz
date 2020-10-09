@@ -11,7 +11,7 @@ const { execSync } = require('child_process');
 const steps = [
     'yarn build:clean',
     'yarn synp -s yarn.lock -f',
-    'yarn copyfiles package-lock.json package.json database.json migrations/**/* dist',
+    'yarn copyfiles package-lock.json package.json create-database.json migrate-database.json migrations/**/* dist',
     'yarn del-cli package-lock.json'
 ];
 

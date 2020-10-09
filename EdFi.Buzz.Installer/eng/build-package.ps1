@@ -5,10 +5,9 @@
 
 [CmdletBinding()]
 param(
-    [string]
-    $BuildCounter = 0,
-    [string]
-    $version = "0.1.0"
+  [string] $VersionCore = "0.1.0",
+  [string] $PrereleasePrefix = "-pre",
+  [string] $BuildCounter = 0
 )
 
 function Invoke-NuGetPack {
@@ -29,5 +28,5 @@ function Invoke-NuGetPack {
   &nuget.exe @parameters
 }
 
-Invoke-NuGetPack -FullVersion "$version-pre$($BuildCounter.PadLeft(4,'0'))"
-Invoke-NuGetPack -FullVersion $version
+Invoke-NuGetPack -FullVersion "$($VersionCore)$($PrereleasePrefix)$($BuildCounter.PadLeft(4,'0'))"
+Invoke-NuGetPack -FullVersion $VersionCore

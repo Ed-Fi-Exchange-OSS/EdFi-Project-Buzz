@@ -70,6 +70,7 @@ try {
         "toolsPath" = $script:toolsPath;
     }
 
+    Write-Host "Start Ed-Fi Buzz App installations..."
     Install-DatabaseApp @params
     Install-ApiApp @params
     Install-EtlApp @params
@@ -77,10 +78,12 @@ try {
 
     Test-BuzzServices $script:conf
     Write-Host "Ed-Fi Buzz installation complete."
+    Exit 0
 }
 catch {
-    Write-Error $PSItem.Exception.Message
-    Write-Error $PSItem.Exception.StackTrace
+    Write-Error "Error on EdFi Buzz Installer" -ErrorAction "Continue"
+    Write-Error $_.Exception.Message -ErrorAction "Continue"
+    Write-Error $_.Exception.StackTrace -ErrorAction "Continue"
     exit -1;
 }
 

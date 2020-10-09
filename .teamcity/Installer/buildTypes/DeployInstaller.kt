@@ -15,9 +15,17 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 object DeployInstallerBuild : BuildType ({
     name = "Deploy"
 
+    params {
+        param("nupkg.version", "${BranchInstallerBuild.depParamRefs["version"]}")
+    }
+
+    vcs {
+        cleanCheckout = true
+    }
+
     features {
-        // Default setting is to clean before next build
         swabra {
+            forceCleanCheckout = true
         }
 
         nuGetFeedCredentials {
@@ -28,7 +36,13 @@ object DeployInstallerBuild : BuildType ({
     }
 
     dependencies {
+        snapshot(BranchInstallerBuild) {
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
+        }
+
         artifacts(BranchInstallerBuild) {
+            cleanDestination = true
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }
@@ -43,30 +57,20 @@ object DeployInstallerBuild : BuildType ({
             apiKey = "%octopus.apiKey%"
             args = "-SkipDuplicate"
         }
-        powerShell {
-            name = "Extract release version from NuGet package"
-            formatStderrAsError = true
-            scriptMode = script {
-                content = """
-                    ${"$"}packages = Get-ChildItem -Path %teamcity.build.checkoutDir% -Filter *pre*.nupkg -Recurse
-                    ${"$"}packageName = ${"$"}packages[0].Name
-                    ${"$"}packageName -Match "buzz\.installer\.(.+)\.nupkg"
-                    ${"$"}packageVersion = ${"$"}Matches[1]
-                    Write-Host "##teamcity[setParameter name='octopus.release.version' value='${"$"}packageVersion']"
-                """.trimIndent()
-            }
-        }
+
         powerShell {
             name = "Create Release and Deploy to Integration"
             formatStderrAsError = true
             scriptMode = script {
                 content = """
+                    write-host $( '##teamcity[message text=''version => {0}'']' -f "%version%" )
+
                     ${"$"}parameters = @(
                         "create-release",
                         "--server=%octopus.server%",
                         "--project=%octopus.release.project%",
-                        "--defaultPackageVersion=%octopus.release.version%",
-                        "--releaseNumber=%octopus.release.version%",
+                        "--defaultPackageVersion=%nupkg.version%",
+                        "--releaseNumber=%nupkg.version%",
                         "--deployTo=%octopus.release.environment%"
                         "--deploymenttimeout=%octopus.deploy.timeout%",
                         "--apiKey=%octopus.apiKey%"

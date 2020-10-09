@@ -21,12 +21,36 @@ object PsBuildOnlyTemplate : PsBuildBaseClass() {
         steps {
             // Additional packaging step to augment the template build
             powerShell {
+                name = "Update versions"
+                workingDir = "%project.directory%/eng"
+                formatStderrAsError = true
+                scriptMode = script {
+                    content = """
+                    ${'$'}paddedSuffix = "%build.counter%".PadLeft(4,"0")
+                    Write-Host "##teamcity[setParameter name='version.prerelease.suffix' value='${'$'}paddedSuffix']"
+                    Write-Host "##teamcity[setParameter name='version' value='%version.core%%version.prerelease.prefix%${'$'}paddedSuffix']"
+                    Write-Host "##teamcity[setParameter name='octopus.release.version' value='%version.core%%version.prerelease.prefix%${'$'}paddedSuffix']"
+                    """.trimIndent()
+                }
+            }
+
+            powerShell {
                 name = "Package"
                 workingDir = "%project.directory%/eng"
                 formatStderrAsError = true
                 scriptMode = script {
                     content = """
-                        .\build-package.ps1 -BuildCounter %build.counter%
+                    write-host $( '##teamcity[message text=''version.prerelease.suffix => {0}'']' -f "%version.prerelease.suffix%" )
+                    write-host $( '##teamcity[message text=''version => {0}'']' -f "%version%" )
+                    write-host $( '##teamcity[message text=''octopus.release.version => {0}'']' -f "%octopus.release.version%" )
+                    write-host $( '##teamcity[message text=''nupkg.version => {0}'']' -f "%nupkg.version%" )
+
+                    ${"$"}params = @{
+                       "BuildCounter"= "%build.counter%".PadLeft(4,"0")
+                       "PrereleasePrefix"= "%version.prerelease.prefix%"
+                       "VersionCore" = "%version.core%"
+                    }
+                    .\build-package.ps1 @params
                     """.trimIndent()
                 }
             }

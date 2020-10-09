@@ -7,8 +7,9 @@
 
 [CmdletBinding()]
 param(
-    [string]
-    $BuildCounter = 0
+  [string] $VersionCore = "0.1.0",
+  [string] $PrereleasePrefix = "-pre",
+  [string] $BuildCounter = 0
 )
 
 function Read-VersionNumberFromPackageJson {
@@ -16,10 +17,10 @@ function Read-VersionNumberFromPackageJson {
   return $packageJson.version
 }
 
-function Invoke-NuGetPack{
+function Invoke-NuGetPack {
   param(
     [string]
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $FullVersion
   )
 
@@ -64,7 +65,5 @@ if (-not (Test-Path "$PSScriptRoot/../dist")) {
 }
 
 Invoke-PrepForDistribution
-
-$version = Read-VersionNumberFromPackageJson
-Invoke-NuGetPack -FullVersion "$version-pre$($BuildCounter.PadLeft(4,'0'))"
-Invoke-NuGetPack -FullVersion $version
+Invoke-NuGetPack -FullVersion "$($VersionCore)$($PrereleasePrefix)$($BuildCounter.PadLeft(4,'0'))"
+Invoke-NuGetPack -FullVersion $VersionCore

@@ -39,7 +39,12 @@ open class BuildAndTestBaseClass : BuildBaseClass() {
                 formatStderrAsError = true
                 scriptMode = script {
                     content = """
-                        .\build-package.ps1 -BuildCounter %build.counter%
+                    ${"$"}params = @{
+                        "BuildCounter"= "%build.counter%".PadLeft(4,"0")
+                        "PrereleasePrefix"= "%version.prerelease.prefix%"
+                        "VersionCore" = "%version.core%"
+                     }
+                    .\build-package.ps1 @params
                     """.trimIndent()
                 }
             }

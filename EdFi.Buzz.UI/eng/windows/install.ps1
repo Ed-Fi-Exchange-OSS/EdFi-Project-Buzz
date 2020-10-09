@@ -58,6 +58,7 @@ if ("google" -eq $idProvider) {
 */
 PORT=$port
 REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
+REACT_APP_URI_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
 REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
 REACT_APP_ADFS_CLIENT_ID=
 REACT_APP_ADFS_TENANT_ID=
@@ -75,6 +76,7 @@ else {
 */
 PORT=$port
 REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
+REACT_APP_URI_DISCOVERY=https://login.microsoftonline.com/common/.well-known/openid-configuration
 REACT_APP_GOOGLE_CLIENT_ID=
 REACT_APP_ADFS_CLIENT_ID=$adfsClientId
 REACT_APP_ADFS_TENANT_ID=$adfsTenantId

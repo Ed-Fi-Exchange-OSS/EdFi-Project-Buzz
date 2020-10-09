@@ -33,11 +33,6 @@ function Install-AppCommon {
     Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
     Import-Module -Force $folders.modules.invoke("tasks/TaskHelper.psm1")
     Import-Module -Force $folders.modules.invoke("tools/ToolsHelper.psm1")
-
-    # Import the following with global scope so that they are available inside of script blocks
-    Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global
-    Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
-    Import-Module -Force "$installerPath/IIS/IIS-Components.psm1" -Scope Global
 }
 
 function Install-NugetCli {
@@ -77,12 +72,12 @@ function Ensure-NodeJs {
     }
 
     if ($nodeVer) {
-        write-host "[NODE] nodejs $nodeVer already installed"
+        write-host "nodejs $nodeVer already installed"
 
         $node_version_number = [int]$nodeVer.substring(1,2);
 
         if ($node_version_number -lt 12) {
-            Write-Error "[NODE] nodejs version installed is not supported. Please install version 12 or higher"
+            Write-Error "nodejs version installed is not supported. Please install version 12 or higher"
             exit -1;
         }
 
@@ -104,7 +99,7 @@ function Initialize-Installer {
         [Parameter(Mandatory = $true)]
         [string] $packagesPath
     )
-    
+
     Install-NugetCli -toolsPath  $toolsPath
     Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
     Ensure-NodeJs
