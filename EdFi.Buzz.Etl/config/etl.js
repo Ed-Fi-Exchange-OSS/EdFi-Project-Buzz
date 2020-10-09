@@ -24,15 +24,18 @@ const studentContactSourceSQL = fs.readFileSync(path.join(__dirname, studentCont
 const sectionSourceSQL = fs.readFileSync(path.join(__dirname, sectionSource), 'utf8');
 const staffSourceSQL = fs.readFileSync(path.join(__dirname, staffSource), 'utf8');
 const studentSectionSourceSQL = fs.readFileSync(path.join(__dirname, studentSectionSource), 'utf8');
-let staffSectionSourceSQL = '';
 
 let staffSectionConfig = {};
 
 exports.dbDataStandard = async (msConfig) => {
   const dbDataStandard = await dsHelper.dbDataStandard(msConfig);
-  const staffSectioNSource = `${sqlSourceDir}/${dbDataStandard}/0007-ImportStaffSectionAssociation.sql`;
-  staffSectionSourceSQL = fs.readFileSync(path.join(__dirname, staffSectioNSource), 'utf8');
-  
+
+  const staffSectioNSource = (process.env.BUZZ_SQLSOURCE === 'amt')
+    ? `${sqlSourceDir}/${dbDataStandard}/0007-ImportStaffSectionAssociation.sql`
+    : `${sqlSourceDir}/0007-ImportStaffSectionAssociation.sql`;
+
+  const staffSectionSourceSQL = fs.readFileSync(path.join(__dirname, staffSectioNSource), 'utf8');
+
   staffSectionConfig = {
     recordType: 'StaffSection',
     deleteSql: 'DELETE FROM buzz.staffsectionassociation',
@@ -176,9 +179,7 @@ exports.staffConfig = {
   ],
 };
 
-exports.staffSectionConfig = () => {
-  return staffSectionConfig;
-};
+exports.staffSectionConfig = () => staffSectionConfig;
 
 exports.studentSectionConfig = {
   recordType: 'StudentSection',

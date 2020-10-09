@@ -6,9 +6,9 @@
 const sql = require('mssql');
 
 const dbDataStandard = async (config) => {
-    try {
-        await sql.connect(config);
-        const result = await sql.query`
+  try {
+    await sql.connect(config);
+    const result = await sql.query`
             IF (SELECT OBJECT_ID('edfi.AddressType')) IS NOT NULL 
             BEGIN
                 SELECT 'ds2' AS version
@@ -23,14 +23,12 @@ const dbDataStandard = async (config) => {
             END
         `;
 
-        if (result && result.recordset && result.recordset.length > 0)
-            return result.recordset[0].version;
-        else {
-            return undefined;
-        }
-    } catch (err) {
-        return undefined;
-    }
+    if (result.recordset && result.recordset.length > 0) return result.recordset[0].version;
+
+    return undefined;
+  } catch (err) {
+    return undefined;
+  }
 };
 
 exports.dbDataStandard = dbDataStandard;
