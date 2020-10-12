@@ -71,6 +71,9 @@
     "synp": "1.7.0",
     "typescript": "^4.0.2"
   },
+  "resolutions": {
+    "jquery": ">=3.5.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "start-prod": "yarn build && serve -s build",
