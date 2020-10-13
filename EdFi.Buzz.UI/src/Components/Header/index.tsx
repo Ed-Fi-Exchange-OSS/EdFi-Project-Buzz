@@ -8,7 +8,6 @@
 import * as React from 'react';
 import { FunctionComponent, ReactFragment, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import Logo from 'assets/fix-it.png';
 import ArrowDown from 'assets/dropdown-arrow.png';
 import ApiService from 'Services/ApiService';
 import styled from 'styled-components';
@@ -77,6 +76,9 @@ export interface HeaderComponentProps {
   isTeacherSurveyLoader?: boolean;
   navigate: (url: string) => void;
   height: number;
+  titleLogo: string;
+  titleLogoWidth: string;
+  titleLogoHeight: string;
 }
 
 export const Header: FunctionComponent<HeaderComponentProps> = (
@@ -109,10 +111,8 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 
   const HeaderImage = styled.img`
   margin: 0 0 10px;
-  max-width: 100%;
-	height: auto;
-  padding-left: 10px;
-  padding-top: 20px;
+  max-width: ${props.titleLogoWidth};
+	max-height: ${props.titleLogoHeight};
 `;
 
   const HeaderLogo = styled.span`
@@ -128,6 +128,8 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   letter-spacing: normal;
   color: #ffffff;
   float:left;
+  display: flex;
+  align-items: center;
 `;
 
   const MenuOptions = styled.span`
@@ -261,7 +263,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   return <>
     <MainHeader onClick={closeMenu}>
       <MainContainer>
-        <HeaderLogo><HeaderImage src={Logo} /></HeaderLogo>
+        <HeaderLogo><HeaderImage src={props.titleLogo} /></HeaderLogo>
         <MainNav>
           <ul>
             <li> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>

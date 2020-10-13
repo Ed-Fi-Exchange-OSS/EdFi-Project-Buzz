@@ -10,11 +10,9 @@ import { FunctionComponent, useState } from 'react';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
 import mdLock from '@iconify-icons/ion/md-lock';
-
 import Logo from 'assets/Owl-Logo-GrandBend.png';
 import ApiService from 'Services/ApiService';
 import User from 'Models/User';
-
 import SocialButton from './SocialButton';
 import { ADFSButton } from './LoginADFS';
 
@@ -25,12 +23,13 @@ export interface LoginComponentProps {
   googleClientId?: string;
   adfsClientId?: string;
   adfsTenantId?: string;
+  LoginLogo?: string;
+  LoginLogoWidth: string;
 }
 
 export const Login: FunctionComponent<LoginComponentProps> = (props: LoginComponentProps) => {
   document.title = 'EdFi Buzz: Login';
   const [isUnregisteredUser, setIsUnregisteredUser]=useState(false);
-
   const UnregistredUser = styled.div`
     color: #856404;
     background-color: #fff3cd;
@@ -42,6 +41,11 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     display: flex;
     justify-content: center;
   `;
+  const BuzzLogo = styled.img`
+    width: ${props.LoginLogoWidth};
+    max-width: ${props.LoginLogoWidth};
+  `;
+
   async function onUserAuthState(user: User) {
     const returnUrl = props.returnUrl || '/';
 
@@ -84,7 +88,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
           <div className='card m-t--50'>
             <div className='card-body'>
               <div className='text-center'>
-                <img src={Logo} style={{ 'width': '100%', 'maxWidth': '350px' }} alt="District Logo" />
+                <BuzzLogo src={props.LoginLogo === '' ? Logo : props.LoginLogo} alt="District Logo" />
               </div>
               <h1 className=' text-center m-t-25'>Buzz</h1>
               {isUnregisteredUser && <div className='text-center m-t-20'>

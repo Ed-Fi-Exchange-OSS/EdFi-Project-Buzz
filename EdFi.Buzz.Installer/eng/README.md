@@ -73,6 +73,13 @@ Options to configure the ETL to load from the database or file to the postgres d
 #### ui
 - **version:** The NuGet version to download. Blank gets latest.
 - **port:** Port to access UI.
+- **externalLogo:** If true, look for images in an external URL. If false, the images must have been copied into the 'assets' folder of the UI. 
+- **logo:** Login page logo URL.
+- **logoWidth:** Logo max width.
+- **title:** Site title.
+- **titleLogo:** Site logo title to display in header URL.
+- **titleLogoWidth: Site logo title max width.
+- **titleLogoHeight:** Site logo max height.
 
 ### Installation
 Installation script:

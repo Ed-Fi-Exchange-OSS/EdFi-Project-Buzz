@@ -164,6 +164,12 @@ function Install-UiApp {
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
         "adfsTenantId"    = $configuration.adfsTenantId;
+		"logo"			  = $configuration.ui.logo;
+		"logoWidth"		  =	$configuration.ui.logoWidth;
+		"title"			  = $configuration.ui.title;
+		"titleLogo"		  = $configuration.ui.titleLogo;
+		"titleLogoWidth	  = $configuration.ui.titleLogoWidth;
+		"titleLogoHeight" = $configuration.ui.titleLogoHeight;
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
         "nginxPort"       = $configuration.ui.nginxPort;
