@@ -70,6 +70,7 @@ export const Footer: FunctionComponent<FooterComponentProps> = (props: FooterCom
       height: ${height}px;
       width: 100vw;
       max-width: 100vw;
+      overflow-x: hidden;
       border-bottom: 1px solid #D7DBDD;
       position:fixed;
       bottom:0px;
