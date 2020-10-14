@@ -53,6 +53,10 @@ export default function App(): JSX.Element {
       min-height: calc(100vh-${HEADER_HEIGHT+FOOTER_HEIGHT}px);
       max-width: 100vw;
       overflow-y: scroll;
+      overflow-x: hidden;
+      z-index: -1;
+      margin-left:0.50em;
+      margin-right:0.50em;
     }
   `;
   useEffect(() => {
