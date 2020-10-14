@@ -53,6 +53,7 @@
         "version": "0.1.0",
         "url": "http://localhost:4200",
         "port": 4200,
-        "nginxPort": 4200
+        "nginxPort": 4200,
+		"uriDiscovery": "https://accounts.google.com/.well-known/openid-configuration"
     }
 }
