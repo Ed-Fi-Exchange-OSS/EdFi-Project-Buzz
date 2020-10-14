@@ -111,15 +111,18 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 
   const HeaderImage = styled.img`
   margin: 0 0 10px;
-  max-width: ${props.titleLogoWidth};
-	max-height: ${props.titleLogoHeight};
+  margin-left: 10px;
+  max-width: 150px;
+	max-height: 64px;
+  width: ${props.titleLogoWidth};
+	height: ${props.titleLogoHeight};
 `;
 
   const HeaderLogo = styled.span`
   width: 80px;
   height: 64px;
   object-fit: contain;
-  font-family: BalooBhaina;
+  font-family: 'Work Sans', sans-serif;
   font-size: 32px;
   font-weight: normal;
   font-stretch: normal;
@@ -263,7 +266,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   return <>
     <MainHeader onClick={closeMenu}>
       <MainContainer>
-        <HeaderLogo><HeaderImage src={props.titleLogo} /></HeaderLogo>
+        <HeaderLogo><HeaderImage src={props.titleLogo} alt={props.title} /></HeaderLogo>
         <MainNav>
           <ul>
             <li> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
