@@ -5,7 +5,9 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import jwt from 'jsonwebtoken';
 import ApolloHelper from 'Helpers/ApolloHelper';
+import JWTHelper from '../Helpers/JWTHelper';
 import TeacherApiService from './TeacherService';
 import User from '../Models/User';
 
@@ -25,6 +27,7 @@ export default class AuthenticationService {
   }
 
   public get currentUserValue(): User {
+    this.validateJWT();
     return this.currentUserSubject.value;
   }
 
@@ -49,6 +52,52 @@ export default class AuthenticationService {
     this.currentUserSubject.next(user);
     return true;
   }
+
+
+  public validateJWT = async (): Promise<boolean> =>{
+    const token = sessionStorage.getItem('validatingToken');
+    try {
+      if(token){
+        const jwtHelper = new JWTHelper();
+        const validateToken = await jwtHelper.validateToken(token);
+        if(!validateToken){
+          this.cleanUpUser();
+          window.location.replace('/login');
+          return false;
+        }
+        const decodedToken = jwt.decode(token, { complete: true, json: true });
+        const dateNow = new Date();
+
+        if(decodedToken && decodedToken.payload.exp >= Math.round(dateNow.getTime()/1000)){
+          return true;
+        }
+
+        this.cleanUpUser();
+        window.location.replace('/login');
+        return false;
+
+      }
+      if(token === ''){
+        this.cleanUpUser();
+        window.location.replace('/login');
+        return false;
+      }
+
+      return true;
+
+    } catch{
+      this.cleanUpUser();
+      window.location.replace('/login');
+      return false;
+    }
+  };
+
+  cleanUpUser = (): void =>{
+    this.storage.removeItem('currentUser');
+    this.storage.removeItem('lastUploadedSurvey');
+    localStorage.clear();
+    sessionStorage.clear();
+  };
 
   logout = (): void => {
     // remove user from local storage to log user out
