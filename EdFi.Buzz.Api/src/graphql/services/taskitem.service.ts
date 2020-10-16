@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common';
 import { makeWorkerUtils, Job } from 'graphile-worker';
 import { v4 as uuidv4 } from 'uuid';
 import TaskItem from '../entities/queues/taskitem.entity';
+import LoadSurveyFromOdsTaskItem from '../entities/queues/loadSurveyFromOdsTaskitem.entity';
 
 @Injectable()
 export default class TaskItemService {
@@ -18,6 +19,8 @@ export default class TaskItemService {
   queueName = process.env.BUZZ_WORKER_JOB_NAME;
 
   cleanUpQueueName = process.env.BUZZ_WORKER_CLEANUP_JOB_NAME;
+
+  buzzSurveyFromOdsQueueName = process.env.BUZZ_SURVEY_FROM_ODS_JOB_NAME;
 
   async addTaskItem(taskItem: TaskItem): Promise<Job> {
     const task = taskItem;
@@ -41,5 +44,17 @@ export default class TaskItemService {
     runAt.setDate(runAt.getDate() + retentionDays);
     task.jobkey = taskUUID;
     return workerUtils.addJob(this.cleanUpQueueName, task, { runAt, jobKey: taskUUID });
+  }
+
+  async addLoadOdsFromSurveyTaskItem(taskItem: LoadSurveyFromOdsTaskItem): Promise<Job> {
+    const taskUUID = uuidv4();
+    const workerUtils = await makeWorkerUtils({
+      connectionString: `${this.connectionString}`,
+    });
+    return workerUtils.addJob(this.buzzSurveyFromOdsQueueName,
+      {
+        taskItem,
+        jobkey: taskUUID,
+      }, { jobKey: taskUUID });
   }
 }
