@@ -54,6 +54,13 @@
         "version": "0.1.0",
         "url": "http://localhost:4200",
         "port": 4200,
-        "nginxPort": 4200	
+        "nginxPort": 4200,
+		"externalLogo": false,
+		"logo": "Owl-Logo-GrandBend.png",
+		"logoWidth": "350px",
+		"title": "Buzz",
+		"titleLogo": "fix-it.png",
+		"titleLogoWidth": "78px",
+		"titleLogoHeight": "56px"
     }
 }

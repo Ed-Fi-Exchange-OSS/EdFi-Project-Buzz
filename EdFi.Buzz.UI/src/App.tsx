@@ -35,7 +35,10 @@ const env = container.get<EnvironmentService>('EnvironmentService').environment;
 
 
 export default function App(): JSX.Element {
-
+  const [appMounted,setAppMounted]=useState(false);
+  const [buzzLogo,setBuzzLogo]=useState({default:''});
+  const [buzzTitle,setBuzzTitle]=useState(env.TITLE);
+  const [buzzTitleLogo,setBuzzTitleLogo]=useState({default:''});
   // TODO Resolve the componentWillReceiveProps has been renamed warning.
   console.warn = () => { };
   const HEADER_HEIGHT = 70;
@@ -65,8 +68,35 @@ export default function App(): JSX.Element {
       setIsAdminSurveyLoader(cu?.teacher?.isadminsurveyloader === true);
       setIsTeacherSurveyLoader(cu?.teacher?.isteachersurveyloader === true);
     });
+    setAppMounted(true);
     return () => suscription.unsubscribe();
   });
+
+  useEffect(() => {
+    if(appMounted){
+      setBuzzTitle(env.TITLE);
+      if(env.EXTERNAL_LOGO){
+        if(env.LOGO && env.LOGO !== ''){
+          setBuzzLogo({default: env.LOGO});
+        }
+        if(env.TITLE_LOGO && env.TITLE_LOGO !== ''){
+          setBuzzTitleLogo({default: env.TITLE_LOGO});
+        }
+      } else{
+        if(env.LOGO && env.LOGO !== ''){
+          import(`assets/${env.LOGO}`).then(image => {
+            setBuzzLogo({default:image.default});
+          });
+        }
+        if(env.TITLE_LOGO && env.TITLE_LOGO !== ''){
+          import(`assets/${env.TITLE_LOGO}`).then(image => {
+            setBuzzTitleLogo({default:image.default});
+          });
+        }
+      }
+    }
+
+  },[appMounted]);
 
   function RouterContent(): JSX.Element {
     const history = useHistory();
@@ -77,6 +107,8 @@ export default function App(): JSX.Element {
           navigate={(url) => history.replace(url)}
           googleClientId={env.GOOGLE_CLIENT_ID}
           returnUrl="/"
+          LoginLogo={buzzLogo.default}
+          LoginLogoWidth={env.LOGIN_LOGO_WIDTH}
         />
       </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
@@ -85,7 +117,12 @@ export default function App(): JSX.Element {
             isAdminSurveyLoader={isAdminSurveyLoader}
             isTeacherSurveyLoader={isTeacherSurveyLoader}
             navigate={(url) => history.push(url)}
-            height={HEADER_HEIGHT} />
+            height={HEADER_HEIGHT}
+            title={buzzTitle}
+            titleLogo={buzzTitleLogo.default}
+            titleLogoWidth={env.TITLE_LOGO_WIDTH}
+            titleLogoHeight={env.TITLE_LOGO_HEIGHT}
+          />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Content>

@@ -51,7 +51,7 @@ export default function configureDI(): DIContainer {
   const container = new DIContainer();
   container.addDefinitions({
     'EnvironmentService': object(EnvironmentService).construct()
-  })
+  });
   container.addDefinitions({
     'ApolloClient': createApolloClient(container),
     'ApiService': object(ApiService).construct(

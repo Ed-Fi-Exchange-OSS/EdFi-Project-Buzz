@@ -15,4 +15,19 @@ export default class Environment {
   SURVEY_MAX_FILE_SIZE_BYTES: number;
 
   JOB_STATUS_FINISH_IDS: number[]; /* error and complete status */
+
+  TITLE: string;
+
+  EXTERNAL_LOGO: string;
+
+  LOGO: string;
+
+  LOGIN_LOGO_WIDTH: string;
+
+  TITLE_LOGO: string;
+
+  TITLE_LOGO_WIDTH: string;
+
+  TITLE_LOGO_HEIGHT: string;
+
 }
