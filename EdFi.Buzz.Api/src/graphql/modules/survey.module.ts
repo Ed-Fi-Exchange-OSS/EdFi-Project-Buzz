@@ -12,6 +12,7 @@ import SurveyService from '../services/survey.service';
 import StudentSchoolEntity from '../entities/studentschool.entity';
 import SectionEntity from '../entities/section.entity';
 import SurveyResolvers from '../resolvers/survey.resolver';
+import TaskItemService from '../services/taskitem.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -20,6 +21,6 @@ import SurveyResolvers from '../resolvers/survey.resolver';
     StudentSchoolEntity,
     SectionEntity,
   ])],
-  providers: [SurveyService, StaffService, SurveyResolvers],
+  providers: [SurveyService, StaffService, TaskItemService, SurveyResolvers],
 })
 export default class SurveyModule {}

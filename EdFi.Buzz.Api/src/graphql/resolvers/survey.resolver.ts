@@ -12,6 +12,8 @@ import { Survey } from '../graphql.schema';
 import AuthGuard from '../auth.guard';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import SurveyService from '../services/survey.service';
+import TaskItemService from '../services/taskitem.service';
+import LoadSurveyFromOdsTaskItem from '../entities/queues/loadSurveyFromOdsTaskitem.entity';
 
 @UseGuards(AuthGuard)
 @UseGuards(ValidateStaffIdGuard)
@@ -20,6 +22,7 @@ export default class SurveyResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly surveyService: SurveyService,
+    private readonly taskItemService: TaskItemService,
   ) {}
 
   @Mutation('deletesurvey')
@@ -27,5 +30,16 @@ export default class SurveyResolvers {
     @Args('surveykey') surveykey: number,
   ): Promise<Survey> {
     return this.surveyService.deleteSurvey(surveykey);
+  }
+
+  @Mutation('loadsurveyfromods')
+  async loadsurveyfromods(
+    @Args('staffkey') staffkey: string,
+      @Args('surveyidentifier') surveyIdentifier: string,
+  ): Promise<boolean> {
+    const surveyFromOds: LoadSurveyFromOdsTaskItem = { staffkey, surveyIdentifier };
+
+    const addLoadOds = this.taskItemService.addLoadOdsFromSurveyTaskItem(surveyFromOds);
+    return !!addLoadOds;
   }
 }
