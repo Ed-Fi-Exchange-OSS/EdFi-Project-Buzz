@@ -26,8 +26,6 @@ We recommend that the following prerequisites are installed on the machine that 
 1. Edit the configuration file to include the values according to your installation environment.
 2. Run as administrator the installation script
 
-
-
 ### Configuration file
 
 The configuration variables for the installation are in the **'Windows\configuration.json'** file. In this file you can update the values to adapt them before the installation.
@@ -80,6 +78,9 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **titleLogo:** Site logo title to display in header URL.
 - **titleLogoWidth: Site logo title max width.
 - **titleLogoHeight:** Site logo max height.
+
+#### Change UI Web App icon (fav.ico)
+To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder.
 
 ### Installation
 Installation script:
