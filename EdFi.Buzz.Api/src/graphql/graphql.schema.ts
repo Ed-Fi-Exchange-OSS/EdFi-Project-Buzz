@@ -42,6 +42,8 @@ export abstract class IMutation {
     abstract uploadsurvey(staffkey: string, title: string, content: string, surveykey?: number): SurveyStatus | Promise<SurveyStatus>;
 
     abstract deletesurvey(staffkey: string, surveykey: number): Survey | Promise<Survey>;
+
+    abstract loadsurveyfromods(staffkey: string, surveyidentifier?: string): boolean | Promise<boolean>;
 }
 
 export class OdsSurvey {
