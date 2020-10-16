@@ -168,7 +168,7 @@ function Install-UiApp {
 		"logoWidth"		  =	$configuration.ui.logoWidth;
 		"title"			  = $configuration.ui.title;
 		"titleLogo"		  = $configuration.ui.titleLogo;
-		"titleLogoWidth	  = $configuration.ui.titleLogoWidth;
+		"titleLogoWidth"  = $configuration.ui.titleLogoWidth;
 		"titleLogoHeight" = $configuration.ui.titleLogoHeight;
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
