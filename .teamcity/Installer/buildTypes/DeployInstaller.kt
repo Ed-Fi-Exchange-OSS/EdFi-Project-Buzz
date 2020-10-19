@@ -16,7 +16,7 @@ object DeployInstallerBuild : BuildType ({
     name = "Deploy"
 
     params {
-        param("nupkg.version", "${BranchInstallerBuild.depParamRefs["version"]}")
+        param("octopus.release.version", "${BranchInstallerBuild.depParamRefs["version"]}")
     }
 
     vcs {
@@ -63,14 +63,14 @@ object DeployInstallerBuild : BuildType ({
             formatStderrAsError = true
             scriptMode = script {
                 content = """
-                    write-host $( '##teamcity[message text=''version => {0}'']' -f "%version%" )
+                    Write-Host $( '##teamcity[message text=''octopus.release.version => {0}'']' -f "%octopus.release.version%" )
 
                     ${"$"}parameters = @(
                         "create-release",
                         "--server=%octopus.server%",
                         "--project=%octopus.release.project%",
-                        "--defaultPackageVersion=%nupkg.version%",
-                        "--releaseNumber=%nupkg.version%",
+                        "--defaultPackageVersion=%octopus.release.version%",
+                        "--releaseNumber=%octopus.release.version%",
                         "--deployTo=%octopus.release.environment%"
                         "--deploymenttimeout=%octopus.deploy.timeout%",
                         "--apiKey=%octopus.apiKey%"

@@ -19,7 +19,6 @@ object BuzzProject : Project({
         param("version","%version.core%%version.prerelease.prefix%%version.prerelease.suffix%")
         param("octopus.release.version","%version.core%%version.prerelease.prefix%%version.prerelease.suffix%")
         param("version.core","%version.major%.%version.minor%.%version.patch%")
-        param("nupkg.version","")
         param("teamcity.ui.settings.readOnly","true")
         param("build.feature.freeDiskSpace", "2gb")
         param("git.branch.default", "main")
