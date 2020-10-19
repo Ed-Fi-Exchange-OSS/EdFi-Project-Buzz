@@ -1,9 +1,9 @@
+import { OdsSurvey } from 'src/graphql/graphql.schema';
+
 export default class LoadSurveyFromOdsTaskItem {
   staffkey?: string;
 
-  surveyIdentifier?: string;
-
-  title?: string;
+  surveyList?: OdsSurvey[];
 
   jobkey?: string;
 

@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -5,6 +6,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export class OdsSurvey {
+    surveyidentifier?: string;
+    surveytitle?: string;
+}
+
 export class AnswersByStudent {
     surveykey?: number;
     surveyquestionkey?: string;
@@ -34,6 +40,13 @@ export class JobStatus {
     description?: string;
 }
 
+export class LoadSurveyFromOdsResponse {
+    totalCount?: number;
+    totalCountLoaded?: number;
+    totalCountFailed?: number;
+    listFailedInsert?: string[];
+}
+
 export abstract class IMutation {
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
 
@@ -43,7 +56,7 @@ export abstract class IMutation {
 
     abstract deletesurvey(staffkey: string, surveykey: number): Survey | Promise<Survey>;
 
-    abstract loadsurveyfromods(staffkey: string, surveyidentifier?: string): boolean | Promise<boolean>;
+    abstract loadsurveyfromods(staffkey: string, surveylist?: OdsSurvey[]): LoadSurveyFromOdsResponse | Promise<LoadSurveyFromOdsResponse>;
 }
 
 export abstract class IQuery {

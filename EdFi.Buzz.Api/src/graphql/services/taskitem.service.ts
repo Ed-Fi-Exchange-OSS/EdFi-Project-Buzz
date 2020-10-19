@@ -8,6 +8,7 @@ import { makeWorkerUtils, Job } from 'graphile-worker';
 import { v4 as uuidv4 } from 'uuid';
 import TaskItem from '../entities/queues/taskitem.entity';
 import LoadSurveyFromOdsTaskItem from '../entities/queues/loadSurveyFromOdsTaskitem.entity';
+import { LoadSurveyFromOdsResponse } from '../graphql.schema';
 
 @Injectable()
 export default class TaskItemService {
@@ -46,15 +47,30 @@ export default class TaskItemService {
     return workerUtils.addJob(this.cleanUpQueueName, task, { runAt, jobKey: taskUUID });
   }
 
-  async addLoadOdsFromSurveyTaskItem(taskItem: LoadSurveyFromOdsTaskItem): Promise<Job> {
-    const taskUUID = uuidv4();
+  async addLoadOdsFromSurveyTaskItem(taskItem: LoadSurveyFromOdsTaskItem): Promise<LoadSurveyFromOdsResponse> {
+    const result: LoadSurveyFromOdsResponse = {
+      totalCount: 0, totalCountLoaded: 0, totalCountFailed: 0, listFailedInsert: [],
+    };
     const workerUtils = await makeWorkerUtils({
       connectionString: `${this.connectionString}`,
     });
-    return workerUtils.addJob(this.buzzSurveyFromOdsQueueName,
-      {
-        taskItem,
-        jobkey: taskUUID,
-      }, { jobKey: taskUUID });
+    result.totalCount = taskItem.surveyList.length;
+    taskItem.surveyList.forEach((element) => {
+      try {
+        const taskUUID = uuidv4();
+        workerUtils.addJob(this.buzzSurveyFromOdsQueueName,
+          {
+            staffkey: taskItem.staffkey,
+            surveyIdentifier: (element.surveyidentifier),
+            surveytitle: element.surveytitle,
+            jobkey: uuidv4(),
+          }, { jobKey: taskUUID });
+        result.totalCountLoaded += 1;
+      } catch {
+        result.totalCountFailed += 1;
+        result.listFailedInsert.push(element.surveyidentifier);
+      }
+    });
+    return result;
   }
 }
