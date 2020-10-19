@@ -8,7 +8,7 @@ type Mutation {
   deletestudentnote(staffkey: Int!, studentnotekey: Int!): StudentNote
   uploadsurvey(staffkey: ID!, title: String!, content: String!, surveykey: Int): SurveyStatus
   deletesurvey(staffkey: ID!, surveykey: Int!): Survey
-  loadsurveyfromods(staffkey: ID!, surveyidentifier: String): Boolean
+  loadsurveyfromods(staffkey: ID!, surveylist: [OdsSurvey]): LoadSurveyFromOdsResponse
 }
 type Query{
   staffbyemail: Staff
@@ -205,6 +205,18 @@ type SurveyStatus {
 type JobStatus {
   jobstatuskey: Int
   description: String
+}
+
+input OdsSurvey {
+  surveyidentifier: String
+  surveytitle: String
+}
+
+type LoadSurveyFromOdsResponse{
+  totalCount: Int
+  totalCountLoaded: Int
+  totalCountFailed: Int
+  listFailedInsert: [String]
 }
 
 type OdsSurvey{

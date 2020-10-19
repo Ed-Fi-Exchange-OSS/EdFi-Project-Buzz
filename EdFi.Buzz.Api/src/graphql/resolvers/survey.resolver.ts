@@ -8,7 +8,7 @@ import {
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { Survey } from '../graphql.schema';
+import { LoadSurveyFromOdsResponse, OdsSurvey, Survey } from '../graphql.schema';
 import AuthGuard from '../auth.guard';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import SurveyService from '../services/survey.service';
@@ -35,11 +35,11 @@ export default class SurveyResolvers {
   @Mutation('loadsurveyfromods')
   async loadsurveyfromods(
     @Args('staffkey') staffkey: string,
-      @Args('surveyidentifier') surveyIdentifier: string,
-  ): Promise<boolean> {
-    const surveyFromOds: LoadSurveyFromOdsTaskItem = { staffkey, surveyIdentifier };
+      @Args('surveylist') surveyList: OdsSurvey[],
+  ): Promise<LoadSurveyFromOdsResponse> {
+    const surveyFromOds: LoadSurveyFromOdsTaskItem = { staffkey, surveyList };
 
     const addLoadOds = this.taskItemService.addLoadOdsFromSurveyTaskItem(surveyFromOds);
-    return !!addLoadOds;
+    return addLoadOds;
   }
 }
