@@ -14,7 +14,7 @@ object BranchInstallerBuild : BuildType ({
 
     triggers {
         finishBuildTrigger {
-            buildTypeExtId = "${DeployInstallerBuild.id}"
+            buildTypeExtId = "DeployInstallerBuild"
             successfulOnly = true
         }
     }
