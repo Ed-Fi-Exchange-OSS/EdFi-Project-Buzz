@@ -10,10 +10,9 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.nuGetFeedCredentials
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
-
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 
 object DeployInstallerBuild : BuildType ({
-    id = "DeployInstallerBuild"
     name = "Deploy"
 
     params {
@@ -33,6 +32,13 @@ object DeployInstallerBuild : BuildType ({
             feedUrl = "%azureArtifacts.feed.nuget%"
             username = "%azureArtifacts.edFiBuildAgent.userName%"
             password = "%azureArtifacts.edFiBuildAgent.accessToken%"
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildTypeExtId = "${BranchInstallerBuild.id}"
+            successfulOnly = true
         }
     }
 

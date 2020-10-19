@@ -6,21 +6,8 @@
 package installer.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 
 object BranchInstallerBuild : BuildType ({
     name = "Branch Build and Test"
     templates(_self.templates.PsBuildOnlyTemplate)
-
-    triggers {
-        finishBuildTrigger {
-            buildTypeExtId = "DeployInstallerBuild"
-            successfulOnly = true
-        }
-    }
-
-    dependencies {
-        snapshot(DeployInstallerBuild) {
-        }
-    }
 })
