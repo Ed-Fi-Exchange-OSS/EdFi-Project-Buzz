@@ -3,18 +3,18 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-//TODO: Validar el DS, tiene que ser 5
+// TODO: Validar el DS, tiene que ser 5
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
 const dotnet = require('dotenv');
 
 dotnet.config();
-const config = require('../config/dbs');
 const { Client } = require('pg');
 const sql = require('mssql');
+const config = require('../config/dbs');
 
 const msConfig = config.mssqlConfig;
-const pgConfig = config.pgConfig;
+const { pgConfig } = config;
 
 async function getDB() {
   const connectionString = `postgres://${pgConfig.user}:${pgConfig.password}@${pgConfig.host}:${pgConfig.port}/${pgConfig.database}`;
@@ -24,9 +24,9 @@ async function getDB() {
   return client;
 }
 
-async function ods_ds() {
+async function odsDs() {
   await sql.connect(msConfig);
-  var version = await sql.query`
+  const version = await sql.query`
     IF (SELECT OBJECT_ID('edfi.survey')) IS NOT NULL
     BEGIN
         SELECT 'ds5' AS version
@@ -129,18 +129,18 @@ async function getSurveyStudentResponseAnswers(surveyIdentifier) {
 }
 
 async function getStudentSchoolKeysFromStudentUSIs(surveykey, odsSurveyStudentResponses) {
-  let surveyStudentResponses = [];
+  const surveyStudentResponses = [];
   const params = [];
 
-  const studentUSIList = odsSurveyStudentResponses.map(studentResponse => studentResponse.StudentUSI );
-  
+  const studentUSIList = odsSurveyStudentResponses.map((studResponse) => studResponse.StudentUSI);
+
   for (let i = 1; i <= studentUSIList.length; i += 1) {
     params.push(`$${i}`);
   }
 
   await sql.connect(msConfig);
 
-  const result = await sql.query(`
+  const students = await sql.query(`
     SELECT
       CONCAT(Student.StudentUniqueId, '-', StudentSchoolAssociation.SchoolId) AS StudentSchoolKey,
       Student.StudentUniqueId AS StudentKey,
@@ -162,21 +162,21 @@ async function getStudentSchoolKeysFromStudentUSIs(surveykey, odsSurveyStudentRe
         StudentSchoolAssociation.ExitWithdrawDate IS NULL
         OR StudentSchoolAssociation.ExitWithdrawDate >= GETDATE())
     `)
-  .then((result) => result.recordset)
-  .catch((err) => {
-    console.error(`ERROR: ${err} - ${err.detail}`);
-  });
+    .then((result) => result.recordset)
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+    });
 
-  odsSurveyStudentResponses.forEach(studentResponse => {
-    const student = result.find(studentSchool => studentSchool.StudentUSI == studentResponse.StudentUSI)
+  odsSurveyStudentResponses.forEach((studentResponse) => {
+    const student = students.find((stud) => stud.StudentUSI === studentResponse.StudentUSI);
 
     if (student) {
       surveyStudentResponses.push({
-        'surveykey': surveykey,
-        'studentschoolkey': student.StudentSchoolKey,
-        'StudentKey': student.StudentKey,
-        'StudentUSI': studentResponse.StudentUSI,
-        'date': new Date()
+        surveykey,
+        studentschoolkey: student.StudentSchoolKey,
+        StudentKey: student.StudentKey,
+        StudentUSI: studentResponse.StudentUSI,
+        date: new Date(),
       });
     }
   });
@@ -190,25 +190,23 @@ async function saveSurvey(odsSurvey, db) {
       INSERT INTO buzz.survey (title)
         VALUES ($1) RETURNING surveykey
       `,
-    [odsSurvey.SurveyTitle]
+    [odsSurvey.SurveyTitle],
   )
-  .then(result => {
-    return {
-      'odsSurveyIdentifier': odsSurvey.SurveyIdentifier,
-      'surveykey': result.rows[0].surveykey,
-      'title': odsSurvey.SurveyTitle,
-      'staffkey': null
-    }
-  })
-  .catch((err) => {
-    console.error(`ERROR: ${err} - ${err.detail}`);
-  })
+    .then((result) => ({
+      odsSurveyIdentifier: odsSurvey.SurveyIdentifier,
+      surveykey: result.rows[0].surveykey,
+      title: odsSurvey.SurveyTitle,
+      staffkey: null,
+    }))
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+    });
 }
 
-async function saveSurveyQuestions (odsSurveyQuestions, buzzSurveyKey, db) {
-  let surveyQuestions = [];
+async function saveSurveyQuestions(odsSurveyQuestions, buzzSurveyKey, db) {
+  const surveyQuestions = [];
 
-  async function save (buzzSurveyKey, question, db) {
+  async function save(question) {
     return db.query(
       `
         INSERT INTO buzz.surveyquestion(surveykey,question)
@@ -216,33 +214,33 @@ async function saveSurveyQuestions (odsSurveyQuestions, buzzSurveyKey, db) {
         `,
       [
         buzzSurveyKey,
-        question.QuestionText
-      ]
+        question.QuestionText,
+      ],
     )
-    .then((result) => result.rows[0].surveyquestionkey)
-    .catch((err) => {
-      console.error(`ERROR: ${err} - ${err.detail}`);
-    })
-  };
+      .then((result) => result.rows[0].surveyquestionkey)
+      .catch((err) => {
+        console.error(`ERROR: ${err} - ${err.detail}`);
+      });
+  }
 
-  for (var i = 0; i < odsSurveyQuestions.length; i ++) {
+  for (let i = 0; i < odsSurveyQuestions.length; i += 1) {
     const question = odsSurveyQuestions[i];
-    const surveyquestionkey = await save(buzzSurveyKey, question, db);
+    const surveyquestionkey = await save(question);
 
     surveyQuestions.push({
-      'surveyquestionkey': surveyquestionkey,
-      'surveykey': buzzSurveyKey,
-      'question': question.QuestionText,
-      'odsSurveyIdentifier': question.SurveyIdentifier,
-      'QuestionCode': question.QuestionCode
+      surveyquestionkey,
+      surveykey: buzzSurveyKey,
+      question: question.QuestionText,
+      odsSurveyIdentifier: question.SurveyIdentifier,
+      QuestionCode: question.QuestionCode,
     });
   }
 
   return surveyQuestions;
 }
 
-async function saveSurveyResponses (surveyResponses, db) {
-  let studentsurveys = [];
+async function saveSurveyResponses(surveyResponses, db) {
+  const studentsurveys = [];
 
   async function save(surveyResponse) {
     return db.query(
@@ -253,19 +251,19 @@ async function saveSurveyResponses (surveyResponses, db) {
       [
         surveyResponse.surveykey,
         surveyResponse.studentschoolkey,
-        surveyResponse.date
-      ]
+        surveyResponse.date,
+      ],
     )
-    .then((result) => result.rows[0].studentsurveykey)
+      .then((result) => result.rows[0].studentsurveykey)
       .catch((err) => {
         console.error(`ERROR: ${err} - ${err.detail}`);
-      })
+      });
   }
 
-  for (var i = 0; i < surveyResponses.length; i ++) {
+  for (let i = 0; i < surveyResponses.length; i += 1) {
     const surveyResponse = surveyResponses[i];
     const studentsurveykey = await save(surveyResponse, db);
-    
+
     surveyResponse.studentsurveykey = studentsurveykey;
 
     studentsurveys.push(surveyResponse);
@@ -274,8 +272,10 @@ async function saveSurveyResponses (surveyResponses, db) {
   return studentsurveys;
 }
 
-async function saveSurveyResponsesAnswers (surveyResponseAnswers, surveyResponses, surveyQuestions, db) {
-  let studentSurveyAnswers = [];
+async function saveSurveyResponsesAnswers(
+  surveyResponseAnswers, surveyResponses, surveyQuestions, db,
+) {
+  const studentSurveyAnswers = [];
   async function save(surveyResponseAnswer, studentsurveykey, surveyquestionkey) {
     return db.query(
       `
@@ -285,39 +285,40 @@ async function saveSurveyResponsesAnswers (surveyResponseAnswers, surveyResponse
       [
         studentsurveykey,
         surveyquestionkey,
-        surveyResponseAnswer.TextResponse
-      ]
+        surveyResponseAnswer.TextResponse,
+      ],
     )
-    .then((result) => result.rows[0].studentsurveyanswerkey)
+      .then((result) => result.rows[0].studentsurveyanswerkey)
       .catch((err) => {
         console.error(`ERROR: ${err} - ${err.detail}`);
-      })
+      });
   }
 
-  for (var i = 0; i < surveyResponseAnswers.length; i ++) {
+  for (let i = 0; i < surveyResponseAnswers.length; i += 1) {
     const surveyResponseAnswer = surveyResponseAnswers[i];
 
     const studentsurvey = surveyResponses.find(
-      surveyResponse => surveyResponseAnswer.StudentUSI === surveyResponse.StudentUSI);
+      (surveyResponse) => surveyResponseAnswer.StudentUSI === surveyResponse.StudentUSI,
+    );
 
     const surveyQuestion = surveyQuestions.find(
-      surveyQuestion => surveyResponseAnswer.QuestionCode === surveyQuestion.QuestionCode);
-  
-    const studentsurveykey = await save(surveyResponseAnswer, studentsurvey.studentsurveykey, surveyQuestion.surveyquestionkey, db);
-    
+      (survQuestion) => surveyResponseAnswer.QuestionCode === survQuestion.QuestionCode,
+    );
+
+    const studentsurveykey = await save(
+      surveyResponseAnswer, studentsurvey.studentsurveykey, surveyQuestion.surveyquestionkey, db,
+    );
+
     surveyResponseAnswer.studentsurveykey = studentsurveykey;
-    
+
     studentSurveyAnswers.push(surveyResponseAnswer);
   }
 
   return studentSurveyAnswers;
 }
 
-
-
 const process = async (surveyIdentifier) => {
-
-  if (await ods_ds() !== 'ds5') {
+  if (await odsDs() !== 'ds5') {
     console.error('The Data Stardard is unknown. Make sure you have ODS version 5.');
     return;
   }
@@ -328,26 +329,32 @@ const process = async (surveyIdentifier) => {
 
   if (odsSurvey) {
     const survey = await saveSurvey(odsSurvey, db);
-    
+
     // console.log('survey: ');
     // console.log(survey);
-    
-    const surveyQuestions = await saveSurveyQuestions(await getSurveyQuestions(survey.odsSurveyIdentifier), survey.surveykey, db);
+
+    const surveyQuestions = await saveSurveyQuestions(
+      await getSurveyQuestions(surveyIdentifier), survey.surveykey, db,
+    );
 
     // console.log('surveyQuestions: ');
     // console.log(surveyQuestions);
 
-    let surveyResponses = await getStudentSchoolKeysFromStudentUSIs(survey.surveykey, await getSurveyStudentResponses(survey.odsSurveyIdentifier));
+    let surveyResponses = await getStudentSchoolKeysFromStudentUSIs(
+      survey.surveykey, await getSurveyStudentResponses(surveyIdentifier),
+    );
 
     // console.log('surveyResponses: ');
     // console.log(surveyResponses);
-    
+
     surveyResponses = await saveSurveyResponses(surveyResponses, db);
-    
+
     // console.log('surveyResponses: ');
     // console.log(surveyResponses);
 
-    const surveyResponsesAnswers = await saveSurveyResponsesAnswers (await getSurveyStudentResponseAnswers(survey.odsSurveyIdentifier), surveyResponses, surveyQuestions, db)
+    /* const surveyResponsesAnswers = */ await saveSurveyResponsesAnswers(
+      await getSurveyStudentResponseAnswers(surveyIdentifier), surveyResponses, surveyQuestions, db,
+    );
 
     // console.log('surveyResponsesAnswers: ');
     // console.log(surveyResponsesAnswers);
