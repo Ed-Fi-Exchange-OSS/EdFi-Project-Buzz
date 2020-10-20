@@ -12,6 +12,8 @@ function Install-EdFiPackage {
         $packageSource = 'https://www.myget.org/F/ed-fi/'
     )
 
+    Write-Host "Install-EdFiPackage installing  $packageName..."
+
     if (-not $version) {
         # Lookup current "latest" version
         $latestVersion = & "$toolsPath\nuget" list -source $packageSource $packageName -prerelease

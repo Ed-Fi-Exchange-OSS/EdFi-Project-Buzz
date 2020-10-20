@@ -22,6 +22,7 @@ function Install-AppCommon {
   )
 
   $packageName = "EdFi.Installer.AppCommon"
+  Write-Host "Installing $packageName..."
   $installerPath = Join-Path $packagesPath "$packageName.$version"
 
   if (-not (Test-Path $installerPath)) {
@@ -37,7 +38,8 @@ function Install-AppCommon {
   # Import the following with global scope so that they are available inside of script blocks
   Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global
   Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global
-  Write-Host "App Common installed"
+
+  Write-Host "$packageName installed."
 }
 
 
@@ -54,6 +56,8 @@ function Initialize-Installer {
     [string] $packagesPath
   )
 
+  Write-Host "Starting Initalize-Installer ..."
+
   if (-not $(Test-Path $packagesPath)) {
     mkdir $packagesPath | Out-Null
   }
@@ -63,7 +67,8 @@ function Initialize-Installer {
   }
 
   Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
-  Write-Host "Initialize-Installer complete"
+
+  Write-Host "Initialize-Installer complete."
 }
 
 Export-ModuleMember Initialize-Installer
