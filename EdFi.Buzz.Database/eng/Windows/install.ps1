@@ -54,12 +54,10 @@ function Install-Migrations {
     try {
         Push-Location -Path $distFolder
         Write-Host "Executing: npm run migrate $DbName --config ./migrate-database.json" -ForegroundColor Magenta
-        &npm run migrate "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
+        &npm run migrate --silent "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
         Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
-        exit $exitcode
     }
     catch {
-        $ErrorActionPreference = "Continue"
         Write-Host "Database was not migrated"
         Write-Host $_.ScriptStackTrace
         throw $_
@@ -77,10 +75,10 @@ function Install-Database {
     try {
         Push-Location -Path $distFolder
         Write-Host "Executing: npm install --production" -ForegroundColor Magenta
-        &npm install --production --silent
+        &npm install --production --silent 2>&1 | Out-Null
 
         Write-Host "Executing: npm run init-db $DbName --config ./create-database.json" -ForegroundColor Magenta
-        &npm run init-db "$DbName" --config ./create-database.json | Out-File -FilePath $logFile -Append
+        &npm run init-db "$DbName" --config ./create-database.json 2>&1 | Out-Null
     }
     catch {
         Write-Host "Database creation process threw an exception, but will still run migrations..."
@@ -89,21 +87,20 @@ function Install-Database {
     }
     finally {
         Pop-Location
-        Exit 0
     }
 }
 
 try {
     Write-Host "Begin EdFi Buzz database installation..." -ForegroundColor Yellow
-
-    New-DotEnvFile
+	New-DotEnvFile
+    $ErrorActionPreference = "Continue"
     Install-Database
     Install-Migrations
-
+	$ErrorActionPreference = "Stop"
     Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow
-    Exit 0
 }
 catch {
+	Write-Host $_.ScriptStackTrace
     Write-Host "EdFi Buzz database install failed."
-    exit $LASTEXITCODE
+    exit
 }
