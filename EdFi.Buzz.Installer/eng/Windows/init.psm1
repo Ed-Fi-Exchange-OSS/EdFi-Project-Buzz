@@ -77,32 +77,26 @@ function Install-NugetCli {
 }
 
 function Ensure-NodeJs {
+    Write-Host "Check for NodeJs"
 
-    try {
-        Write-Host "Check for NodeJs"
-
-        if (Get-Command node -errorAction SilentlyContinue) {
-            $nodeVer = node -v
-        }
-
-        if ($nodeVer) {
-            write-host "Nodejs $nodeVer already installed"
-
-            $node_version_number = [int]$nodeVer.substring(1, 2);
-
-            if ($node_version_number -lt 12) {
-                Write-Error "Nodejs version installed is not supported. Please install version 12 or higher"
-                exit -1;
-            }
-
-            return;
-            exit 0;
-        }
+    $path = $env:PATH
+    if (($path | ? { $_ -like '*\Program Files\nodejs*' }).Count -lt 1) {
+        Write-Host "Node JS was not found on the path..."
+        throw "Node JS was not installed"
     }
-    catch {
-        Write-Host "Error on Ensure-NodeJs"
-        Write-Host $_.ScriptStackTrace
-        exit -1
+
+    if (Get-Command node -errorAction SilentlyContinue) {
+        $nodeVer = node -v
+    }
+
+    if ($nodeVer) {
+        Write-Host "Nodejs $nodeVer already installed"
+
+        $node_version_number = [int]$nodeVer.substring(1, 2);
+
+        if ($node_version_number -lt 12) {
+            Write-Error "Nodejs version installed is not supported. Please install version 12 or higher"
+        }
     }
 }
 
