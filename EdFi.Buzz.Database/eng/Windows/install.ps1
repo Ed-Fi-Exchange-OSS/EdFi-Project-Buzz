@@ -50,7 +50,6 @@ BUZZ_DB_DATABASE = '$DbName'
 }
 
 function Install-Migrations {
-    $exitcode = 0
     try {
         Push-Location -Path $distFolder
         Write-Host "Executing: npm run migrate $DbName --config ./migrate-database.json" -ForegroundColor Magenta
@@ -102,5 +101,4 @@ try {
 catch {
 	Write-Host $_.ScriptStackTrace
     Write-Host "EdFi Buzz database install failed."
-    exit
 }
