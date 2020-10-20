@@ -109,7 +109,6 @@ function Ensure-NodeJs {
 <#
  Initializes the installing machine
  Ensures we have NuGet Package Provider
- Verifies PostgreSQL database
  #>
 function Initialize-Installer {
     Param(
@@ -120,7 +119,6 @@ function Initialize-Installer {
     )
 
     Install-NugetCli -toolsPath  $toolsPath
-    Install-AppCommon -toolsPath $toolsPath -packageSource "https://www.myget.org/F/ed-fi/" -downloadPath $packagesPath -version $script:AppCommonVersion
     Ensure-NodeJs
 }
 
