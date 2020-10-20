@@ -37,7 +37,21 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $rootDir = "build",
   [Parameter(Mandatory = $true)]
-  [string] $app = "UI"
+  [string] $app = "UI",
+  [Parameter(Mandatory = $true)]
+  [bool] $isAppLogoExternal = $true,
+  [Parameter(Mandatory = $true)]
+  [string] $logo = "assets/Owl-Logo-GrandBend.png",
+  [Parameter(Mandatory = $true)]
+  [string] $appLogoWidth="350px",
+  [Parameter(Mandatory = $true)]
+  [string] $title="Buzz",
+  [Parameter(Mandatory = $true)]
+  [string] $titleLogo="assets/fix-it.png",
+  [Parameter(Mandatory = $true)]
+  [string] $titleLogoWidth="78px",
+  [Parameter(Mandatory = $true)]
+  [string] $titleLogoHeight="56px"
 )
 
 Import-Module "$PSScriptRoot/init.psm1" -Force
@@ -64,6 +78,16 @@ REACT_APP_ADFS_CLIENT_ID=
 REACT_APP_ADFS_TENANT_ID=
 REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
 REACT_APP_JOB_STATUS_FINISH_IDS=[3]
+#REACT_APP_EXTERNAL_LOGO: if false, you must copy images into assets folder.
+REACT_APP_EXTERNAL_LOGO=$isAppLogoExternal
+REACT_APP_LOGO=$logo
+REACT_APP_LOGO_WIDTH=$logoWidth
+REACT_APP_TITLE=$title
+REACT_APP_TITLE_LOGO=$titleLogo
+REACT_APP_TITLE_LOGO_WIDTH=$titleLogoWidth
+REACT_APP_TITLE_LOGO_HEIGHT=$titleLogoHeight
+
+
 "@
 }
 else {
@@ -82,6 +106,14 @@ REACT_APP_ADFS_CLIENT_ID=$adfsClientId
 REACT_APP_ADFS_TENANT_ID=$adfsTenantId
 REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
 REACT_APP_JOB_STATUS_FINISH_IDS=[3]
+#REACT_APP_EXTERNAL_LOGO: if false, you must copy images into assets folder.
+REACT_APP_EXTERNAL_LOGO=$isAppLogoExternal
+REACT_APP_LOGO=$logo
+REACT_APP_LOGO_WIDTH=$logoWidth
+REACT_APP_TITLE=$title
+REACT_APP_TITLE_LOGO=$titleLogo
+REACT_APP_TITLE_LOGO_WIDTH=$titleLogoWidth
+REACT_APP_TITLE_LOGO_HEIGHT=$titleLogoHeight
 "@
 }
 
