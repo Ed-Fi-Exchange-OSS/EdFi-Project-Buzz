@@ -81,9 +81,7 @@ try {
     Exit 0
 }
 catch {
-    $ErrorActionPreference = "Continue"
-    Write-Host "Error on EdFi Buzz Installer" -ErrorAction "Continue"
-    Write-Host $_.Exception.Message -ErrorAction "Continue"
-    Write-Host $_.Exception.StackTrace -ErrorAction "Continue"
+    Write-Host "Error on EdFi Buzz Installer"
+    Write-Host $_.StackTrace
     exit -1;
 }
