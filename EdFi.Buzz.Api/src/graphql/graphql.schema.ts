@@ -44,6 +44,20 @@ export abstract class IMutation {
     abstract deletesurvey(staffkey: string, surveykey: number): Survey | Promise<Survey>;
 }
 
+export class OdsSurvey {
+    namespace?: string;
+    surveyidentifier?: string;
+    educationorganizationid?: number;
+    surveytitle?: string;
+    sessionname?: string;
+    schoolyear?: number;
+    schoolid?: number;
+    surveycategorydescriptorid?: number;
+    numberadministered?: number;
+    discriminator?: string;
+    id?: string;
+}
+
 export abstract class IQuery {
     abstract staffbyemail(): Staff | Promise<Staff>;
 
@@ -60,6 +74,10 @@ export abstract class IQuery {
     abstract surveysummary(staffkey: string, sectionkey?: string, title?: string, surveykey?: number): SurveySummary[] | Promise<SurveySummary[]>;
 
     abstract surveystatus(staffkey: string, jobkey?: string): SurveyStatus[] | Promise<SurveyStatus[]>;
+
+    abstract odssurveys(): OdsSurvey[] | Promise<OdsSurvey[]>;
+
+    abstract odssurveybyid(surveyidentifier: string): OdsSurvey | Promise<OdsSurvey>;
 }
 
 export class School {

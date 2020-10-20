@@ -6,19 +6,25 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import StudentEntity from '../entities/studentschool.entity';
-import SectionEntity from '../entities/section.entity';
-import StaffEntity from '../entities/staff.entity';
-import StaffSectionAssociationEntity from '../entities/staffsectionassociation.entity';
-import StudentSectionEntity from '../entities/studentsection.entity';
+import {
+  StudentSchoolEntity,
+  SectionEntity,
+  StaffEntity,
+  StaffSectionAssociationEntity,
+  StudentSectionEntity,
+} from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Injectable()
 export default class StaffService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    @InjectRepository(StaffEntity) private readonly BuzzRepository: Repository<StaffEntity>,
-    @InjectRepository(SectionEntity) private readonly BuzzSectionRepository: Repository<SectionEntity>,
-    @InjectRepository(StudentEntity) private readonly BuzzStudentRepository: Repository<StudentEntity>,
+    @InjectRepository(StaffEntity, BUZZ_DATABASE)
+    private readonly BuzzRepository: Repository<StaffEntity>,
+    @InjectRepository(SectionEntity, BUZZ_DATABASE)
+    private readonly BuzzSectionRepository: Repository<SectionEntity>,
+    @InjectRepository(StudentSchoolEntity, BUZZ_DATABASE)
+    private readonly BuzzStudentRepository: Repository<StudentSchoolEntity>,
   ) {}
 
   async findAll(): Promise<StaffEntity[]> {
@@ -46,7 +52,7 @@ export default class StaffService {
       .getOne();
   }
 
-  async findStudentsByStaff(staffkey: number): Promise<StudentEntity[]> {
+  async findStudentsByStaff(staffkey: number): Promise<StudentSchoolEntity[]> {
     return this.BuzzStudentRepository.createQueryBuilder('student')
       .innerJoin(StudentSectionEntity, 'studentsection', 'studentsection.studentschoolkey = student.studentschoolkey')
       .innerJoin(
@@ -57,7 +63,7 @@ export default class StaffService {
       .getMany();
   }
 
-  async findStudentByStaff(staffkey: number, studentschoolkey: string): Promise<StudentEntity> {
+  async findStudentByStaff(staffkey: number, studentschoolkey: string): Promise<StudentSchoolEntity> {
     return this.BuzzStudentRepository.createQueryBuilder('student')
       .innerJoin(StudentSectionEntity, 'studentsection', 'studentsection.studentschoolkey = student.studentschoolkey')
       .innerJoin(

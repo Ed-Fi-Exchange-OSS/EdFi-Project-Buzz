@@ -6,7 +6,7 @@
 import { Entity, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
 
-config({ path: `${__dirname}/../../../.env` });
+config({ path: `${__dirname}/../../../../.env` });
 @Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'staffsectionassociation', synchronize: false })
 export default class StaffSectionAssociationEntity {
   @PrimaryColumn() staffkey: number;

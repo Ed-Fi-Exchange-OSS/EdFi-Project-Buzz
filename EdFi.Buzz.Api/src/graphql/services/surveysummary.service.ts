@@ -6,15 +6,19 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import SurveySummaryEntity from '../entities/survey/SurveySummary.entity';
-import SurveySummaryQuestionsEntity from '../entities/survey/surveysummaryquestions.entity';
+import {
+  SurveySummaryEntity,
+  SurveySummaryQuestionsEntity,
+} from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Injectable()
 export default class SurveySummaryService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    @InjectRepository(SurveySummaryEntity) private readonly BuzzRepository: Repository<SurveySummaryEntity>,
-    @InjectRepository(SurveySummaryQuestionsEntity)
+    @InjectRepository(SurveySummaryEntity, BUZZ_DATABASE)
+    private readonly BuzzRepository: Repository<SurveySummaryEntity>,
+    @InjectRepository(SurveySummaryQuestionsEntity, BUZZ_DATABASE)
     private readonly BuzzQuestionsRepository: Repository<SurveySummaryQuestionsEntity>,
   ) {}
 

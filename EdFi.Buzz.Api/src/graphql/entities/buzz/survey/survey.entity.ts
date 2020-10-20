@@ -7,7 +7,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
 import SurveyQuestionEntity from './surveyquestion.entity';
 
-config({ path: `${__dirname}/../../../../.env` });
+config({ path: `${__dirname}/../../../../../.env` });
 @Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'survey', synchronize: false })
 export default class SurveyEntity {
   @PrimaryColumn({ type: 'int', nullable: false })

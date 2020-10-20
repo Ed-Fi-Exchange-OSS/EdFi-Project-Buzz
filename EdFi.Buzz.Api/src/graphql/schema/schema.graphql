@@ -18,6 +18,8 @@ type Query{
   studentsbystaff(staffkey: ID!): [StudentSchool]
   surveysummary(staffkey: ID!, sectionkey: String, title: String, surveykey: Int): [SurveySummary]
   surveystatus(staffkey: ID!, jobkey: String): [SurveyStatus]
+  odssurveys: [OdsSurvey]
+  odssurveybyid(surveyidentifier: ID!): OdsSurvey
 }
 type Section{
   sectionkey: String
@@ -202,4 +204,18 @@ type SurveyStatus {
 type JobStatus {
   jobstatuskey: Int
   description: String
+}
+
+type OdsSurvey{
+  namespace: String
+  surveyidentifier: String
+  educationorganizationid: Int
+  surveytitle: String
+  sessionname: String
+  schoolyear: Int
+  schoolid: Int
+  surveycategorydescriptorid: Int
+  numberadministered: Int
+  discriminator: String
+  id: String
 }

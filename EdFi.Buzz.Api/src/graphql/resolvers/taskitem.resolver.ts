@@ -5,7 +5,7 @@
 
 // import { UseGuards } from '@nestjs/common';
 import { Args, Resolver } from '@nestjs/graphql';
-import TaskItem from '../entities/queues/taskitem.entity';
+import { TaskItemEntity } from '../entities/buzz';
 import TaskItemService from '../services/taskitem.service';
 
 @Resolver('TaskItem')
@@ -13,7 +13,7 @@ export default class TaskItemResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly taskItemService: TaskItemService) {}
 
-  async addtaskitem(@Args('taskitem') taskItem: TaskItem): Promise<string> {
+  async addtaskitem(@Args('taskitem') taskItem: TaskItemEntity): Promise<string> {
     return (await this.taskItemService.addTaskItem(taskItem)).id;
   }
 }
