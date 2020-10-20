@@ -27,7 +27,7 @@ param(
   $DbUserName = "postgres",
 
   [string]
-  [Parameter(Mandatory=$true)]
+  [Parameter(Mandatory = $true)]
   $DbPassword,
 
   [string]
@@ -90,15 +90,24 @@ SURVEY_FILES_RETENTION_DAYS=1
 
 "@
 
-New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
+try {
 
-$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
-Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $script:InstallPath -fileContents $envFile -rootDir $rootDir -nginxPort $nginxPort
+  New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
 
-New-DotEnvFile -appPath "$script:InstallPath\$nginxVersion\" -fileContents $envFile
+  $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
+  Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $script:InstallPath -fileContents $envFile -rootDir $rootDir -nginxPort $nginxPort
 
-# NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
-$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
-Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $script:InstallPath -app $app
+  New-DotEnvFile -appPath "$script:InstallPath\$nginxVersion\" -fileContents $envFile
 
-Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow
+  # NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
+  $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
+  Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $script:InstallPath -app $app
+
+  Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow
+}
+catch {
+  Write-Host $_
+  Write-Host $_.ScriptStackTrace
+  Write-Host "EdFi Buzz api install failed."
+
+}

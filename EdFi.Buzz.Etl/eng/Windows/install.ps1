@@ -157,12 +157,19 @@ function Install-DistFiles {
   Pop-Location
 }
 
-Write-Host "Begin Ed-Fi Buzz ETL installation..." -ForegroundColor Yellow
+try {
+  Write-Host "Begin Ed-Fi Buzz ETL installation..." -ForegroundColor Yellow
 
-New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
-$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $installPath
-Install-DistFiles -installPath $InstallPath
-New-DotEnvFile -installPath  "$InstallPath/dist"
-Install-NodeService -winSwVersion $winSwVersion
+  New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
+  $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $installPath
+  Install-DistFiles -installPath $InstallPath
+  New-DotEnvFile -installPath  "$InstallPath/dist"
+  Install-NodeService -winSwVersion $winSwVersion
 
-Write-Host "End Ed-Fi Buzz ETL installation." -ForegroundColor Yellow
+  Write-Host "End Ed-Fi Buzz ETL installation." -ForegroundColor Yellow
+}
+catch {
+  Write-Host $_
+  Write-Host $_.ScriptStackTrace
+  Write-Host "EdFi Buzz etl install failed."
+}

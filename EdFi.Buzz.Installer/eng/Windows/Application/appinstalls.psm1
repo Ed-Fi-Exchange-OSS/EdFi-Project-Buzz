@@ -49,7 +49,8 @@ function Install-BuzzApp {
         Write-Host "Package installation completed for $app."
     }
     catch {
-        throw $_.Exception
+        Write-Host $_
+        throw $_
     }
     finally {
         Pop-Location

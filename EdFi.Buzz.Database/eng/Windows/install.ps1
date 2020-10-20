@@ -99,6 +99,7 @@ try {
     Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow
 }
 catch {
-	Write-Host $_.ScriptStackTrace
+    Write-Host $_
+    Write-Host $.ScriptStackTrace
     Write-Host "EdFi Buzz database install failed."
 }

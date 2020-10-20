@@ -43,15 +43,15 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $logo = "assets/Owl-Logo-GrandBend.png",
   [Parameter(Mandatory = $true)]
-  [string] $appLogoWidth="350px",
+  [string] $appLogoWidth = "350px",
   [Parameter(Mandatory = $true)]
-  [string] $title="Buzz",
+  [string] $title = "Buzz",
   [Parameter(Mandatory = $true)]
-  [string] $titleLogo="assets/fix-it.png",
+  [string] $titleLogo = "assets/fix-it.png",
   [Parameter(Mandatory = $true)]
-  [string] $titleLogoWidth="78px",
+  [string] $titleLogoWidth = "78px",
   [Parameter(Mandatory = $true)]
-  [string] $titleLogoHeight="56px"
+  [string] $titleLogoHeight = "56px"
 )
 
 Import-Module "$PSScriptRoot/init.psm1" -Force
@@ -117,15 +117,23 @@ REACT_APP_TITLE_LOGO_HEIGHT=$titleLogoHeight
 "@
 }
 
-New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
+try {
+  New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
 
-$nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
-Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $script:InstallPath -fileContents $envFile -rootDir $rootDir -nginxPort $nginxPort
+  $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
+  Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $script:InstallPath -fileContents $envFile -rootDir $rootDir -nginxPort $nginxPort
 
-New-DotEnvFile -appPath "$script:InstallPath\$nginxVersion\$rootDir" -fileContents $envFile
+  New-DotEnvFile -appPath "$script:InstallPath\$nginxVersion\$rootDir" -fileContents $envFile
 
-# NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
-$winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
-Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $script:InstallPath -app $app
+  # NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
+  $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
+  Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $script:InstallPath -app $app
 
-Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow
+  Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow
+
+}
+catch {
+  Write-Host $_
+  Write-Host $_.ScriptStackTrace
+  Write-Host "EdFi Buzz ui install failed."
+}

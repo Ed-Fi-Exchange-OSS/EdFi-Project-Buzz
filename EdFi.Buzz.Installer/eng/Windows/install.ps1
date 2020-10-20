@@ -78,10 +78,9 @@ try {
 
     Test-BuzzServices $script:conf
     Write-Host "Ed-Fi Buzz installation complete."
-    Exit 0
 }
 catch {
-    Write-Host "Error on EdFi Buzz Installer"
+    Write-Host $_
     Write-Host $_.StackTrace
-    exit -1;
+    Write-Host "Ed-Fi Buzz installation failed."
 }
