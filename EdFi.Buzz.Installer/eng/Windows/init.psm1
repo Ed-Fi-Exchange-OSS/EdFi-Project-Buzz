@@ -8,7 +8,6 @@ Import-Module "$PSScriptRoot\AppSharedLibrary\nuget-helper.psm1"
 $root = $PSScriptRoot
 
 $AppCommonVersion = "1.0.3"
-
 function Install-AppCommon {
     Param(
         [Parameter(Mandatory = $true)]
@@ -20,19 +19,31 @@ function Install-AppCommon {
         [Parameter(Mandatory = $true)]
         [string] $version
     )
+    try {
+        $packageName = "EdFi.Installer.AppCommon"
+        $installerPath = Join-Path $packagesPath "$packageName.$version"
 
-    $packageName = "EdFi.Installer.AppCommon"
-    $installerPath = Join-Path $packagesPath "$packageName.$version"
+        if (-not (Test-Path $installerPath)) {
+            $installerPath = Install-EdFiPackage -packageName $packageName -version $version -packageSource $packageSource -downloadPath $downloadPath
+        }
 
-    if (-not (Test-Path $installerPath)) {
-        $installerPath = Install-EdFiPackage -packageName $packageName -version $version -packageSource $packageSource -downloadPath $downloadPath
+        $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation"
+        Write-Host "Importing $packageName modules..."
+        Import-Module -Force -Scope Global "$installerPath/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1" -ErrorAction Continue
+        Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1") -ErrorAction Continue
+        Import-Module -Force $folders.modules.invoke("tasks/TaskHelper.psm1") -ErrorAction Continue
+        Import-Module -Force $folders.modules.invoke("tools/ToolsHelper.psm1") -ErrorAction Continue
+
+        # Import the following with global scope so that they are available inside of script blocks
+        Import-Module -Force "$installerPath/Application/Install.psm1" -Scope Global -ErrorAction Continue
+        Import-Module -Force "$installerPath/Application/Configuration.psm1" -Scope Global -ErrorAction Continue
+
+        Write-Host "$packageName installed."
     }
-
-    $env:PathResolverRepositoryOverride = "Ed-Fi-Ods;Ed-Fi-ODS-Implementation"
-    Import-Module -Force -Scope Global "$installerPath/Ed-Fi-ODS-Implementation/logistics/scripts/modules/path-resolver.psm1"
-    Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
-    Import-Module -Force $folders.modules.invoke("tasks/TaskHelper.psm1")
-    Import-Module -Force $folders.modules.invoke("tools/ToolsHelper.psm1")
+    catch {
+        Write-Host "Error on Installer-AppCommon"
+        Write-Host $_.ScriptStackTrace
+    }
 }
 
 function Install-NugetCli {
@@ -67,24 +78,32 @@ function Install-NugetCli {
 
 function Ensure-NodeJs {
 
-    if (Get-Command node -errorAction SilentlyContinue) {
-        $nodeVer = node -v
-    }
+    try {
+        Write-Host "Check for NodeJs"
 
-    if ($nodeVer) {
-        write-host "nodejs $nodeVer already installed"
-
-        $node_version_number = [int]$nodeVer.substring(1,2);
-
-        if ($node_version_number -lt 12) {
-            Write-Error "nodejs version installed is not supported. Please install version 12 or higher"
-            exit -1;
+        if (Get-Command node -errorAction SilentlyContinue) {
+            $nodeVer = node -v
         }
 
-        return;
-    }
+        if ($nodeVer) {
+            write-host "Nodejs $nodeVer already installed"
 
-    throw "[NODE] nodejs was not installed"
+            $node_version_number = [int]$nodeVer.substring(1, 2);
+
+            if ($node_version_number -lt 12) {
+                Write-Error "Nodejs version installed is not supported. Please install version 12 or higher"
+                exit -1;
+            }
+
+            return;
+            exit 0;
+        }
+    }
+    catch {
+        Write-Host "Error on Ensure-NodeJs"
+        Write-Host $_.ScriptStackTrace
+        exit -1
+    }
 }
 
 <#
