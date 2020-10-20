@@ -7,6 +7,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import SurveyQuestionSummary from 'Models/SurveyQuestionSummary';
 import { SurveyChart } from './surveyChart';
+import SurveyWordCloud from './surveyWordCloud';
 import { DataTable , ColumnOption } from '../../Components/DataTable/dataTable';
 import ChevronDown from '../../assets/chevron-down.png';
 import ChevronUp from '../../assets/chevron-up.png';
@@ -40,7 +41,6 @@ const StyledSurveyArea = styled.div`
 
 export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps> = (props: ChartAndTableComponentProps) => {
   const selectedQuestion = props.question;
-
   const [viewAnswersByStudent, setViewAnswersByStudent] = React.useState(false);
   const [selectedAnswer, setSelectedAnswer] = React.useState(null as string);
 
@@ -52,10 +52,16 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
   }
 
   return <>
+    {selectedQuestion.answers.length < 10 &&
     <SurveyChart title={props.title}
       question={selectedQuestion}
       afterSelectionChangedHandler={onAnswerSelectionChangedHandler} />
-
+    }
+    {selectedQuestion.answers.length >= 10 &&
+    <SurveyWordCloud title={props.title}
+      question={selectedQuestion}
+    />
+    }
     <StyledSurveyArea onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
       <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} alt=""/></div>
     </StyledSurveyArea>

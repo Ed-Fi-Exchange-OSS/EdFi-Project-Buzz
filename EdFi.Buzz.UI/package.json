@@ -13,6 +13,8 @@
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
     "cross-env": "^7.0.2",
+    "d3-selection": "^2.0.0",
+    "d3-transition": "^2.0.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "jest-junit": "^11.1.0",
@@ -29,11 +31,13 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-social-login": "^3.4.9",
+    "react-wordcloud": "^1.2.7",
     "rsdi": "^1.0.5",
     "rxjs": "^6.6.3",
     "serve": "^11.3.2",
     "styled-components": "^5.2.0",
-    "subscriptions-transport-ws": "^0.9.18"
+    "subscriptions-transport-ws": "^0.9.18",
+    "tippy.js": "^6.2.7"
   },
   "devDependencies": {
     "@testing-library/dom": ">=7.21.4",
