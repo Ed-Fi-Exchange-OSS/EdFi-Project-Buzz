@@ -115,8 +115,7 @@ if ("google" -eq $idProvider) {
   SURVEY_MAX_FILE_SIZE_BYTES=1mb
   SURVEY_PROCESS_INITIAL_STATUS_KEY=1
   SURVEY_FILES_RETENTION_DAYS=1
-
-  "@
+"@
 }
 else {
   $envFile = @"
@@ -154,7 +153,7 @@ else {
   SURVEY_PROCESS_INITIAL_STATUS_KEY=1
   SURVEY_FILES_RETENTION_DAYS=1
 
-  "@
+"@
 }
 
 try {
