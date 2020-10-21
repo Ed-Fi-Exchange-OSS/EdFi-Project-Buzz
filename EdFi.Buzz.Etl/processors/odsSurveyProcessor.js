@@ -207,7 +207,7 @@ async function getStudentSchoolKeysFromStudentUSIs(surveykey, odsSurveyStudentRe
 async function saveSurvey(odsSurvey, db) {
   return db.query(
     `
-      INSERT INTO buzz.survey (title)
+      INSERT INTO buzz.survey (title,odssurveyidentifier)
         VALUES ($1,$2) RETURNING surveykey
       `,
     [odsSurvey.SurveyTitle, odsSurvey.SurveyIdentifier],
@@ -350,25 +350,38 @@ const process = async (surveyIdentifier) => {
 
   const db = await getDB();
 
+  console.log(`Getting survey ${surveyIdentifier} from ODS database... `);
   const odsSurvey = await getSurvey(surveyIdentifier);
 
   if (odsSurvey) {
+    console.log(' ... Survey found.');
+
     await deleteSurveyIfItExists(surveyIdentifier, db);
 
+    console.log('Importing survey... ');
     const survey = await saveSurvey(odsSurvey, db);
+    console.log(' ... survey saved.');
 
+    console.log('Importing survey questions... ');
     const surveyQuestions = await saveSurveyQuestions(
       await getSurveyQuestions(surveyIdentifier), survey.surveykey, db,
     );
+    console.log(' ... survey questions imported.');
 
+    console.log('Importing survey responses... ');
     let surveyResponses = await getStudentSchoolKeysFromStudentUSIs(
       survey.surveykey, await getSurveyStudentResponses(surveyIdentifier),
     );
     surveyResponses = await saveSurveyResponses(surveyResponses, db);
+    console.log(' ... survey responses imported.');
 
+    console.log('Importing survey answers... ');
     await saveSurveyResponsesAnswers(
       await getSurveyStudentResponseAnswers(surveyIdentifier), surveyResponses, surveyQuestions, db,
     );
+    console.log(' ... survey answers imported.');
+  } else {
+    console.error('Survey not found.');
   }
 };
 

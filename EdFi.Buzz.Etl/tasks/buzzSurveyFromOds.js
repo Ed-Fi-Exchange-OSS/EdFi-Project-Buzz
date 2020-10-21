@@ -7,13 +7,13 @@ const odsSurveyProcessor = require('../processors/odsSurveyProcessor');
 module.exports = async (payload, helpers) => {
   try {
     const {
-      surveyIdentifier, surveyTitle,
+      surveyIdentifier, surveytitle,
     } = payload;
     helpers.logger.info(
-      `Running the ODS Survey loader for surveyIdentifier: ${surveyIdentifier} with title '${surveyTitle}'`,
+      `Running the ODS Survey loader for surveyIdentifier: ${surveyIdentifier} with title '${surveytitle}'`,
     );
     await odsSurveyProcessor.process(surveyIdentifier);
-    helpers.logger.info(`Finished processing task for for surveyIdentifier: ${surveyIdentifier} with title '${surveyTitle}'`);
+    helpers.logger.info(`Finished processing task for for surveyIdentifier: ${surveyIdentifier} with title '${surveytitle}'`);
   } catch (error) {
     helpers.logger.error(error);
   }
