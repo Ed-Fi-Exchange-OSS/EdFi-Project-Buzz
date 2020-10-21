@@ -97,6 +97,6 @@ try {
 }
 catch {
     Write-Host $_
-    Write-Host $.ScriptStackTrace
+    Write-Host $_.ScriptStackTrace
     Write-Host "EdFi Buzz database install failed."
 }
