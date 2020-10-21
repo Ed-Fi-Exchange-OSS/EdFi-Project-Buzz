@@ -51,7 +51,28 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $rootDir = "dist",
   [Parameter(Mandatory = $true)]
-  [string] $app = "UI"
+  [string] $app = "UI",
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerHost = "127.0.0.1",
+
+  [Parameter(Mandatory = $true)]
+  [int]
+  $SqlServerPort = 5432,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerUserName = "postgres",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerPassword,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $SqlServerDbName = "edfi_buzz",
+
+
 )
 
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
@@ -76,8 +97,15 @@ BUZZ_API_DB_SCHEMA = '$schema'
 BUZZ_API_HTTP_PORT = $port
 BUZZ_WORKER_JOB_NAME = 'buzzSurvey'
 BUZZ_WORKER_CLEANUP_JOB_NAME = 'buzzCleanUp'
+ODS_DBNAME=$SqlServerDbName
+ODS_SERVER=$SqlServerHost
+ODS_USER=$SqlServerUserName
+ODS_PASSWORD=$SqlServerPassword
+ODS_PORT=$SqlServerPort
+ODS_TRUSTSERVERCERTIFICATE=false
+ODS_ENABLEARITHABORT=true
+ODS_ENCRYPT=false
 URI_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
-___URI_DISCOVERY = https://login.microsoftonline.com/common/.well-known/openid-configuration
 GOOGLE_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
 GOOGLE_CLIENT_ID=$googleClientID
 GOOGLE_SECRET=$clientSecret
