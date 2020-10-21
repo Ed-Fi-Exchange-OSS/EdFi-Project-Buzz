@@ -39,7 +39,6 @@ function Install-BuzzApp {
 
         Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force
         $installFolder = Install-EdFiPackage @installparams
-        Copy-Item -Path "./AppSharedLibrary/init.psm1" -Destination (Join-Path $installFolder "Windows") -Force
         Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows") -Force
         Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows") -Force
 
@@ -49,12 +48,13 @@ function Install-BuzzApp {
         & ./install.ps1 @params
         Write-Host "Package installation completed for $app."
     }
-    Write-Host $_
-    throw $_
-}
-finally {
-    Pop-Location
-}
+    catch {
+        Write-Host $_
+        throw $_
+    }
+    finally {
+        Pop-Location
+    }
 }
 
 function Install-ApiApp {
