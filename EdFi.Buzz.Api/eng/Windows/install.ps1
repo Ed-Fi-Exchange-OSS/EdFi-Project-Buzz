@@ -70,9 +70,7 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $SqlServerDbName = "edfi_buzz",
-
-
+  $SqlServerDbName = "edfi_buzz"
 )
 
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
