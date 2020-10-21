@@ -287,7 +287,7 @@ function Update-NginxConf {
     $fileContents = (Get-Content -Path "$sourcePath/nginx.conf" -Encoding UTF8)
     $fileContents = $fileContents.Replace("%NGINXPORT%", $nginxPort)
     $fileContents = $fileContents.Replace("%WEBROOT%", "./$rootDir")
-    $nginxFile = Resolve-Path("$appPath/nginx.conf")
+    $nginxFile = New-Item -Path "$appPath/nginx.conf" -Force -ErrorAction Continue
     $fileContents | Set-Content $nginxFile
 }
 
