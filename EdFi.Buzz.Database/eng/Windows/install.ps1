@@ -27,6 +27,7 @@ param(
 
 $distFolder = Resolve-Path "$PSScriptRoot/../dist"
 $logFile = ".\edfi-buzz-database.install.log"
+$npm = "C:\Program Files\nodejs\npm.cmd"
 
 if (-not(Test-Path $distFolder)) {
     # Need one more parent directory if running straight from source code
@@ -53,12 +54,11 @@ function Install-Migrations {
     try {
         Push-Location -Path $distFolder
         Write-Host "Executing: npm run migrate $DbName --config ./migrate-database.json" -ForegroundColor Magenta
-        &npm run migrate --silent "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
+        & $npm run migrate --silent "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
         Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
     }
     catch {
         Write-Host "Database was not migrated"
-        Write-Host $_.ScriptStackTrace
         throw $_
     }
     finally {
@@ -73,10 +73,10 @@ function Install-Database {
         Push-Location -Path $distFolder
         $ErrorActionPreference = "Continue"
         Write-Host "Executing: npm install --production" -ForegroundColor Magenta
-        $output = &npm install --production --silent 2>&1
+        $output = & $npm install --production --silent 2>&1
 
         Write-Host "Executing: npm run init-db $DbName --config ./create-database.json" -ForegroundColor Magenta
-        $output = &npm run init-db "$DbName" --config ./create-database.json 2>&1
+        $output = & $npm run init-db "$DbName" --config ./create-database.json 2>&1
         $ErrorActionPreference = "Stop"
     }
     catch {

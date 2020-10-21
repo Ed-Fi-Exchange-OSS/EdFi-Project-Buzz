@@ -3,6 +3,7 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
+$npm = "C:\Program Files\nodejs\npm.cmd"
 function Get-FileNameWithoutExtensionFromUrl {
   param(
     [string]
@@ -64,7 +65,7 @@ function Install-NpmPackages {
   try {
     Write-Host "Installing NPM packages..." -ForegroundColor Green
     Push-Location $appPath
-    npm install --production --silent
+    & $script:npm install --production --silent
   } catch {
     Write-Error "Error on npm install"
     Write-Error $PSItem.Exception.Message

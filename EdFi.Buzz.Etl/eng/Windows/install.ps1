@@ -61,6 +61,7 @@ param(
 )
 
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+$npm = "C:\Program Files\nodejs\npm.cmd"
 
 function Install-NodeService {
   param(
@@ -153,7 +154,7 @@ function Install-DistFiles {
 
   Push-Location "$installPath/dist"
   Write-Host "Executing: npm install --production"
-  &npm install --production --silent
+  & $npm install --production --silent
   Pop-Location
 }
 
