@@ -10,7 +10,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.nuGetFeedCredentials
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
-
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 
 object DeployAPIBuild : BuildType ({
     name = "Deploy"
@@ -27,7 +27,19 @@ object DeployAPIBuild : BuildType ({
         }
     }
 
+    triggers {
+        finishBuildTrigger {
+            buildTypeExtId = "${BranchAPIBuild.id}"
+            successfulOnly = true
+        }
+    }
+
     dependencies {
+        snapshot(BranchAPIBuild) {
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
+        }
+
         artifacts(BranchAPIBuild) {
             cleanDestination = true
             buildRule = lastSuccessful()
