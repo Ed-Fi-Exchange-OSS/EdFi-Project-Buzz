@@ -48,6 +48,26 @@ async function odsDs() {
   return version.recordset[0].version;
 }
 
+async function deleteSurveyIfItExists(surveyIdentifier, db) {
+  return db.query(
+    `
+      UPDATE buzz.survey
+        SET
+          deletedat = $2
+      WHERE
+        odssurveyidentifier = $1;
+      `,
+    [
+      surveyIdentifier,
+      new Date(),
+    ],
+  )
+    .then(() => true)
+    .catch((err) => {
+      console.error(`ERROR: ${err} - ${err.detail}`);
+    });
+}
+
 async function getSurvey(surveyIdentifier) {
   await sql.connect(msConfig);
   const result = await sql.query`
@@ -188,9 +208,9 @@ async function saveSurvey(odsSurvey, db) {
   return db.query(
     `
       INSERT INTO buzz.survey (title)
-        VALUES ($1) RETURNING surveykey
+        VALUES ($1,$2) RETURNING surveykey
       `,
-    [odsSurvey.SurveyTitle],
+    [odsSurvey.SurveyTitle, odsSurvey.SurveyIdentifier],
   )
     .then((result) => ({
       odsSurveyIdentifier: odsSurvey.SurveyIdentifier,
@@ -225,6 +245,8 @@ async function saveSurveyQuestions(odsSurveyQuestions, buzzSurveyKey, db) {
 
   for (let i = 0; i < odsSurveyQuestions.length; i += 1) {
     const question = odsSurveyQuestions[i];
+
+    /* eslint-disable-next-line no-await-in-loop */
     const surveyquestionkey = await save(question);
 
     surveyQuestions.push({
@@ -262,6 +284,8 @@ async function saveSurveyResponses(surveyResponses, db) {
 
   for (let i = 0; i < surveyResponses.length; i += 1) {
     const surveyResponse = surveyResponses[i];
+
+    /* eslint-disable-next-line no-await-in-loop */
     const studentsurveykey = await save(surveyResponse, db);
 
     surveyResponse.studentsurveykey = studentsurveykey;
@@ -305,6 +329,7 @@ async function saveSurveyResponsesAnswers(
       (survQuestion) => surveyResponseAnswer.QuestionCode === survQuestion.QuestionCode,
     );
 
+    /* eslint-disable-next-line no-await-in-loop */
     const studentsurveykey = await save(
       surveyResponseAnswer, studentsurvey.studentsurveykey, surveyQuestion.surveyquestionkey, db,
     );
@@ -328,36 +353,22 @@ const process = async (surveyIdentifier) => {
   const odsSurvey = await getSurvey(surveyIdentifier);
 
   if (odsSurvey) {
-    const survey = await saveSurvey(odsSurvey, db);
+    await deleteSurveyIfItExists(surveyIdentifier, db);
 
-    // console.log('survey: ');
-    // console.log(survey);
+    const survey = await saveSurvey(odsSurvey, db);
 
     const surveyQuestions = await saveSurveyQuestions(
       await getSurveyQuestions(surveyIdentifier), survey.surveykey, db,
     );
 
-    // console.log('surveyQuestions: ');
-    // console.log(surveyQuestions);
-
     let surveyResponses = await getStudentSchoolKeysFromStudentUSIs(
       survey.surveykey, await getSurveyStudentResponses(surveyIdentifier),
     );
-
-    // console.log('surveyResponses: ');
-    // console.log(surveyResponses);
-
     surveyResponses = await saveSurveyResponses(surveyResponses, db);
 
-    // console.log('surveyResponses: ');
-    // console.log(surveyResponses);
-
-    /* const surveyResponsesAnswers = */ await saveSurveyResponsesAnswers(
+    await saveSurveyResponsesAnswers(
       await getSurveyStudentResponseAnswers(surveyIdentifier), surveyResponses, surveyQuestions, db,
     );
-
-    // console.log('surveyResponsesAnswers: ');
-    // console.log(surveyResponsesAnswers);
   }
 };
 
