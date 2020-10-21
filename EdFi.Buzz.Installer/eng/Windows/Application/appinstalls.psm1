@@ -164,7 +164,8 @@ function Install-UiApp {
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
         "adfsTenantId"    = $configuration.adfsTenantId;
-		"logo"			  = $configuration.ui.logo;
+        "logo"			  = $configuration.ui.logo;
+        "externalLogo"	  =	$configuration.ui.externalLogo;
 		"logoWidth"		  =	$configuration.ui.logoWidth;
 		"title"			  = $configuration.ui.title;
 		"titleLogo"		  = $configuration.ui.titleLogo;
