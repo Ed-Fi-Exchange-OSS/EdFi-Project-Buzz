@@ -20,20 +20,36 @@ import StudentSurveyModule from './graphql/modules/studentsurvey.module';
 import SurveyFileModule from './graphql/modules/surveyfile.module';
 import SurveyStatusModule from './graphql/modules/surveystatus.module';
 import SurveyModule from './graphql/modules/survey.module';
+import OdsSurveyModule from './graphql/modules/odssurvey.module';
+import { BUZZ_DATABASE, ODS_DATABASE } from './constants';
 
 config({ path: `${__dirname}/.env` });
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      name: BUZZ_DATABASE,
       type: 'postgres',
       host: process.env.BUZZ_API_DB_HOST,
       port: parseInt(process.env.BUZZ_API_DB_PORT, 10),
       username: process.env.BUZZ_API_DB_USERNAME,
       password: process.env.BUZZ_API_DB_PASSWORD,
       database: process.env.BUZZ_API_DB_DATABASE,
-      entities: [`${__dirname}/**/*.entity.js`],
-      synchronize: true,
+      entities: [`${__dirname}/**/entities/buzz/**/*.entity.js`],
+      synchronize: false,
+      logging: false,
+    }),
+    TypeOrmModule.forRoot({
+      name: ODS_DATABASE,
+      type: 'mssql',
+      host: process.env.ODS_SERVER,
+      port: parseInt(process.env.ODS_PORT, 10),
+      username: process.env.ODS_USER,
+      password: process.env.ODS_PASSWORD,
+      database: process.env.ODS_DBNAME,
+      entities: [`${__dirname}/**/entities/ods/**/*.entity.js`],
+      synchronize: false,
+      logging: false,
     }),
     GraphQLModule.forRoot({
       typePaths: [`${__dirname}/**/*.graphql`],
@@ -51,6 +67,7 @@ config({ path: `${__dirname}/.env` });
     SurveyFileModule,
     SurveyStatusModule,
     SurveyModule,
+    OdsSurveyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

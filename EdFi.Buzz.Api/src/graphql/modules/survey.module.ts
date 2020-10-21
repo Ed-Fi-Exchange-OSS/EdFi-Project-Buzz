@@ -6,12 +6,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import StaffService from '../services/staff.service';
-import StaffEntity from '../entities/staff.entity';
-import SurveyEntity from '../entities/survey/survey.entity';
+import {
+  StaffEntity,
+  SurveyEntity,
+  StudentSchoolEntity,
+  SectionEntity,
+} from '../entities/buzz';
 import SurveyService from '../services/survey.service';
-import StudentSchoolEntity from '../entities/studentschool.entity';
-import SectionEntity from '../entities/section.entity';
 import SurveyResolvers from '../resolvers/survey.resolver';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -19,7 +22,7 @@ import SurveyResolvers from '../resolvers/survey.resolver';
     SurveyEntity,
     StudentSchoolEntity,
     SectionEntity,
-  ])],
+  ], BUZZ_DATABASE)],
   providers: [SurveyService, StaffService, SurveyResolvers],
 })
 export default class SurveyModule {}

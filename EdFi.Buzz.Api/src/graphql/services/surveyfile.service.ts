@@ -4,13 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { Injectable } from '@nestjs/common';
-
 import * as fs from 'fs';
-import TaskItem from '../entities/queues/taskitem.entity';
+import { TaskItemEntity } from '../entities/buzz';
 
 @Injectable()
 export default class SurveyFileService {
-  writeFile(staffKey: string, fileContent: string): TaskItem {
+  writeFile(staffKey: string, fileContent: string): TaskItemEntity {
     const taskItem = {
       filename: this.filename(),
       path: `${process.env.SURVEY_FILES_FOLDER}/${staffKey}/`,

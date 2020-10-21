@@ -12,7 +12,7 @@ import { JobStatus } from '../graphql.schema';
 import AuthGuard from '../auth.guard';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import SurveyStatusService from '../services/surveystatus.service';
-import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
+import { SurveyStatusEntity } from '../entities/buzz';
 
 @UseGuards(AuthGuard)
 @UseGuards(ValidateStaffIdGuard)

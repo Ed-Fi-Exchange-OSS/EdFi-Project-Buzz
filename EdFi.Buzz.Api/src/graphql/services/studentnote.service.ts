@@ -6,13 +6,15 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import StudentNoteEntity from '../entities/studentnote.entity';
+import { StudentNoteEntity } from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Injectable()
 export default class StudentNoteService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    @InjectRepository(StudentNoteEntity) private readonly BuzzStudentNotesRepository: Repository<StudentNoteEntity>,
+    @InjectRepository(StudentNoteEntity, BUZZ_DATABASE)
+    private readonly BuzzStudentNotesRepository: Repository<StudentNoteEntity>,
   ) {}
 
   async addStudentNote(note: StudentNoteEntity): Promise<StudentNoteEntity> {

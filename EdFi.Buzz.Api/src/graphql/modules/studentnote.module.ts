@@ -7,10 +7,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import StudentNoteResolvers from '../resolvers/studentnote.resolver';
 import StudentNoteService from '../services/studentnote.service';
-import StudentNoteEntity from '../entities/studentnote.entity';
+import { StudentNoteEntity } from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([StudentNoteEntity])],
+  imports: [TypeOrmModule.forFeature([StudentNoteEntity], BUZZ_DATABASE)],
   providers: [StudentNoteService, StudentNoteResolvers],
 })
 export default class StudentNoteModule {}

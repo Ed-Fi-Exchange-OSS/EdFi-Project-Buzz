@@ -13,7 +13,7 @@ import AuthGuard from '../auth.guard';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import TaskItemService from '../services/taskitem.service';
 import SurveyStatusService from '../services/surveystatus.service';
-import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
+import { SurveyStatusEntity } from '../entities/buzz';
 import SurveyService from '../services/survey.service';
 
 @UseGuards(AuthGuard)

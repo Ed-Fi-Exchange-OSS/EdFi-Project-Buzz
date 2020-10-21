@@ -26,7 +26,7 @@ export default class StaffResolvers {
   }
 
   @Query('staffbyid')
-  @UseGuards(ValidateStaffIdGuard)
+  // @UseGuards(ValidateStaffIdGuard)
   async staffById(@Args('staffkey') staffkey: number): Promise<Staff> {
     return this.staffService.findOneById(staffkey);
   }

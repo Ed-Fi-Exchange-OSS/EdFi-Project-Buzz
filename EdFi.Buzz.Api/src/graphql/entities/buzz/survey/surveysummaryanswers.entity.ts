@@ -5,22 +5,31 @@
 
 import { ViewEntity, ViewColumn, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
-import SurveySummaryAnswers from './surveysummaryanswers.entity';
 
-config({ path: `${__dirname}/../../../../.env` });
-@ViewEntity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'surveysummaryquestions', synchronize: false })
-export default class SurveySummaryQuestionsEntity {
+config({ path: `${__dirname}/../../../../../.env` });
+@ViewEntity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'surveysummaryanswers', synchronize: false })
+export default class SurveySummaryAnswersEntity {
   @ViewColumn()
+  sectionkey: string;
+
+  @PrimaryColumn()
   surveykey: number;
 
   @ViewColumn()
   title: string;
 
-  @PrimaryColumn()
+  @ViewColumn()
   surveyquestionkey: number;
 
   @ViewColumn()
   question: string;
 
-  answers?: SurveySummaryAnswers[];
+  @ViewColumn()
+  studentschoolkey: string;
+
+  @ViewColumn()
+  studentname: string;
+
+  @ViewColumn()
+  answer: string;
 }

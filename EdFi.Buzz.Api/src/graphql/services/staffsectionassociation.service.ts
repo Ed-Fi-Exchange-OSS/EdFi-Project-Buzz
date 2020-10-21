@@ -6,13 +6,14 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import StaffSectionAssociationEntity from '../entities/staffsectionassociation.entity';
+import { StaffSectionAssociationEntity } from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Injectable()
 export default class StaffSectionAssociationService {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    @InjectRepository(StaffSectionAssociationEntity)
+    @InjectRepository(StaffSectionAssociationEntity, BUZZ_DATABASE)
     private readonly BuzzRepository: Repository<StaffSectionAssociationEntity>,
   ) {}
 

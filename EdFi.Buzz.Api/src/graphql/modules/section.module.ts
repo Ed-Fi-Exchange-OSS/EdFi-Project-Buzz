@@ -7,11 +7,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import SectionResolvers from '../resolvers/section.resolver';
 import SectionService from '../services/section.service';
-import SectionEntity from '../entities/section.entity';
-import StudentSchoolEntity from '../entities/studentschool.entity';
+import {
+  SectionEntity,
+  StudentSchoolEntity,
+} from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SectionEntity, StudentSchoolEntity])],
+  imports: [TypeOrmModule.forFeature([SectionEntity, StudentSchoolEntity], BUZZ_DATABASE)],
   providers: [SectionService, SectionResolvers],
 })
 export default class SectionModule {}

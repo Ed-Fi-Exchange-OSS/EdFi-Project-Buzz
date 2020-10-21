@@ -6,13 +6,17 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import ContactPersonEntity from '../entities/contactperson.entity';
-import SchoolEntity from '../entities/school.entity';
-import StudentSchoolEntity from '../entities/studentschool.entity';
-import StudentContactEntity from '../entities/studentcontact.entity';
-import StudentSurveyEntity from '../entities/survey/studentsurvey.entity';
-import StudentNoteEntity from '../entities/studentnote.entity';
-import SurveyEntity from '../entities/survey/survey.entity';
+import {
+  ContactPersonEntity,
+  SchoolEntity,
+  StudentSchoolEntity,
+  StudentContactEntity,
+  StudentSurveyEntity,
+  StudentNoteEntity,
+  SurveyEntity,
+}
+  from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Injectable()
 export default class SectionService {
@@ -22,12 +26,16 @@ export default class SectionService {
 
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    @InjectRepository(StudentSchoolEntity) private readonly BuzzRepository: Repository<StudentSchoolEntity>,
-    @InjectRepository(ContactPersonEntity) private readonly BuzzRepositoryContacts: Repository<ContactPersonEntity>,
-    @InjectRepository(SchoolEntity) private readonly BuzzRepositorySchool: Repository<SchoolEntity>,
-    @InjectRepository(StudentSurveyEntity)
+    @InjectRepository(StudentSchoolEntity, BUZZ_DATABASE)
+    private readonly BuzzRepository: Repository<StudentSchoolEntity>,
+    @InjectRepository(ContactPersonEntity, BUZZ_DATABASE)
+    private readonly BuzzRepositoryContacts: Repository<ContactPersonEntity>,
+    @InjectRepository(SchoolEntity, BUZZ_DATABASE)
+    private readonly BuzzRepositorySchool: Repository<SchoolEntity>,
+    @InjectRepository(StudentSurveyEntity, BUZZ_DATABASE)
     private readonly BuzzStudentSurveyRepository: Repository<StudentSurveyEntity>,
-    @InjectRepository(StudentNoteEntity) private readonly BuzzStudentNotesRepository: Repository<StudentNoteEntity>,
+    @InjectRepository(StudentNoteEntity, BUZZ_DATABASE)
+    private readonly BuzzStudentNotesRepository: Repository<StudentNoteEntity>,
   ) {}
 
   async findAll(): Promise<StudentSchoolEntity[]> {

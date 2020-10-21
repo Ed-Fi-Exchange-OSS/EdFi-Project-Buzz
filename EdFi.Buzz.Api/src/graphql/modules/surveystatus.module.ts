@@ -6,13 +6,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import SurveyStatusService from '../services/surveystatus.service';
-import SurveyStatusEntity from '../entities/survey/surveystatus.entity';
+import {
+  SurveyStatusEntity,
+  JobStatusEntity,
+  StaffEntity,
+  SectionEntity,
+  StudentSchoolEntity,
+} from '../entities/buzz';
 import SurveyStatusResolvers from '../resolvers/surveystatus.resolver';
-import JobStatusEntity from '../entities/survey/jobstatus.entity';
-import StaffEntity from '../entities/staff.entity';
 import StaffService from '../services/staff.service';
-import SectionEntity from '../entities/section.entity';
-import StudentSchoolEntity from '../entities/studentschool.entity';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -21,7 +24,7 @@ import StudentSchoolEntity from '../entities/studentschool.entity';
     StudentSchoolEntity,
     SurveyStatusEntity,
     JobStatusEntity,
-  ])],
+  ], BUZZ_DATABASE)],
   providers: [StaffService, SurveyStatusService, SurveyStatusResolvers],
 })
 export default class SurveyStatusModule {}

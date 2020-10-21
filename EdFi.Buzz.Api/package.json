@@ -44,6 +44,7 @@
     "graphql-tools": "6.0.9",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.4",
+    "mssql": "^6.2.3",
     "node-fetch": "^2.6.1",
     "node-postgres": "^0.6.2",
     "pg": "^8.2.1",
@@ -102,6 +103,6 @@
   "peerDependencies": {
     "apollo-server-core": "^2.15.0",
     "class-transformer": "^0.3.0",
-   "class-validator": "0.12.2"
+    "class-validator": "0.12.2"
   }
 }

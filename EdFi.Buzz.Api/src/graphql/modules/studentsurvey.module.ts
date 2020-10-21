@@ -7,11 +7,15 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import StudentSurveyResolvers from '../resolvers/studentsurvey.resolver';
 import StudentSurveyService from '../services/studentsurvey.service';
-import SurveyEntity from '../entities/survey/survey.entity';
-import AnswersByStudentEntity from '../entities/survey/answersbystudent.entity';
+import {
+  SurveyEntity,
+  AnswersByStudentEntity,
+} from '../entities/buzz';
+import { BUZZ_DATABASE } from '../../constants';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SurveyEntity, AnswersByStudentEntity, SurveyEntity])],
+  imports: [TypeOrmModule.forFeature([SurveyEntity, AnswersByStudentEntity, SurveyEntity],
+    BUZZ_DATABASE)],
   providers: [StudentSurveyService, StudentSurveyResolvers],
 })
 export default class StudentSurveyModule {}
