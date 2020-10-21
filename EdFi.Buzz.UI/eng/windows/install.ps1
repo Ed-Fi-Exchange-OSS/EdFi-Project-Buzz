@@ -39,7 +39,7 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $app = "UI",
   [Parameter(Mandatory = $true)]
-  [bool] externalLogo = $true,
+  [bool] $externalLogo = $true,
   [Parameter(Mandatory = $true)]
   [string] $logo = "assets/Owl-Logo-GrandBend.png",
   [Parameter(Mandatory = $true)]
