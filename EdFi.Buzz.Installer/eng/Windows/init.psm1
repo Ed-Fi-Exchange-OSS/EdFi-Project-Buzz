@@ -79,11 +79,12 @@ function Install-NugetCli {
 function Ensure-NodeJs {
     Write-Host "Check for NodeJs"
 
-    $path = $env:PATH
-    if (($path | ? { $_ -like '*\Program Files\nodejs*' }).Count -lt 1) {
+    if (-not (Test-Path "C:\Program Files\nodejs")) {
         Write-Host "Node JS was not found on the path..."
         throw "Node JS was not installed"
     }
+
+    $env:PATH += ";C:\Program Files\nodejs"
 
     if (Get-Command node -errorAction SilentlyContinue) {
         $nodeVer = node -v
