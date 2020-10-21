@@ -145,7 +145,7 @@ function Initialize-Installer {
         [string] $packagesPath
     )
 
-    Write-Host "Starting Initalize-Installer ..."
+    Write-Host "Starting Initialize-Installer ..."
 
     Initialize-InstallDirs
     Install-NugetCli -toolsPath  $toolsPath
