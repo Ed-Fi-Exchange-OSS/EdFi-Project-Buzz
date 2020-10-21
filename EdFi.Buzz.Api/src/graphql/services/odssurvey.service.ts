@@ -17,10 +17,16 @@ export default class OdsSurveyService {
   ) {}
 
   async findAll(): Promise<OdsSurveyEntity[]> {
-    return this.OdsRepository.find();
+    const result = this.OdsRepository
+      .find()
+      .catch(() => null);
+    return result;
   }
 
   async findOneById(id: string): Promise<OdsSurveyEntity> {
-    return this.OdsRepository.findOne({ where: { surveyidentifier: id } });
+    const result = this.OdsRepository
+      .findOne({ where: { surveyidentifier: id } })
+      .catch(() => null);
+    return result;
   }
 }
