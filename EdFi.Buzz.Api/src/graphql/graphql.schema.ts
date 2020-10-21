@@ -1,4 +1,3 @@
-
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -6,7 +5,7 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class OdsSurvey {
+export class OdsSurveyItem {
     surveyidentifier?: string;
     surveytitle?: string;
 }
@@ -56,7 +55,7 @@ export abstract class IMutation {
 
     abstract deletesurvey(staffkey: string, surveykey: number): Survey | Promise<Survey>;
 
-    abstract loadsurveyfromods(staffkey: string, surveylist?: OdsSurvey[]): LoadSurveyFromOdsResponse | Promise<LoadSurveyFromOdsResponse>;
+    abstract loadsurveyfromods(staffkey: string, surveylist?: OdsSurveyItem[]): LoadSurveyFromOdsResponse | Promise<LoadSurveyFromOdsResponse>;
 }
 
 export class OdsSurvey {

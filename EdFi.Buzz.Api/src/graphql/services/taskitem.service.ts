@@ -6,8 +6,7 @@
 import { Injectable } from '@nestjs/common';
 import { makeWorkerUtils, Job } from 'graphile-worker';
 import { v4 as uuidv4 } from 'uuid';
-import { TaskItemEntity } from '../entities/buzz';
-import LoadSurveyFromOdsTaskItem from '../entities/queues/loadSurveyFromOdsTaskitem.entity';
+import { TaskItemEntity, LoadSurveyFromOdsTaskItem } from '../entities/buzz';
 import { LoadSurveyFromOdsResponse } from '../graphql.schema';
 
 @Injectable()
@@ -21,7 +20,7 @@ export default class TaskItemService {
 
   cleanUpQueueName = process.env.BUZZ_WORKER_CLEANUP_JOB_NAME;
 
-    buzzSurveyFromOdsQueueName = process.env.BUZZ_SURVEY_FROM_ODS_JOB_NAME;
+  buzzSurveyFromOdsQueueName = process.env.BUZZ_SURVEY_FROM_ODS_JOB_NAME;
 
   async addTaskItem(taskItem: TaskItemEntity): Promise<Job> {
     const task = taskItem;
