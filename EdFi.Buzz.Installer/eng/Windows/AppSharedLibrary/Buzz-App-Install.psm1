@@ -5,6 +5,16 @@
 
 $npm = "C:\Program Files\nodejs\npm.cmd"
 
+function Initialize-InstallDirs {
+    if (-not $(Test-Path $packagesPath)) {
+        mkdir $packagesPath | Out-Null
+    }
+
+    if (-not $(Test-Path $toolsPath)) {
+        mkdir $toolsPath | Out-Null
+    }
+}
+
 function Get-FileNameWithoutExtensionFromUrl {
     param(
         [string]
@@ -43,6 +53,105 @@ function Get-HelperAppIfNotExists {
     }
 
     return $version
+}
+
+function Install-NugetCli {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath,
+        [string] $sourceNugetExe = "https://dist.nuget.org/win-x86-commandline/v5.3.1/nuget.exe"
+    )
+
+    if (-not $(Test-Path $toolsPath)) {
+        mkdir $toolsPath | Out-Null
+    }
+
+    $nuget = (Join-Path $toolsPath "nuget.exe")
+
+    if (-not $(Test-Path $nuget)) {
+        Write-Host "Downloading nuget.exe official distribution from " $sourceNugetExe
+        Invoke-WebRequest $sourceNugetExe -OutFile $nuget
+    }
+    else {
+        $info = Get-Command $nuget
+        Write-Host "Found nuget exe in: $toolsPath"
+
+        if ("5.3.1.0" -ne $info.Version.ToString()) {
+            Write-Host "Updating nuget.exe official distribution from " $sourceNugetExe
+            Invoke-WebRequest $sourceNugetExe -OutFile $nuget
+        }
+    }
+}
+
+function Assert-NodeJs {
+    Write-Host "Check for NodeJs"
+
+    if (Get-Command node -errorAction SilentlyContinue) {
+        $nodeVer = node -v
+    }
+
+    if ($nodeVer) {
+        $node_version_number = [int]$nodeVer.substring(1, 2);
+        Write-Host "Nodejs $node_version_number is installed"
+
+        if ($node_version_number -lt 12) {
+            throw "Nodejs version installed is not supported. Please install version 12 or higher"
+        }
+    }
+
+
+    if (Get-Command npm -errorAction SilentlyContinue) {
+        $npmVer = npm -l
+    }
+
+    if ($npmVer) {
+        Write-Host "NPM is installed"
+    }
+    else {
+        throw "NPM is not installed"
+    }
+
+}
+
+<#
+ Initializes the installing machine
+ Ensures we have NuGet Package Provider
+ Verifies PostgreSQL database
+ #>
+function Initialize-AppInstaller {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath
+    )
+
+    Write-Host "Starting Initialize-AppInstaller ..."
+
+
+    Write-Host "Initialize-AppInstaller complete."
+}
+
+<#
+ Initializes the installing machine
+ Ensures we have NuGet Package Provider
+ Verifies PostgreSQL database
+ #>
+function Initialize-Installer {
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string] $toolsPath,
+        [Parameter(Mandatory = $true)]
+        [string] $packagesPath
+    )
+
+    Write-Host "Starting Initalize-Installer ..."
+
+    Initialize-InstallDirs
+    Install-NugetCli -toolsPath  $toolsPath
+    Assert-NodeJs
+
+    Write-Host "Initialize-Installer complete."
 }
 
 function New-DotEnvFile {
@@ -187,10 +296,15 @@ $variables = @(
 )
 
 $functions = @(
+    "Assert-NodeJs"
+    "Initialize-InstallDirs"
     "Get-FileNameWithoutExtensionFromUrl"
     "Get-HelperAppIfNotExists"
     "New-DotEnvFile"
+    "Initialize-AppInstaller"
+    "Initialize-Installer"
     "Install-NpmPackages"
+    "Install-NginxService"
     "Install-NginxFiles"
     "Update-WebConfig"
     "Update-NginxConf"

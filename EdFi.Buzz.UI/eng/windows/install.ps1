@@ -54,9 +54,8 @@ param(
   [string] $titleLogoHeight = "56px"
 )
 
-Import-Module "$PSScriptRoot/init.psm1" -Force
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
-Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
+Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
 
 Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Yellow
 

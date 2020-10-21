@@ -28,7 +28,6 @@ param (
 )
 
 Import-Module "$PSScriptRoot/configHelper.psm1" -Force
-Import-Module "$PSScriptRoot/init.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appuninstalls.psm1" -Force
 
 # Confirm required parameters to install
@@ -47,14 +46,6 @@ $artifactRepo = $conf.artifactRepo
 $packagesPath = $conf.packagesPath
 $toolsPath = $conf.toolsPath
 
-if (-not $(Test-Path $packagesPath)) {
-    mkdir $packagesPath | Out-Null
-}
-
-if (-not $(Test-Path $toolsPath)) {
-    mkdir $toolsPath | Out-Null
-}
-
 try {
     # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
     Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
@@ -64,8 +55,8 @@ try {
     Uninstall-BuzzApp -app "UI" -appPath  (Join-Path $installPath "UI")
 }
 catch {
-    Write-Error $PSItem.Exception.Message
-    Write-Error $PSItem.Exception.StackTrace
+    Write-Error $_
+    Write-Error $_.ScriptStackTrace
     throw;
 }
 

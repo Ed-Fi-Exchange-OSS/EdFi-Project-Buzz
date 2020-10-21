@@ -25,6 +25,9 @@ param(
     $DbName = "edfi_buzz"
 )
 
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
+
 $distFolder = Resolve-Path "$PSScriptRoot/../dist"
 $logFile = ".\edfi-buzz-database.install.log"
 $npm = "C:\Program Files\nodejs\npm.cmd"

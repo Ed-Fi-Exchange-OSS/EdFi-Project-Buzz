@@ -35,7 +35,7 @@ param (
 )
 
 Import-Module "$PSScriptRoot/configHelper.psm1" -Force
-Import-Module "$PSScriptRoot/init.psm1" -Force
+Import-Module "$PSScriptRoot/AppSharedLibrary/Buzz-App-Install.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appinstalls.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appinstallValidations.psm1" -Force
 
@@ -63,6 +63,7 @@ try {
     }
 
     Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
+    Copy-Item -path .\nuget.config -Destination $toolsPath
 
     $params = @{
         "configuration" = $script:conf;
