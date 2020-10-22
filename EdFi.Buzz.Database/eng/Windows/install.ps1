@@ -22,7 +22,10 @@ param(
     $DbPassword,
 
     [string]
-    $DbName = "edfi_buzz"
+    $DbName = "edfi_buzz",
+
+    [bool]
+    $LoadSampleData = $false
 )
 
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
@@ -69,6 +72,22 @@ function Install-Migrations {
     }
 }
 
+function Install-SampleData {
+    if ($LoadSampleData) {
+        try {
+            Push-Location -Path $distFolder
+            Write-Host "Installing sample data" -ForegroundColor Magenta
+            &db-migrate up:sample-data
+            Write-Host "Sample data installed" -ForegroundColor Magenta
+            Pop-Location
+        }
+        catch {
+            Write-Error "Sample data was not installed"
+            throw
+        }
+    }
+}
+
 function Install-Database {
     $output = ""
 
@@ -96,6 +115,7 @@ try {
 	New-DotEnvFile
     Install-Database
     Install-Migrations
+    Install-SampleData
     Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow
 }
 catch {

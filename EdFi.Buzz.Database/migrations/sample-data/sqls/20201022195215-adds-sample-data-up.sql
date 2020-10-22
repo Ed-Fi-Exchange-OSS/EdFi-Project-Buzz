@@ -203,13 +203,7 @@ WITH source AS (VALUES
   (100003,'100001-MHTR07-2012-6225-Traditional-Spring Semester',  '2011-08-21'::date, '2012-05-24'::date)
 )
 INSERT INTO 
-    buzz.staffsectionassociation
-(
-	staffkey,
-  sectionkey,
-  begindate,
-  enddate
-)
+    buzz.staffsectionassociation(staffkey,sectionkey,begindate,enddate)
 SELECT
   source.column1,  
   source.column2,
@@ -277,11 +271,7 @@ WITH source AS (VALUES
   ('100008-100008','100008-100001')
 )
 INSERT INTO 
-    buzz.studentcontact
-(
-	contactkey,
-  studentschoolkey
-)
+    buzz.studentcontact(contactkey,studentschoolkey)
 SELECT
   source.column1,
   source.column2
@@ -345,12 +335,7 @@ VALUES
 -- SURVEY ANSWERS
 
 INSERT INTO 
-    buzz.studentsurveyanswer
-(
-	studentsurveykey,
-  surveyquestionkey,
-  answer
-)
+    buzz.studentsurveyanswer(studentsurveykey,surveyquestionkey,answer)
 OVERRIDING SYSTEM VALUE
 VALUES
 	(2000000001, 2000000001, 'School Provided HotSpot'),
@@ -426,7 +411,7 @@ VALUES
   (2000000016, 2000000007, 'Leave a message and they will call back');
 
 
--- SURVEY
+-- STUDENT NOTES
 
 delete from buzz.studentnote;
 
