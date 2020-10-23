@@ -18,7 +18,6 @@ object UIProject : Project({
 
     params{
         param("project.directory", "./EdFi.Buzz.UI");
-        param("octopus.release.version","<placeholder value>")
         param("octopus.release.project", "Buzz UI")
         param("octopus.project.id", "Projects-112")
         param("vcs.checkout.rules","""

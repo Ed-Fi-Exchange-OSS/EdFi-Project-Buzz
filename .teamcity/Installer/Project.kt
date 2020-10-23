@@ -18,7 +18,7 @@ object InstallerProject : Project({
 
     params{
         param("project.directory", "./EdFi.Buzz.Installer");
-        param("octopus.release.version","<placeholder value>")
+        param("octopus.release.version","")
         param("octopus.release.project", "Project Buzz")
         param("octopus.project.id", "Projects-112")
         param("vcs.checkout.rules","""

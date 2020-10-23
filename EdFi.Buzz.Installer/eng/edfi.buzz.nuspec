@@ -10,9 +10,6 @@
         <license type="expression">Apache-2.0</license>
         <summary>Buzz end-user website, API, ETL and database</summary>
         <description>Buzz end-user website, API, ETL and database</description>
-        <dependencies>
-            <dependency id="EdFi.Installer.AppCommon" version="1.0.3" />
-        </dependencies>
     </metadata>
     <files>
         <file src="Windows/**" exclude="Windows/configuration.json" />

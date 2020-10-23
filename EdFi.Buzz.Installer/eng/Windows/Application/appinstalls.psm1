@@ -19,38 +19,38 @@ function Install-BuzzApp {
         [string] $packagesPath,
         [Parameter(Mandatory = $true)]
         [Hashtable] $params,
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $false)]
         [string] $version
     )
 
     try {
 
-        Write-Host "Downloading the package for Buzz $app application ($version)..."
+        Write-Host "Downloading the package for Buzz $app application ..."
 
         $packageName = "edfi.buzz.$($app.ToLowerInvariant())"
 
         $installparams = @{
-            packageName     = $packageName
-            packageVersion  = $version
-            toolsPath       = $configuration.toolsPath
-            outputDirectory = $packagesPath
-            packageSource   = $configuration.artifactRepo
+            packageName   = $packageName
+            version       = $version
+            toolsPath     = $configuration.toolsPath
+            downloadPath  = $packagesPath
+            packageSource = $configuration.artifactRepo
         }
 
-        Import-Module -Force $folders.modules.invoke("packaging/nuget-helper.psm1")
-        $installFolder = Get-NuGetPackage @installparams
-
-        Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows")
-        Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows")
+        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force
+        $installFolder = Install-EdFiPackage @installparams
+        Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows") -Force
+        Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows") -Force
 
         Write-Host "Moving to $installFolder to install"
         Write-Host "Running package installation for $app..."
         Push-Location (Join-Path $installFolder "Windows")
-        ./install.ps1 @params
+        & ./install.ps1 @params
         Write-Host "Package installation completed for $app."
     }
     catch {
-        throw $PSItem.Exception
+        Write-Host $_
+        throw $_
     }
     finally {
         Pop-Location
@@ -90,6 +90,11 @@ function Install-ApiApp {
         "toolsPath"          = $toolsPath;
         "packagesPath"       = $packagesPath;
         "nginxPort"          = $configuration.api.nginxPort;
+        "SqlServerHost"      = $configuration.sqlServerDatabase.host;
+        "SqlServerPort"      = $configuration.sqlServerDatabase.port;
+        "SqlServerUserName"  = $configuration.sqlServerDatabase.username;
+        "SqlServerPassword"  = $configuration.sqlServerDatabase.password;
+        "SqlServerDbName"    = $configuration.sqlServerDatabase.database;
         "rootDir"            = "dist";
         "app"                = "API";
     }
@@ -164,12 +169,13 @@ function Install-UiApp {
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
         "adfsTenantId"    = $configuration.adfsTenantId;
-		"logo"			  = $configuration.ui.logo;
-		"logoWidth"		  =	$configuration.ui.logoWidth;
-		"title"			  = $configuration.ui.title;
-		"titleLogo"		  = $configuration.ui.titleLogo;
-		"titleLogoWidth"  = $configuration.ui.titleLogoWidth;
-		"titleLogoHeight" = $configuration.ui.titleLogoHeight;
+        "logo"            = $configuration.ui.logo;
+        "externalLogo"    =	$configuration.ui.externalLogo;
+        "logoWidth"       =	$configuration.ui.logoWidth;
+        "title"           = $configuration.ui.title;
+        "titleLogo"       = $configuration.ui.titleLogo;
+        "titleLogoWidth"  = $configuration.ui.titleLogoWidth;
+        "titleLogoHeight" = $configuration.ui.titleLogoHeight;
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
         "nginxPort"       = $configuration.ui.nginxPort;
@@ -205,38 +211,37 @@ function Install-EtlApp {
         return;
     }
 
-    $installparams = @{
-        packageName     = "edfi.buzz.etl"
-        packageVersion  = $configuration.etl.version
-        toolsPath       = $configuration.toolsPath
-        outputDirectory = $packagesPath
-        packageSource   = $configuration.artifactRepo
-    }
-    
-    $installFolder = Get-NuGetPackage @installparams
-
     $params = @{
         "InstallPath"       = Join-Path $configuration.InstallPath "Etl";
-        "PostgresHost"      = $configuration.postgresDatabase.host;
-        "PostgresPort"      = $configuration.postgresDatabase.port;
-        "PostgresUserName"  = $configuration.postgresDatabase.username;
-        "PostgresPassword"  = $configuration.postgresDatabase.password;
-        "PostgresDbName"    = $configuration.postgresDatabase.database;
         "SqlServerHost"     = $configuration.sqlServerDatabase.host;
         "SqlServerPort"     = $configuration.sqlServerDatabase.port;
         "SqlServerUserName" = $configuration.sqlServerDatabase.username;
         "SqlServerPassword" = $configuration.sqlServerDatabase.password;
         "SqlServerDbName"   = $configuration.sqlServerDatabase.database;
-        "packagesPath"      = Join-Path $installFolder "Windows";
+        "PostgresHost"      = $configuration.postgresDatabase.host;
+        "PostgresPort"      = $configuration.postgresDatabase.port;
+        "PostgresUserName"  = $configuration.postgresDatabase.username;
+        "PostgresPassword"  = $configuration.postgresDatabase.password;
+        "PostgresDbName"    = $configuration.postgresDatabase.database;
+        "packagesPath"      = $packagesPath;
     }
 
-    Install-BuzzApp -skipFlag $configuration.installEtl -app "Etl" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.etl.version
+    $buzzAppParams = @{
+        skipFlag      = $configuration.installEtl
+        app           = "Etl"
+        configuration = $configuration
+        packagesPath  = $packagesPath
+        params        = $params
+        version       = $configuration.ui.version
+    }
+
+    Install-BuzzApp @buzzAppParams
 }
 
 function Get-WebStatus {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string]
         $url
     )
@@ -245,8 +250,7 @@ function Get-WebStatus {
         $status = "Not running"
         $global:ProgressPreference = 'SilentlyContinue'
         $request = (Invoke-WebRequest -Uri $url )
-        if ($request.StatusCode)
-        {
+        if ($request.StatusCode) {
             $status = "Status code returned: " + $request.StatusCode
         }
         $global:ProgressPreference = 'Continue'
@@ -257,35 +261,53 @@ function Get-WebStatus {
     return $status
 }
 
+function Check-Service {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [string]
+        $app
+    )
+    $status = "Not installed"
+    if (Get-Service -Name "EdFi-Buzz-$app" -ErrorAction SilentlyContinue) {
+        $status = (Get-Service -Name "EdFi-Buzz-$app" -ErrorAction SilentlyContinue).Status
+    }
+    return $status
+}
+
 function Test-BuzzServices {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [Hashtable]
         $conf
     )
 
-    $services = @{
-        "ETL" = "Not installed";
-        "Api" = "Not installed";
-        "UI"  = "Not installed";
+    $services = @{}
+
+    if ($conf.installEtl -eq $true) {
+        $etl = Check-Service -app "etl"
+        $services.Add("Ed-Fi Buzz ETL Service", $etl)
     }
 
-    $output = @{}
-
-    $services.Keys | ForEach-Object {
-        $status = "Not installed"
-        if (Get-Service -Name "EdFi-Buzz-$_" -ErrorAction SilentlyContinue) {
-            $status = (Get-Service -Name "EdFi-Buzz-$_" -ErrorAction SilentlyContinue).Status
-        }
-        $output.Add("Ed-Fi Buzz $_ Service", $status)
+    if ($conf.installApi -eq $true) {
+        $api = Check-Service -app "api"
+        $services.Add("Ed-Fi Buzz API Service", $api)
+        $services.Add("Ed-Fi Buzz API Website", (Get-WebStatus -url $conf.api.url))
     }
 
-    $output.Add("Ed-Fi Buzz UI Website", (Get-WebStatus -url $conf.ui.url))
-    $output.Add("Ed-Fi Buzz API Website", (Get-WebStatus -url $conf.api.url))
+    if ($conf.installUi -eq $true) {
+        $ui = Check-Service -app "ui"
+        $services.Add("Ed-Fi Buzz UI Service", $ui)
+        $services.Add("Ed-Fi Buzz UI Website", (Get-WebStatus -url $conf.ui.url))
+    }
+
+    if ($services.Count -eq 0) {
+        return
+    }
 
     Write-Host "Checking Ed-Fi Buzz App Services and Webs statuses ..." -ForegroundColor Yellow
-    $output | Format-Table
+    $services | Format-Table
 }
 
 $functions = @(

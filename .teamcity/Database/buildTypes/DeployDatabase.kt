@@ -10,7 +10,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.nuGetFeedCredentials
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
-
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 
 object DeployDatabaseBuild : BuildType ({
     name = "Deploy"
@@ -27,8 +27,21 @@ object DeployDatabaseBuild : BuildType ({
         }
     }
 
+    triggers {
+        finishBuildTrigger {
+            buildTypeExtId = "${BranchDatabaseBuild.id}"
+            successfulOnly = true
+        }
+    }
+
     dependencies {
+        snapshot(BranchDatabaseBuild) {
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
+        }
+
         artifacts(BranchDatabaseBuild) {
+            cleanDestination = true
             buildRule = lastSuccessful()
             artifactRules = "+:*-pre*.nupkg"
         }

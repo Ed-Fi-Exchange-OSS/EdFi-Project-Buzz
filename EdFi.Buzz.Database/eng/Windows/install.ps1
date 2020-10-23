@@ -8,24 +8,29 @@
 
 [CmdletBinding()]
 param(
-  [string]
-  $DbServer = "localhost",
+    [string]
+    $DbServer = "localhost",
 
-  [int]
-  $DbPort = 5432,
+    [int]
+    $DbPort = 5432,
 
-  [string]
-  $DbUserName = "postgres",
+    [string]
+    $DbUserName = "postgres",
 
-  [string]
-  [Parameter(Mandatory=$true)]
-  $DbPassword,
+    [string]
+    [Parameter(Mandatory = $true)]
+    $DbPassword,
 
-  [string]
-  $DbName = "edfi_buzz"
+    [string]
+    $DbName = "edfi_buzz"
 )
 
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
+
 $distFolder = Resolve-Path "$PSScriptRoot/../dist"
+$logFile = ".\edfi-buzz-database.install.log"
+$npm = "C:\Program Files\nodejs\npm.cmd"
 
 if (-not(Test-Path $distFolder)) {
     # Need one more parent directory if running straight from source code
@@ -37,7 +42,7 @@ if (-not(Test-Path $distFolder)) {
 }
 
 function New-DotEnvFile {
-  $fileContents = @"
+    $fileContents = @"
 BUZZ_DB_HOST = '$DbServer'
 BUZZ_DB_PORT = $DbPort
 BUZZ_DB_USERNAME ='$DbUserName'
@@ -45,20 +50,19 @@ BUZZ_DB_PASSWORD = '$DbPassword'
 BUZZ_DB_DATABASE = '$DbName'
 "@
 
-  $fileContents | Out-File "$distFolder/.env" -Encoding UTF8 -Force
+    $fileContents | Out-File "$distFolder/.env" -Encoding UTF8 -Force
 }
 
-function Install-Migrations{
+function Install-Migrations {
     try {
         Push-Location -Path $distFolder
-        Write-Host "Executing: npm run migrate" -ForegroundColor Magenta
-        &npm install
-        &npm run migrate
+        Write-Host "Executing: npm run migrate $DbName --config ./migrate-database.json" -ForegroundColor Magenta
+        & $npm run migrate --silent "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
         Write-Host "Database was migrated to the latest" -ForegroundColor Magenta
     }
     catch {
-        Write-Error "Database was not migrated"
-        throw
+        Write-Host "Database was not migrated"
+        throw $_
     }
     finally {
         Pop-Location
@@ -66,27 +70,36 @@ function Install-Migrations{
 }
 
 function Install-Database {
+    $output = ""
+
     try {
         Push-Location -Path $distFolder
+        $ErrorActionPreference = "Continue"
         Write-Host "Executing: npm install --production" -ForegroundColor Magenta
-        &npm install --production --silent
+        $output = & $npm install --production --silent 2>&1
 
-        Write-Host "Executing: npm run init-db" -ForegroundColor Magenta
-        $output = &npm run --silent init-db $DbName 2>&1
+        Write-Host "Executing: npm run init-db $DbName --config ./create-database.json" -ForegroundColor Magenta
+        $output = & $npm run init-db "$DbName" --config ./create-database.json 2>&1
+        $ErrorActionPreference = "Stop"
     }
     catch {
-        Write-Error $PSItem.Exception.StackTrace
-        throw "Database was not installed"
+        Write-Host $_
+        Write-Host "Continuing on..."
     }
     finally {
         Pop-Location
     }
 }
 
-Write-Host "Begin EdFi Buzz database installation..." -ForegroundColor Yellow
-
-New-DotEnvFile
-Install-Database
-Install-Migrations
-
-Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow
+try {
+    Write-Host "Begin EdFi Buzz database installation..." -ForegroundColor Yellow
+	New-DotEnvFile
+    Install-Database
+    Install-Migrations
+    Write-Host "End EdFi Buzz Database installation." -ForegroundColor Yellow
+}
+catch {
+    Write-Host $_
+    Write-Host $_.ScriptStackTrace
+    Write-Host "EdFi Buzz database install failed."
+}

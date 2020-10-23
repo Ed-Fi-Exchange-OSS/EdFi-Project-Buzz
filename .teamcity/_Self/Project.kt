@@ -11,6 +11,14 @@ object BuzzProject : Project({
     description = "Buzz Build Configurations"
 
     params {
+        param("version.major","0")
+        param("version.minor","1")
+        param("version.patch","0")
+        param("version.prerelease.prefix","-pre")
+        param("version.prerelease.suffix","%build.counter%".padStart(4, '0'))
+        param("version","%version.core%%version.prerelease.prefix%%version.prerelease.suffix%")
+        param("octopus.release.version","%version.core%%version.prerelease.prefix%%version.prerelease.suffix%")
+        param("version.core","%version.major%.%version.minor%.%version.patch%")
         param("teamcity.ui.settings.readOnly","true")
         param("build.feature.freeDiskSpace", "2gb")
         param("git.branch.default", "main")

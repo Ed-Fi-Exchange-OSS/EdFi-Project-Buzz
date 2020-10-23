@@ -1,0 +1,10 @@
+{
+    "defaultEnv": "local",
+    "local": {
+        "driver": "pg",
+        "user": { "ENV": "BUZZ_DB_USERNAME" },
+        "password": { "ENV": "BUZZ_DB_PASSWORD" },
+        "host": { "ENV": "BUZZ_DB_HOST" },
+        "port": { "ENV": "BUZZ_DB_PORT" }
+    }
+}
