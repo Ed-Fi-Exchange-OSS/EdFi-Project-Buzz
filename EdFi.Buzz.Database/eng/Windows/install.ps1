@@ -77,7 +77,7 @@ function Install-SampleData {
         try {
             Push-Location -Path $distFolder
             Write-Host "Installing sample data" -ForegroundColor Magenta
-            &db-migrate up:sample-data
+            &db-migrate up:sample-data --silent "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
             Write-Host "Sample data installed" -ForegroundColor Magenta
             Pop-Location
         }

@@ -140,7 +140,7 @@ function Install-DatabaseApp {
         "DbUserName"        = $configuration.postgresDatabase.username;
         "DbPassword"        = $configuration.postgresDatabase.password;
         "DbName"            = $configuration.postgresDatabase.database;
-        "LoadSampleData"    = $configuration.loadSampleData
+        "LoadSampleData"    = $configuration.loadSampleData;
     }
 
     Install-BuzzApp -skipFlag $configuration.installDatabase -app "Database" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.database.version
