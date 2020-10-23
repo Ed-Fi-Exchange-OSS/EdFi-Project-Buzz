@@ -35,7 +35,9 @@ The configuration variables for the installation are in the **'Windows\configura
 The variables that can be configured are detailed below.
 
 #### General configuration
+
 ![General](./images/idProvider.png)
+
 - **idProvider:** Authentication provider. Valid values: google, adfs.
 - **googleClientId:** If the authentication provider is google, you must set in this field the corresponding googleClientId when you created the Web Application in Google Developers Console.
 - **adfsClientId:** If the authentication is validated using adfs, you must inclute the clientId.
@@ -45,7 +47,9 @@ The variables that can be configured are detailed below.
 #### postgresDatabase
 
 You need to update the Postgres database connection string according to your configuration. You can configure the server, credentials or name to connect to the postgres database.
+
 ![Postgresql](./images/postgresDatabase.png)
+
 - **host:** Database server.
 - **port:** Postgres port (E.g. 5432)
 - **username:** User to connect to the database
@@ -55,7 +59,9 @@ You need to update the Postgres database connection string according to your con
 #### sqlServerDatabase
 
 You can configure the server, credentials or name to connect to the Sql Server ODS database.
+
 ![MSSQL](./images/sqlServerDatabase.png)
+
 - **host:** Sql Server name or IP.
 - **port:** SQL database port.
 - **username:** SQL Server database user name.
@@ -66,18 +72,24 @@ You can configure the server, credentials or name to connect to the Sql Server O
 #### etl
 
 Options to configure the ETL to load from the database or file to the postgres database.
+
 ![ETL](./images/etl.png)
+
 - **datasourceFormat:** If the data source corresponds to the Analytics Middle Tier (amt) or direct views of the ODS tables. Allowed values: amt, ods.
 - **odsDataStandard:** Database standard to use, if it is Data Standard 2 or 3.x. Allowed values: ds2, ds3.
 
 #### api
+
 ![API](./images/api.png)
+
 - **version:** The NuGet version to download. Blank gets latest.
 - **url:**  URL for the GraphQL endpoint setting in the UI env file.
 - **port:** API port.
 
 #### ui
+
 ![UI](./images/UI.png)
+
 - **version:** The NuGet version to download. Blank gets latest.
 - **port:** Port to access UI.
 - **externalLogo:** If true, look for images in an external URL. If false, the images must have been copied into the 'assets' folder of the UI. 
@@ -97,10 +109,13 @@ To update the icon displayed in the browser, it is required to replace the fav.i
 Installation script:
 - It requires administrator privileges.
 - It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
+
 ![configuration](./images/configurationJSON.png)
+
 - The script will not run on PowerShell Core because WebAdministration does not load properly.
 
 The installation script must be run in PowerShell as an administrator.
+
 ![installation](./images/install.png)
 
 ## Developer READMEs
