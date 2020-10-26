@@ -101,7 +101,7 @@ function Assert-NodeJs {
 
 
     if (Get-Command npm -errorAction SilentlyContinue) {
-        $npmVer = npm -l
+        $npmVer = npm
     }
 
     if ($npmVer) {

@@ -77,12 +77,14 @@ function Install-SampleData {
         try {
             Push-Location -Path $distFolder
             Write-Host "Installing sample data" -ForegroundColor Magenta
-            &db-migrate up:sample-data --silent "$DbName" --config ./migrate-database.json | Out-File -FilePath $logFile -Append
+            &npm run sample-data | Out-File -FilePath $logFile -Append
             Write-Host "Sample data installed" -ForegroundColor Magenta
             Pop-Location
         }
         catch {
-            Write-Error "Sample data was not installed"
+            Write-Host $_
+            Write-Host $_.ScriptStackTrace
+            Write-Host "Sample data was not installed."
             throw
         }
     }
