@@ -6,7 +6,8 @@
 import { Injectable } from '@nestjs/common';
 import { makeWorkerUtils, Job } from 'graphile-worker';
 import { v4 as uuidv4 } from 'uuid';
-import { TaskItemEntity } from '../entities/buzz';
+import { TaskItemEntity, LoadSurveyFromOdsTaskItem } from '../entities/buzz';
+import { LoadSurveyFromOdsResponse } from '../graphql.schema';
 
 @Injectable()
 export default class TaskItemService {
@@ -18,6 +19,8 @@ export default class TaskItemService {
   queueName = process.env.BUZZ_WORKER_JOB_NAME;
 
   cleanUpQueueName = process.env.BUZZ_WORKER_CLEANUP_JOB_NAME;
+
+  buzzSurveyFromOdsQueueName = process.env.BUZZ_SURVEY_FROM_ODS_JOB_NAME;
 
   async addTaskItem(taskItem: TaskItemEntity): Promise<Job> {
     const task = taskItem;
@@ -41,5 +44,32 @@ export default class TaskItemService {
     runAt.setDate(runAt.getDate() + retentionDays);
     task.jobkey = taskUUID;
     return workerUtils.addJob(this.cleanUpQueueName, task, { runAt, jobKey: taskUUID });
+  }
+
+  async addLoadOdsFromSurveyTaskItem(taskItem: LoadSurveyFromOdsTaskItem): Promise<LoadSurveyFromOdsResponse> {
+    const result: LoadSurveyFromOdsResponse = {
+      totalCount: 0, totalCountLoaded: 0, totalCountFailed: 0, listFailedInsert: [],
+    };
+    const workerUtils = await makeWorkerUtils({
+      connectionString: `${this.connectionString}`,
+    });
+    result.totalCount = taskItem.surveyList.length;
+    taskItem.surveyList.forEach((element) => {
+      try {
+        const taskUUID = uuidv4();
+        workerUtils.addJob(this.buzzSurveyFromOdsQueueName,
+          {
+            staffkey: taskItem.staffkey,
+            surveyIdentifier: (element.surveyidentifier),
+            surveytitle: element.surveytitle,
+            jobkey: uuidv4(),
+          }, { jobKey: taskUUID });
+        result.totalCountLoaded += 1;
+      } catch {
+        result.totalCountFailed += 1;
+        result.listFailedInsert.push(element.surveyidentifier);
+      }
+    });
+    return result;
   }
 }

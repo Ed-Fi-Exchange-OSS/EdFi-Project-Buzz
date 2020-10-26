@@ -14,6 +14,7 @@ import {
 } from '../entities/buzz';
 import SurveyService from '../services/survey.service';
 import SurveyResolvers from '../resolvers/survey.resolver';
+import TaskItemService from '../services/taskitem.service';
 import { BUZZ_DATABASE } from '../../constants';
 
 @Module({
@@ -23,6 +24,6 @@ import { BUZZ_DATABASE } from '../../constants';
     StudentSchoolEntity,
     SectionEntity,
   ], BUZZ_DATABASE)],
-  providers: [SurveyService, StaffService, SurveyResolvers],
+  providers: [SurveyService, StaffService, SurveyResolvers, TaskItemService],
 })
 export default class SurveyModule {}

@@ -5,6 +5,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export class OdsSurveyItem {
+    surveyidentifier?: string;
+    surveytitle?: string;
+}
+
 export class AnswersByStudent {
     surveykey?: number;
     surveyquestionkey?: string;
@@ -34,6 +39,13 @@ export class JobStatus {
     description?: string;
 }
 
+export class LoadSurveyFromOdsResponse {
+    totalCount?: number;
+    totalCountLoaded?: number;
+    totalCountFailed?: number;
+    listFailedInsert?: string[];
+}
+
 export abstract class IMutation {
     abstract addstudentnote(staffkey: number, studentschoolkey: string, note: string): StudentNote | Promise<StudentNote>;
 
@@ -42,6 +54,8 @@ export abstract class IMutation {
     abstract uploadsurvey(staffkey: string, title: string, content: string, surveykey?: number): SurveyStatus | Promise<SurveyStatus>;
 
     abstract deletesurvey(staffkey: string, surveykey: number): Survey | Promise<Survey>;
+
+    abstract loadsurveyfromods(staffkey: string, surveylist?: OdsSurveyItem[]): LoadSurveyFromOdsResponse | Promise<LoadSurveyFromOdsResponse>;
 }
 
 export class OdsSurvey {
