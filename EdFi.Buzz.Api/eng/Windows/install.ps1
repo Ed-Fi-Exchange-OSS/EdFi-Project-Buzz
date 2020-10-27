@@ -117,7 +117,7 @@ function Get-HelperAppIfNotExists {
 function Install-WebApplication {
   $parameters = @{
     Path = "$PSScriptRoot\..\dist"
-    Destination = "$InstallPath\dist"
+    Destination = $InstallPath
     Recurse = $true
     Force = $true
   }
