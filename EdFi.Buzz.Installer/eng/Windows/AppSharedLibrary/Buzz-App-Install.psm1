@@ -166,6 +166,28 @@ function New-DotEnvFile {
     $fileContents | Out-File "$appPath\.env" -Encoding UTF8 -Force
 }
 
+function New-DotEnvFileSrc {
+    param(
+        [string] $fileContents
+    )
+
+    New-Item -Path "$PSScriptRoot\..\src\.env" -ItemType File -Force | Out-Null
+
+    $fileContents | Out-File "$PSScriptRoot\..\src\.env" -Encoding UTF8 -Force
+}
+
+function New-ConfigFile {
+    param(
+        [string]
+        $appPath,
+        [string] $fileContents
+    )
+
+    New-Item -Path "$appPath/config.json" -ItemType File -Force | Out-Null
+
+    $fileContents | Out-File "$appPath\config.json" -Encoding UTF8 -Force
+}
+
 function Install-NpmPackages {
     param (
         [Parameter(Mandatory = $true)]
@@ -179,6 +201,49 @@ function Install-NpmPackages {
     }
     catch {
         Write-Error "Error on npm install"
+        Write-Error $PSItem.Exception.Message
+        Write-Error $PSItem.Exception.StackTrace
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Install-NpmDevPackages {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]
+        $appPath
+    )
+    try {
+        Write-Host "Installing NPM packages..." -ForegroundColor Green
+        Push-Location $appPath
+        & $script:npm install --silent
+    }
+    catch {
+        Write-Error "Error on npm install"
+        Write-Error $PSItem.Exception.Message
+        Write-Error $PSItem.Exception.StackTrace
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Redo-Site {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]
+        $appPath
+    )
+    try {
+        Write-Host "Building Buzz..." -ForegroundColor Green
+        Write-Host $appPath
+		Push-Location $appPath
+        & $script:npm run build
+    }
+    catch {
+        Write-Error "Error on npm build"
         Write-Error $PSItem.Exception.Message
         Write-Error $PSItem.Exception.StackTrace
     }
@@ -244,20 +309,24 @@ function Install-NginxFiles {
         [string]
         $rootDir
     )
-
+	Install-NpmDevPackages -appPath "$PSScriptRoot\..\src\"
+	
+	Redo-Site -appPath "$PSScriptRoot\..\src\"
+write-host "webSitePath"	
+write-host "$webSitePath\$nginxVersion\$rootDir"
     # Copy the build directory into the NGiNX folder
     $parameters = @{
-        Path        = "$PSScriptRoot\..\$rootDir"
-        Destination = "$webSitePath\$nginxVersion\$rootDir"
+        Path        = "$PSScriptRoot\..\src\$rootDir"
+        Destination = "$webSitePath\$nginxVersion\"
         Recurse     = $true
         Force       = $true
     }
     Copy-Item @parameters
-
+	
+	
     Update-NginxConf -sourcePath "$($PSScriptRoot)\..\" -appPath "$webSitePath\$nginxVersion\conf" -rootDir $rootDir -nginxPort $nginxPort
 
     Install-NpmPackages -appPath "$webSitePath\$nginxVersion\$rootDir"
-
 }
 
 function Update-WebConfig {
@@ -308,6 +377,9 @@ $functions = @(
     "Install-NginxFiles"
     "Update-WebConfig"
     "Update-NginxConf"
+	"Redo-Site"
+	"New-ConfigFile"
+	"New-DotEnvFileSrc"
 )
 
 Export-ModuleMember -Variable $variables -Function $functions

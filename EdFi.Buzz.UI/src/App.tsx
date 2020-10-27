@@ -75,7 +75,7 @@ export default function App(): JSX.Element {
   useEffect(() => {
     if(appMounted){
       setBuzzTitle(env.TITLE);
-      if(env.EXTERNAL_LOGO){
+      if(env.EXTERNAL_LOGO && env.EXTERNAL_LOGO === 'true'){
         if(env.LOGO && env.LOGO !== ''){
           setBuzzLogo({default: env.LOGO});
         }

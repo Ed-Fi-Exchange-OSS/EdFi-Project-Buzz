@@ -29,6 +29,7 @@ export interface LoginComponentProps {
 
 export const Login: FunctionComponent<LoginComponentProps> = (props: LoginComponentProps) => {
   document.title = 'EdFi Buzz: Login';
+  const MAX_WIDTH = '350px';
   const [isUnregisteredUser, setIsUnregisteredUser]=useState(false);
   const UnregistredUser = styled.div`
     color: #856404;
@@ -36,14 +37,14 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
     border-color: #ffeeba;
     border-radius: 15px;
     border: 3px solid #ffeeba;
-    max-width:350px;
+    max-width:${MAX_WIDTH};
     width:100%;
     display: flex;
     justify-content: center;
   `;
   const BuzzLogo = styled.img`
     width: ${props.LoginLogoWidth};
-    max-width: ${props.LoginLogoWidth};
+    max-width: ${props.LoginLogoWidth ? props.LoginLogoWidth : MAX_WIDTH};
   `;
 
   async function onUserAuthState(user: User) {
