@@ -81,10 +81,11 @@ function Install-ApiApp {
         "DbPassword"         = $configuration.postgresDatabase.password;
         "DbName"             = $configuration.postgresDatabase.database;
         "schema"             = $configuration.postgresDatabase.schema;
+        "idProvider"         = $configuration.idProvider;
         "uriDiscovery"       = "";
         "googleClientID"     = $configuration.googleClientID;
         "clientSecret"       = $configuration.clientSecret;
-        "googleAuthCallback" = $configuration.googleAuthCallback;
+        "googleAuthCallback" = $configuration.api.url;
         "surveyFilesFolder"  = $configuration.api.surveyFilesFolder;
         "port"               = $configuration.api.Port;
         "toolsPath"          = $toolsPath;
@@ -166,7 +167,7 @@ function Install-UiApp {
     $params = @{
         "InstallPath"     = Join-Path $configuration.InstallPath "UI";
         "port"            = $configuration.ui.port;
-        "graphQlEndpoint" = $configuration.api.url;
+        "graphQlEndpoint" = $configuration.ui.graphQlEndpoint;
         "idProvider"      = $configuration.idProvider;
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;

@@ -56,6 +56,7 @@
     "ui": {
         "version": null,
         "url": "http://localhost:4200",
+        "graphQlEndpoint": "http://localhost:3000/graphql",
         "port": 4200,
         "nginxPort": 4200,
 		"externalLogo": false,

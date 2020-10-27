@@ -28,6 +28,7 @@ param (
 )
 
 Import-Module "$PSScriptRoot/configHelper.psm1" -Force
+Import-Module "$PSScriptRoot/AppSharedLibrary\Buzz-App-Install.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appuninstalls.psm1" -Force
 
 # Confirm required parameters to install
