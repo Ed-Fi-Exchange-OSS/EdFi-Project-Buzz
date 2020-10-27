@@ -135,11 +135,12 @@ function Install-DatabaseApp {
     }
 
     $params = @{
-        "DbServer"   = $configuration.postgresDatabase.host;
-        "DbPort"     = $configuration.postgresDatabase.port;
-        "DbUserName" = $configuration.postgresDatabase.username;
-        "DbPassword" = $configuration.postgresDatabase.password;
-        "DbName"     = $configuration.postgresDatabase.database
+        "DbServer"          = $configuration.postgresDatabase.host;
+        "DbPort"            = $configuration.postgresDatabase.port;
+        "DbUserName"        = $configuration.postgresDatabase.username;
+        "DbPassword"        = $configuration.postgresDatabase.password;
+        "DbName"            = $configuration.postgresDatabase.database;
+        "LoadSampleData"    = $configuration.loadSampleData;
     }
 
     Install-BuzzApp -skipFlag $configuration.installDatabase -app "Database" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.database.version

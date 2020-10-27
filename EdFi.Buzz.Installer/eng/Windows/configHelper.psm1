@@ -44,6 +44,7 @@ function Format-BuzzConfigurationFileToHashTable {
         googleClientId = $configJson.googleClientId
         adfsClientId = $configJson.adfsClientId
         adfsTenantId = $configJson.adfsTenantId
+        loadSampleData = $configJson.loadSampleData
 
         anyApplicationsToInstall = $configJson.installDatabase -or $configJson.installEtl -or $configJson.installApi -or $configJson.installUi
         postgresDatabase = Convert-PsObjectToHashTable $configJson.postgresDatabase
