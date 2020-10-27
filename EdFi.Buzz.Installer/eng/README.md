@@ -36,7 +36,7 @@ The variables that can be configured are detailed below.
 
 #### General configuration
 
-![General](./images/idProvider.png)
+![General](./images/idProvider.png|width=80px)
 
 - **idProvider:** Authentication provider. Valid values: google, adfs.
 - **googleClientId:** If the authentication provider is google, you must set in this field the corresponding googleClientId when you created the Web Application in Google Developers Console.
@@ -101,14 +101,16 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **titleLogoHeight:** Site logo max height.
 
 #### Change UI Web App icon (fav.ico)
-To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**EdFi.Buzz.UI\public\fav.ico**).
+To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**C:\Ed-Fi\Buzz\UI\nginx-1.19.0\build\fav.ico**).
 
 ![favico](./images/favico.png)
 
 ### Installation
-Installation script:
-- It requires administrator privileges.
-- It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
+Installation script requirements:
+- A non-core PowerShell. 
+- $PSVersionTable.PSEdition is Desktop
+- Run as Administrator. It requires administrator privileges.
+- Configuration file. It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
 
 ![configuration](./images/configurationJSON.png)
 
