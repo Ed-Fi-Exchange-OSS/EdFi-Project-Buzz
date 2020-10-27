@@ -230,7 +230,7 @@ function Install-NpmDevPackages {
     }
 }
 
-function Redo-Site {
+function Start-RedoSite {
     param (
         [Parameter(Mandatory = $true)]
         [string]
@@ -311,9 +311,8 @@ function Install-NginxFiles {
     )
 	Install-NpmDevPackages -appPath "$PSScriptRoot\..\src\"
 	
-	Redo-Site -appPath "$PSScriptRoot\..\src\"
-write-host "webSitePath"	
-write-host "$webSitePath\$nginxVersion\$rootDir"
+	Start-RedoSite -appPath "$PSScriptRoot\..\src\"
+
     # Copy the build directory into the NGiNX folder
     $parameters = @{
         Path        = "$PSScriptRoot\..\src\$rootDir"
@@ -377,7 +376,7 @@ $functions = @(
     "Install-NginxFiles"
     "Update-WebConfig"
     "Update-NginxConf"
-	"Redo-Site"
+	"Start-RedoSite"
 	"New-ConfigFile"
 	"New-DotEnvFileSrc"
 )
