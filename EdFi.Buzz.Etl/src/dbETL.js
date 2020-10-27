@@ -10,6 +10,7 @@ dotnet.config();
 const config = require('../config/dbs');
 const etl = require('../config/etl');
 const loadMsSqlData = require('./loadMsSqlData');
+const odsSurveyProcessor = require('../processors/odsSurveyProcessor');
 
 const pg = config.pgConfig;
 const ms = config.mssqlConfig;
@@ -29,6 +30,10 @@ const loadBaseEntities = async () => {
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentSectionConfig);
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentContactConfig);
     console.log('finished loading entities');
+
+    if (process.env.KeepSurveysSynch && process.env.KeepSurveysSynch.toLowerCase() === 'true') {
+      await odsSurveyProcessor.processAll();
+    }
   } catch (error) {
     console.error(error);
   }

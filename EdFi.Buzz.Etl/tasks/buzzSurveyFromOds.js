@@ -12,7 +12,7 @@ module.exports = async (payload, helpers) => {
     helpers.logger.info(
       `Running the ODS Survey loader for surveyIdentifier: ${surveyIdentifier} with title '${surveytitle}'`,
     );
-    await odsSurveyProcessor.process(surveyIdentifier);
+    await odsSurveyProcessor.processSingle(surveyIdentifier);
     helpers.logger.info(`Finished processing task for for surveyIdentifier: ${surveyIdentifier} with title '${surveytitle}'`);
   } catch (error) {
     helpers.logger.error(error);

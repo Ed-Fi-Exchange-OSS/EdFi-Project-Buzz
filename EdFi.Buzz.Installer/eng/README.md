@@ -37,6 +37,7 @@ The variables that can be configured are detailed below.
 - **googleClientId:** If the authentication provider is google, you must set in this field the corresponding googleClientId when you created the Web Application in Google Developers Console.
 - **adfsClientId:** If the authentication is validated using adfs, you must inclute the clientId.
 - **adfsTenantId:** If the authentication is validated using adfs, you must inclute the adfsTenantId.
+- **keepSurveysSynch:** Set this value to true if you want the Buzz app surveys syncronized with ODS surveys.
 
 #### postgresDatabase
 

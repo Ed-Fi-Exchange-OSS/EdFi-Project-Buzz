@@ -224,6 +224,7 @@ function Install-EtlApp {
         "PostgresUserName"  = $configuration.postgresDatabase.username;
         "PostgresPassword"  = $configuration.postgresDatabase.password;
         "PostgresDbName"    = $configuration.postgresDatabase.database;
+        "keepSurveysSynch"  = $configuration.keepSurveysSynch;
         "packagesPath"      = $packagesPath;
     }
 
