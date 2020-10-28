@@ -6,7 +6,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SurveyEntity } from '../entities/buzz';
+import { SurveyEntity, CanLoadSurverysFromUI } from '../entities/buzz';
 import { BUZZ_DATABASE } from '../../constants';
 
 @Injectable()
@@ -26,5 +26,12 @@ export default class SurveyService {
 
   async findOneById(id: number): Promise<SurveyEntity> {
     return this.BuzzRepository.findOne({ where: { surveykey: id } });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async canLoadSurverysFromUI(): Promise<CanLoadSurverysFromUI> {
+    return {
+      allowed: (process.env.KEEP_SURVEY_SYNCH.toLowerCase() === 'false'),
+    };
   }
 }

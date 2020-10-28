@@ -24,6 +24,7 @@ import SurveySummaryEntity from './survey/SurveySummary.entity';
 import SurveySummaryAnswersEntity from './survey/surveysummaryanswers.entity';
 import SurveySummaryQuestionsEntity from './survey/surveysummaryquestions.entity';
 import LoadSurveyFromOdsTaskItem from './queues/loadSurveyFromOdsTaskitem.entity';
+import CanLoadSurverysFromUI from './survey/CanLoadSurverysFromUI.entity';
 
 export {
   ContactPersonEntity,
@@ -47,4 +48,5 @@ export {
   SurveySummaryAnswersEntity,
   SurveySummaryQuestionsEntity,
   LoadSurveyFromOdsTaskItem,
+  CanLoadSurverysFromUI,
 };

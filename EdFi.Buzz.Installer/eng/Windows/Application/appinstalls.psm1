@@ -95,6 +95,7 @@ function Install-ApiApp {
         "SqlServerUserName"  = $configuration.sqlServerDatabase.username;
         "SqlServerPassword"  = $configuration.sqlServerDatabase.password;
         "SqlServerDbName"    = $configuration.sqlServerDatabase.database;
+        "KeepSurveysSynch"   = $configuration.keepSurveysSynch;
         "rootDir"            = "dist";
         "app"                = "API";
     }
