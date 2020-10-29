@@ -18,6 +18,7 @@ import StudentApiService from 'Services/StudentService';
 import SurveyAnalyticsApiService from 'Services/SurveyAnalyticsService';
 import SurveyService from 'Services/SurveyService';
 import TeacherApiService from 'Services/TeacherService';
+import OdsSurveyService from 'Services/OdsSurveyService';
 
 function createApolloClient(container: DIContainer) {
   const env: EnvironmentService = container.get('EnvironmentService');
@@ -61,7 +62,8 @@ export default function configureDI(): DIContainer {
       get('StudentNotesApiService'),
       get('SurveyAnalyticsApiService'),
       get('TeacherApiService'),
-      get('SurveyService')
+      get('SurveyService'),
+      get('OdsSurveyService')
     ),
     'AuthenticationService': object(AuthenticationService).construct(
       get('TeacherApiService'),
@@ -87,6 +89,10 @@ export default function configureDI(): DIContainer {
       get('ApolloClient')
     ),
     'SurveyService': object(SurveyService).construct(
+      get('EnvironmentService'),
+      get('ApolloClient')
+    ),
+    'OdsSurveyService': object(OdsSurveyService).construct(
       get('EnvironmentService'),
       get('ApolloClient')
     )
