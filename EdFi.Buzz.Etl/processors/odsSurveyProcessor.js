@@ -82,6 +82,19 @@ async function getSurvey(surveyIdentifier) {
   return result.recordset[0];
 }
 
+async function getAllSurveys() {
+  await sql.connect(msConfig);
+  const result = await sql.query`
+    select 
+        Survey.SurveyIdentifier,
+        SurveyTitle
+      from
+        edfi.Survey;
+    `;
+
+  return result.recordset;
+}
+
 async function getSurveyQuestions(surveyIdentifier) {
   await sql.connect(msConfig);
   const result = await sql.query`
@@ -152,54 +165,56 @@ async function getStudentSchoolKeysFromStudentUSIs(surveykey, odsSurveyStudentRe
   const surveyStudentResponses = [];
   const params = [];
 
-  const studentUSIList = odsSurveyStudentResponses.map((studResponse) => studResponse.StudentUSI);
+  if (odsSurveyStudentResponses && odsSurveyStudentResponses.length > 0) {
+    const studentUSIList = odsSurveyStudentResponses.map((studResponse) => studResponse.StudentUSI);
 
-  for (let i = 1; i <= studentUSIList.length; i += 1) {
-    params.push(`$${i}`);
-  }
-
-  await sql.connect(msConfig);
-
-  const students = await sql.query(`
-    SELECT
-      CONCAT(Student.StudentUniqueId, '-', StudentSchoolAssociation.SchoolId) AS StudentSchoolKey,
-      Student.StudentUniqueId AS StudentKey,
-      CAST(StudentSchoolAssociation.SchoolId AS VARCHAR) AS SchoolKey,
-      Student.StudentUSI
-    FROM
-      edfi.Student
-    INNER JOIN
-      edfi.StudentSchoolAssociation ON
-        Student.StudentUSI = StudentSchoolAssociation.StudentUSI
-    INNER JOIN
-      edfi.Descriptor ON
-        StudentSchoolAssociation.EntryGradeLevelDescriptorId = Descriptor.DescriptorId
-    INNER JOIN
-      edfi.School ON
-        StudentSchoolAssociation.SchoolId = School.SchoolId
-    WHERE
-      Student.StudentUSI IN (${studentUSIList.join(',')}) AND (
-        StudentSchoolAssociation.ExitWithdrawDate IS NULL
-        OR StudentSchoolAssociation.ExitWithdrawDate >= GETDATE())
-    `)
-    .then((result) => result.recordset)
-    .catch((err) => {
-      console.error(`ERROR: ${err} - ${err.detail}`);
-    });
-
-  odsSurveyStudentResponses.forEach((studentResponse) => {
-    const student = students.find((stud) => stud.StudentUSI === studentResponse.StudentUSI);
-
-    if (student) {
-      surveyStudentResponses.push({
-        surveykey,
-        studentschoolkey: student.StudentSchoolKey,
-        StudentKey: student.StudentKey,
-        StudentUSI: studentResponse.StudentUSI,
-        date: new Date(),
-      });
+    for (let i = 1; i <= studentUSIList.length; i += 1) {
+      params.push(`$${i}`);
     }
-  });
+
+    await sql.connect(msConfig);
+
+    const students = await sql.query(`
+      SELECT
+        CONCAT(Student.StudentUniqueId, '-', StudentSchoolAssociation.SchoolId) AS StudentSchoolKey,
+        Student.StudentUniqueId AS StudentKey,
+        CAST(StudentSchoolAssociation.SchoolId AS VARCHAR) AS SchoolKey,
+        Student.StudentUSI
+      FROM
+        edfi.Student
+      INNER JOIN
+        edfi.StudentSchoolAssociation ON
+          Student.StudentUSI = StudentSchoolAssociation.StudentUSI
+      INNER JOIN
+        edfi.Descriptor ON
+          StudentSchoolAssociation.EntryGradeLevelDescriptorId = Descriptor.DescriptorId
+      INNER JOIN
+        edfi.School ON
+          StudentSchoolAssociation.SchoolId = School.SchoolId
+      WHERE
+        Student.StudentUSI IN (${studentUSIList.join(',')}) AND (
+          StudentSchoolAssociation.ExitWithdrawDate IS NULL
+          OR StudentSchoolAssociation.ExitWithdrawDate >= GETDATE())
+      `)
+      .then((result) => result.recordset)
+      .catch((err) => {
+        console.error(`ERROR: ${err} - ${err.detail}`);
+      });
+
+    odsSurveyStudentResponses.forEach((studentResponse) => {
+      const student = students.find((stud) => stud.StudentUSI === studentResponse.StudentUSI);
+
+      if (student) {
+        surveyStudentResponses.push({
+          surveykey,
+          studentschoolkey: student.StudentSchoolKey,
+          StudentKey: student.StudentKey,
+          StudentUSI: studentResponse.StudentUSI,
+          date: new Date(),
+        });
+      }
+    });
+  }
 
   return surveyStudentResponses;
 }
@@ -243,19 +258,21 @@ async function saveSurveyQuestions(odsSurveyQuestions, buzzSurveyKey, db) {
       });
   }
 
-  for (let i = 0; i < odsSurveyQuestions.length; i += 1) {
-    const question = odsSurveyQuestions[i];
+  if (odsSurveyQuestions && odsSurveyQuestions.length > 0) {
+    for (let i = 0; i < odsSurveyQuestions.length; i += 1) {
+      const question = odsSurveyQuestions[i];
 
-    /* eslint-disable-next-line no-await-in-loop */
-    const surveyquestionkey = await save(question);
+      /* eslint-disable-next-line no-await-in-loop */
+      const surveyquestionkey = await save(question);
 
-    surveyQuestions.push({
-      surveyquestionkey,
-      surveykey: buzzSurveyKey,
-      question: question.QuestionText,
-      odsSurveyIdentifier: question.SurveyIdentifier,
-      QuestionCode: question.QuestionCode,
-    });
+      surveyQuestions.push({
+        surveyquestionkey,
+        surveykey: buzzSurveyKey,
+        question: question.QuestionText,
+        odsSurveyIdentifier: question.SurveyIdentifier,
+        QuestionCode: question.QuestionCode,
+      });
+    }
   }
 
   return surveyQuestions;
@@ -282,15 +299,17 @@ async function saveSurveyResponses(surveyResponses, db) {
       });
   }
 
-  for (let i = 0; i < surveyResponses.length; i += 1) {
-    const surveyResponse = surveyResponses[i];
+  if (surveyResponses && surveyResponses.length > 0) {
+    for (let i = 0; i < surveyResponses.length; i += 1) {
+      const surveyResponse = surveyResponses[i];
 
-    /* eslint-disable-next-line no-await-in-loop */
-    const studentsurveykey = await save(surveyResponse, db);
+      /* eslint-disable-next-line no-await-in-loop */
+      const studentsurveykey = await save(surveyResponse, db);
 
-    surveyResponse.studentsurveykey = studentsurveykey;
+      surveyResponse.studentsurveykey = studentsurveykey;
 
-    studentsurveys.push(surveyResponse);
+      studentsurveys.push(surveyResponse);
+    }
   }
 
   return studentsurveys;
@@ -318,31 +337,33 @@ async function saveSurveyResponsesAnswers(
       });
   }
 
-  for (let i = 0; i < surveyResponseAnswers.length; i += 1) {
-    const surveyResponseAnswer = surveyResponseAnswers[i];
+  if (surveyResponseAnswers && surveyResponseAnswers.length > 0) {
+    for (let i = 0; i < surveyResponseAnswers.length; i += 1) {
+      const surveyResponseAnswer = surveyResponseAnswers[i];
 
-    const studentsurvey = surveyResponses.find(
-      (surveyResponse) => surveyResponseAnswer.StudentUSI === surveyResponse.StudentUSI,
-    );
+      const studentsurvey = surveyResponses.find(
+        (surveyResponse) => surveyResponseAnswer.StudentUSI === surveyResponse.StudentUSI,
+      );
 
-    const surveyQuestion = surveyQuestions.find(
-      (survQuestion) => surveyResponseAnswer.QuestionCode === survQuestion.QuestionCode,
-    );
+      const surveyQuestion = surveyQuestions.find(
+        (survQuestion) => surveyResponseAnswer.QuestionCode === survQuestion.QuestionCode,
+      );
 
-    /* eslint-disable-next-line no-await-in-loop */
-    const studentsurveykey = await save(
-      surveyResponseAnswer, studentsurvey.studentsurveykey, surveyQuestion.surveyquestionkey, db,
-    );
+      /* eslint-disable-next-line no-await-in-loop */
+      const studentsurveykey = await save(
+        surveyResponseAnswer, studentsurvey.studentsurveykey, surveyQuestion.surveyquestionkey, db,
+      );
 
-    surveyResponseAnswer.studentsurveykey = studentsurveykey;
+      surveyResponseAnswer.studentsurveykey = studentsurveykey;
 
-    studentSurveyAnswers.push(surveyResponseAnswer);
+      studentSurveyAnswers.push(surveyResponseAnswer);
+    }
   }
 
   return studentSurveyAnswers;
 }
 
-const process = async (surveyIdentifier) => {
+const processSingle = async (surveyIdentifier) => {
   if (await odsDs() !== 'ds5') {
     console.error('The Data Stardard is unknown. Make sure you have ODS version 5.');
     return;
@@ -372,17 +393,38 @@ const process = async (surveyIdentifier) => {
     let surveyResponses = await getStudentSchoolKeysFromStudentUSIs(
       survey.surveykey, await getSurveyStudentResponses(surveyIdentifier),
     );
-    surveyResponses = await saveSurveyResponses(surveyResponses, db);
-    console.log(' ... survey responses imported.');
 
-    console.log('Importing survey answers... ');
-    await saveSurveyResponsesAnswers(
-      await getSurveyStudentResponseAnswers(surveyIdentifier), surveyResponses, surveyQuestions, db,
-    );
-    console.log(' ... survey answers imported.');
+    if (surveyResponses && surveyResponses.length > 0) {
+      surveyResponses = await saveSurveyResponses(surveyResponses, db);
+      console.log(' ... survey responses imported.');
+
+      console.log('Importing survey answers... ');
+      await saveSurveyResponsesAnswers(
+        await getSurveyStudentResponseAnswers(surveyIdentifier),
+        surveyResponses, surveyQuestions, db,
+      );
+      console.log(' ... survey answers imported.');
+    }
   } else {
-    console.error('Survey not found.');
+    console.error('Survey not found');
   }
 };
 
-exports.process = process;
+const processAll = async () => {
+  if (await odsDs() !== 'ds5') {
+    console.error('The Data Stardard is unknown. Make sure you have ODS version 5.');
+    return;
+  }
+
+  const odsSurveys = await getAllSurveys();
+
+  for (let i = 0; i < odsSurveys.length; i += 1) {
+    const odsSurvey = odsSurveys[i];
+
+    /* eslint-disable-next-line no-await-in-loop */
+    await processSingle(odsSurvey.SurveyIdentifier);
+  }
+};
+
+exports.processSingle = processSingle;
+exports.processAll = processAll;

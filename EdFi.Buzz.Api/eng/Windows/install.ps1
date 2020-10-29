@@ -56,6 +56,9 @@ param(
   [string]
   $SqlServerHost = "127.0.0.1",
 
+  [bool]
+  $KeepSurveysSynch = $false,
+
   [Parameter(Mandatory = $true)]
   [int]
   $SqlServerPort = 5432,
@@ -113,6 +116,7 @@ if ("google" -eq $idProvider) {
   SURVEY_MAX_FILE_SIZE_BYTES=1mb
   SURVEY_PROCESS_INITIAL_STATUS_KEY=1
   SURVEY_FILES_RETENTION_DAYS=1
+  KEEP_SURVEY_SYNCH=$KeepSurveysSynch
 "@
 }
 else {
@@ -150,6 +154,7 @@ else {
   SURVEY_MAX_FILE_SIZE_BYTES=1mb
   SURVEY_PROCESS_INITIAL_STATUS_KEY=1
   SURVEY_FILES_RETENTION_DAYS=1
+  KEEP_SURVEY_SYNCH=$KeepSurveysSynch
 
 "@
 }

@@ -18,6 +18,10 @@ export class AnswersByStudent {
     answer?: string;
 }
 
+export class CanLoadSurverysFromUI {
+    allowed?: boolean;
+}
+
 export class ContactPerson {
     uniquekey?: string;
     contactpersonkey?: string;
@@ -92,6 +96,8 @@ export abstract class IQuery {
     abstract odssurveys(): OdsSurvey[] | Promise<OdsSurvey[]>;
 
     abstract odssurveybyid(surveyidentifier: string): OdsSurvey | Promise<OdsSurvey>;
+
+    abstract canLoadSurverysFromUI(staffkey: string): CanLoadSurverysFromUI | Promise<CanLoadSurverysFromUI>;
 }
 
 export class School {

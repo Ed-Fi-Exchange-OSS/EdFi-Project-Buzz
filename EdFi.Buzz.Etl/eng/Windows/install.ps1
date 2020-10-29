@@ -57,7 +57,10 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $packagesPath
+  $packagesPath,
+
+  [bool]
+  $keepSurveysSynch
 )
 
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
@@ -133,6 +136,7 @@ function New-DotEnvFile {
   ODS_TRUSTSERVERCERTIFICATE=false
   ODS_ENABLEARITHABORT=true
   ODS_ENCRYPT=false
+  KeepSurveysSynch=$keepSurveysSynch
 "@
   $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }

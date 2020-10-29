@@ -95,6 +95,7 @@ function Install-ApiApp {
         "SqlServerUserName"  = $configuration.sqlServerDatabase.username;
         "SqlServerPassword"  = $configuration.sqlServerDatabase.password;
         "SqlServerDbName"    = $configuration.sqlServerDatabase.database;
+        "KeepSurveysSynch"   = $configuration.keepSurveysSynch;
         "rootDir"            = "dist";
         "app"                = "API";
     }
@@ -224,6 +225,7 @@ function Install-EtlApp {
         "PostgresUserName"  = $configuration.postgresDatabase.username;
         "PostgresPassword"  = $configuration.postgresDatabase.password;
         "PostgresDbName"    = $configuration.postgresDatabase.database;
+        "keepSurveysSynch"  = $configuration.keepSurveysSynch;
         "packagesPath"      = $packagesPath;
     }
 

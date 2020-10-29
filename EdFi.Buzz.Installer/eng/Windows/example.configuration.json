@@ -15,6 +15,7 @@
     "adfsTenantId": null,
     "uriDiscovery": "https://accounts.google.com/.well-known/openid-configuration",
     "loadSampleData": false,
+    "keepSurveysSynch": false,
     "postgresDatabase": {
         "host": "127.0.0.1",
         "port": 5432,
