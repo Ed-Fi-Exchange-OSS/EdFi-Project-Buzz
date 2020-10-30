@@ -12,11 +12,6 @@ param(
   [string] $BuildCounter = 0
 )
 
-function Read-VersionNumberFromPackageJson {
-  $packageJson = Get-Content -Path "$PsScriptRoot/../package.json" | ConvertFrom-Json
-  return $packageJson.version
-}
-
 function Invoke-NuGetPack{
   param(
     [string]

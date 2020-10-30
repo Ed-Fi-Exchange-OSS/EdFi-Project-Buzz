@@ -47,9 +47,6 @@ $packagesPath = $conf.packagesPath
 $toolsPath = $conf.toolsPath
 
 try {
-    # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
-
     Uninstall-BuzzApp -app "ETL" -appPath  (Join-Path $installPath "ETL")
     Uninstall-BuzzApp -app "API" -appPath  (Join-Path $installPath "API")
     Uninstall-BuzzApp -app "UI" -appPath  (Join-Path $installPath "UI")

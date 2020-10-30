@@ -57,79 +57,64 @@ param(
 Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
 Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
 
-Write-Host "Begin Ed-Fi Buzz $($script:app) installation..." -ForegroundColor Yellow
+function Update-Configuration {
+  [CmdletBinding()]
+  param (
+    [Parameter(Mandatory=$true)]
+    [string] $appPath
+  )
 
-$envFile = ""
+  $uriDiscovery = "https://accounts.google.com/.well-known/openid-configuration"
+  if ("adfs" -eq $script:idProvider) {
+  $uriDiscovery = "https://login.microsoftonline.com/common/.well-known/openid-configuration"
+  }
 
-if ("google" -eq $idProvider) {
-  $envFile = @"
-/*
-* SPDX-License-Identifier: Apache-2.0
-* Licensed to the Ed-Fi Alliance under one or more agreements.
-* The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
-* See the LICENSE and NOTICES files in the project root for more information.
-*/
-PORT=$port
-REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
-REACT_APP_URI_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
-REACT_APP_GOOGLE_CLIENT_ID=$googleClientId
-REACT_APP_ADFS_CLIENT_ID=
-REACT_APP_ADFS_TENANT_ID=
-REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
-REACT_APP_JOB_STATUS_FINISH_IDS=[3]
-#REACT_APP_EXTERNAL_LOGO: if false, you must copy images into assets folder.
-REACT_APP_EXTERNAL_LOGO=$($externalLogo.ToString().ToLowerInvariant())
-REACT_APP_LOGO=$logo
-REACT_APP_LOGO_WIDTH=$logoWidth
-REACT_APP_TITLE=$title
-REACT_APP_TITLE_LOGO=$titleLogo
-REACT_APP_TITLE_LOGO_WIDTH=$titleLogoWidth
-REACT_APP_TITLE_LOGO_HEIGHT=$titleLogoHeight
+  $runtimeConfig = @"
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
 
-
+// runtime-config.js
+window['runConfig'] = {
+    REACT_APP_GQL_ENDPOINT:"$script:graphQlEndpoint",
+    REACT_APP_URI_DISCOVERY:"$uriDiscovery",
+    REACT_APP_GOOGLE_CLIENT_ID:"$script:googleClientId",
+    REACT_APP_ADFS_CLIENT_ID:"$script:adfsClientId",
+    REACT_APP_ADFS_TENANT_ID:"$script:adfsTenantId",
+    REACT_APP_EXTERNAL_LOGO:"$script:externalLogo",
+    REACT_APP_LOGO:"$script:logo",
+    REACT_APP_LOGO_WIDTH:"$script:logoWidth",
+    REACT_APP_TITLE:"$script:title",
+    REACT_APP_TITLE_LOGO:"$script:titleLogo",
+    REACT_APP_TITLE_LOGO_WIDTH:"$script:titleLogoWidth",
+    REACT_APP_TITLE_LOGO_HEIGHT:"$script:titleLogoHeight",
+  };
 "@
-}
-else {
-  $envFile = @"
-/*
-* SPDX-License-Identifier: Apache-2.0
-* Licensed to the Ed-Fi Alliance under one or more agreements.
-* The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
-* See the LICENSE and NOTICES files in the project root for more information.
-*/
-PORT=$port
-REACT_APP_GQL_ENDPOINT=$graphQlEndpoint
-REACT_APP_URI_DISCOVERY=https://login.microsoftonline.com/common/.well-known/openid-configuration
-REACT_APP_GOOGLE_CLIENT_ID=
-REACT_APP_ADFS_CLIENT_ID=$adfsClientId
-REACT_APP_ADFS_TENANT_ID=$adfsTenantId
-REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES=1048576
-REACT_APP_JOB_STATUS_FINISH_IDS=[3]
-#REACT_APP_EXTERNAL_LOGO: if false, you must copy images into assets folder.
-REACT_APP_EXTERNAL_LOGO=$externalLogo
-REACT_APP_LOGO=$logo
-REACT_APP_LOGO_WIDTH=$logoWidth
-REACT_APP_TITLE=$title
-REACT_APP_TITLE_LOGO=$titleLogo
-REACT_APP_TITLE_LOGO_WIDTH=$titleLogoWidth
-REACT_APP_TITLE_LOGO_HEIGHT=$titleLogoHeight
-"@
+  if (Test-Path -Path "$appPath\\runtime-config.js") {
+    Set-Content -Path "$appPath\\runtime-config.js" -Value $runtimeConfig -Force
+    Write-Host "Updated the runtime config with runtime configuration"
+  }
+  else {
+    throw "Could not locate the runtime-config.js"
+  }
+
 }
 
 try {
-  New-Item -Path $script:InstallPath -ItemType Directory -Force | Out-Null
+  Write-Host "Begin Ed-Fi Buzz UI installation..." -ForegroundColor Yellow
+
+  New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
+
 
   $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
-  Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $script:InstallPath -fileContents $envFile -rootDir $rootDir -nginxPort $nginxPort
+  Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $InstallPath -nginxPort $nginxPort -rootDir $rootDir
+  Update-Configuration -appPath "$installPath\$nginxVersion\$rootDir"
 
-  New-DotEnvFile -appPath "$script:InstallPath\$nginxVersion\$rootDir" -fileContents $envFile
-
-  # NGINX will be mapped to a different port and redirect thru ARR Reverse Proxy in the web.config.
   $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
-  Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -webSitePath $script:InstallPath -app $app
+  Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -app $app -webSitePath $InstallPath
 
-  Write-Host "End Ed-Fi Buzz $($script:app) installation." -ForegroundColor Yellow
-
+  Write-Host "End Ed-Fi Buzz UI installation." -ForegroundColor Yellow
 }
 catch {
   Write-Host $_
