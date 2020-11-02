@@ -30,9 +30,14 @@ We recommend that the following prerequisites are installed on the machine that 
 
 The configuration variables for the installation are in the **'Windows\configuration.json'** file. In this file you can update the values to adapt them before the installation.
 
+![installation](./images/configFile.png)
+
 The variables that can be configured are detailed below.
 
 #### General configuration
+
+![General](./images/idProvider.png|width=80px)
+
 - **idProvider:** Authentication provider. Valid values: google, adfs.
 - **googleClientId:** If the authentication provider is google, you must set in this field the corresponding googleClientId when you created the Web Application in Google Developers Console.
 - **adfsClientId:** If the authentication is validated using adfs, you must inclute the clientId.
@@ -42,6 +47,9 @@ The variables that can be configured are detailed below.
 #### postgresDatabase
 
 You need to update the Postgres database connection string according to your configuration. You can configure the server, credentials or name to connect to the postgres database.
+
+![Postgresql](./images/postgresDatabase.png)
+
 - **host:** Database server.
 - **port:** Postgres port (E.g. 5432)
 - **username:** User to connect to the database
@@ -51,6 +59,9 @@ You need to update the Postgres database connection string according to your con
 #### sqlServerDatabase
 
 You can configure the server, credentials or name to connect to the Sql Server ODS database.
+
+![MSSQL](./images/sqlServerDatabase.png)
+
 - **host:** Sql Server name or IP.
 - **port:** SQL database port.
 - **username:** SQL Server database user name.
@@ -61,15 +72,24 @@ You can configure the server, credentials or name to connect to the Sql Server O
 #### etl
 
 Options to configure the ETL to load from the database or file to the postgres database.
+
+![ETL](./images/etl.png)
+
 - **datasourceFormat:** If the data source corresponds to the Analytics Middle Tier (amt) or direct views of the ODS tables. Allowed values: amt, ods.
 - **odsDataStandard:** Database standard to use, if it is Data Standard 2 or 3.x. Allowed values: ds2, ds3.
 
 #### api
+
+![API](./images/api.png)
+
 - **version:** The NuGet version to download. Blank gets latest.
 - **url:**  URL for the GraphQL endpoint setting in the UI env file.
 - **port:** API port.
 
 #### ui
+
+![UI](./images/UI.png)
+
 - **version:** The NuGet version to download. Blank gets latest.
 - **port:** Port to access UI.
 - **externalLogo:** If true, look for images in an external URL. If false, the images must have been copied into the 'assets' folder of the UI. 
@@ -77,20 +97,28 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **logoWidth:** Logo max width.
 - **title:** Site title.
 - **titleLogo:** Site logo title to display in header URL.
-- **titleLogoWidth: Site logo title max width.
+- **titleLogoWidth:** Site logo title max width.
 - **titleLogoHeight:** Site logo max height.
 
 #### Change UI Web App icon (fav.ico)
-To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder.
+To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**C:\Ed-Fi\Buzz\UI\nginx-1.19.0\build\fav.ico**).
+
+![favico](./images/favico.png)
 
 ### Installation
-Installation script:
-- It requires administrator privileges.
-- It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
+Installation script requirements:
+- A non-core PowerShell. 
+- $PSVersionTable.PSEdition is Desktop
+- Run as Administrator. It requires administrator privileges.
+- Configuration file. It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
+
+![configuration](./images/configurationJSON.png)
+
 - The script will not run on PowerShell Core because WebAdministration does not load properly.
 
 The installation script must be run in PowerShell as an administrator.
-**`>.\install.ps1 .\configuration.json`**
+
+![installation](./images/install.png)
 
 ## Developer READMEs
 
