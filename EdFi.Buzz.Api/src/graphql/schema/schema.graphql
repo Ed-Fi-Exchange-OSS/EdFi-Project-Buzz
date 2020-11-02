@@ -21,7 +21,7 @@ type Query{
   surveystatus(staffkey: ID!, jobkey: String): [SurveyStatus]
   odssurveys: [OdsSurvey]
   odssurveybyid(surveyidentifier: ID!): OdsSurvey
-  canLoadSurverysFromUI(staffkey: ID!): CanLoadSurverysFromUI
+  canLoadSurverysFromUI: CanLoadSurverysFromUI
 }
 type Section{
   sectionkey: String

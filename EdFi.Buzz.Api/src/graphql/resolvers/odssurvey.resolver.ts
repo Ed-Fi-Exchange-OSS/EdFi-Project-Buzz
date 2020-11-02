@@ -7,7 +7,7 @@ import { UseGuards } from '@nestjs/common';
 import {
   Args, Query, Resolver,
 } from '@nestjs/graphql';
-import { OdsSurvey } from '../graphql.schema';
+import { OdsSurvey, CanLoadSurverysFromUI } from '../graphql.schema';
 import OdsSurveyService from '../services/odssurvey.service';
 import AuthGuard from '../auth.guard';
 
@@ -25,5 +25,11 @@ export default class SectionResolvers {
   @Query('odssurveybyid')
   async findOneById(@Args('surveyidentifier') surveyIdentifier: string): Promise<OdsSurvey> {
     return this.odsSurveyService.findOneById(surveyIdentifier);
+  }
+
+  @Query('canLoadSurverysFromUI')
+  async canLoadSurverysFromUI(
+  ): Promise<CanLoadSurverysFromUI> {
+    return this.odsSurveyService.canLoadSurverysFromUI();
   }
 }

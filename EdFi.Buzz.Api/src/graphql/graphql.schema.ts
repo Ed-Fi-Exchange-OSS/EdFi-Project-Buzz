@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -97,7 +98,7 @@ export abstract class IQuery {
 
     abstract odssurveybyid(surveyidentifier: string): OdsSurvey | Promise<OdsSurvey>;
 
-    abstract canLoadSurverysFromUI(staffkey: string): CanLoadSurverysFromUI | Promise<CanLoadSurverysFromUI>;
+    abstract canLoadSurverysFromUI(): CanLoadSurverysFromUI | Promise<CanLoadSurverysFromUI>;
 }
 
 export class School {

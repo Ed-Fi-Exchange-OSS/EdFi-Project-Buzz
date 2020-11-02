@@ -12,25 +12,31 @@ export const OdsSurveyComponent: FunctionComponent<OdsSurveyComponentProps> = (p
 
   const {surveyidentifier, surveytitle} = props.odsSurvey;
   const [addSurvey, setAddSurvey] = useState(false);
+  const inputId = `input${surveyidentifier}`
 
-  const handleChange = e => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setAddSurvey(value);
-    addSurvey ? 
+  const handleChange = () => {
+    setAddSurvey(!addSurvey);
+    !addSurvey ? 
         props.addSurveyToImport(surveyidentifier) 
         : props.removeSurveyToImport(surveyidentifier);
   };
 
   return (
     <div className='row'>
-      <div className='col-12'>
-        <input
-            type="checkbox"
+      <div className='col-11 offset-1'>
+        <div className='custom-control custom-switch'>
+          <input
+            type='checkbox'
             name="addSurvey"
             checked={addSurvey}
+            className='custom-control-input'
+            id={inputId}
             onChange={handleChange}
-        />
-        <label>Survey: <span>{surveytitle}</span></label>
+          />
+          <label className='custom-control-label' htmlFor={inputId}>
+            {surveytitle}
+          </label>
+        </div>
       </div>
     </div>
   );

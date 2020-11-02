@@ -4,10 +4,10 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import ApiService from 'Services/ApiService';
 import { MainContainer, HeadlineContainer, TitleSpanContainer } from 'buzztheme';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import { OdsSurveyComponent } from "./odsSurveyComponent";
 
 import OdsSurvey from 'Models/OdsSurvey';
@@ -16,6 +16,26 @@ export interface LoadOdsSurveyProps {
   api: ApiService;
 }
 
+const OutlineButton = styled.button`
+&.outline-button {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 3em;
+  border-color: var(--denim) !important;
+  border-style: solid;
+  color:  var(--denim);
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: transparent;
+}
+&.outline-button:hover {
+  color: white;
+  background-color: var(--denim) !important;
+}
+`;
+
 export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: LoadOdsSurveyProps) => {
   const {api} = props;
 
@@ -23,16 +43,17 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
   const [odsSurveysToImport, setOdsSurveysToImport] = useState([] as string[]);
 
   function getOdsSurveys() {
-    api.odsSurvey.getOdsSurvey().then((result) => {
-        setOdsSurveys(result);
-      });
+    if (!odsSurveys || odsSurveys.length === 0)
+      api.odsSurvey.getOdsSurvey().then((result) => {
+          setOdsSurveys(result);
+        });
   }
 
   const addSurveyToImport = surveyidentifier => {
     setOdsSurveysToImport([
-            ...odsSurveysToImport,
-            surveyidentifier
-        ]
+        ...odsSurveysToImport,
+        surveyidentifier
+      ]
     );
   };
 
@@ -43,39 +64,48 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
 
   const submitSurveys = (e) => {
       e.preventDefault();
+      console.log('submit');
   }
 
-  getOdsSurveys();
+  useEffect(() => {
+    getOdsSurveys();
+  });
 
   return (
     <MainContainer role='main' className='container'>
       <HeadlineContainer>
-        <TitleSpanContainer>Load Survey from ODS</TitleSpanContainer>
+        <TitleSpanContainer>Surveys from ODS</TitleSpanContainer>
       </HeadlineContainer>
       {odsSurveys && odsSurveys.length > 0 &&
-        <div className='row'>
-            <form
-            onSubmit={submitSurveys}
-            >
+        <form
+          onSubmit={submitSurveys}
+        >
+          <div className='row'>
               <div className='col-12'>
               {
                 odsSurveys.map(odsSurvey => (
-                    <OdsSurveyComponent
+                  <OdsSurveyComponent
                     key={odsSurvey.surveyidentifier}
                     odsSurvey={odsSurvey}
                     addSurveyToImport={addSurveyToImport}
                     removeSurveyToImport={removeSurveyToImport}
-                    />
+                  />
                 ))
               }
-              <button
-                type="submit"
-                >
-                  Import Surveys
-                </button>
-              </div>
-            </form>
-        </div>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-4 offset-7' style={{ 'marginTop': '20px' }}>
+            <OutlineButton
+              type='submit'
+              className='outline-button'
+              disabled={!odsSurveysToImport || odsSurveysToImport.length === 0}
+            >
+              Import
+            </OutlineButton>
+            </div>
+          </div>
+        </form>
       }
 
       {!odsSurveys || odsSurveys.length === 0 &&

@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OdsSurveyEntity } from '../entities/ods';
 import { ODS_DATABASE } from '../../constants';
+import { CanLoadSurverysFromUI } from '../entities/buzz';
 
 @Injectable()
 export default class OdsSurveyService {
@@ -28,5 +29,12 @@ export default class OdsSurveyService {
       .findOne({ where: { surveyidentifier: id } })
       .catch(() => null);
     return result;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async canLoadSurverysFromUI(): Promise<CanLoadSurverysFromUI> {
+    return {
+      allowed: (process.env.KEEP_SURVEY_SYNCH.toLowerCase() === 'false'),
+    };
   }
 }

@@ -9,7 +9,7 @@ import {
 import { UseGuards } from '@nestjs/common';
 
 import {
-  LoadSurveyFromOdsResponse, OdsSurveyItem, Survey, CanLoadSurverysFromUI,
+  LoadSurveyFromOdsResponse, OdsSurveyItem, Survey,
 } from '../graphql.schema';
 import AuthGuard from '../auth.guard';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
@@ -43,11 +43,5 @@ export default class SurveyResolvers {
 
     const addLoadOds = this.taskItemService.addLoadOdsFromSurveyTaskItem(surveyFromOds);
     return addLoadOds;
-  }
-
-  @Query('canLoadSurverysFromUI')
-  async canLoadSurverysFromUI(
-  ): Promise<CanLoadSurverysFromUI> {
-    return this.surveyService.canLoadSurverysFromUI();
   }
 }
