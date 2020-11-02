@@ -5,24 +5,23 @@
 
 export default class OdsSurvey {
 
-    namespace?: string;
-  
-    surveyidentifier?: string;
-  
-    educationorganizationid?: string;
-  
-    surveytitle?: string;
-  
-    sessionname?: string;
-  
-    schoolyear?: number;
-  
-    schoolid?: number;
-  
-    surveycategorydescriptorid?: number;
-  
-    numberadministered?: number;
-  
-    discriminator?: string;
-  }
-  
+  namespace?: string;
+
+  surveyidentifier?: string;
+
+  educationorganizationid?: string;
+
+  surveytitle?: string;
+
+  sessionname?: string;
+
+  schoolyear?: number;
+
+  schoolid?: number;
+
+  surveycategorydescriptorid?: number;
+
+  numberadministered?: number;
+
+  discriminator?: string;
+}

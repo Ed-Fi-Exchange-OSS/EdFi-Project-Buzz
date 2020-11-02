@@ -4,13 +4,13 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useState } from 'react';
 import ApiService from 'Services/ApiService';
 import { MainContainer, HeadlineContainer, TitleSpanContainer } from 'buzztheme';
 import styled from 'styled-components';
-import { OdsSurveyComponent } from "./odsSurveyComponent";
-
 import OdsSurvey from 'Models/OdsSurvey';
+import { OdsSurveyComponent } from './odsSurveyComponent';
+
 
 export interface LoadOdsSurveyProps {
   api: ApiService;
@@ -34,6 +34,12 @@ const OutlineButton = styled.button`
   color: white;
   background-color: var(--denim) !important;
 }
+&.outline-button:disabled,
+  button[disabled]{
+    color:  var(--denim);
+    background-color: transparent  !important;
+    cursor: inherit;
+}
 `;
 
 export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: LoadOdsSurveyProps) => {
@@ -43,17 +49,18 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
   const [odsSurveysToImport, setOdsSurveysToImport] = useState([] as string[]);
 
   function getOdsSurveys() {
-    if (!odsSurveys || odsSurveys.length === 0)
+    if (!odsSurveys || odsSurveys.length === 0) {
       api.odsSurvey.getOdsSurvey().then((result) => {
-          setOdsSurveys(result);
-        });
+        setOdsSurveys(result);
+      });
+    }
   }
 
   const addSurveyToImport = surveyidentifier => {
     setOdsSurveysToImport([
-        ...odsSurveysToImport,
-        surveyidentifier
-      ]
+      ...odsSurveysToImport,
+      surveyidentifier
+    ]
     );
   };
 
@@ -63,13 +70,23 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
   };
 
   const submitSurveys = (e) => {
-      e.preventDefault();
-      console.log('submit');
-  }
+    e.preventDefault();
+    console.log('submit');
+    api.odsSurvey.importOdsSurveys([
+      {
+        surveyidentifier: 'CE_1',
+        surveytitle: 'Course Evaluation from graphile 1'
+      }
+    ])
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  useEffect(() => {
-    getOdsSurveys();
-  });
+  getOdsSurveys();
 
   return (
     <MainContainer role='main' className='container'>
@@ -81,7 +98,7 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
           onSubmit={submitSurveys}
         >
           <div className='row'>
-              <div className='col-12'>
+            <div className='col-12'>
               {
                 odsSurveys.map(odsSurvey => (
                   <OdsSurveyComponent
@@ -96,13 +113,13 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
           </div>
           <div className='row'>
             <div className='col-4 offset-7' style={{ 'marginTop': '20px' }}>
-            <OutlineButton
-              type='submit'
-              className='outline-button'
-              disabled={!odsSurveysToImport || odsSurveysToImport.length === 0}
-            >
+              <OutlineButton
+                type='submit'
+                className='outline-button'
+                disabled={!odsSurveysToImport || odsSurveysToImport.length === 0}
+              >
               Import
-            </OutlineButton>
+              </OutlineButton>
             </div>
           </div>
         </form>
@@ -119,4 +136,4 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
       }
     </MainContainer >
   );
-}
+};

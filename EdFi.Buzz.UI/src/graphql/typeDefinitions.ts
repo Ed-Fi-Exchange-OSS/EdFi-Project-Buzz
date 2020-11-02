@@ -5,18 +5,11 @@
 
 import gql from 'graphql-tag';
 
-const loadsurveyfromods = gql`
-  mutation($staffkey: ID!, $surveylist: [OdsSurveyItem!]!) {
-    loadsurveyfromods(
-      staffkey: $staffkey,
-      surveylist: $surveylist
-    ){
-      totalCount
-      totalCountLoaded
-      totalCountFailed
-      listFailedInsert
-    }
-  }
+const typeDefs = gql`
+input OdsSurveyItem {
+  surveyidentifier: String
+  surveytitle: String
+}
 `;
 
-export { loadsurveyfromods };
+export default typeDefs;

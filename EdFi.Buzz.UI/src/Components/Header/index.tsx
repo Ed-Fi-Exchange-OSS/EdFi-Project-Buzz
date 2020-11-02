@@ -171,7 +171,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     display: flex;
     flex-wrap: nowrap;
     flex-flow: column;
-    width: 40%
+    width: 40%;
     position: fixed;
     right: 0px;
   }
@@ -292,13 +292,13 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                         </Link>
                       </li>
                       : null}
-                      {isAdminSurveyLoader
-                        ? <li>
-                          <Link to="/loadodssurvey">
-                            <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
-                          </Link>
-                        </li>
-                        : null}
+                    {isAdminSurveyLoader
+                      ? <li>
+                        <Link to="/loadodssurvey">
+                          <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
+                        </Link>
+                      </li>
+                      : null}
                     <li>
                       <Link to="/Login">
                         <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>

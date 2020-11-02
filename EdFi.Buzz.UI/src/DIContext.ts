@@ -19,6 +19,7 @@ import SurveyAnalyticsApiService from 'Services/SurveyAnalyticsService';
 import SurveyService from 'Services/SurveyService';
 import TeacherApiService from 'Services/TeacherService';
 import OdsSurveyService from 'Services/OdsSurveyService';
+import typeDefs from './graphql/typeDefinitions';
 
 function createApolloClient(container: DIContainer) {
   const env: EnvironmentService = container.get('EnvironmentService');
@@ -44,7 +45,8 @@ function createApolloClient(container: DIContainer) {
 
   return new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    typeDefs
   });
 }
 
@@ -94,7 +96,8 @@ export default function configureDI(): DIContainer {
     ),
     'OdsSurveyService': object(OdsSurveyService).construct(
       get('EnvironmentService'),
-      get('ApolloClient')
+      get('ApolloClient'),
+      get('AuthenticationService')
     )
   });
   return container;

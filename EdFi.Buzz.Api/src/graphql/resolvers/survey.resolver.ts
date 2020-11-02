@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-  Args, Resolver, Mutation, Query,
+  Args, Resolver, Mutation,
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 

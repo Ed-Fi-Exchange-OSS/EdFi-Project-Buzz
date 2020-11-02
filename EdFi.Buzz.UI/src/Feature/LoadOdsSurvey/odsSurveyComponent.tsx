@@ -1,24 +1,25 @@
-import React from 'react';
-import { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
+
 import OdsSurvey from 'Models/OdsSurvey';
 
 export interface OdsSurveyComponentProps {
-    odsSurvey: OdsSurvey;
-    addSurveyToImport: (surveyidentifier: string) => void;
-    removeSurveyToImport: (surveyidentifier: string) => void;
+  odsSurvey: OdsSurvey;
+  addSurveyToImport: (surveyidentifier: string) => void;
+  removeSurveyToImport: (surveyidentifier: string) => void;
 }
 
 export const OdsSurveyComponent: FunctionComponent<OdsSurveyComponentProps> = (props: OdsSurveyComponentProps) => {
-
   const {surveyidentifier, surveytitle} = props.odsSurvey;
   const [addSurvey, setAddSurvey] = useState(false);
-  const inputId = `input${surveyidentifier}`
+  const inputId = `input${surveyidentifier}`;
 
   const handleChange = () => {
     setAddSurvey(!addSurvey);
-    !addSurvey ? 
-        props.addSurveyToImport(surveyidentifier) 
-        : props.removeSurveyToImport(surveyidentifier);
+    if (!addSurvey) {
+      props.addSurveyToImport(surveyidentifier);
+    } else {
+      props.removeSurveyToImport(surveyidentifier);
+    }
   };
 
   return (
@@ -40,6 +41,6 @@ export const OdsSurveyComponent: FunctionComponent<OdsSurveyComponentProps> = (p
       </div>
     </div>
   );
-}
+};
 
 export default OdsSurveyComponent;
