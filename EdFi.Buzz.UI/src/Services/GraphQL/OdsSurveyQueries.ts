@@ -14,4 +14,20 @@ const odssurveys = gql`
   }
 `;
 
-export { odssurveys };
+const canLoadSurverysFromUI = gql`
+  query {
+    canLoadSurverysFromUI {
+      allowed
+    }
+  }
+`;
+
+const doesOdsContainsSurveyModel = gql`
+  query {
+    doesOdsContainsSurveyModel {
+      contains
+    }
+  }
+`;
+
+export { odssurveys, canLoadSurverysFromUI, doesOdsContainsSurveyModel };

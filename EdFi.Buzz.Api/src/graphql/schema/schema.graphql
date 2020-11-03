@@ -22,6 +22,7 @@ type Query{
   odssurveys: [OdsSurvey]
   odssurveybyid(surveyidentifier: ID!): OdsSurvey
   canLoadSurverysFromUI: CanLoadSurverysFromUI
+  doesOdsContainsSurveyModel: DoesOdsContainsSurveyModel
 }
 type Section{
   sectionkey: String
@@ -236,4 +237,8 @@ type OdsSurvey{
 
 type CanLoadSurverysFromUI {
   allowed: Boolean
+}
+
+type DoesOdsContainsSurveyModel {
+  contains: Boolean
 }

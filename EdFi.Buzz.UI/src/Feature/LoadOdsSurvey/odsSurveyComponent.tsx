@@ -4,7 +4,7 @@ import OdsSurvey from 'Models/OdsSurvey';
 
 export interface OdsSurveyComponentProps {
   odsSurvey: OdsSurvey;
-  addSurveyToImport: (surveyidentifier: string) => void;
+  addSurveyToImport: (odsSurvey: OdsSurvey) => void;
   removeSurveyToImport: (surveyidentifier: string) => void;
 }
 
@@ -16,7 +16,7 @@ export const OdsSurveyComponent: FunctionComponent<OdsSurveyComponentProps> = (p
   const handleChange = () => {
     setAddSurvey(!addSurvey);
     if (!addSurvey) {
-      props.addSurveyToImport(surveyidentifier);
+      props.addSurveyToImport({surveyidentifier, surveytitle});
     } else {
       props.removeSurveyToImport(surveyidentifier);
     }

@@ -2,8 +2,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import EnvironmentService from './EnvironmentService';
 import OdsSurvey from '../Models/OdsSurvey';
 import LoadSurveyFromOdsResponse from '../Models/LoadSurveyFromOdsResponse';
-import { odssurveys } from './GraphQL/OdsSurveyQueries';
-import { loadsurveyfromods } from './GraphQL/OdsSurveyMutations';
+import { odssurveys, canLoadSurverysFromUI, doesOdsContainsSurveyModel } from './GraphQL/OdsSurveyQueries';
+import { loadsurveyfromods  } from './GraphQL/OdsSurveyMutations';
 import AuthenticationService from './AuthenticationService';
 
 export default class OdsSurveyService{
@@ -24,18 +24,41 @@ export default class OdsSurveyService{
   public importOdsSurveys = async (odsSurveys: OdsSurvey[]): Promise<LoadSurveyFromOdsResponse> => {
     const client = this.apolloClient;
 
-    const { data } = await client.query({
-      query: loadsurveyfromods,
+    const { data } = await client.mutate({
+      mutation: loadsurveyfromods,
       variables: {
         staffkey: this.authenticationService.currentUserValue.teacher.staffkey,
         surveylist: odsSurveys.map(odssurvey => ({
           surveyidentifier: odssurvey.surveyidentifier,
           surveytitle: odssurvey.surveytitle
         }))
-      },
-      fetchPolicy: 'network-only'
+      }
     });
     const result: LoadSurveyFromOdsResponse = data.loadsurveyfromods ? data.loadsurveyfromods : null;
+    return result;
+  };
+
+  public getCanLoadSurverysFromUI = async (): Promise<boolean> => {
+    const client = this.apolloClient;
+
+    const { data } = await client.query({
+      query: canLoadSurverysFromUI,
+      fetchPolicy: 'network-only'
+    });
+
+    const result: boolean = data.canLoadSurverysFromUI ? data.canLoadSurverysFromUI.allowed : null;
+    return result;
+  };
+
+  public getDoesOdsContainsSurveyModel = async (): Promise<boolean> => {
+    const client = this.apolloClient;
+
+    const { data } = await client.query({
+      query: doesOdsContainsSurveyModel,
+      fetchPolicy: 'network-only'
+    });
+
+    const result: boolean = data.doesOdsContainsSurveyModel ? data.doesOdsContainsSurveyModel.allowed : null;
     return result;
   };
 }

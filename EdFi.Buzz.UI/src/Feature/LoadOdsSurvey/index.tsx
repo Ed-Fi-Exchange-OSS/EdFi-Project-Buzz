@@ -4,17 +4,25 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
 import ApiService from 'Services/ApiService';
 import { MainContainer, HeadlineContainer, TitleSpanContainer } from 'buzztheme';
 import styled from 'styled-components';
 import OdsSurvey from 'Models/OdsSurvey';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import { OdsSurveyComponent } from './odsSurveyComponent';
-
+import LoadSurveyFromOdsResponse from '../../Models/LoadSurveyFromOdsResponse';
 
 export interface LoadOdsSurveyProps {
   api: ApiService;
 }
+
+
+const ParagraphResult = styled.p`
+  text-align:right;
+`;
 
 const OutlineButton = styled.button`
 &.outline-button {
@@ -44,9 +52,18 @@ const OutlineButton = styled.button`
 
 export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: LoadOdsSurveyProps) => {
   const {api} = props;
+  const history = useHistory();
 
   const [odsSurveys, setOdsSurveys] = useState([] as OdsSurvey[]);
-  const [odsSurveysToImport, setOdsSurveysToImport] = useState([] as string[]);
+  const [odsSurveysToImport, setOdsSurveysToImport] = useState([] as OdsSurvey[]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [importingResults, setImportingResults] = useState<LoadSurveyFromOdsResponse>(
+    {
+      totalCount: 0,
+      totalCountLoaded: 0,
+      totalCountFailed: 0,
+      listFailedInsert: []
+    } as LoadSurveyFromOdsResponse);
 
   function getOdsSurveys() {
     if (!odsSurveys || odsSurveys.length === 0) {
@@ -56,30 +73,25 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
     }
   }
 
-  const addSurveyToImport = surveyidentifier => {
+  const addSurveyToImport = odsSurvey => {
     setOdsSurveysToImport([
       ...odsSurveysToImport,
-      surveyidentifier
+      odsSurvey
     ]
     );
   };
 
   const removeSurveyToImport = surveyidentifier => {
-    const surveys = odsSurveysToImport.filter(survey => survey !== surveyidentifier);
+    const surveys = odsSurveysToImport.filter(surveyId => surveyId !== surveyidentifier);
     setOdsSurveysToImport(surveys);
   };
 
   const submitSurveys = (e) => {
     e.preventDefault();
-    console.log('submit');
-    api.odsSurvey.importOdsSurveys([
-      {
-        surveyidentifier: 'CE_1',
-        surveytitle: 'Course Evaluation from graphile 1'
-      }
-    ])
+    api.odsSurvey.importOdsSurveys(odsSurveysToImport)
       .then((result) => {
-        console.log(result);
+        setImportingResults(result);
+        setShowModal(true);
       })
       .catch((error) => {
         console.log(error);
@@ -89,11 +101,12 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
   getOdsSurveys();
 
   return (
-    <MainContainer role='main' className='container'>
-      <HeadlineContainer>
-        <TitleSpanContainer>Surveys from ODS</TitleSpanContainer>
-      </HeadlineContainer>
-      {odsSurveys && odsSurveys.length > 0 &&
+    <Fragment>
+      <MainContainer role='main' className='container'>
+        <HeadlineContainer>
+          <TitleSpanContainer>Surveys from ODS</TitleSpanContainer>
+        </HeadlineContainer>
+        {odsSurveys && odsSurveys.length > 0 &&
         <form
           onSubmit={submitSurveys}
         >
@@ -123,9 +136,9 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
             </div>
           </div>
         </form>
-      }
+        }
 
-      {!odsSurveys || odsSurveys.length === 0 &&
+        {!odsSurveys || odsSurveys.length === 0 &&
         <div className='row'>
           <div className='col-12'>
             <div className='alert alert-warning'>
@@ -133,7 +146,84 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
             </div>
           </div>
         </div>
-      }
-    </MainContainer >
+        }
+      </MainContainer >
+
+      <Modal
+        show={showModal}
+        backdrop='static'
+        className='survey-modal-dialog'
+        size='sm'
+        aria-labelledby='contained-modal-title-vcenter'
+        centered>
+        <Modal.Header>
+          <Modal.Title>Results</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="row">
+            <div className="col-9">
+              <ParagraphResult>
+            Number of surveys requested:
+              </ParagraphResult>
+            </div>
+            <div className="col-3">
+              {importingResults.totalCount}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-9">
+              <ParagraphResult>
+              Number of surveys loaded:
+              </ParagraphResult>
+            </div>
+            <div className="col-3">
+              {
+                importingResults.totalCountLoaded && importingResults.totalCountLoaded > 0
+                  ? importingResults.totalCountLoaded
+                  : 'None' }
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-9">
+              <ParagraphResult>
+              Number of surveys that failed:
+              </ParagraphResult>
+            </div>
+            <div className="col-3">
+              {
+                importingResults.totalCountFailed && importingResults.totalCountFailed > 0
+                  ? importingResults.totalCountFailed
+                  : 'None' }
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-9">
+              <ParagraphResult>
+              Surveys that failed:
+              </ParagraphResult>
+            </div>
+            <div className="col-1">
+              {
+                importingResults.listFailedInsert && importingResults.listFailedInsert.length > 0
+                  ? importingResults.listFailedInsert.join(',')
+                  : 'None'}
+            </div>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant='primary'
+            onClick={() => {
+              setShowModal(false);
+              history.push('/surveyAnalytics');
+            }}
+          >
+          Okay
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Fragment>
   );
 };

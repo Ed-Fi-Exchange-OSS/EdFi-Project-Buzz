@@ -10,6 +10,7 @@ import {
 import { OdsSurvey, CanLoadSurverysFromUI } from '../graphql.schema';
 import OdsSurveyService from '../services/odssurvey.service';
 import AuthGuard from '../auth.guard';
+import { DoesOdsContainsSurveyModel } from '../entities/buzz';
 
 @UseGuards(AuthGuard)
 @Resolver('OdsSurvey')
@@ -31,5 +32,11 @@ export default class SectionResolvers {
   async canLoadSurverysFromUI(
   ): Promise<CanLoadSurverysFromUI> {
     return this.odsSurveyService.canLoadSurverysFromUI();
+  }
+
+  @Query('doesOdsContainsSurveyModel')
+  async doesOdsContainsSurveyModel(
+  ): Promise<DoesOdsContainsSurveyModel> {
+    return this.odsSurveyService.doesOdsContainsSurveyModel();
   }
 }
