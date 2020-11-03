@@ -251,7 +251,7 @@ function Get-WebStatus {
     try {
         $status = "Not running"
         $global:ProgressPreference = 'SilentlyContinue'
-        $request = (Invoke-WebRequest -Uri $url )
+        $request = (Invoke-WebRequest -Uri $url -UseBasicParsing )
         if ($request.StatusCode) {
             $status = "Status code returned: " + $request.StatusCode
         }
