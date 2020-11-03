@@ -5,11 +5,12 @@
  * See the LICENSE and NOTICES files in the project root for more information.
  */
 
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdBuild from '@iconify-icons/ion/md-build';
 import { Link } from 'react-router-dom';
+import ApiService from 'Services/ApiService';
 
 const LinkButton = styled.button`
   padding: .5em 0em;
@@ -20,18 +21,25 @@ const LinkButton = styled.button`
   color: var(--nevada);
 `;
 
-const LoadOdsSurveysMenuOption = ({isAdminSurveyLoader, api}) => {
+interface LoadOdsSurveysMenuOptionProps {
+  isAdminSurveyLoader: boolean;
+  api: ApiService;
+}
+
+export const LoadOdsSurveysMenuOption: FunctionComponent<LoadOdsSurveysMenuOptionProps> = (
+  props: LoadOdsSurveysMenuOptionProps
+) => {
   const [canLoadSurverysFromUI, setCanLoadSurverysFromUI] = useState(false);
   const [doesOdsContainsSurveyModel, setDoesOdsContainsSurveyModel] = useState(false);
 
   function getCanLoadSurverysFromUI() {
-    api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
+    props.api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
       setCanLoadSurverysFromUI(result);
     });
   }
 
   function getDoesOdsContainsSurveyModel() {
-    api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
+    props.api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
       setDoesOdsContainsSurveyModel(result);
     });
   }
@@ -41,7 +49,7 @@ const LoadOdsSurveysMenuOption = ({isAdminSurveyLoader, api}) => {
 
   return (
     <>
-      {isAdminSurveyLoader && canLoadSurverysFromUI && doesOdsContainsSurveyModel
+      {props.isAdminSurveyLoader && canLoadSurverysFromUI && doesOdsContainsSurveyModel
         ? <li >
           <Link to="/loadodssurvey">
             <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
@@ -51,5 +59,3 @@ const LoadOdsSurveysMenuOption = ({isAdminSurveyLoader, api}) => {
     </>
   );
 };
-
-export default LoadOdsSurveysMenuOption;
