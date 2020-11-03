@@ -245,19 +245,18 @@ function Install-NginxFiles {
         $rootDir
     )
 
+    New-Item -ItemType Directory -Path "$webSitePath\$nginxVersion\" -ErrorAction SilentlyContinue
+
     # Copy the build directory into the NGiNX folder
     $parameters = @{
         Path        = "$PSScriptRoot\..\$rootDir"
-        Destination = "$webSitePath\$nginxVersion\$rootDir"
+        Destination = "$webSitePath\$nginxVersion\"
         Recurse     = $true
         Force       = $true
     }
     Copy-Item @parameters
 
     Update-NginxConf -sourcePath "$($PSScriptRoot)\..\" -appPath "$webSitePath\$nginxVersion\conf" -rootDir $rootDir -nginxPort $nginxPort
-
-    Install-NpmPackages -appPath "$webSitePath\$nginxVersion\$rootDir"
-
 }
 
 function Update-WebConfig {
