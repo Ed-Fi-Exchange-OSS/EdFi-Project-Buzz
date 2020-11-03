@@ -15,7 +15,7 @@ import Icon from '@iconify/react';
 import mdUnlock from '@iconify-icons/ion/md-unlock';
 import mdBuild from '@iconify-icons/ion/md-build';
 import mdUpload from '@iconify-icons/ion/md-cloud-upload';
-import LoadOdsSurveysMenuOption from './loadodssurvey';
+import { LoadOdsSurveysMenuOption } from './loadodssurvey';
 
 interface CustomLikComponentProps {
   children: ReactFragment;
