@@ -33,8 +33,6 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $packagesPath,
   [Parameter(Mandatory = $true)]
-  [string] $nginxPort,
-  [Parameter(Mandatory = $true)]
   [string] $rootDir = "build",
   [Parameter(Mandatory = $true)]
   [string] $app = "UI",

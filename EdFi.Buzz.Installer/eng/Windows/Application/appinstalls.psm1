@@ -180,7 +180,6 @@ function Install-UiApp {
         "titleLogoHeight" = $configuration.ui.titleLogoHeight;
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
-        "nginxPort"       = $configuration.ui.nginxPort;
         "rootDir"         = "build";
         "app"             = "UI";
     }
