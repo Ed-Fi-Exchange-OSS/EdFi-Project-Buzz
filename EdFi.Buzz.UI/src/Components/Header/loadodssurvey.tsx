@@ -5,10 +5,10 @@
  * See the LICENSE and NOTICES files in the project root for more information.
  */
 
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Icon from '@iconify/react';
-import mdBuild from '@iconify-icons/ion/md-build';
+import mdCloudDownload from '@iconify-icons/ion/md-cloud-download';
 import { Link } from 'react-router-dom';
 import ApiService from 'Services/ApiService';
 
@@ -32,27 +32,32 @@ export const LoadOdsSurveysMenuOption: FunctionComponent<LoadOdsSurveysMenuOptio
   const [canLoadSurverysFromUI, setCanLoadSurverysFromUI] = useState(false);
   const [doesOdsContainsSurveyModel, setDoesOdsContainsSurveyModel] = useState(false);
 
-  function getCanLoadSurverysFromUI() {
-    props.api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
-      setCanLoadSurverysFromUI(result);
-    });
-  }
+  useEffect(()=> {
+    let unmounted = false;
 
-  function getDoesOdsContainsSurveyModel() {
     props.api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
-      setDoesOdsContainsSurveyModel(result);
+      if (!unmounted) {
+        setCanLoadSurverysFromUI(result);
+      }
     });
-  }
 
-  getCanLoadSurverysFromUI();
-  getDoesOdsContainsSurveyModel();
+    props.api.odsSurvey.getCanLoadSurverysFromUI().then((result) => {
+      if (!unmounted) {
+        setDoesOdsContainsSurveyModel(result);
+      }
+    });
+
+    return () => {
+      unmounted = true;
+    };
+  }, [props.api.odsSurvey]);
 
   return (
     <>
       {props.isAdminSurveyLoader && canLoadSurverysFromUI && doesOdsContainsSurveyModel
         ? <li >
           <Link to="/loadodssurvey">
-            <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
+            <LinkButton><Icon icon={mdCloudDownload}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
           </Link>
         </li>
         : null}

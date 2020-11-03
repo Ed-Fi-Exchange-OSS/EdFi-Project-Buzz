@@ -293,13 +293,6 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                         </Link>
                       </li>
                       : null}
-                    {/* {isAdminSurveyLoader
-                      ? <li>
-                        <Link to="/loadodssurvey">
-                          <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
-                        </Link>
-                      </li>
-                      : null} */}
                     <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
                     <li>
                       <Link to="/Login">

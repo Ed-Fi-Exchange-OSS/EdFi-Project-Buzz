@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
-import { FunctionComponent, useState, Fragment } from 'react';
+import { FunctionComponent, useState, Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import ApiService from 'Services/ApiService';
 import { MainContainer, HeadlineContainer, TitleSpanContainer } from 'buzztheme';
@@ -65,14 +65,6 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
       listFailedInsert: []
     } as LoadSurveyFromOdsResponse);
 
-  function getOdsSurveys() {
-    if (!odsSurveys || odsSurveys.length === 0) {
-      api.odsSurvey.getOdsSurvey().then((result) => {
-        setOdsSurveys(result);
-      });
-    }
-  }
-
   const addSurveyToImport = odsSurvey => {
     setOdsSurveysToImport([
       ...odsSurveysToImport,
@@ -82,7 +74,7 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
   };
 
   const removeSurveyToImport = surveyidentifier => {
-    const surveys = odsSurveysToImport.filter(surveyId => surveyId !== surveyidentifier);
+    const surveys = odsSurveysToImport.filter(survey => survey.surveyidentifier !== surveyidentifier);
     setOdsSurveysToImport(surveys);
   };
 
@@ -98,7 +90,18 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
       });
   };
 
-  getOdsSurveys();
+  useEffect(()=> {
+    let unmounted = false;
+
+    api.odsSurvey.getOdsSurvey().then((result) => {
+      if (!unmounted) {
+        setOdsSurveys(result);
+      }
+    });
+    return () => {
+      unmounted = true;
+    };
+  }, [api.odsSurvey]);
 
   return (
     <Fragment>
@@ -129,7 +132,7 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
               <OutlineButton
                 type='submit'
                 className='outline-button'
-                disabled={!odsSurveysToImport || odsSurveysToImport.length === 0}
+                disabled={odsSurveysToImport.length === 0}
               >
               Import
               </OutlineButton>
@@ -138,7 +141,7 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
         </form>
         }
 
-        {!odsSurveys || odsSurveys.length === 0 &&
+        {odsSurveys.length === 0 &&
         <div className='row'>
           <div className='col-12'>
             <div className='alert alert-warning'>
