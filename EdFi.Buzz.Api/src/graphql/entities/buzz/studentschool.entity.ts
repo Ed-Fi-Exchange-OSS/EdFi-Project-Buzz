@@ -9,7 +9,7 @@ import StudentSurveyEntity from './survey/studentsurvey.entity';
 import StudentNoteEntity from './studentnote.entity';
 
 config({ path: `${__dirname}/../../../../.env` });
-@Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'studentschool', synchronize: false })
+@Entity({ schema: 'buzz', name: 'studentschool', synchronize: false })
 export default class StudentSchoolEntity {
   @PrimaryColumn() studentschoolkey: string;
 

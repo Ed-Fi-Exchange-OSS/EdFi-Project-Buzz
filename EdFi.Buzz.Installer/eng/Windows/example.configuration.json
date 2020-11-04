@@ -21,8 +21,7 @@
         "port": 5432,
         "username": "postgres",
         "password": "pa55w0rd",
-        "database": "edfi_buzz",
-        "schema":  "buzz"
+        "database": "edfi_buzz"
     },
     "sqlServerDatabase": {
         "host": "127.0.0.1",
@@ -56,6 +55,7 @@
     "ui": {
         "version": null,
         "url": "http://localhost:4200",
+        "graphQlEndpoint": "http://localhost:3000/graphql",
         "port": 4200,
         "nginxPort": 4200,
 		"externalLogo": false,
