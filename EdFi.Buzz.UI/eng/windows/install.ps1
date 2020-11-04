@@ -49,7 +49,7 @@ param(
   [string] $titleLogoHeight = "56px"
 )
 
-Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force -Scope Local
 Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
 
 function Install-Files {
@@ -123,9 +123,6 @@ try {
 
   Install-Files -webSitePath $InstallPath -rootDir $rootDir
   Update-Configuration -appPath "$installPath\$rootDir"
-
-  $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
-  Install-NodeService -winSwVersion $winSwVersion -app $app -webSitePath $InstallPath
 
   Write-Host "End Ed-Fi Buzz UI installation." -ForegroundColor Yellow
 }

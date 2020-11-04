@@ -299,8 +299,6 @@ function Test-BuzzServices {
     }
 
     if ($conf.installUi -eq $true) {
-        $ui = Check-Service -app "ui"
-        $services.Add("Ed-Fi Buzz UI Service", $ui)
         $services.Add("Ed-Fi Buzz UI Website", (Get-WebStatus -url $conf.ui.url))
     }
 
