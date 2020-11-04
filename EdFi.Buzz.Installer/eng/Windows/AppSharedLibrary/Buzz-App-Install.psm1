@@ -272,36 +272,6 @@ function Install-NodeService {
     &$edFiBuzzExe start
   }
 
-function Install-NginxFiles {
-    param(
-        [string]
-        $nginxVersion,
-        [string]
-        $webSitePath,
-        [string]
-        $fileContents,
-        [string]
-        $nginxPort,
-        [string]
-        $rootDir
-    )
-
-    New-Item -ItemType Directory -Path "$webSitePath\$nginxVersion\" -ErrorAction SilentlyContinue
-
-    $currDir = Get-Location
-
-    # Copy the build directory into the NGiNX folder
-    $parameters = @{
-        Path        = "$currDir\..\$rootDir"
-        Destination = "$webSitePath\$nginxVersion\"
-        Recurse     = $true
-        Force       = $true
-    }
-    Copy-Item @parameters
-
-    Update-NginxConf -sourcePath "$($currDir)\..\" -appPath "$webSitePath\$nginxVersion\conf" -rootDir $rootDir -nginxPort $nginxPort
-}
-
 function Update-WebConfig {
     param(
         [string]
@@ -347,8 +317,6 @@ $functions = @(
     "Initialize-Installer"
     "Install-NodeService"
     "Install-NpmPackages"
-    "Install-NginxService"
-    "Install-NginxFiles"
     "Update-WebConfig"
     "Update-NginxConf"
 )

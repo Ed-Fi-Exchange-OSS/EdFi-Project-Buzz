@@ -89,7 +89,6 @@ function Install-ApiApp {
         "port"               = $configuration.api.Port;
         "toolsPath"          = $toolsPath;
         "packagesPath"       = $packagesPath;
-        "nginxPort"          = $configuration.api.nginxPort;
         "SqlServerHost"      = $configuration.sqlServerDatabase.host;
         "SqlServerPort"      = $configuration.sqlServerDatabase.port;
         "SqlServerUserName"  = $configuration.sqlServerDatabase.username;

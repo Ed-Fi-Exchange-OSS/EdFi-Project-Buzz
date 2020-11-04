@@ -49,7 +49,6 @@
         "version": null,
         "url": "http://localhost:3000",
         "port": 3000,
-        "nginxPort": 3000,
         "surveyFilesFolder": "C:\\Ed-Fi\\Buzz\\surveys"
     },
     "ui": {
@@ -57,7 +56,6 @@
         "url": "http://localhost:4200",
         "graphQlEndpoint": "http://localhost:3000/graphql",
         "port": 4200,
-        "nginxPort": 4200,
 		"externalLogo": false,
 		"logo": "Owl-Logo-GrandBend.png",
 		"logoWidth": "350px",

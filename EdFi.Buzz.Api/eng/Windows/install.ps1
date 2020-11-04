@@ -47,8 +47,6 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $packagesPath,
   [Parameter(Mandatory = $true)]
-  [string] $nginxPort,
-  [Parameter(Mandatory = $true)]
   [string] $rootDir = "dist",
   [Parameter(Mandatory = $true)]
   [string] $app = "API",
