@@ -3,8 +3,6 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
-$npm = "C:\Program Files\nodejs\npm.cmd"
-
 function Initialize-InstallDirs {
     if (-not $(Test-Path $packagesPath)) {
         mkdir $packagesPath | Out-Null
@@ -303,10 +301,6 @@ function Update-NginxConf {
     $fileContents | Set-Content $nginxFile
 }
 
-$variables = @(
-    "npm"
-)
-
 $functions = @(
     "Assert-NodeJs"
     "Initialize-InstallDirs"
@@ -321,4 +315,4 @@ $functions = @(
     "Update-NginxConf"
 )
 
-Export-ModuleMember -Variable $variables -Function $functions
+Export-ModuleMember -Function $functions
