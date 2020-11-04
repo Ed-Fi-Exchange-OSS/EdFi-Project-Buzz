@@ -8,7 +8,7 @@ import { config } from 'dotenv';
 import SurveyQuestionEntity from './surveyquestion.entity';
 
 config({ path: `${__dirname}/../../../../../.env` });
-@Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'survey', synchronize: false })
+@Entity({ schema: 'buzz', name: 'survey', synchronize: false })
 export default class SurveyEntity {
   @PrimaryColumn({ type: 'int', nullable: false })
   surveykey: number;

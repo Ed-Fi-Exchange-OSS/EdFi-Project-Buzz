@@ -33,7 +33,6 @@ param(
   [string]
   $DbName = "Buzz",
 
-  [string] $schema = "buzz",
   [string] $uriDiscovery,
   [string] $googleClientID,
   [string] $clientSecret,
@@ -185,7 +184,6 @@ function New-DotEnvFile {
     BUZZ_API_DB_USERNAME ='$DbUserName'
     BUZZ_API_DB_PASSWORD = '$DbPassword'
     BUZZ_API_DB_DATABASE = '$DbName'
-    BUZZ_API_DB_SCHEMA = '$schema'
     BUZZ_API_HTTP_PORT = $port
     BUZZ_WORKER_JOB_NAME = 'buzzSurvey'
     BUZZ_WORKER_CLEANUP_JOB_NAME = 'buzzCleanUp'
@@ -223,7 +221,6 @@ function New-DotEnvFile {
     BUZZ_API_DB_USERNAME ='$DbUserName'
     BUZZ_API_DB_PASSWORD = '$DbPassword'
     BUZZ_API_DB_DATABASE = '$DbName'
-    BUZZ_API_DB_SCHEMA = '$schema'
     BUZZ_API_HTTP_PORT = $port
     BUZZ_WORKER_JOB_NAME = 'buzzSurvey'
     BUZZ_WORKER_CLEANUP_JOB_NAME = 'buzzCleanUp'

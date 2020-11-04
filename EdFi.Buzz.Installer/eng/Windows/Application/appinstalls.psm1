@@ -80,7 +80,6 @@ function Install-ApiApp {
         "DbUserName"         = $configuration.postgresDatabase.username;
         "DbPassword"         = $configuration.postgresDatabase.password;
         "DbName"             = $configuration.postgresDatabase.database;
-        "schema"             = $configuration.postgresDatabase.schema;
         "idProvider"         = $configuration.idProvider;
         "uriDiscovery"       = "";
         "googleClientID"     = $configuration.googleClientID;
