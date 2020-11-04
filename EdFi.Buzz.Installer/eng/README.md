@@ -21,10 +21,19 @@ We recommend that the following prerequisites are installed on the machine that 
 
 1. Node Js LTS version https://nodejs.org/en/
 2. Postgresql
+3. IIS with the [URL Rewrite module](https://www.iis.net/downloads/microsoft/url-rewrite)
 
 ## Setup Instructions
-1. Edit the configuration file to include the values according to your installation environment.
-2. Run as administrator the installation script
+1. Choose a drive and root directory location. For our purposes, D:\Ed-Fi\Buzz will be used in examples.
+1. Create your Buzz website in IIS. Configure SSL, certificates and port bindings. The Buzz UI web site would be installed to D:\Ed-Fi\Buzz\UI\build. Note the port (if other than https 443), and the location for the configuration (if different than the example) in step 2.
+2. Edit the configuration file to include the values according to your installation environment.
+3. Run as administrator the installation script.
+
+### IIS Web site
+
+Create a website for IIS per your internal procedures. For the configuration, note the install location and port. Install the URL Rewrite module for IIS from the link above. The installation will include a web.config to set up routes within the UI React application.
+
+![IIS Web site](./images/iis-bindings-sm.png)
 
 ### Configuration file
 
@@ -36,13 +45,19 @@ The variables that can be configured are detailed below.
 
 #### General configuration
 
-![General](./images/idProvider.png|width=80px)
+![General](./images/idProvider.png)
 
+- **includePrerelease:** When true, allows NuGet to include pre-release NuGet packages as latest version. Recommended setting: false.
+- **installPath:** The folder where Buzz apps are installed (C:\Ed-Fi\Buzz)
+- **toolsPath:** The folder where Buzz downloads helper NuGet packages. (C:\temp\tools)
+- **packagesPath:** The folder where Buzz downloads NuGet packages. (C:\temp\tools)
+- **install[Database|Etl|Ui|Api]:** skips installation for apps marked false.
 - **idProvider:** Authentication provider. Valid values: google, adfs.
 - **googleClientId:** If the authentication provider is google, you must set in this field the corresponding googleClientId when you created the Web Application in Google Developers Console.
-- **adfsClientId:** If the authentication is validated using adfs, you must inclute the clientId.
-- **adfsTenantId:** If the authentication is validated using adfs, you must inclute the adfsTenantId.
-- **keepSurveysSynch:** Set this value to true if you want the Buzz app surveys syncronized with ODS surveys.
+- **adfsClientId:** If the authentication is validated using adfs, you must include the clientId.
+- **adfsTenantId:** If the authentication is validated using adfs, you must include the adfsTenantId.
+- **loadSampleData:** Set to false in production; is for test purposes only.
+- **keepSurveysSynch:** Set this value to true if you want the Buzz app surveys synchronized with ODS surveys.
 
 #### postgresDatabase
 
@@ -50,7 +65,7 @@ You need to update the Postgres database connection string according to your con
 
 ![Postgresql](./images/postgresDatabase.png)
 
-- **host:** Database server.
+- **host:** Database server host name.
 - **port:** Postgres port (E.g. 5432)
 - **username:** User to connect to the database
 - **password:** Password to connect to the database
@@ -75,6 +90,7 @@ Options to configure the ETL to load from the database or file to the postgres d
 
 ![ETL](./images/etl.png)
 
+- **version:** The NuGet version to download. Blank gets latest.
 - **datasourceFormat:** If the data source corresponds to the Analytics Middle Tier (amt) or direct views of the ODS tables. Allowed values: amt, ods.
 - **odsDataStandard:** Database standard to use, if it is Data Standard 2 or 3.x. Allowed values: ds2, ds3.
 
@@ -85,20 +101,22 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **version:** The NuGet version to download. Blank gets latest.
 - **url:**  URL for the GraphQL endpoint setting in the UI env file.
 - **port:** API port.
+- **surveyFilesFolder** The folder into which uploaded survey files are written
 
 #### ui
 
 ![UI](./images/UI.png)
 
 - **version:** The NuGet version to download. Blank gets latest.
-- **port:** Port to access UI.
-- **externalLogo:** If true, look for images in an external URL. If false, the images must have been copied into the 'assets' folder of the UI. 
+- **graphQlEndpoint:** The URI that the Buzz UI and users can use to access the API.
+- **port:** Port to access UI. This is the same value created during the IIS web site configuration.
+- **externalLogo:** If true, look for images in an external URL. If false, the images must have been copied into the 'assets' folder of the UI.
 - **logo:** Login page logo URL.
-- **logoWidth:** Logo max width.
+- **logoWidth:** Logo max width with CSS size units ("25px").
 - **title:** Site title.
 - **titleLogo:** Site logo title to display in header URL.
-- **titleLogoWidth:** Site logo title max width.
-- **titleLogoHeight:** Site logo max height.
+- **titleLogoWidth:** Site logo title max width with CSS size units ("78px").
+- **titleLogoHeight:** Site logo max height with CSS size units ("350px").
 
 #### Change UI Web App icon (fav.ico)
 To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**C:\Ed-Fi\Buzz\UI\nginx-1.19.0\build\fav.ico**).
@@ -107,7 +125,7 @@ To update the icon displayed in the browser, it is required to replace the fav.i
 
 ### Installation
 Installation script requirements:
-- A non-core PowerShell. 
+- A non-core PowerShell.
 - $PSVersionTable.PSEdition is Desktop
 - Run as Administrator. It requires administrator privileges.
 - Configuration file. It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
