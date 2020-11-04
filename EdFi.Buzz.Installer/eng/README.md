@@ -84,7 +84,6 @@ Options to configure the ETL to load from the database or file to the postgres d
 
 - **version:** The NuGet version to download. Blank gets latest.
 - **datasourceFormat:** If the data source corresponds to the Analytics Middle Tier (amt) or direct views of the ODS tables. Allowed values: amt, ods.
-- **odsDataStandard:** Database standard to use, if it is Data Standard 2 or 3.x. Allowed values: ds2, ds3.
 
 #### api
 
