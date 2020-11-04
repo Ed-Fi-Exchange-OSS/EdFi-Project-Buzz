@@ -45,8 +45,6 @@ The variables that can be configured are detailed below.
 
 #### General configuration
 
-![General](./images/idProvider.png)
-
 - **includePrerelease:** When true, allows NuGet to include pre-release NuGet packages as latest version. Recommended setting: false.
 - **installPath:** The folder where Buzz apps are installed (C:\Ed-Fi\Buzz)
 - **toolsPath:** The folder where Buzz downloads helper NuGet packages. (C:\temp\tools)
@@ -63,8 +61,6 @@ The variables that can be configured are detailed below.
 
 You need to update the Postgres database connection string according to your configuration. You can configure the server, credentials or name to connect to the postgres database.
 
-![Postgresql](./images/postgresDatabase.png)
-
 - **host:** Database server host name.
 - **port:** Postgres port (E.g. 5432)
 - **username:** User to connect to the database
@@ -74,8 +70,6 @@ You need to update the Postgres database connection string according to your con
 #### sqlServerDatabase
 
 You can configure the server, credentials or name to connect to the Sql Server ODS database.
-
-![MSSQL](./images/sqlServerDatabase.png)
 
 - **host:** Sql Server name or IP.
 - **port:** SQL database port.
@@ -88,15 +82,11 @@ You can configure the server, credentials or name to connect to the Sql Server O
 
 Options to configure the ETL to load from the database or file to the postgres database.
 
-![ETL](./images/etl.png)
-
 - **version:** The NuGet version to download. Blank gets latest.
 - **datasourceFormat:** If the data source corresponds to the Analytics Middle Tier (amt) or direct views of the ODS tables. Allowed values: amt, ods.
 - **odsDataStandard:** Database standard to use, if it is Data Standard 2 or 3.x. Allowed values: ds2, ds3.
 
 #### api
-
-![API](./images/api.png)
 
 - **version:** The NuGet version to download. Blank gets latest.
 - **url:**  URL for the GraphQL endpoint setting in the UI env file.
@@ -105,11 +95,9 @@ Options to configure the ETL to load from the database or file to the postgres d
 
 #### ui
 
-![UI](./images/UI.png)
-
 - **version:** The NuGet version to download. Blank gets latest.
+- **url:** Used to test the status code returned from the IIS configured Buzz UI website at the end of the install.
 - **graphQlEndpoint:** The URI that the Buzz UI and users can use to access the API.
-- **port:** Port to access UI. This is the same value created during the IIS web site configuration.
 - **externalLogo:** If true, look for images in an external URL. If false, the images must have been copied into the 'assets' folder of the UI.
 - **logo:** Login page logo URL.
 - **logoWidth:** Logo max width with CSS size units ("25px").
