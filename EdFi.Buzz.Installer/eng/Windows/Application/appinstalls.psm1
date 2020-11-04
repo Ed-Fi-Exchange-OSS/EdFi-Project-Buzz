@@ -37,7 +37,7 @@ function Install-BuzzApp {
             packageSource = $configuration.artifactRepo
         }
 
-        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force
+        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force -Scope Local
         $installFolder = Install-EdFiPackage @installparams
         Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows") -Force
         Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows") -Force

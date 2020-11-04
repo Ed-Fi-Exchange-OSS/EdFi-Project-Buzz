@@ -219,7 +219,8 @@ function Install-NginxService {
 
     # Copy the config XML file to install directory
     $xmlFile = "$webSitePath\$winSwVersion\EdFiBuzz$($app).xml"
-    Copy-Item -Path "$PSScriptRoot\EdFiBuzz$($app).xml" -Destination $xmlFile -Force
+    $currDir = Get-Location
+    Copy-Item -Path "$currDir\EdFiBuzz$($app).xml" -Destination $xmlFile -Force
 
     # Inject the correct path to nginx.exe into the config XML file
     $content = Get-Content -Path $xmlFile -Encoding UTF8
@@ -258,7 +259,8 @@ function Install-NodeService {
 
     # Copy the config XML file to install directory
     $xmlFile = "$InstallPath\$winSwVersion\EdFiBuzz$app.xml"
-    Copy-Item -Path "$PSScriptRoot\EdFiBuzz$app.xml" -Destination $xmlFile -Force
+    $currDir = Get-Location
+    Copy-Item -Path "$currDir\EdFiBuzz$app.xml" -Destination $xmlFile -Force
 
     # Inject the correct path to nginx.exe into the config XML file
     $content = Get-Content -Path $xmlFile -Encoding UTF8
@@ -286,16 +288,18 @@ function Install-NginxFiles {
 
     New-Item -ItemType Directory -Path "$webSitePath\$nginxVersion\" -ErrorAction SilentlyContinue
 
+    $currDir = Get-Location
+
     # Copy the build directory into the NGiNX folder
     $parameters = @{
-        Path        = "$PSScriptRoot\..\$rootDir"
+        Path        = "$currDir\..\$rootDir"
         Destination = "$webSitePath\$nginxVersion\"
         Recurse     = $true
         Force       = $true
     }
     Copy-Item @parameters
 
-    Update-NginxConf -sourcePath "$($PSScriptRoot)\..\" -appPath "$webSitePath\$nginxVersion\conf" -rootDir $rootDir -nginxPort $nginxPort
+    Update-NginxConf -sourcePath "$($currDir)\..\" -appPath "$webSitePath\$nginxVersion\conf" -rootDir $rootDir -nginxPort $nginxPort
 }
 
 function Update-WebConfig {
