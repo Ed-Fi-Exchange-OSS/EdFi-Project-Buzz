@@ -3,6 +3,13 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-export default class CanLoadSurverysFromUI {
-  allowed?: boolean;
+import gql from 'graphql-tag';
+
+const typeDefs = gql`
+input OdsSurveyItem {
+  surveyidentifier: String
+  surveytitle: String
 }
+`;
+
+export default typeDefs;

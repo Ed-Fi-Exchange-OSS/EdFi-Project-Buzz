@@ -9,7 +9,7 @@ import SectionApiService from './SectionService';
 import AuthenticationService from './AuthenticationService';
 import StudentNotesApiService from './StudentNotesService';
 import SurveyService from './SurveyService';
-
+import OdsSurveyService from './OdsSurveyService';
 
 export default class ApiService {
 
@@ -20,7 +20,8 @@ export default class ApiService {
     public studentNotesApiService: StudentNotesApiService,
     public surveyAnalytics: SurveyAnalyticsApiService,
     public teacher: TeacherApiService,
-    public survey: SurveyService
+    public survey: SurveyService,
+    public odsSurvey: OdsSurveyService
   ) { }
 
 }

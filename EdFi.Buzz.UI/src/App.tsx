@@ -22,6 +22,7 @@ import { StudentDetail } from 'Feature/StudentDetail';
 import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
 import { UploadSurvey } from 'Feature/UploadSurvey';
 import { AdminSurvey } from 'Feature/AdminSurvey';
+import { LoadOdsSurvey } from 'Feature/LoadOdsSurvey';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -137,7 +138,9 @@ export default function App(): JSX.Element {
               {isAdminSurveyLoader
                 ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
                 : <Route><div>Need survey admin rights</div></Route>}
-
+              {isAdminSurveyLoader
+                ? <Route path="/loadodssurvey"> <LoadOdsSurvey api={api} /> </Route>
+                : <Route><div>Need upload survey rights</div></Route>}
             </Switch>
           </Content>
           <Footer height={FOOTER_HEIGHT}/>

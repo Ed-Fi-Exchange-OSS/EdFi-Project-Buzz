@@ -15,6 +15,7 @@ import Icon from '@iconify/react';
 import mdUnlock from '@iconify-icons/ion/md-unlock';
 import mdBuild from '@iconify-icons/ion/md-build';
 import mdUpload from '@iconify-icons/ion/md-cloud-upload';
+import { LoadOdsSurveysMenuOption } from './loadodssurvey';
 
 interface CustomLikComponentProps {
   children: ReactFragment;
@@ -171,7 +172,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     display: flex;
     flex-wrap: nowrap;
     flex-flow: column;
-    width: 40%
+    width: 40%;
     position: fixed;
     right: 0px;
   }
@@ -292,6 +293,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                         </Link>
                       </li>
                       : null}
+                    <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
                     <li>
                       <Link to="/Login">
                         <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>

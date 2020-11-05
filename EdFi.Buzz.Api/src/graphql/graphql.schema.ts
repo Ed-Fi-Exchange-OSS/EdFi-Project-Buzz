@@ -38,6 +38,10 @@ export class ContactPerson {
     contactnotes?: string;
 }
 
+export class DoesOdsContainsSurveyModel {
+    contains?: boolean;
+}
+
 export class JobStatus {
     jobstatuskey?: number;
     description?: string;
@@ -97,7 +101,9 @@ export abstract class IQuery {
 
     abstract odssurveybyid(surveyidentifier: string): OdsSurvey | Promise<OdsSurvey>;
 
-    abstract canLoadSurverysFromUI(staffkey: string): CanLoadSurverysFromUI | Promise<CanLoadSurverysFromUI>;
+    abstract canLoadSurverysFromUI(): CanLoadSurverysFromUI | Promise<CanLoadSurverysFromUI>;
+
+    abstract doesOdsContainsSurveyModel(): DoesOdsContainsSurveyModel | Promise<DoesOdsContainsSurveyModel>;
 }
 
 export class School {
