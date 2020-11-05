@@ -43,10 +43,7 @@ const ListButtons = styled.div`
       outline-width: 0px;
       font-weight: 600;
       text-decoration: underline;
-    }
-    :focus {
-      outline-width: 0px;
-    }
+    }y
   }
 `;
 
@@ -91,8 +88,8 @@ export const StudentRoster: FunctionComponent<StudentRosterComponentProps> = (pr
       {studentList.length > 0 && (
         <ListButtons>
           <span>View Style:</span>
-          <button onClick={() => setViewType(ViewTypes.Grid)}>Grid</button>|
-          <button onClick={() => setViewType(ViewTypes.Card)}>Cards</button>
+          <button onClick={() => setViewType(ViewTypes.Grid)} tabIndex={3}>Grid</button>|
+          <button onClick={() => setViewType(ViewTypes.Card)} tabIndex={3}>Cards</button>
         </ListButtons>
       )}
 
