@@ -6,7 +6,7 @@
 import styled from 'styled-components';
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as React from 'react';
 import Student from '../../Models/Student';
 
@@ -180,12 +180,26 @@ export interface StudentCardComponentProps {
 
 export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (props: StudentCardComponentProps) => {
   const {student} = props;
+  const history = useHistory();
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  function handleStudentDetailCollapse (event) {
+    if(event.key === 'Enter'){
+      setIsCollapsed(!isCollapsed);
+    }
+  }
+  
+  function handleStudentDetailRedirect (event) {
+    if(event.key === 'Enter'){
+      history.push(`/studentDetail/${student.studentschoolkey}`);
+    }
+  }
+
   return (
     <StyledStudentCard className='card'>
       <div className='student-card-body p-t-0'>
         <div className='d-flex p-t-12'>
-          <Link to={`/studentDetail/${student.studentschoolkey}`}>
+          <Link to={`/studentDetail/${student.studentschoolkey}`} tabIndex={3}>
             <div className='image-container'>
               <img className='student-profile-pic' src={student.pictureurl} alt={`${student.name} Profile`} />
             </div>
@@ -194,8 +208,8 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
             <span className='h2-desktop'>{student.name}</span>
             {student.primaryemailaddress && (
               <div>
-                <EmailIcon />
-                <a
+                <EmailIcon/>
+                <a tabIndex={3}
                   className='m-b-2 text-ellipsis'
                   href={`mailto:${student.primaryemailaddress}`}
                   title={student.primaryemailaddress}
@@ -275,14 +289,14 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
           {(!student.contacts || student.contacts.length === 0) && (
             <div className='alert alert-primary'>Student has no contacts</div>
           )}
-          <div className='outline-button'>
+          <div tabIndex={3} className='outline-button' onKeyPress={handleStudentDetailRedirect}>
             <Link to={`/studentDetail/${student.studentschoolkey}`}>Student Details</Link>
           </div>
         </div>
       </div>
 
       <div className='footer card-footer'>
-        <div className='clickable' onClick={() => setIsCollapsed(!isCollapsed)}>
+        <div className='clickable' onClick={() => setIsCollapsed(!isCollapsed)} tabIndex={3} onKeyPress={handleStudentDetailCollapse}>
           <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
           <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} alt="" />
         </div>

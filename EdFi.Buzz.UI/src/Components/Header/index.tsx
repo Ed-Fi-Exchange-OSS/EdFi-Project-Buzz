@@ -270,9 +270,9 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
         <HeaderLogo><HeaderImage src={props.titleLogo} alt={props.title} /></HeaderLogo>
         <MainNav>
           <ul>
-            <li> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
-            <li> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
-            <li>
+            <li tabIndex={1}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
+            <li tabIndex={1}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
+            <li tabIndex={1}>
               <LoggedUserMenu onClick={() => setMenuActive(!menuActive)} >
                 <LoggedUser>
                   {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>&nbsp;&nbsp;
@@ -280,21 +280,21 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                 <MenuOptions className={menuActive ? 'active' : ''}>
                   <ul>
                     {isAdminSurveyLoader
-                      ? <li>
+                      ? <li tabIndex={1}>
                         <Link to="/adminSurvey">
                           <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     {isAdminSurveyLoader || isTeacherSurveyLoader
-                      ? <li>
+                      ? <li tabIndex={1}>
                         <Link to="/uploadSurvey">
                           <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
-                    <li>
+                    <li tabIndex={1}>
                       <Link to="/Login">
                         <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
                       </Link>
