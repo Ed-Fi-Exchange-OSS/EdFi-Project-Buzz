@@ -28,7 +28,7 @@ param(
     $LoadSampleData = $false
 )
 
-Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force -Scope Local
 Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
 
 $distFolder = Resolve-Path "$PSScriptRoot/../dist"

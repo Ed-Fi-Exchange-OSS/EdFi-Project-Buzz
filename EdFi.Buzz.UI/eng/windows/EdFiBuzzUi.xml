@@ -1,10 +1,9 @@
 <service>
     <id>edfi-buzz-ui</id>
     <name>Ed-Fi Buzz UI</name>
-    <description>Runs NGiNX as a service to host the Ed-Fi Buzz UI web site</description>
-    <executable>{0}\nginx.exe</executable>
+    <description>Runs Node.js as a service to host the Ed-Fi Buzz UI web application</description>
+    <executable>npm</executable>
+    <arguments>start</arguments>
     <logpath>{0}\logs</logpath>
     <logmode>rotate</logmode>
-    <stoparguments>-s stop</stoparguments>
-    <workingdirectory>{0}</workingdirectory>
 </service>

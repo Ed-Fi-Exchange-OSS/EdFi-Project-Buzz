@@ -12,9 +12,6 @@ param(
   $InstallPath = "C:\Ed-Fi\Buzz\UI",
 
   [string]
-  $NginxUrl = "http://nginx.org/download/nginx-1.19.0.zip",
-
-  [string]
   $WinSWUrl = "https://github.com/winsw/winsw/releases/download/v2.9.0/WinSW.NETCore31.zip",
 
   [Parameter(Mandatory = $true)]
@@ -52,8 +49,28 @@ param(
   [string] $titleLogoHeight = "56px"
 )
 
-Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force -Scope Local
 Initialize-AppInstaller -toolsPath $toolsPath  -packagesPath $packagesPath
+
+function Install-Files {
+  param(
+      [string]
+      $webSitePath,
+      [string]
+      $rootDir
+  )
+
+  New-Item -ItemType Directory -Path "$webSitePath\" -ErrorAction SilentlyContinue
+
+  # Copy the build directory into the NGiNX folder
+  $parameters = @{
+      Path        = "$PSScriptRoot\..\$rootDir"
+      Destination = "$webSitePath"
+      Recurse     = $true
+      Force       = $true
+  }
+  Copy-Item @parameters
+}
 
 function Update-Configuration {
   [CmdletBinding()]
@@ -104,13 +121,8 @@ try {
 
   New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
 
-
-  $nginxVersion = Get-HelperAppIfNotExists -Url $NginxUrl -targetLocation $script:InstallPath
-  Install-NginxFiles -nginxVersion $nginxVersion -webSitePath $InstallPath -nginxPort $nginxPort -rootDir $rootDir
-  Update-Configuration -appPath "$installPath\$nginxVersion\$rootDir"
-
-  $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl -targetLocation $script:InstallPath
-  Install-NginxService -nginxVersion $nginxVersion -winSwVersion $winSwVersion -app $app -webSitePath $InstallPath
+  Install-Files -webSitePath $InstallPath -rootDir $rootDir
+  Update-Configuration -appPath "$installPath\$rootDir"
 
   Write-Host "End Ed-Fi Buzz UI installation." -ForegroundColor Yellow
 }

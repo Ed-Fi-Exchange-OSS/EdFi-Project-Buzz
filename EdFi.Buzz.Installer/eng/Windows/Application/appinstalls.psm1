@@ -37,7 +37,7 @@ function Install-BuzzApp {
             packageSource = $configuration.artifactRepo
         }
 
-        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force
+        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force -Scope Local
         $installFolder = Install-EdFiPackage @installparams
         Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows") -Force
         Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows") -Force
@@ -89,7 +89,6 @@ function Install-ApiApp {
         "port"               = $configuration.api.Port;
         "toolsPath"          = $toolsPath;
         "packagesPath"       = $packagesPath;
-        "nginxPort"          = $configuration.api.nginxPort;
         "SqlServerHost"      = $configuration.sqlServerDatabase.host;
         "SqlServerPort"      = $configuration.sqlServerDatabase.port;
         "SqlServerUserName"  = $configuration.sqlServerDatabase.username;
@@ -299,8 +298,6 @@ function Test-BuzzServices {
     }
 
     if ($conf.installUi -eq $true) {
-        $ui = Check-Service -app "ui"
-        $services.Add("Ed-Fi Buzz UI Service", $ui)
         $services.Add("Ed-Fi Buzz UI Website", (Get-WebStatus -url $conf.ui.url))
     }
 

@@ -63,7 +63,7 @@ param(
   $keepSurveysSynch
 )
 
-Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force
+Import-Module "$PSScriptRoot/Buzz-App-Install.psm1" -Force -Scope Local
 $npm = "C:\Program Files\nodejs\npm.cmd"
 
 function Install-NodeService {

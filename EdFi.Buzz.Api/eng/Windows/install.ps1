@@ -47,11 +47,9 @@ param(
   [Parameter(Mandatory = $true)]
   [string] $packagesPath,
   [Parameter(Mandatory = $true)]
-  [string] $nginxPort,
-  [Parameter(Mandatory = $true)]
   [string] $rootDir = "dist",
   [Parameter(Mandatory = $true)]
-  [string] $app = "UI",
+  [string] $app = "API",
   [Parameter(Mandatory = $true)]
   [string]
   $SqlServerHost = "127.0.0.1",
@@ -96,18 +94,18 @@ function Get-HelperAppIfNotExists {
   )
   $version = Get-FileNameWithoutExtensionFromUrl -Url $Url
 
-  if (-not (Test-Path -Path "$InstallPath\$version")) {
+  if (-not (Test-Path -Path "$script:installPath\$version")) {
     $outFile = ".\$version.zip"
     Invoke-WebRequest -Uri $Url -OutFile $outFile
 
     Expand-Archive -Path $outFile
 
     if ((Test-Path -Path "$version\$version")) {
-      Move-Item -Path "$version\$version" -Destination $InstallPath
+      Move-Item -Path "$version\$version" -Destination $script:installPath
       Remove-Item -Path $version
     }
     else {
-      Move-Item -Path "$version" -Destination $InstallPath
+      Move-Item -Path "$version" -Destination $script:installPath
     }
   }
 
@@ -117,54 +115,16 @@ function Get-HelperAppIfNotExists {
 function Install-WebApplication {
   $parameters = @{
     Path = "$PSScriptRoot\..\dist"
-    Destination = "$InstallPath\dist"
+    Destination = "$script:installPath\dist"
     Recurse = $true
     Force = $true
   }
   Copy-Item @parameters
 
-  Push-Location "$InstallPath\dist"
+  Push-Location "$script:installPath\dist"
   Write-Host "Executing: npm install --production"
   &npm install --production
   Pop-Location
-}
-
-function Install-NodeService {
-  param(
-    [string]
-    $winSwVersion
-  )
-
-  $serviceName = "EdFi-Buzz-Api"
-
-  # If service already exists, stop and remove it so that new settings
-  # will be applied.
-  $exists = Get-Service -name $serviceName -ErrorAction SilentlyContinue
-
-  if ($exists) {
-    Stop-Service -name $serviceName
-    &sc.exe delete $serviceName
-  }
-
-  # Rename WindowsService.exe to BuzzApi.exe
-  $winServiceExe = "$InstallPath\$winSwVersion\WindowsService.exe"
-  $edFiBuzzApiExe = "$InstallPath\$winSwVersion\EdFiBuzzApi.exe"
-  if ((Test-Path -Path "$InstallPath\$winSwVersion\WindowsService.exe")) {
-    Move-Item -Path $winServiceExe -Destination $edFiBuzzApiExe
-  }
-
-  # Copy the config XML file to install directory
-  $xmlFile = "$InstallPath\$winSwVersion\EdFiBuzzApi.xml"
-  Copy-Item -Path "$PSScriptRoot\EdFiBuzzApi.xml" -Destination $xmlFile -Force
-
-  # Inject the correct path to nginx.exe into the config XML file
-  $content = Get-Content -Path $xmlFile -Encoding UTF8
-  $content = $content.Replace("{0}", "$InstallPath")
-  $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
-
-  # Create and start the service
-  &$edFiBuzzApiExe install
-  &$edFiBuzzApiExe start
 }
 
 function New-DotEnvFile {
@@ -245,19 +205,19 @@ function New-DotEnvFile {
 
 "@
   }
-  $envFile | Out-File "$InstallPath\dist\.env" -Encoding UTF8 -Force
+  $envFile | Out-File "$script:installPath\dist\.env" -Encoding UTF8 -Force
 }
 
 try {
   Write-Host "Begin Ed-Fi Buzz API installation..." -ForegroundColor Yellow
 
-  New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null
+  New-Item -Path $script:installPath -ItemType Directory -Force | Out-Null
 
   Install-WebApplication
   New-DotEnvFile
 
   $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
-  Install-NodeService -winSwVersion $winSwVersion
+  Install-NodeService -winSwVersion $winSwVersion -InstallPath $script:installPath -app $app
 
   Write-Host "End Ed-Fi Buzz API installation." -ForegroundColor Yellow
 
