@@ -270,16 +270,20 @@ function Install-NodeService {
     &$edFiBuzzExe start
   }
 
-function Update-WebConfig {
+function Update-File {
     param(
-        [string]
-        $appPath,
-        [string]
-        $nginxPort
+        [string] $appPath,
+        [Hashtable] $replacements
     )
 
-    $fileContents = (Get-Content -Path "$appPath/web.config" -Encoding UTF8).Replace("%NGINXPORT%", $nginxPort)
-    $fileContents | Set-Content "$appPath/web.config"
+    $fileContents = Get-Content -Path "$appPath" -Encoding UTF8
+
+    # Update file contents with all replacements hash table
+    $replacements.Keys | ForEach-Object {
+        $fileContents = $fileContents.Replace($_, $replacements.Item($_))
+    }
+
+    $fileContents | Set-Content "$appPath"
 }
 
 function Update-NginxConf {
@@ -311,7 +315,7 @@ $functions = @(
     "Initialize-Installer"
     "Install-NodeService"
     "Install-NpmPackages"
-    "Update-WebConfig"
+    "Update-File"
     "Update-NginxConf"
 )
 

@@ -71,7 +71,15 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $SqlServerDbName = "edfi_buzz"
+  $SqlServerDbName = "edfi_buzz",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $internalRoute,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $externalRoute
 )
 
 function Get-FileNameWithoutExtensionFromUrl {
@@ -123,7 +131,7 @@ function Install-WebApplication {
 
   Push-Location "$script:installPath\dist"
   Write-Host "Executing: npm install --production"
-  &npm install --production
+  &npm install --production --silent
   Pop-Location
 }
 
@@ -203,6 +211,18 @@ try {
 
   Install-WebApplication
   New-DotEnvFile
+
+  # update the web.config with URL rewritten paths
+  $apiRedirectDir = "$script:installPath/../API-Redirect"
+  Write-Host "Create re-write rules in $apiRedirect\web.config"
+  $replacements = @{
+    "%INTERNAL_ROUTE%"=$script:internalRoute
+    "%EXTERNAL_ROUTE%"=$script:externalRoute
+  }
+  # Move the web.config
+  New-Item -Path $apiRedirectDir -ItemType Directory -ErrorAction SilentlyContinue
+  Move-Item -Path "$PSScriptRoot\web.config" -Destination $apiRedirectDir -Force -ErrorAction SilentlyContinue
+  Update-File -appPath "$apiRedirectDir\web.config" -replacements $replacements
 
   $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
   Install-NodeService -winSwVersion $winSwVersion -InstallPath $script:installPath -app $app
