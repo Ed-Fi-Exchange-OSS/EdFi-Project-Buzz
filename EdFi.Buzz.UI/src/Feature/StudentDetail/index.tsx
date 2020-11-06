@@ -342,7 +342,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       {student && (
         <StudentDetailContainer>
           <div className='student-detail-top'>
-            <a href={'/'} className='student-detail-go-back-container'>
+            <a href={'/'} className='student-detail-go-back-container' tabIndex={3}>
               <LeftArrowIcon />
               <div className='student-detail-go-back-label'>Go back to Class Roster</div>
             </a>
@@ -362,6 +362,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                           className='text-ellipsis'
                           href={`mailto:${student.primaryemailaddress}`}
                           title={student.primaryemailaddress}
+                          tabIndex={3}
                         >
                           {student.primaryemailaddress}
                         </a>
@@ -418,19 +419,25 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
             </div>
             <div className='student-detail-tabbed-container'>
               <div className='student-detail-tabs'>
-                <div
+                <div tabIndex={3}
                   ref={surveyTabRef}
                   className={selectedTabClassName}
                   onClick={() => {
                     toggleTabVisibility(ActiveTabEnum.Surveys);
                   }}
+                  onKeyPress={() => {
+                    toggleTabVisibility(ActiveTabEnum.Surveys);
+                  }}
                 >
                 Surveys
                 </div>
-                <div
+                <div tabIndex={3}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
                   onClick={() => {
+                    toggleTabVisibility(ActiveTabEnum.Notes);
+                  }}
+                  onKeyPress={() => {
                     toggleTabVisibility(ActiveTabEnum.Notes);
                   }}
                 >
