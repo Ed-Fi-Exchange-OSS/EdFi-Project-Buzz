@@ -21,7 +21,7 @@ We recommend that the following prerequisites are installed on the machine that 
 
 1. Node Js LTS version https://nodejs.org/en/
 2. Postgresql
-3. IIS with the [URL Rewrite module](https://www.iis.net/downloads/microsoft/url-rewrite)
+3. IIS with the [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing) and [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite) modules, installed and configured per the documentation to provide request routing.
 
 ## Setup Instructions
 1. Choose a drive and root directory location. For our purposes, D:\Ed-Fi\Buzz will be used in examples.
@@ -31,7 +31,7 @@ We recommend that the following prerequisites are installed on the machine that 
 
 ### IIS Web site
 
-Create a website for IIS per your internal procedures. For the configuration, note the install location and port. Install the URL Rewrite module for IIS from the link above. The installation will include a web.config to set up routes within the UI React application.
+Create a website for IIS per your internal procedures. For the configuration, note the install location and port. Configure the ARR and URL Rewrite modules for IIS from the link above. The installation will include a web.config to set up routes within the UI React application.
 
 ![IIS Web site](./images/iis-bindings-sm.png)
 
@@ -88,9 +88,10 @@ Options to configure the ETL to load from the database or file to the postgres d
 #### api
 
 - **version:** The NuGet version to download. Blank gets latest.
-- **url:**  URL for the GraphQL endpoint setting in the UI env file.
-- **port:** API port.
-- **surveyFilesFolder** The folder into which uploaded survey files are written
+- **url:**  URL for the GraphQL endpoint's server and port that a user can publicly request. (NOTE: Omit `/graphql` here)
+- **internalRoute:**  URL for IIS URL Rewrite module
+- **externalRoute:**  URL for the publicly available API endpoint.
+- **surveyFilesFolder** The folder into which uploaded survey files are written. By default, C:\Ed-Fi-Buzz\SurveyFiles.
 
 #### ui
 
@@ -106,7 +107,7 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **titleLogoHeight:** Site logo max height with CSS size units ("350px").
 
 #### Change UI Web App icon (fav.ico)
-To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**C:\Ed-Fi\Buzz\UI\nginx-1.19.0\build\fav.ico**).
+To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**C:\Ed-Fi\Buzz\UI\build\fav.ico**).
 
 ![favico](./images/favico.png)
 

@@ -47,6 +47,8 @@
     "api": {
         "version": null,
         "url": "http://localhost:3000",
+        "externalRoute": "http://localhost:3001",
+        "internalRoute": "http://localhost:3000",
         "port": 3000,
         "surveyFilesFolder": "C:\\Ed-Fi\\Buzz\\surveys"
     },
