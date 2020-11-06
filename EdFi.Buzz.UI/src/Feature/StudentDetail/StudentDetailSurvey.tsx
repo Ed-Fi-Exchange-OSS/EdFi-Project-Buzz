@@ -20,10 +20,7 @@ const StyledStudentSurveyRow = styled.div`
   .stacked-container {
     display: flex;
     flex-direction: column;
-  }
-
-  & > div {
-    flex: 0 0 100%;
+    flex: 0 0 94%;
   }
 
   .survey-question-row {
@@ -50,8 +47,9 @@ const StyledStudentSurveyRow = styled.div`
 const StyledChevronIcon = styled.div`
   flex: 1;
   padding-right: 1.5rem;
-  width: 22px;
-  height: 12px;
+  padding-left: 5px;
+  width: 20px;
+  height: 25px;
   cursor: pointer;
 `;
 
@@ -84,7 +82,7 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
                 <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
               </div>
             </div>
-            <StyledChevronIcon onClick={() => toggleDetail()}>
+            <StyledChevronIcon onClick={() => toggleDetail()} tabIndex={3} onKeyPress={() => toggleDetail()}>
               {!show ? <ChevronDownIcon /> : <ChevronUpIcon />}
             </StyledChevronIcon>
           </StyledStudentSurveyRow>

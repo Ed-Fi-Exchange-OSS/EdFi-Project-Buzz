@@ -72,6 +72,8 @@ export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (pro
               <StyledBuzzButton
                 className='Edit Note'
                 onClick={() => props.deleteNoteFunc(note.staffkey, note.studentnotekey)}
+                onKeyPress={() => props.deleteNoteFunc(note.staffkey, note.studentnotekey)}
+                tabIndex={3}
               >
                 Delete Note
               </StyledBuzzButton>
