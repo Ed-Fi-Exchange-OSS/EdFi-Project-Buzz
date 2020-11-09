@@ -37,7 +37,6 @@
     "etl" : {
         "version": null,
         "datasourceFormat": "amt",
-        "odsDataStandard": "ds3",
         "max": 20,
         "idleTimeoutMilliseconds": 5000,
         "connectionTimeoutMilliseconds": 2000,
