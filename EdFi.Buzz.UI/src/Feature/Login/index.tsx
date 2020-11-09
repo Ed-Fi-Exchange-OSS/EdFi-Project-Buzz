@@ -23,6 +23,7 @@ export interface LoginComponentProps {
   googleClientId?: string;
   adfsClientId?: string;
   adfsTenantId?: string;
+  title: string;
   LoginLogo?: string;
   LoginLogoWidth: string;
 }
@@ -90,7 +91,7 @@ export const Login: FunctionComponent<LoginComponentProps> = (props: LoginCompon
               <div className='text-center'>
                 <BuzzLogo src={props.LoginLogo === '' ? Logo : props.LoginLogo} alt="District Logo" />
               </div>
-              <h1 className=' text-center m-t-25'>Buzz</h1>
+              <h1 className=' text-center m-t-25'>{props.title}</h1>
               {isUnregisteredUser && <div className='text-center m-t-20'>
                 <UnregistredUser>
                   <span>

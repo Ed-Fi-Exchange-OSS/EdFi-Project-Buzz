@@ -28,6 +28,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import GlobalFonts from 'globalstyle';
 import BuzzTheme from 'buzztheme';
+import Privacy from 'Feature/Privacy';
 
 const container = configureDI();
 const api = container.get<ApiService>('ApiService');
@@ -108,9 +109,13 @@ export default function App(): JSX.Element {
           navigate={(url) => history.replace(url)}
           googleClientId={env.GOOGLE_CLIENT_ID}
           returnUrl="/"
+          title={buzzTitle}
           LoginLogo={buzzLogo.default}
           LoginLogoWidth={env.LOGIN_LOGO_WIDTH}
         />
+      </Route>
+      <Route path="/app.privacypolicy" >
+        <Privacy title={buzzTitle}></Privacy>
       </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
         <div>
