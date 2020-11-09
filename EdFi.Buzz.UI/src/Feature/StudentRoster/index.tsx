@@ -43,7 +43,7 @@ const ListButtons = styled.div`
       outline-width: 0px;
       font-weight: 600;
       text-decoration: underline;
-    }y
+    }
   }
 `;
 
