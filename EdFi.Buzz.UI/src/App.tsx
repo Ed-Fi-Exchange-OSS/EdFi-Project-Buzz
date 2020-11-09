@@ -23,11 +23,13 @@ import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
 import SurveyAnswersDetail  from 'Feature/SurveyAnalytics/surveyAnswersDetail';
 import { UploadSurvey } from 'Feature/UploadSurvey';
 import { AdminSurvey } from 'Feature/AdminSurvey';
+import { LoadOdsSurvey } from 'Feature/LoadOdsSurvey';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import GlobalFonts from 'globalstyle';
 import BuzzTheme from 'buzztheme';
+import Privacy from 'Feature/Privacy';
 
 const container = configureDI();
 const api = container.get<ApiService>('ApiService');
@@ -108,9 +110,13 @@ export default function App(): JSX.Element {
           navigate={(url) => history.replace(url)}
           googleClientId={env.GOOGLE_CLIENT_ID}
           returnUrl="/"
+          title={buzzTitle}
           LoginLogo={buzzLogo.default}
           LoginLogoWidth={env.LOGIN_LOGO_WIDTH}
         />
+      </Route>
+      <Route path="/app.privacypolicy" >
+        <Privacy title={buzzTitle}></Privacy>
       </Route>
       {!isLoggedIn ? <Redirect to="/login" /> : <Route path="/">
         <div>
@@ -139,7 +145,9 @@ export default function App(): JSX.Element {
               {isAdminSurveyLoader
                 ? <Route path="/adminSurvey"> <AdminSurvey api={api} /> </Route>
                 : <Route><div>Need survey admin rights</div></Route>}
-
+              {isAdminSurveyLoader
+                ? <Route path="/loadodssurvey"> <LoadOdsSurvey api={api} /> </Route>
+                : <Route><div>Need upload survey rights</div></Route>}
             </Switch>
           </Content>
           <Footer height={FOOTER_HEIGHT}/>

@@ -7,7 +7,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
 
 config({ path: `${__dirname}/../../../../.env` });
-@Entity({ schema: `${process.env.ODS_DB_SCHEMA}`, name: 'Survey', synchronize: false })
+@Entity({ schema: 'edfi', name: 'Survey', synchronize: false })
 export default class OdsSurveyEntity {
   @Column()namespace: string;
 

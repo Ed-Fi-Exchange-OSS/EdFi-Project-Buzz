@@ -37,7 +37,7 @@ function Install-BuzzApp {
             packageSource = $configuration.artifactRepo
         }
 
-        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force
+        Import-Module "./AppSharedLibrary/nuget-helper.psm1" -Force -Scope Local
         $installFolder = Install-EdFiPackage @installparams
         Copy-Item -Path "./AppSharedLibrary/Buzz-App-Install.psm1" -Destination (Join-Path $installFolder "Windows") -Force
         Copy-Item -Path "./AppSharedLibrary/nuget-helper.psm1" -Destination (Join-Path $installFolder "Windows") -Force
@@ -80,16 +80,15 @@ function Install-ApiApp {
         "DbUserName"         = $configuration.postgresDatabase.username;
         "DbPassword"         = $configuration.postgresDatabase.password;
         "DbName"             = $configuration.postgresDatabase.database;
-        "schema"             = $configuration.postgresDatabase.schema;
+        "idProvider"         = $configuration.idProvider;
         "uriDiscovery"       = "";
         "googleClientID"     = $configuration.googleClientID;
         "clientSecret"       = $configuration.clientSecret;
-        "googleAuthCallback" = $configuration.googleAuthCallback;
+        "googleAuthCallback" = $configuration.api.url;
         "surveyFilesFolder"  = $configuration.api.surveyFilesFolder;
         "port"               = $configuration.api.Port;
         "toolsPath"          = $toolsPath;
         "packagesPath"       = $packagesPath;
-        "nginxPort"          = $configuration.api.nginxPort;
         "SqlServerHost"      = $configuration.sqlServerDatabase.host;
         "SqlServerPort"      = $configuration.sqlServerDatabase.port;
         "SqlServerUserName"  = $configuration.sqlServerDatabase.username;
@@ -166,7 +165,7 @@ function Install-UiApp {
     $params = @{
         "InstallPath"     = Join-Path $configuration.InstallPath "UI";
         "port"            = $configuration.ui.port;
-        "graphQlEndpoint" = $configuration.api.url;
+        "graphQlEndpoint" = $configuration.ui.graphQlEndpoint;
         "idProvider"      = $configuration.idProvider;
         "googleClientId"  = $configuration.googleClientId;
         "adfsClientId"    = $configuration.adfsClientId;
@@ -180,7 +179,6 @@ function Install-UiApp {
         "titleLogoHeight" = $configuration.ui.titleLogoHeight;
         "toolsPath"       = $toolsPath;
         "packagesPath"    = $packagesPath;
-        "nginxPort"       = $configuration.ui.nginxPort;
         "rootDir"         = "build";
         "app"             = "UI";
     }
@@ -252,7 +250,7 @@ function Get-WebStatus {
     try {
         $status = "Not running"
         $global:ProgressPreference = 'SilentlyContinue'
-        $request = (Invoke-WebRequest -Uri $url )
+        $request = (Invoke-WebRequest -Uri $url -UseBasicParsing )
         if ($request.StatusCode) {
             $status = "Status code returned: " + $request.StatusCode
         }
@@ -300,8 +298,6 @@ function Test-BuzzServices {
     }
 
     if ($conf.installUi -eq $true) {
-        $ui = Check-Service -app "ui"
-        $services.Add("Ed-Fi Buzz UI Service", $ui)
         $services.Add("Ed-Fi Buzz UI Website", (Get-WebStatus -url $conf.ui.url))
     }
 

@@ -14,8 +14,9 @@
   <files>
     <!-- NB: nuget.exe does not handle widlcards with forward-slash paths. Must use back-slash. -->
     <file src="..\build\**" target="build" />
+    <file src="..\src\assets\Owl-Logo-GrandBend.png" target="build\Owl-Logo-GrandBend.png" />
+    <file src="..\src\assets\fix-it.png" target="build\fix-it.png" />
     <file src="windows\**" target="windows" />
-    <file src="nginx.conf" />
     <file src="web.config" />
   </files>
 </package>

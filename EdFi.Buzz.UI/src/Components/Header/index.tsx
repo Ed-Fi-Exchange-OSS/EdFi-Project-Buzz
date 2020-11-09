@@ -15,6 +15,7 @@ import Icon from '@iconify/react';
 import mdUnlock from '@iconify-icons/ion/md-unlock';
 import mdBuild from '@iconify-icons/ion/md-build';
 import mdUpload from '@iconify-icons/ion/md-cloud-upload';
+import { LoadOdsSurveysMenuOption } from './loadodssurvey';
 
 interface CustomLikComponentProps {
   children: ReactFragment;
@@ -171,7 +172,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     display: flex;
     flex-wrap: nowrap;
     flex-flow: column;
-    width: 40%
+    width: 40%;
     position: fixed;
     right: 0px;
   }
@@ -269,9 +270,9 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
         <HeaderLogo><HeaderImage src={props.titleLogo} alt={props.title} /></HeaderLogo>
         <MainNav>
           <ul>
-            <li> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
-            <li> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
-            <li>
+            <li tabIndex={1}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
+            <li tabIndex={1}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
+            <li tabIndex={1}>
               <LoggedUserMenu onClick={() => setMenuActive(!menuActive)} >
                 <LoggedUser>
                   {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>&nbsp;&nbsp;
@@ -279,20 +280,21 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                 <MenuOptions className={menuActive ? 'active' : ''}>
                   <ul>
                     {isAdminSurveyLoader
-                      ? <li>
+                      ? <li tabIndex={1}>
                         <Link to="/adminSurvey">
                           <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     {isAdminSurveyLoader || isTeacherSurveyLoader
-                      ? <li>
+                      ? <li tabIndex={1}>
                         <Link to="/uploadSurvey">
                           <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
-                    <li>
+                    <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
+                    <li tabIndex={1}>
                       <Link to="/Login">
                         <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
                       </Link>

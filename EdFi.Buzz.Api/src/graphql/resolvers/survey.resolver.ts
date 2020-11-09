@@ -4,12 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-  Args, Resolver, Mutation, Query,
+  Args, Resolver, Mutation,
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import {
-  LoadSurveyFromOdsResponse, OdsSurveyItem, Survey, CanLoadSurverysFromUI,
+  LoadSurveyFromOdsResponse, OdsSurveyItem, Survey,
 } from '../graphql.schema';
 import AuthGuard from '../auth.guard';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
@@ -43,11 +43,5 @@ export default class SurveyResolvers {
 
     const addLoadOds = this.taskItemService.addLoadOdsFromSurveyTaskItem(surveyFromOds);
     return addLoadOds;
-  }
-
-  @Query('canLoadSurverysFromUI')
-  async canLoadSurverysFromUI(
-  ): Promise<CanLoadSurverysFromUI> {
-    return this.surveyService.canLoadSurverysFromUI();
   }
 }

@@ -10,7 +10,7 @@ import { config } from 'dotenv';
 import SectionEntity from './section.entity';
 
 config({ path: `${__dirname}/../../../../.env` });
-@Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'staff', synchronize: false })
+@Entity({ schema: 'buzz', name: 'staff', synchronize: false })
 export default class StaffEntity {
   @PrimaryColumn() staffkey: number;
 

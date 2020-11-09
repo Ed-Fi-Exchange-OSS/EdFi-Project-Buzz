@@ -30,6 +30,10 @@ Developer information for each Project Buzz application is outlined in a README 
 * [ETL -  Developer README](EdFi.Buzz.ETL/README.md)
 * [User Interface -  Developer README](EdFi.Buzz.UI/README.md)
 
+## Installation README
+The installation information is included in a README. The README contains instructions to configure the parameters and execute the global installer.
+* [Installation README](EdFi.Buzz.Installer/eng/README.md)
+
 ## Legal Information
 
 Copyright (c) 2020 Ed-Fi Alliance, LLC and contributors.

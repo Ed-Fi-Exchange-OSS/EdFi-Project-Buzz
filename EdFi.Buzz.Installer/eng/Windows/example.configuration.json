@@ -21,8 +21,7 @@
         "port": 5432,
         "username": "postgres",
         "password": "pa55w0rd",
-        "database": "edfi_buzz",
-        "schema":  "buzz"
+        "database": "edfi_buzz"
     },
     "sqlServerDatabase": {
         "host": "127.0.0.1",
@@ -38,7 +37,6 @@
     "etl" : {
         "version": null,
         "datasourceFormat": "amt",
-        "odsDataStandard": "ds3",
         "max": 20,
         "idleTimeoutMilliseconds": 5000,
         "connectionTimeoutMilliseconds": 2000,
@@ -50,14 +48,12 @@
         "version": null,
         "url": "http://localhost:3000",
         "port": 3000,
-        "nginxPort": 3000,
         "surveyFilesFolder": "C:\\Ed-Fi\\Buzz\\surveys"
     },
     "ui": {
         "version": null,
         "url": "http://localhost:4200",
-        "port": 4200,
-        "nginxPort": 4200,
+        "graphQlEndpoint": "http://localhost:3000/graphql",
 		"externalLogo": false,
 		"logo": "Owl-Logo-GrandBend.png",
 		"logoWidth": "350px",

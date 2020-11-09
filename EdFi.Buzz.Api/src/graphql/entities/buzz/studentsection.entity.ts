@@ -7,7 +7,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
 
 config({ path: `${__dirname}/../../../../.env` });
-@Entity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'studentsection', synchronize: false })
+@Entity({ schema: 'buzz', name: 'studentsection', synchronize: false })
 export default class StudentSectionEntity {
   @PrimaryColumn() studentsectionkey: string;
 

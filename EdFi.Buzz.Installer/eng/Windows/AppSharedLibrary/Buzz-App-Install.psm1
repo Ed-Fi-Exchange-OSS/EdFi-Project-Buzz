@@ -3,8 +3,6 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
-$npm = "C:\Program Files\nodejs\npm.cmd"
-
 function Initialize-InstallDirs {
     if (-not $(Test-Path $packagesPath)) {
         mkdir $packagesPath | Out-Null
@@ -219,7 +217,8 @@ function Install-NginxService {
 
     # Copy the config XML file to install directory
     $xmlFile = "$webSitePath\$winSwVersion\EdFiBuzz$($app).xml"
-    Copy-Item -Path "$PSScriptRoot\EdFiBuzz$($app).xml" -Destination $xmlFile -Force
+    $currDir = Get-Location
+    Copy-Item -Path "$currDir\EdFiBuzz$($app).xml" -Destination $xmlFile -Force
 
     # Inject the correct path to nginx.exe into the config XML file
     $content = Get-Content -Path $xmlFile -Encoding UTF8
@@ -231,34 +230,45 @@ function Install-NginxService {
     &$edFiBuzzExe start
 }
 
-function Install-NginxFiles {
+function Install-NodeService {
     param(
-        [string]
-        $nginxVersion,
-        [string]
-        $webSitePath,
-        [string]
-        $fileContents,
-        [string]
-        $nginxPort,
-        [string]
-        $rootDir
+      [string] $winSwVersion,
+      [string] $InstallPath,
+      [string] $app
     )
 
-    # Copy the build directory into the NGiNX folder
-    $parameters = @{
-        Path        = "$PSScriptRoot\..\$rootDir"
-        Destination = "$webSitePath\$nginxVersion\$rootDir"
-        Recurse     = $true
-        Force       = $true
+    $serviceName = "EdFi-Buzz-$app"
+
+    # If service already exists, stop and remove it so that new settings
+    # will be applied.
+    $exists = Get-Service -name $serviceName -ErrorAction SilentlyContinue
+
+    if ($exists) {
+      Stop-Service -name $serviceName
+      &sc.exe delete $serviceName
     }
-    Copy-Item @parameters
 
-    Update-NginxConf -sourcePath "$($PSScriptRoot)\..\" -appPath "$webSitePath\$nginxVersion\conf" -rootDir $rootDir -nginxPort $nginxPort
+    # Rename WindowsService.exe to BuzzApi.exe
+    $winServiceExe = "$InstallPath\$winSwVersion\WindowsService.exe"
+    $edFiBuzzExe = "$InstallPath\$winSwVersion\EdFiBuzz$app.exe"
+    if ((Test-Path -Path "$InstallPath\$winSwVersion\WindowsService.exe")) {
+      Move-Item -Path $winServiceExe -Destination $edFiBuzzExe
+    }
 
-    Install-NpmPackages -appPath "$webSitePath\$nginxVersion\$rootDir"
+    # Copy the config XML file to install directory
+    $xmlFile = "$InstallPath\$winSwVersion\EdFiBuzz$app.xml"
+    $currDir = Get-Location
+    Copy-Item -Path "$currDir\EdFiBuzz$app.xml" -Destination $xmlFile -Force
 
-}
+    # Inject the correct path to nginx.exe into the config XML file
+    $content = Get-Content -Path $xmlFile -Encoding UTF8
+    $content = $content.Replace("{0}", "$InstallPath")
+    $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
+
+    # Create and start the service
+    &$edFiBuzzExe install
+    &$edFiBuzzExe start
+  }
 
 function Update-WebConfig {
     param(
@@ -291,10 +301,6 @@ function Update-NginxConf {
     $fileContents | Set-Content $nginxFile
 }
 
-$variables = @(
-    "npm"
-)
-
 $functions = @(
     "Assert-NodeJs"
     "Initialize-InstallDirs"
@@ -303,11 +309,10 @@ $functions = @(
     "New-DotEnvFile"
     "Initialize-AppInstaller"
     "Initialize-Installer"
+    "Install-NodeService"
     "Install-NpmPackages"
-    "Install-NginxService"
-    "Install-NginxFiles"
     "Update-WebConfig"
     "Update-NginxConf"
 )
 
-Export-ModuleMember -Variable $variables -Function $functions
+Export-ModuleMember -Function $functions

@@ -7,7 +7,7 @@ import { ViewEntity, ViewColumn, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
 
 config({ path: `${__dirname}/../../../../../.env` });
-@ViewEntity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'surveysummaryanswers', synchronize: false })
+@ViewEntity({ schema: 'buzz', name: 'surveysummaryanswers', synchronize: false })
 export default class SurveySummaryAnswersEntity {
   @ViewColumn()
   sectionkey: string;

@@ -8,7 +8,7 @@ import { config } from 'dotenv';
 import SurveySummaryAnswers from './surveysummaryanswers.entity';
 
 config({ path: `${__dirname}/../../../../../.env` });
-@ViewEntity({ schema: `${process.env.BUZZ_API_DB_SCHEMA}`, name: 'surveysummaryquestions', synchronize: false })
+@ViewEntity({ schema: 'buzz', name: 'surveysummaryquestions', synchronize: false })
 export default class SurveySummaryQuestionsEntity {
   @ViewColumn()
   surveykey: number;

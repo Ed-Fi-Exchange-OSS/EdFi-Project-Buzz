@@ -28,6 +28,7 @@ param (
 )
 
 Import-Module "$PSScriptRoot/configHelper.psm1" -Force
+Import-Module "$PSScriptRoot/AppSharedLibrary\Buzz-App-Install.psm1" -Force
 Import-Module "$PSScriptRoot/Application/appuninstalls.psm1" -Force
 
 # Confirm required parameters to install
@@ -47,9 +48,6 @@ $packagesPath = $conf.packagesPath
 $toolsPath = $conf.toolsPath
 
 try {
-    # Test for IIS and any Windows Features we will need TODO WHAT DO WE NEED
-    Initialize-Installer -toolsPath $toolsPath  -packagesPath $packagesPath
-
     Uninstall-BuzzApp -app "ETL" -appPath  (Join-Path $installPath "ETL")
     Uninstall-BuzzApp -app "API" -appPath  (Join-Path $installPath "API")
     Uninstall-BuzzApp -app "UI" -appPath  (Join-Path $installPath "UI")

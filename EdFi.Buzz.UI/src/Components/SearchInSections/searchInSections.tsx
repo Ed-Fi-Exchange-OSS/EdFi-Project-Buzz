@@ -213,6 +213,7 @@ export const SearchInSections: React.FunctionComponent<SearchInSectionsComponent
         <StyledSelectParent id='sectionsSelectParent'>
           <FilterByClassLabelDesktop>Filter by Class:</FilterByClassLabelDesktop>
           <select
+            tabIndex={2}
             name='repeatSelect'
             id='sectionsSelect'
             value={defaultValue}
@@ -231,6 +232,7 @@ export const SearchInSections: React.FunctionComponent<SearchInSectionsComponent
           <StyledTextParent>
             <img src={OrangeSearch} alt="Search" />
             <input
+              tabIndex={2}
               type='text'
               id='searchFilter'
               placeholder={ (props.searchFilterPlaceholder || 'Search by Student Name') }
