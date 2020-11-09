@@ -125,7 +125,7 @@ const Privacy: React.FunctionComponent<PrivacyProps> = ({title}) => (
         <h3>Unsubscribing</h3>
         <p>Users may receive EFA announcements via email or other methods based on prior interactions
           Users may have had with the Website. To unsubscribe to such announcements, Users should follow the “unsubscribe”
-          instructions provided in the email sent, or contact
+          instructions provided in the email sent, or contact&nbsp;
         <a href="mailto:communications@ed-fi.org" target="_blank" rel="noopener noreferrer">communications@ed-fi.org</a>.</p>
         <h3>User Assumption of Risk; Release and Indemnification</h3>
         <p>Users assume all risks related to use of the Website. Each User agrees to indemnify, defend,
