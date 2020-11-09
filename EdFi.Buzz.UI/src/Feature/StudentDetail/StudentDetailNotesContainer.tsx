@@ -159,6 +159,10 @@ export const StudentDetailNotesContainer: FunctionComponent<StudentDetailNotesCo
                 onClick={() => {
                   addStudentNote();
                 }}
+                onKeyPress={() => {
+                  addStudentNote();
+                }}
+                tabIndex={3}
               >
                 Add a note
               </StyledBuzzButton>

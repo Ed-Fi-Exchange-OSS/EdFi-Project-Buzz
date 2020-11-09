@@ -23,11 +23,6 @@ export const StyledBuzzButton = styled.button`
   border-radius: 4px;
   margin: .5rem 1rem;
 
-  &:focus {
-    border: none;
-    outline: none;
-  }
-
   &:active {
     background-color: var(--denim);
     border: none;
