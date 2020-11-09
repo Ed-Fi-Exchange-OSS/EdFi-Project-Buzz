@@ -10,6 +10,7 @@ export interface SearchInSectionsComponentProps {
   onSearch?: (sectionKey: string, studentFilter: string) => void;
   defaultValue?: string;
   searchFilterPlaceholder?: string;
+  hideSurveyTitleSearch?: boolean;
 }
 
 const SearchInSectionsContainer = styled.div`
@@ -226,16 +227,18 @@ export const SearchInSections: React.FunctionComponent<SearchInSectionsComponent
             ))}
           </select>
         </StyledSelectParent>
-        <StyledTextParent>
-          <img src={OrangeSearch} alt="Search" />
-          <input
-            type='text'
-            id='searchFilter'
-            placeholder={ (props.searchFilterPlaceholder || 'Search by Student Name') }
-            ref={searchFilterRef}
-            onKeyUp={searchEventHandler}
-          />
-        </StyledTextParent>
+        {!props.hideSurveyTitleSearch && (
+          <StyledTextParent>
+            <img src={OrangeSearch} alt="Search" />
+            <input
+              type='text'
+              id='searchFilter'
+              placeholder={ (props.searchFilterPlaceholder || 'Search by Student Name') }
+              ref={searchFilterRef}
+              onKeyUp={searchEventHandler}
+            />
+          </StyledTextParent>
+        )}
       </SearchContainer>
     </SearchInSectionsContainer>
   );
