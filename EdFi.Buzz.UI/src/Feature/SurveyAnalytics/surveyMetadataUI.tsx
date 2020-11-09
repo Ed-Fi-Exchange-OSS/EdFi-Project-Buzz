@@ -1,14 +1,15 @@
 import * as React from 'react';
-
 import styled from 'styled-components';
 import SurveyMetadata from 'Models/SurveyMetadata';
-import { StyledCard } from '../../buzztheme';
-
+import { Link } from 'react-router-dom';
+import ApiService from 'Services/ApiService';
 import RightChevron from '../../assets/chevron-right.png';
+import { StyledCard } from '../../buzztheme';
 
 export interface SurveyMetadataUIComponentProps {
   surveyMetadataList: SurveyMetadata[];
   selectedSurveyKey?: number;
+  api: ApiService;
   onSurveySelected?: (surveyMetadata: SurveyMetadata) => void;
 }
 
@@ -68,8 +69,8 @@ const SurveyStyledCard = styled(StyledCard)<ColoredBarProps>`
 export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponentProps> = (
   props: SurveyMetadataUIComponentProps
 ) => {
-  const colorList: string[] = ['#03a9f4', '#4361ee', '#3a0ca3', '#7209b7', '#f72585', '#4cc9f0'];
 
+  const colorList: string[] = ['#03a9f4', '#4361ee', '#3a0ca3', '#7209b7', '#f72585', '#4cc9f0'];
   return (
     <>
       {props.surveyMetadataList.length === 0 && (
@@ -78,29 +79,37 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
         </div>
       )}
       {props.surveyMetadataList.map((surveyMetadata, idx) => (
-        <SurveyStyledCardContainer
-          className={`col-12 col-md-6 ${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
+        <Link
           key={surveyMetadata.surveykey}
-          onClick={() => props.onSurveySelected(surveyMetadata)}
-        >
-          <SurveyStyledCard className='card survey-metadata' color={colorList[idx % 6]}>
-            <div className={'card-body'}>
-              <div className={'survey-card-container survey-metadata-container'}>
-                <div className='h2-desktop'>{surveyMetadata.title}</div>
-                <div>
-                  <span className='bold'>Questions:</span> {surveyMetadata.numberofquestions}{' '}
+          className={'col-12 col-md-6' }
+          to={{
+            pathname: '/surveyAnswersDetail',
+            state: {surveyMetadata}
+          }}>
+          <SurveyStyledCardContainer
+            className={`${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
+            key={surveyMetadata.surveykey}
+
+          >
+            <SurveyStyledCard className='card survey-metadata' color={colorList[idx % 6]}>
+              <div className={'card-body'}>
+                <div className={'survey-card-container survey-metadata-container'}>
+                  <div className='h2-desktop'>{surveyMetadata.title}</div>
+                  <div>
+                    <span className='bold'>Questions:</span> {surveyMetadata.numberofquestions}{' '}
+                  </div>
+                  <div>
+                    <span className='bold'>Completed:</span> {surveyMetadata.studentsanswered} of{' '}
+                    {surveyMetadata.totalstudents} students
+                  </div>
                 </div>
-                <div>
-                  <span className='bold'>Completed:</span> {surveyMetadata.studentsanswered} of{' '}
-                  {surveyMetadata.totalstudents} students
+                <div className='chevron-nav'>
+                  <img style={{ width: '12px', height: '22px' }} src={RightChevron} alt="Open survey details" />
                 </div>
               </div>
-              <div className='chevron-nav'>
-                <img style={{ width: '12px', height: '22px' }} src={RightChevron} alt="Open survey details" />
-              </div>
-            </div>
-          </SurveyStyledCard>
-        </SurveyStyledCardContainer>
+            </SurveyStyledCard>
+          </SurveyStyledCardContainer>
+        </Link>
       ))}
     </>
   );

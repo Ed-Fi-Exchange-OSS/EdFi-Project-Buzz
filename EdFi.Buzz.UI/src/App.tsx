@@ -20,6 +20,7 @@ import { Login } from 'Feature/Login';
 import { StudentRoster } from 'Feature/StudentRoster';
 import { StudentDetail } from 'Feature/StudentDetail';
 import { SurveyAnalytics } from 'Feature/SurveyAnalytics';
+import SurveyAnswersDetail  from 'Feature/SurveyAnalytics/surveyAnswersDetail';
 import { UploadSurvey } from 'Feature/UploadSurvey';
 import { AdminSurvey } from 'Feature/AdminSurvey';
 import { LoadOdsSurvey } from 'Feature/LoadOdsSurvey';
@@ -136,6 +137,7 @@ export default function App(): JSX.Element {
               <Route exact path="/"> <StudentRoster api={api} /> </Route>
               <Route path="/studentDetail/:studentKey"> <StudentDetail api={api} /> </Route>
               <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
+              <Route path="/surveyAnswersDetail"> <SurveyAnswersDetail api={api}/> </Route>
               <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
               {isAdminSurveyLoader || isTeacherSurveyLoader
                 ? <Route path="/uploadSurvey"> <UploadSurvey api={api} /> </Route>
