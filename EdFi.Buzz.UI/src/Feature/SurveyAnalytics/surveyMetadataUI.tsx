@@ -79,9 +79,11 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
       )}
       {props.surveyMetadataList.map((surveyMetadata, idx) => (
         <SurveyStyledCardContainer
+          tabIndex={3}
           className={`col-12 col-md-6 ${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
           key={surveyMetadata.surveykey}
           onClick={() => props.onSurveySelected(surveyMetadata)}
+          onKeyPress={(event) => event.key === 'Enter' ? props.onSurveySelected(surveyMetadata) : null}
         >
           <SurveyStyledCard className='card survey-metadata' color={colorList[idx % 6]}>
             <div className={'card-body'}>
