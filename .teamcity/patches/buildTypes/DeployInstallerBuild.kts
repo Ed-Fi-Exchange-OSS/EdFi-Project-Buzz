@@ -6,6 +6,8 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.nuGetFeedCrede
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.NuGetPublishStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.FinishBuildTrigger
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -50,6 +52,18 @@ changeBuildType(RelativeId("DeployInstallerBuild")) {
     steps {
         update<NuGetPublishStep>(0) {
             apiKey = "credentialsJSON:a6d48763-5649-4d41-a824-8673ac64e7e3"
+        }
+    }
+
+    triggers {
+        val trigger1 = find<FinishBuildTrigger> {
+            finishBuildTrigger {
+                buildType = "EdFi_AnalyticsTeam_FixItFriday_BranchInstallerBuild"
+                successfulOnly = true
+            }
+        }
+        trigger1.apply {
+            enabled = false
         }
     }
 
