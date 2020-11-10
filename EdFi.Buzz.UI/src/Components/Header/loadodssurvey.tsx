@@ -9,7 +9,7 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdCloudDownload from '@iconify-icons/ion/md-cloud-download';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ApiService from 'Services/ApiService';
 
 const LinkButton = styled.button`
@@ -29,6 +29,7 @@ interface LoadOdsSurveysMenuOptionProps {
 export const LoadOdsSurveysMenuOption: FunctionComponent<LoadOdsSurveysMenuOptionProps> = (
   props: LoadOdsSurveysMenuOptionProps
 ) => {
+  const history = useHistory();
   const [canLoadSurverysFromUI, setCanLoadSurverysFromUI] = useState(false);
   const [doesOdsContainsSurveyModel, setDoesOdsContainsSurveyModel] = useState(false);
 
@@ -52,12 +53,18 @@ export const LoadOdsSurveysMenuOption: FunctionComponent<LoadOdsSurveysMenuOptio
     };
   }, [props.api.odsSurvey]);
 
+  const goToLoadodssurvey = (event) => {
+    if(event.key === 'Enter'){
+      history.push('/loadodssurvey');
+    }
+  }
+
   return (
     <>
       {props.isAdminSurveyLoader && canLoadSurverysFromUI && doesOdsContainsSurveyModel
-        ? <li >
+        ? <li tabIndex={1} onKeyPress={goToLoadodssurvey}>
           <Link to="/loadodssurvey">
-            <LinkButton><Icon icon={mdCloudDownload}></Icon>&nbsp;Load Surveys from ODS</LinkButton>
+            <LinkButton><Icon icon={mdCloudDownload}></Icon>&nbsp;ODS Surveys</LinkButton>
           </Link>
         </li>
         : null}
