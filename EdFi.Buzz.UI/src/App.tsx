@@ -65,15 +65,16 @@ export default function App(): JSX.Element {
       margin-right:0.50em;
     }
   `;
+
   useEffect(() => {
-    const suscription = api.authentication.currentUser.subscribe((cu) => {
+    const subscription = api.authentication.currentUser.subscribe((cu) => {
       setIsLoggedIn(cu && cu.teacher != null);
       setIsAdminSurveyLoader(cu?.teacher?.isadminsurveyloader === true);
       setIsTeacherSurveyLoader(cu?.teacher?.isteachersurveyloader === true);
     });
     setAppMounted(true);
-    return () => suscription.unsubscribe();
-  });
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if(appMounted){
