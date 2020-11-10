@@ -188,7 +188,7 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
       setIsCollapsed(!isCollapsed);
     }
   }
-  
+
   function handleStudentDetailRedirect (event) {
     if(event.key === 'Enter'){
       history.push(`/studentDetail/${student.studentschoolkey}`);

@@ -79,19 +79,18 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
         </div>
       )}
       {props.surveyMetadataList.map((surveyMetadata, idx) => (
-        <Link
+        <SurveyStyledCardContainer
+          className={`col-12 col-md-6 ${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
           key={surveyMetadata.surveykey}
-          onKeyPress={(event) => event.key === 'Enter' ? props.onSurveySelected(surveyMetadata) : null}
-          tabIndex={3}
-          className={'col-12 col-md-6' }
-          to={{
-            pathname: '/surveyAnswersDetail',
-            state: {surveyMetadata}
-          }}>
-          <SurveyStyledCardContainer
-            className={`${surveyMetadata.surveykey === props.selectedSurveyKey ? 'survey-selected' : null}`}
+        >
+          <Link
             key={surveyMetadata.surveykey}
-          >
+            onKeyPress={(event) => event.key === 'Enter' ? props.onSurveySelected(surveyMetadata) : null}
+            tabIndex={3}
+            to={{
+              pathname: '/surveyAnswersDetail',
+              state: {surveyMetadata}
+            }}>
             <SurveyStyledCard className='card survey-metadata' color={colorList[idx % 6]}>
               <div className={'card-body'}>
                 <div className={'survey-card-container survey-metadata-container'}>
@@ -109,8 +108,8 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
                 </div>
               </div>
             </SurveyStyledCard>
-          </SurveyStyledCardContainer>
-        </Link>
+          </Link>
+        </SurveyStyledCardContainer>
       ))}
     </>
   );
