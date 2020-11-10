@@ -62,7 +62,11 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
       question={selectedQuestion}
     />
     }
-    <StyledSurveyArea onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)} className={'view-answers-by-student'}>
+    <StyledSurveyArea
+      tabIndex={3}
+      onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)}
+      onKeyPress={(event) => event.key === 'Enter' ? setViewAnswersByStudent(!viewAnswersByStudent) : null}
+      className={'view-answers-by-student'}>
       <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} alt=""/></div>
     </StyledSurveyArea>
 
