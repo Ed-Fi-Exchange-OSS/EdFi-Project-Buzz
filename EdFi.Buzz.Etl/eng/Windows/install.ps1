@@ -119,24 +119,24 @@ function New-DotEnvFile {
   New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
 
   $fileContents = @"
-  BUZZ_SQLSOURCE=amt
-  BUZZ_DBSERVER=$PostgresHost
-  BUZZ_PORT=$PostgresPort
-  BUZZ_USER=$PostgresUserName
-  BUZZ_PASSWORD=$PostgresPassword
-  BUZZ_DBNAME=$PostgresDbName
-  BUZZ_MAX=20
-  BUZZ_IDLETIMEOUTMILLIS=5000
-  BUZZ_CONNECTIONTIMEOUTMILLIS=2000
-  ODS_DBNAME=$SqlServerDbName
-  ODS_SERVER=$SqlServerHost
-  ODS_USER=$SqlServerUserName
-  ODS_PASSWORD=$SqlServerPassword
-  ODS_PORT=$SqlServerPort
-  ODS_TRUSTSERVERCERTIFICATE=false
-  ODS_ENABLEARITHABORT=true
-  ODS_ENCRYPT=false
-  KeepSurveysSynch=$keepSurveysSynch
+BUZZ_SQLSOURCE=amt
+BUZZ_DBSERVER=$PostgresHost
+BUZZ_PORT=$PostgresPort
+BUZZ_USER=$PostgresUserName
+BUZZ_PASSWORD=$PostgresPassword
+BUZZ_DBNAME=$PostgresDbName
+BUZZ_MAX=20
+BUZZ_IDLETIMEOUTMILLIS=5000
+BUZZ_CONNECTIONTIMEOUTMILLIS=2000
+ODS_DBNAME=$SqlServerDbName
+ODS_SERVER=$SqlServerHost
+ODS_USER=$SqlServerUserName
+ODS_PASSWORD=$SqlServerPassword
+ODS_PORT=$SqlServerPort
+ODS_TRUSTSERVERCERTIFICATE=false
+ODS_ENABLEARITHABORT=true
+ODS_ENCRYPT=false
+KeepSurveysSynch=$keepSurveysSynch
 "@
   $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }
