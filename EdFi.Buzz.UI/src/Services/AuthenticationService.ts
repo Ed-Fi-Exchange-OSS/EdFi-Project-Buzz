@@ -61,9 +61,7 @@ export default class AuthenticationService {
         const jwtHelper = new JWTHelper();
         const validateToken = await jwtHelper.validateToken(token);
         if(!validateToken){
-          this.cleanUpUser();
-          window.location.replace('/login');
-          return false;
+          throw new Error('Did not return a valid token');
         }
         const decodedToken = jwt.decode(token, { complete: true, json: true });
         const dateNow = new Date();
@@ -72,20 +70,16 @@ export default class AuthenticationService {
           return true;
         }
 
-        this.cleanUpUser();
-        window.location.replace('/login');
-        return false;
-
+        throw new Error('Token was expired');
       }
       if(token === ''){
-        this.cleanUpUser();
-        window.location.replace('/login');
-        return false;
+        throw new Error('Token was empty');
       }
 
       return true;
 
-    } catch{
+    } catch(err) {
+      console.error(`validateJWT error: ${err.message} - ${err.detail}`);
       this.cleanUpUser();
       window.location.replace('/login');
       return false;
@@ -101,10 +95,7 @@ export default class AuthenticationService {
 
   logout = (): void => {
     // remove user from local storage to log user out
-    this.storage.removeItem('currentUser');
-    this.storage.removeItem('lastUploadedSurvey');
-    localStorage.clear();
-    sessionStorage.clear();
+    this.cleanUpUser();
     this.currentUserSubject.next(null);
     // clear graphql cache
     ApolloHelper.clearApolloStorage(this.apolloClient);
