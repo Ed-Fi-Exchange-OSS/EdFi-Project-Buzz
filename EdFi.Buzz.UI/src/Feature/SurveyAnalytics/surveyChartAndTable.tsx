@@ -6,6 +6,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import SurveyQuestionSummary from 'Models/SurveyQuestionSummary';
+import { createRef, useEffect } from 'react';
 import { SurveyChart } from './surveyChart';
 import SurveyWordCloud from './surveyWordCloud';
 import { DataTable , ColumnOption } from '../../Components/DataTable/dataTable';
@@ -13,11 +14,13 @@ import ChevronDown from '../../assets/chevron-down.png';
 import ChevronUp from '../../assets/chevron-up.png';
 
 
+
 export interface ChartAndTableComponentProps {
   question: SurveyQuestionSummary;
   columns: string[] | ColumnOption[];
   dataSet: string[][];
   title?: string | React.ReactElement;
+  index?: number ;
   afterSelectionChangedHandler?: (newSelection: string) => void;
 }
 
@@ -43,6 +46,13 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
   const selectedQuestion = props.question;
   const [viewAnswersByStudent, setViewAnswersByStudent] = React.useState(false);
   const [selectedAnswer, setSelectedAnswer] = React.useState(null as string);
+  const surveyViewDetailRef = createRef<HTMLDivElement>();
+
+  useEffect(() => {
+    if(props.index===0){
+      surveyViewDetailRef.current.focus();
+    }
+  }, [props.index,surveyViewDetailRef]);
 
   function onAnswerSelectionChangedHandler(answer: string) {
     setSelectedAnswer(answer);
@@ -66,7 +76,9 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
       tabIndex={3}
       onClick={() => setViewAnswersByStudent(!viewAnswersByStudent)}
       onKeyPress={(event) => event.key === 'Enter' ? setViewAnswersByStudent(!viewAnswersByStudent) : null}
-      className={'view-answers-by-student'}>
+      className={'view-answers-by-student'}
+      ref={surveyViewDetailRef}
+    >
       <div>View Answers by Student<img src={!viewAnswersByStudent ? ChevronDown : ChevronUp} alt=""/></div>
     </StyledSurveyArea>
 
