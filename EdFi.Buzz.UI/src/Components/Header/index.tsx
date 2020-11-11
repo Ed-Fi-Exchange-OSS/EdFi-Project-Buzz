@@ -94,7 +94,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   const menuAdminSurveyRef = createRef<HTMLLIElement>();
   const menuUploadSurveyRef = createRef<HTMLLIElement>();
   const menuLogoutRef = createRef<HTMLLIElement>();
-  
+
   const LinkButton = styled.button`
   text-transform: uppercase;
   color: #007bff;
@@ -125,7 +125,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 	height: ${props.titleLogoHeight};
 `;
 
-const LoggedUserMenu = styled.div`
+  const LoggedUserMenu = styled.div`
   display: inline-block;
   padding: .0em 1em;
   height: 26px;
@@ -264,34 +264,32 @@ const LoggedUserMenu = styled.div`
     if(event.key === 'Enter'){
       history.push('/');
     }
-  }
+  };
 
   const goToSurveyAnalytics = (event) => {
     if(event.key === 'Enter'){
       history.push('/surveyAnalytics');
     }
-  }
+  };
 
   const goToAdminSurvey = (event) => {
     if(event.key === 'Enter'){
       history.push('/adminSurvey');
     }
-  }
+  };
 
   const goToUploadSurvey = (event) => {
     if(event.key === 'Enter'){
       history.push('/uploadSurvey');
     }
-  }
+  };
 
   useEffect(()=> {
     if (isAdminSurveyLoader) {
       menuAdminSurveyRef.current.focus();
-    }
-    else if (menuUploadSurveyRef) {
+    } else if (menuUploadSurveyRef) {
       menuUploadSurveyRef.current.focus();
-    }
-    else {
+    } else {
       menuLogoutRef.current.focus();
     }
   }, [menuActive]);
@@ -310,33 +308,33 @@ const LoggedUserMenu = styled.div`
             <li tabIndex={1} onKeyPress={goToSurveyAnalytics}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
             <li tabIndex={1} onKeyPress={() => setMenuActive(!menuActive)}>
               <LoggedUserMenu onClick={() => setMenuActive(!menuActive)}>
-                  <span>
-                    {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>
-                  </span>
-                  <MenuOptions className={menuActive ? 'active' : ''}>
-                    <ul>
-                      {isAdminSurveyLoader
-                        ? <li tabIndex={1} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
-                          <Link to="/adminSurvey">
-                            <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
-                          </Link>
-                        </li>
-                        : null}
-                      {isAdminSurveyLoader || isTeacherSurveyLoader
-                        ? <li tabIndex={1} onKeyPress={goToUploadSurvey} ref={menuUploadSurveyRef}>
-                          <Link to="/uploadSurvey">
-                            <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
-                          </Link>
-                        </li>
-                        : null}
-                      <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
-                      <li tabIndex={1} onKeyPress={logOut} ref={menuLogoutRef}>
-                        <Link to="/Login">
-                          <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
+                <span>
+                  {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>
+                </span>
+                <MenuOptions className={menuActive ? 'active' : ''}>
+                  <ul>
+                    {isAdminSurveyLoader
+                      ? <li tabIndex={1} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
+                        <Link to="/adminSurvey">
+                          <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
                         </Link>
                       </li>
-                    </ul>
-                  </MenuOptions>
+                      : null}
+                    {isAdminSurveyLoader || isTeacherSurveyLoader
+                      ? <li tabIndex={1} onKeyPress={goToUploadSurvey} ref={menuUploadSurveyRef}>
+                        <Link to="/uploadSurvey">
+                          <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
+                        </Link>
+                      </li>
+                      : null}
+                    <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
+                    <li tabIndex={1} onKeyPress={logOut} ref={menuLogoutRef}>
+                      <Link to="/Login">
+                        <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
+                      </Link>
+                    </li>
+                  </ul>
+                </MenuOptions>
               </LoggedUserMenu>
             </li>
           </ul>

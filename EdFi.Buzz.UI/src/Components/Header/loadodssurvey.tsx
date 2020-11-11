@@ -57,7 +57,7 @@ export const LoadOdsSurveysMenuOption: FunctionComponent<LoadOdsSurveysMenuOptio
     if(event.key === 'Enter'){
       history.push('/loadodssurvey');
     }
-  }
+  };
 
   return (
     <>
