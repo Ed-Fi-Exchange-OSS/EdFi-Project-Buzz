@@ -72,6 +72,7 @@ export default class JWTHelper{
       const pem = await this.createPem(token);
       return !!jwt.verify(token, pem);
     } catch (err) {
+      console.error(`validateToken ERROR: ${err} - ${err.detail}`);
       return false;
     }
   }
