@@ -166,7 +166,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     display: inline-block;
 	  padding: .5em 0em;
     text-align: left;
-    color: var(--nevada);
+    color: #333333;
   };
  &.active {
     display: flex;
@@ -239,7 +239,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   const MainHeader = styled.header`
   width: 100%;
   height: ${height}px;
-  background-image: linear-gradient(94deg, #17b6ea 6%, #1378be 93%);
+  background-image: linear-gradient(94deg, #333333 6%, #000000 93%);
   justify-content: flex-end;
 
   @media(max-width: 768px){
