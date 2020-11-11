@@ -70,6 +70,7 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
     {selectedQuestion.answers.length >= 10 &&
     <SurveyWordCloud title={props.title}
       question={selectedQuestion}
+      afterSelectionChangedHandler={onAnswerSelectionChangedHandler}
     />
     }
     <StyledSurveyArea
