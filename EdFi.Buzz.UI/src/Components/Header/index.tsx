@@ -6,8 +6,8 @@
  */
 
 import * as React from 'react';
-import { FunctionComponent, ReactFragment, useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { FunctionComponent, ReactFragment, useState, createRef, useEffect } from 'react';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import ArrowDown from 'assets/dropdown-arrow.png';
 import ApiService from 'Services/ApiService';
 import styled from 'styled-components';
@@ -35,7 +35,7 @@ function CustomLink({
   const CustomLinkStyle = styled.div`
     display: inline-block;
 	  padding: .0em 0.0em;
-    height: 19px;
+    height: 26px;
     font-family:'Work Sans', sans-serif;
     font-size: 16px;
     font-weight: bold;
@@ -85,10 +85,16 @@ export interface HeaderComponentProps {
 export const Header: FunctionComponent<HeaderComponentProps> = (
   props: HeaderComponentProps
 ) => {
+  const history = useHistory();
   const [menuActive, setMenuActive] = useState(false);
   const { teacher } = props.api.authentication.currentUserValue;
   const { isAdminSurveyLoader, isTeacherSurveyLoader } = props;
   const { height } = props;
+
+  const menuAdminSurveyRef = createRef<HTMLLIElement>();
+  const menuUploadSurveyRef = createRef<HTMLLIElement>();
+  const menuLogoutRef = createRef<HTMLLIElement>();
+
   const LinkButton = styled.button`
   text-transform: uppercase;
   color: #007bff;
@@ -117,6 +123,22 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 	max-height: 64px;
   width: ${props.titleLogoWidth};
 	height: ${props.titleLogoHeight};
+`;
+
+  const LoggedUserMenu = styled.div`
+  display: inline-block;
+  padding: .0em 1em;
+  height: 26px;
+  font-family:'Work Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+  text-transform: uppercase;
+  cursor: pointer;
 `;
 
   const HeaderLogo = styled.span`
@@ -172,30 +194,9 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     display: flex;
     flex-wrap: nowrap;
     flex-flow: column;
-    width: 40%;
     position: fixed;
     right: 0px;
   }
-`;
-
-  const LoggedUserMenu = styled.span`
-  width: 92px;
-  height: 15px;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  align-self: left;
-  color: #ffffff;
-  cursor: pointer;
-  vertical-align: baseline;
-`;
-
-  const LoggedUser = styled.span`
-
 `;
 
   const MainNav = styled.nav`
@@ -204,12 +205,12 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
 	  text-align: left;
   };
   li {
-    display: inline;
+    display: inline-block;
   }
   a {
-	  display: inline-block;
+	  display: inline;
 	  padding: .5em 1.5em;
-    height: 19px;
+    height: 26px;
     font-family: 'Work Sans', sans-serif;
     font-size: 16px;
     font-weight: bold;
@@ -223,8 +224,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
  `;
 
   const MenuArrow = styled.img`
-  height: 8px;
-  object-fit: contain;
+  
 `;
 
   const MainContainer = styled.div`
@@ -260,6 +260,40 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     }
   };
 
+  const goToRoster = (event) => {
+    if(event.key === 'Enter'){
+      history.push('/');
+    }
+  };
+
+  const goToSurveyAnalytics = (event) => {
+    if(event.key === 'Enter'){
+      history.push('/surveyAnalytics');
+    }
+  };
+
+  const goToAdminSurvey = (event) => {
+    if(event.key === 'Enter'){
+      history.push('/adminSurvey');
+    }
+  };
+
+  const goToUploadSurvey = (event) => {
+    if(event.key === 'Enter'){
+      history.push('/uploadSurvey');
+    }
+  };
+
+  useEffect(()=> {
+    if (isAdminSurveyLoader) {
+      menuAdminSurveyRef.current.focus();
+    } else if (isTeacherSurveyLoader) {
+      menuUploadSurveyRef.current.focus();
+    } else {
+      menuLogoutRef.current.focus();
+    }
+  }, [menuActive]);
+
   function logOut() {
     props.api.authentication.logout();
     props.navigate('/login');
@@ -270,31 +304,31 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
         <HeaderLogo><HeaderImage src={props.titleLogo} alt={props.title} /></HeaderLogo>
         <MainNav>
           <ul>
-            <li tabIndex={1}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
-            <li tabIndex={1}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
-            <li tabIndex={1}>
-              <LoggedUserMenu onClick={() => setMenuActive(!menuActive)} >
-                <LoggedUser>
-                  {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>&nbsp;&nbsp;
-                </LoggedUser>
+            <li tabIndex={1} onKeyPress={goToRoster}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
+            <li tabIndex={1} onKeyPress={goToSurveyAnalytics}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
+            <li tabIndex={1} onKeyPress={() => setMenuActive(!menuActive)}>
+              <LoggedUserMenu onClick={() => setMenuActive(!menuActive)}>
+                <span>
+                  {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>
+                </span>
                 <MenuOptions className={menuActive ? 'active' : ''}>
                   <ul>
                     {isAdminSurveyLoader
-                      ? <li tabIndex={1}>
+                      ? <li tabIndex={1} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
                         <Link to="/adminSurvey">
                           <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     {isAdminSurveyLoader || isTeacherSurveyLoader
-                      ? <li tabIndex={1}>
+                      ? <li tabIndex={1} onKeyPress={goToUploadSurvey} ref={menuUploadSurveyRef}>
                         <Link to="/uploadSurvey">
                           <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
-                    <li tabIndex={1}>
+                    <li tabIndex={1} onKeyPress={logOut} ref={menuLogoutRef}>
                       <Link to="/Login">
                         <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
                       </Link>
