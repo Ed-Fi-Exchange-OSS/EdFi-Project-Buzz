@@ -14,11 +14,10 @@ import ApiService from 'Services/ApiService';
 
 const LinkButton = styled.button`
   padding: .5em 0em;
-  color: var(--nevada);
+  color: #333333;
   text-transform: uppercase;
   border: none;
   font-weight: bold;
-  color: var(--nevada);
 `;
 
 interface LoadOdsSurveysMenuOptionProps {
