@@ -97,11 +97,11 @@ function Install-NodeService {
   # Inject the correct path to nginx.exe into the config XML file
   $content = Get-Content -Path $xmlFile -Encoding UTF8
   $content = $content.Replace("{0}", "$InstallPath")
-  $content = $content.Replace("{1}", [uri]::EscapeUriString("$PostgresUserName"))
-  $content = $content.Replace("{2}", [uri]::EscapeUriString("$PostgresPassword"))
-  $content = $content.Replace("{3}", [uri]::EscapeUriString("$PostgresHost"))
-  $content = $content.Replace("{4}", [uri]::EscapeUriString("$PostgresPort"))
-  $content = $content.Replace("{5}", [uri]::EscapeUriString("$PostgresDbName"))
+  $content = $content.Replace("{1}", [System.Web.HttpUtility]::UrlEncode("$PostgresUserName"))
+  $content = $content.Replace("{2}", [System.Web.HttpUtility]::UrlEncode("$PostgresPassword"))
+  $content = $content.Replace("{3}", [System.Web.HttpUtility]::UrlEncode("$PostgresHost"))
+  $content = $content.Replace("{4}", [System.Web.HttpUtility]::UrlEncode("$PostgresPort"))
+  $content = $content.Replace("{5}", [System.Web.HttpUtility]::UrlEncode("$PostgresDbName"))
   $content = $content.Replace("{6}", "$InstallPath/dist")
   $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
 
