@@ -7,9 +7,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import jwt from 'jsonwebtoken';
 import ApolloHelper from 'Helpers/ApolloHelper';
-import JWTHelper from '../Helpers/JWTHelper';
+import { OAuth2Client } from 'google-auth-library';
+import JWTHelper from 'Helpers/JWTHelper';
 import TeacherApiService from './TeacherService';
 import User from '../Models/User';
+import EnvironmentService from './EnvironmentService';
 
 export default class AuthenticationService {
   public currentUser: Observable<User>;
@@ -20,7 +22,8 @@ export default class AuthenticationService {
 
   constructor(
     private teacherService: TeacherApiService,
-    private apolloClient: ApolloClient<InMemoryCache>
+    private apolloClient: ApolloClient<InMemoryCache>,
+    private environmentService: EnvironmentService
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser') ));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -54,30 +57,48 @@ export default class AuthenticationService {
   }
 
 
-  public validateJWT = async (): Promise<boolean> =>{
-    const token = sessionStorage.getItem('validatingToken');
+  async validateToken (token: string): Promise<boolean> {
     try {
-      if(token){
+      let ticket;
+      if (this.environmentService.environment.ADFS_TENANT_ID !== '') {
         const jwtHelper = new JWTHelper();
-        const validateToken = await jwtHelper.validateToken(token);
-        if(!validateToken){
-          throw new Error('Did not return a valid token');
-        }
+        ticket = jwtHelper.validateToken(token);
         const decodedToken = jwt.decode(token, { complete: true, json: true });
         const dateNow = new Date();
 
         if(decodedToken && decodedToken.payload.exp >= Math.round(dateNow.getTime()/1000)){
           return true;
         }
-
-        throw new Error('Token was expired');
+        return true;
       }
-      if(token === ''){
-        throw new Error('Token was empty');
+      const client = new OAuth2Client(
+        this.environmentService.environment.GOOGLE_CLIENT_ID
+      );
+      ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: this.environmentService.environment.GOOGLE_CLIENT_ID
+      });
+
+      const payload = ticket.getPayload();
+      return payload.email_verified;
+
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
+  public validateJWT = async (): Promise<boolean> =>{
+    const token = sessionStorage.getItem('validatingToken');
+    try {
+      if(token){
+        const validateToken = await this.validateToken(token);
+        if(!validateToken){
+          throw new Error('Did not return a valid token');
+        }
+        return true;
       }
-
-      return true;
-
+      return false;
     } catch(err) {
       console.error(`validateJWT error: ${err.message} - ${err.detail}`);
       this.cleanUpUser();
