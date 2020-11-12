@@ -14,7 +14,6 @@ import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdUnlock from '@iconify-icons/ion/md-unlock';
 import mdBuild from '@iconify-icons/ion/md-build';
-import mdUpload from '@iconify-icons/ion/md-cloud-upload';
 import { LoadOdsSurveysMenuOption } from './loadodssurvey';
 
 interface CustomLikComponentProps {
@@ -88,11 +87,10 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   const history = useHistory();
   const [menuActive, setMenuActive] = useState(false);
   const { teacher } = props.api.authentication.currentUserValue;
-  const { isAdminSurveyLoader, isTeacherSurveyLoader } = props;
+  const { isAdminSurveyLoader } = props;
   const { height } = props;
 
   const menuAdminSurveyRef = createRef<HTMLLIElement>();
-  const menuUploadSurveyRef = createRef<HTMLLIElement>();
   const menuLogoutRef = createRef<HTMLLIElement>();
 
   const LinkButton = styled.button`
@@ -224,7 +222,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
  `;
 
   const MenuArrow = styled.img`
-  
+
 `;
 
   const MainContainer = styled.div`
@@ -278,17 +276,9 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     }
   };
 
-  const goToUploadSurvey = (event) => {
-    if(event.key === 'Enter'){
-      history.push('/uploadSurvey');
-    }
-  };
-
   useEffect(()=> {
     if (isAdminSurveyLoader) {
       menuAdminSurveyRef.current.focus();
-    } else if (isTeacherSurveyLoader) {
-      menuUploadSurveyRef.current.focus();
     } else {
       menuLogoutRef.current.focus();
     }
@@ -317,13 +307,6 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                       ? <li tabIndex={1} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
                         <Link to="/adminSurvey">
                           <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
-                        </Link>
-                      </li>
-                      : null}
-                    {isAdminSurveyLoader || isTeacherSurveyLoader
-                      ? <li tabIndex={1} onKeyPress={goToUploadSurvey} ref={menuUploadSurveyRef}>
-                        <Link to="/uploadSurvey">
-                          <LinkButton><Icon icon={mdUpload}></Icon>&nbsp;Upload Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
