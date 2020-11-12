@@ -11,7 +11,9 @@ import AppModule from './app.module';
 const httpPort = parseInt(process.env.BUZZ_API_HTTP_PORT, 10);
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  const fastifyAdapter = new FastifyAdapter({ trustProxy: true });
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter);
+  app.enableCors();
   Logger.log(`NODE_TLS_REJECT_UNAUTHORIZED := ${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
   await app.listen(httpPort);
 }
