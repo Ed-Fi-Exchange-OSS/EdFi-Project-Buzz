@@ -5,11 +5,34 @@
 
 import Environment from 'Models/Environment';
 
+declare global {
+
+  interface runConfig {
+    REACT_APP_GQL_ENDPOINT: string;
+    REACT_APP_GOOGLE_CLIENT_ID: string;
+    REACT_APP_ADFS_CLIENT_ID: string;
+    REACT_APP_ADFS_TENANT_ID: string;
+    REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES: string;
+    REACT_APP_JOB_STATUS_FINISH_IDS: string;
+    REACT_APP_TITLE: string;
+    REACT_APP_EXTERNAL_LOGO: string;
+    REACT_APP_LOGO: string;
+    REACT_APP_LOGO_WIDTH: string;
+    REACT_APP_TITLE_LOGO: string;
+    REACT_APP_TITLE_LOGO_WIDTH: string;
+    REACT_APP_TITLE_LOGO_HEIGHT: string;
+  }
+
+  interface Window {
+    runConfig: runConfig;
+  }
+}
+
 export default class EnvironmentService {
   public environment: Environment;
 
   constructor() {
-    var runConfig = window['runConfig'];
+    const {runConfig} = window;
 
     this.environment = {
       GQL_ENDPOINT: runConfig?.REACT_APP_GQL_ENDPOINT || process.env.REACT_APP_GQL_ENDPOINT,

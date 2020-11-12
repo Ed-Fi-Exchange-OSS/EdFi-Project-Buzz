@@ -69,7 +69,8 @@ export default function configureDI(): DIContainer {
     ),
     'AuthenticationService': object(AuthenticationService).construct(
       get('TeacherApiService'),
-      get('ApolloClient')
+      get('ApolloClient'),
+      get('EnvironmentService')
     ),
     'SectionApiService': object(SectionApiService).construct(
       get('AuthenticationService'),
