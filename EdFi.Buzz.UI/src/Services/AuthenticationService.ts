@@ -60,7 +60,7 @@ export default class AuthenticationService {
   async validateToken (token: string): Promise<boolean> {
     try {
       let ticket;
-      if (this.environmentService.environment.ADFS_TENANT_ID !== '') {
+      if (this.environmentService.environment.ADFS_TENANT_ID && this.environmentService.environment.ADFS_TENANT_ID !== '') {
         const jwtHelper = new JWTHelper();
         ticket = jwtHelper.validateToken(token);
         const decodedToken = jwt.decode(token, { complete: true, json: true });
