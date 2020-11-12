@@ -35,7 +35,6 @@ const SurveyStyledCard = styled(StyledCard)`
 `;
 
 const SurveyAnswersSummary: FunctionComponent<SurveyAnswersSummaryProps> = ({ api, selectedSurveyMetadata }) => {
-
   const [surveyMetadataList] = useState(selectedSurveyMetadata);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null as number);
   const [selectedAnswer, setSelectedAnswer] = useState(null as string);
@@ -129,6 +128,7 @@ const SurveyAnswersSummary: FunctionComponent<SurveyAnswersSummaryProps> = ({ ap
                           {question.question}
                         </SurveyTitle>
                       }
+                      index={index}
                       afterSelectionChangedHandler={(answer: string) => onSurveyAnswerSelected(answer, index)}
                     />
                   </div>

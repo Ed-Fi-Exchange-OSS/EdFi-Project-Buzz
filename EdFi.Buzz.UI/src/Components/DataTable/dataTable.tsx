@@ -278,12 +278,14 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
             return (
               <th
                 onClick={() => sortByEventHandler(index)}
+                onKeyPress={(event) => event.key === 'Enter' ? sortByEventHandler(index) : null}
                 className={
                   (index !== sortByColIndex ? 'sorting ' : '') +
                   (index === sortByColIndex && !sortDirection.Descending ? 'sorting_asc ' : '') +
                   (index === sortByColIndex && sortDirection.Descending ? 'sorting_desc' : '')
                 }
                 key={label}
+                tabIndex={3}
               >
                 {label}
               </th>
@@ -322,7 +324,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
                   }
                 >
                   {isColumnOption(labelColumn) && labelColumn.linkColumnIndex >= 0 ? (
-                    <a href={`${props.linkBaseURL}${row[labelColumn.linkColumnIndex]}`}>{column}</a>
+                    <a tabIndex={3} href={`${props.linkBaseURL}${row[labelColumn.linkColumnIndex]}`}>{column}</a>
                   ) : (
                     <>{column}</>
                   )}
