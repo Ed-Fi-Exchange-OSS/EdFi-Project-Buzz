@@ -94,11 +94,14 @@ function Install-NodeService {
   $xmlFile = "$InstallPath\$winSwVersion\EdFiBuzzEtl.xml"
   Copy-Item -Path "$PSScriptRoot\EdFiBuzzEtl.xml" -Destination $xmlFile -Force
 
+  # URL Encode Postgress password and encode plus(spaces) to %20.
+  $encodedPassword = [System.Web.HttpUtility]::UrlEncode($PostgresPassword).Replace("+","%20")
+
   # Inject the correct path to nginx.exe into the config XML file
   $content = Get-Content -Path $xmlFile -Encoding UTF8
   $content = $content.Replace("{0}", "$InstallPath")
   $content = $content.Replace("{1}", [System.Web.HttpUtility]::UrlEncode("$PostgresUserName"))
-  $content = $content.Replace("{2}", [System.Web.HttpUtility]::UrlEncode("$PostgresPassword"))
+  $content = $content.Replace("{2}", $encodedPassword)
   $content = $content.Replace("{3}", [System.Web.HttpUtility]::UrlEncode("$PostgresHost"))
   $content = $content.Replace("{4}", [System.Web.HttpUtility]::UrlEncode("$PostgresPort"))
   $content = $content.Replace("{5}", [System.Web.HttpUtility]::UrlEncode("$PostgresDbName"))
