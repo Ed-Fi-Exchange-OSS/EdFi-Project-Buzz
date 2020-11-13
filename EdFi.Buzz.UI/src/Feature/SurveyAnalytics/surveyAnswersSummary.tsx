@@ -146,7 +146,7 @@ const SurveyAnswersSummary: FunctionComponent<SurveyAnswersSummaryProps> = ({ ap
             <DataTable
               columns={getSurveyAnswersLabels(selectedSurveyQuestionSummaryList)}
               dataSet={getSurveyAnswersDataset(selectedSurveyAnswers, selectedSurveyQuestionSummaryList)}
-              linkBaseURL={'/#/app/studentDetail/'}
+              linkBaseURL={'studentDetail/'}
               defaultSort={1}
               highlightFilterByColumn={
                 selectedAnswer
