@@ -86,7 +86,7 @@ export const ChartAndTable: React.FunctionComponent<ChartAndTableComponentProps>
     {(viewAnswersByStudent && selectedQuestion) && <DataTable
       columns={props.columns}
       dataSet={props.dataSet}
-      linkBaseURL={'/#/app/studentDetail/'}
+      linkBaseURL={'studentDetail/'}
       defaultSort={1}
       alwaysSortLastByColumn={1}
       filterByColumn={selectedAnswer ? { columnIndex: 2, filter: selectedAnswer } : null}

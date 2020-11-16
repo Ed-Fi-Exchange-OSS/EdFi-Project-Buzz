@@ -320,11 +320,13 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     try {
       setCurrentTeacher(props.api.authentication.currentUserValue.teacher);
       getStudent().then((result: Student) => {
-        setStudent(result);
-        setContacts(result.contacts);
-        setSiblings(result.siblings);
-        const pc = result.contacts.filter((c) => c.isprimarycontact === true)[0] || result.contacts[0];
-        setPrimaryContact(pc);
+        if (result) {
+          setStudent(result);
+          setContacts(result.contacts);
+          setSiblings(result.siblings);
+          const pc = result.contacts.filter((c) => c.isprimarycontact === true)[0] || result.contacts[0];
+          setPrimaryContact(pc);
+        }
       });
     } catch (error) {
       console.error(error);
