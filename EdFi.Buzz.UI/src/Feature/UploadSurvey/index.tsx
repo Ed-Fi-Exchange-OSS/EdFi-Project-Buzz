@@ -146,9 +146,13 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
   const [uploadFileLabelText, setUploadFileLabelText] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileStatusClassName, setFileStatusClassName] = useState(DEFAULT_UPLOAD_LABEL);
   const [fileUploaded, setFileUploaded] = useState<File>(null);
+  const surveyFileRef = React.createRef<HTMLInputElement>();
 
   document.title = 'EdFi Buzz: Upload Survey';
 
+  useEffect(()=> {
+    surveyFileRef.current.focus();
+  }, [surveyFileRef]);
 
   const resetFileStatusMessage = () => {
     setFileStatusMessage(
@@ -432,6 +436,7 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                   disabled={isFileUploading}
                   className='custom-file-input'
                   id='inputGroupFile01'
+                  ref={surveyFileRef}
                   accept='text/csv' />
                 <StyledFileInputLabel className='custom-file-label'>{uploadFileLabelText}</StyledFileInputLabel>
               </div>

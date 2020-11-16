@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdCreate from '@iconify-icons/ion/md-create';
@@ -180,6 +180,10 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
     setsurveyToDelete(surveyKey);
   }
 
+  useEffect(()=> {
+    surveyFilterRef.current.focus();
+  }, [surveyFilterRef]);
+
   function deleteSurvey() {
     if (surveyToDelete) {
       props.api.survey
@@ -250,11 +254,13 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
                     </div>
                     <div className='row' style={{ 'paddingRight': '20px', 'paddingTop': '10px' }}>
                       <div className='col-2 offset-8'>
-                        <span onClick={() => setSurveyToDelete(survey.surveykey)}
+                        <span
+                          tabIndex={0}
+                          onClick={() => setSurveyToDelete(survey.surveykey)}
                           onKeyPress={(event) => event.key === 'Enter' ? setSurveyToDelete(survey.surveykey)   : null}
-                          tabIndex={3}
                           className='btn btn-danger btn-delete-note ion-md-trash'
-                          data-toggle='modal' data-target='#deletesurveyconfirmation'>
+                          data-toggle='modal'
+                          data-target='#deletesurveyconfirmation'>
                           <Icon icon={mdTrash}></Icon>
                         </span>
                       </div>

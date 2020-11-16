@@ -63,7 +63,7 @@ function CustomLink({
   `;
   return (
     <CustomLinkStyle >
-      <Link to={to}>{children}</Link>
+      <Link to={to} tabIndex={-1}>{children}</Link>
       <LinkIsActive className={match ? 'active' : ''}></LinkIsActive>
     </CustomLinkStyle>
   );
@@ -282,7 +282,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     } else {
       menuLogoutRef.current.focus();
     }
-  }, [menuActive]);
+  }, [menuActive, isAdminSurveyLoader, isTeacherSurveyLoader, menuAdminSurveyRef, menuLogoutRef, menuUploadSurveyRef]);
 
   function logOut() {
     props.api.authentication.logout();
@@ -294,9 +294,9 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
         <HeaderLogo><HeaderImage src={props.titleLogo} alt={props.title} /></HeaderLogo>
         <MainNav>
           <ul>
-            <li tabIndex={1} onKeyPress={goToRoster}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
-            <li tabIndex={1} onKeyPress={goToSurveyAnalytics}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
-            <li tabIndex={1} onKeyPress={() => setMenuActive(!menuActive)}>
+            <li tabIndex={0} onKeyPress={goToRoster}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
+            <li tabIndex={0} onKeyPress={goToSurveyAnalytics}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
+            <li tabIndex={0} onKeyPress={() => setMenuActive(!menuActive)}>
               <LoggedUserMenu onClick={() => setMenuActive(!menuActive)}>
                 <span>
                   {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>
@@ -304,16 +304,16 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                 <MenuOptions className={menuActive ? 'active' : ''}>
                   <ul>
                     {isAdminSurveyLoader || isTeacherSurveyLoader
-                      ? <li tabIndex={1} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
-                        <Link to="/adminSurvey">
-                          <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
+                      ? <li tabIndex={0} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
+                        <Link to="/adminSurvey" tabIndex={-1}>
+                          <LinkButton tabIndex={-1}><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
                         </Link>
                       </li>
                       : null}
                     <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
-                    <li tabIndex={1} onKeyPress={logOut} ref={menuLogoutRef}>
-                      <Link to="/Login">
-                        <LinkButton onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
+                    <li tabIndex={0} onKeyPress={logOut} ref={menuLogoutRef}>
+                      <Link to="/Login" tabIndex={-1}>
+                        <LinkButton tabIndex={-1} onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
                       </Link>
                     </li>
                   </ul>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect, createRef } from 'react';
 
 import OdsSurvey from 'Models/OdsSurvey';
 
@@ -6,12 +6,20 @@ export interface OdsSurveyComponentProps {
   odsSurvey: OdsSurvey;
   addSurveyToImport: (odsSurvey: OdsSurvey) => void;
   removeSurveyToImport: (surveyidentifier: string) => void;
+  index?: number ;
 }
 
 export const OdsSurveyComponent: FunctionComponent<OdsSurveyComponentProps> = (props: OdsSurveyComponentProps) => {
   const {surveyidentifier, surveytitle} = props.odsSurvey;
   const [addSurvey, setAddSurvey] = useState(false);
   const inputId = `input${surveyidentifier}`;
+  const checkboxRef = createRef<HTMLInputElement>();
+
+  useEffect(() => {
+    if(props.index===0){
+      checkboxRef.current.focus();
+    }
+  }, [props.index, checkboxRef]);
 
   const handleChange = () => {
     setAddSurvey(!addSurvey);
@@ -33,6 +41,7 @@ export const OdsSurveyComponent: FunctionComponent<OdsSurveyComponentProps> = (p
             className='custom-control-input'
             id={inputId}
             onChange={handleChange}
+            ref={checkboxRef}
           />
           <label className='custom-control-label' htmlFor={inputId}>
             {surveytitle}

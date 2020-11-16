@@ -116,12 +116,13 @@ export const LoadOdsSurvey: FunctionComponent<LoadOdsSurveyProps> = (props: Load
           <div className='row'>
             <div className='col-12'>
               {
-                odsSurveys.map(odsSurvey => (
+                odsSurveys.map((odsSurvey, index) => (
                   <OdsSurveyComponent
                     key={odsSurvey.surveyidentifier}
                     odsSurvey={odsSurvey}
                     addSurveyToImport={addSurveyToImport}
                     removeSurveyToImport={removeSurveyToImport}
+                    index={index}
                   />
                 ))
               }
