@@ -87,7 +87,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   const history = useHistory();
   const [menuActive, setMenuActive] = useState(false);
   const { teacher } = props.api.authentication.currentUserValue;
-  const { isAdminSurveyLoader } = props;
+  const { isAdminSurveyLoader, isTeacherSurveyLoader } = props;
   const { height } = props;
 
   const menuAdminSurveyRef = createRef<HTMLLIElement>();
@@ -303,7 +303,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
                 </span>
                 <MenuOptions className={menuActive ? 'active' : ''}>
                   <ul>
-                    {isAdminSurveyLoader
+                    {isAdminSurveyLoader || isTeacherSurveyLoader
                       ? <li tabIndex={1} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
                         <Link to="/adminSurvey">
                           <LinkButton><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
