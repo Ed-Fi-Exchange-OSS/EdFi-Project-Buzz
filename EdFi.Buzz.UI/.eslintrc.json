@@ -31,7 +31,8 @@
     "@typescript-eslint",
     "react",
     "react-hooks",
-    "prettier"
+    "prettier",
+    "jsx-a11y"
   ],
   "settings": {
     "react": {
@@ -57,6 +58,46 @@
     }
   },
   "rules": {
+    "jsx-a11y/interactive-supports-focus": [
+      "error",
+      {
+        "tabbable": [
+          "button",
+          "checkbox",
+          "columnheader",
+          "combobox",
+          "grid",
+          "gridcell",
+          "link",
+          "listbox",
+          "menu",
+          "menubar",
+          "menuitem",
+          "menuitemcheckbox",
+          "menuitemradio",
+          "option",
+          "progressbar",
+          "radio",
+          "radiogroup",
+          "row",
+          "rowheader",
+          "searchbox",
+          "slider",
+          "spinbutton",
+          "switch",
+          "tab",
+          "tablist",
+          "textbox",
+          "tree",
+          "treegrid",
+          "treeitem",
+          "doc-backlink",
+          "doc-biblioref",
+          "doc-glossref",
+          "doc-noteref"
+        ]
+      }
+    ],
     "import/extensions": [
       "error",
       //"ignorePackages",
