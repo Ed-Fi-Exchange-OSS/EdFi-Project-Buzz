@@ -97,6 +97,7 @@ function Install-ApiApp {
         "KeepSurveysSynch"   = $configuration.keepSurveysSynch;
         "internalRoute"      = $configuration.api.internalRoute;
         "externalRoute"      = $configuration.api.externalRoute;
+        "corsOrigins"        = $configuration.api.corsOrigins;
         "rootDir"            = "dist";
         "app"                = "API";
     }
