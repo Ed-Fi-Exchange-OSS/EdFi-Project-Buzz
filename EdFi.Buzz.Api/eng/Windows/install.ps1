@@ -79,7 +79,11 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $externalRoute
+  $externalRoute,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $corsOrigins
 )
 
 function Get-FileNameWithoutExtensionFromUrl {
@@ -141,6 +145,7 @@ function New-DotEnvFile {
   if ("google" -eq $idProvider) {
     $envFile = @"
 NODE_TLS_REJECT_UNAUTHORIZED=1
+BUZZ_API_CORS_ORIGINS='$corsOrigins'
 BUZZ_API_DB_HOST=$DbServer
 BUZZ_API_DB_PORT=$DbPort
 BUZZ_API_DB_USERNAME=$DbUserName
@@ -172,6 +177,7 @@ KEEP_SURVEY_SYNCH=$KeepSurveysSynch
   else {
     $envFile = @"
 NODE_TLS_REJECT_UNAUTHORIZED=1
+BUZZ_API_CORS_ORIGINS='$corsOrigins'
 BUZZ_API_DB_HOST=$DbServer
 BUZZ_API_DB_PORT=$DbPort
 BUZZ_API_DB_USERNAME=$DbUserName
