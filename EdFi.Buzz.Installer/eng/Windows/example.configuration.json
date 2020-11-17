@@ -50,7 +50,8 @@
         "externalRoute": "http://localhost:3001",
         "internalRoute": "http://localhost:3000",
         "port": 3000,
-        "surveyFilesFolder": "C:\\Ed-Fi\\Buzz\\surveys"
+        "surveyFilesFolder": "C:\\Ed-Fi\\Buzz\\surveys",
+        "corsOrigins": "http://localhost:4200,http://another.api.consumer.local"
     },
     "ui": {
         "version": null,

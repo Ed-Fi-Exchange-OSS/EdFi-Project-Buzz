@@ -8,13 +8,25 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import AppModule from './app.module';
 
-const httpPort = parseInt(process.env.BUZZ_API_HTTP_PORT, 10);
+const httpPort: number = parseInt(process.env.BUZZ_API_HTTP_PORT, 10);
+const allowedOrigins: string[] = process.env.BUZZ_API_CORS_ORIGINS.split(',');
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin ${origin} was not defined in BUZZ_API_CORS_ORIGINS`));
+    }
+  },
+};
 
 async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter({ trustProxy: true });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter);
-  app.enableCors();
+  app.enableCors({ ...corsOptions });
   Logger.log(`NODE_TLS_REJECT_UNAUTHORIZED := ${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
   await app.listen(httpPort);
 }
+
 bootstrap();
