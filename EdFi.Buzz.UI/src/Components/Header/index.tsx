@@ -277,7 +277,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
   };
 
   useEffect(()=> {
-    if (isAdminSurveyLoader) {
+    if (isAdminSurveyLoader || isTeacherSurveyLoader) {
       menuAdminSurveyRef.current.focus();
     } else {
       menuLogoutRef.current.focus();
