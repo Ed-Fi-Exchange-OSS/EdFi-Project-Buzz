@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdCreate from '@iconify-icons/ion/md-create';
 import mdTrash from '@iconify-icons/ion/md-trash';
-
+import add from '@iconify-icons/ion/add';
 import ApiService from 'Services/ApiService';
 import SurveyStatus from 'Models/SurveyStatus';
 import { HeadlineContainer, MainContainer, TitleSpanContainer } from 'buzztheme';
@@ -20,7 +20,32 @@ import { Link } from 'react-router-dom';
 export interface AdminSurveyComponentProps {
   api: ApiService;
 }
-
+const UploadSurveyContainer = styled.div`
+  font-family: ${(props) => props.theme.fonts.regular} !important;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: var(--white-lilac);
+  color: #000000;
+  border: ${(props) => props.theme.border};
+  min-height: 175px;
+  margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border-radius: 4px;
+  flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+  text-decoration: none;
+  &:hover {
+    background-color: lightgray;
+    text-decoration: none;
+  }
+`;
 const AdminSurveyContainer = styled.div`
   font-family: ${(props) => props.theme.fonts.regular} !important;
   font-size: 14px;
@@ -184,6 +209,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
         <StyledTextParent>
           <img src={OrangeSearch} alt="Search icon" />
           <input
+            tabIndex={2}
             type='text'
             id='SurveyTitleInputs'
             placeholder='Search by Title'
@@ -224,13 +250,18 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
                     </div>
                     <div className='row' style={{ 'paddingRight': '20px', 'paddingTop': '10px' }}>
                       <div className='col-2 offset-8'>
-                        <span onClick={() => setSurveyToDelete(survey.surveykey)} className='btn btn-danger btn-delete-note ion-md-trash'
+                        <span onClick={() => setSurveyToDelete(survey.surveykey)}
+                          onKeyPress={(event) => event.key === 'Enter' ? setSurveyToDelete(survey.surveykey)   : null}
+                          tabIndex={3}
+                          className='btn btn-danger btn-delete-note ion-md-trash'
                           data-toggle='modal' data-target='#deletesurveyconfirmation'>
                           <Icon icon={mdTrash}></Icon>
                         </span>
                       </div>
                       <div className='col-2'>
-                        <Link to={`/uploadSurvey/${survey.surveykey}`} className='btn btn-primary'>
+                        <Link tabIndex={3}
+                          to={`/uploadSurvey/${survey.surveykey}`}
+                          className='btn btn-primary'>
                           <Icon icon={mdCreate}></Icon>
                         </Link>
                       </div>
@@ -241,7 +272,18 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
               </div>
             ))}
         </div>
-
+        <div className='row'>
+          <div className='col-lg-4' key={0}>
+            <Link
+              to={'/uploadSurvey'}
+              tabIndex={3}>
+              <UploadSurveyContainer className='card'>
+                <Icon width={'40px'} icon={add}></Icon>
+                Upload Survey
+              </UploadSurveyContainer>
+            </Link>
+          </div>
+        </div>
         {/* Modal */}
         <div
           className='modal'
