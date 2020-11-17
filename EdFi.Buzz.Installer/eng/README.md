@@ -91,6 +91,7 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **url:**  URL for the GraphQL endpoint setting in the UI env file.
 - **port:** API port.
 - **surveyFilesFolder** The folder into which uploaded survey files are written
+- **corsOrigins** This is a comma-delimited list of URIs which require API access. CORS policy will reject any URIs not in this list. Include the protocol (http or https).
 
 #### ui
 
