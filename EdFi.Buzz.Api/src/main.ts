@@ -30,7 +30,7 @@ const corsOptions: CorsOptions = {
     'X-Requested-With',
     'Content-Type',
     'Access-Control-Request-Method',
-    'Access-Control-Request-Headers'
+    'Access-Control-Request-Headers',
   ],
   credentials: true,
 };
