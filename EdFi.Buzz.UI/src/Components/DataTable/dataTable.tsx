@@ -285,7 +285,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
                   (index === sortByColIndex && sortDirection.Descending ? 'sorting_desc' : '')
                 }
                 key={label}
-                tabIndex={3}
+                tabIndex={0}
               >
                 {label}
               </th>
@@ -324,7 +324,7 @@ export const DataTable: React.FunctionComponent<DataTableComponentProps> = (prop
                   }
                 >
                   {isColumnOption(labelColumn) && labelColumn.linkColumnIndex >= 0 ? (
-                    <a tabIndex={3} href={`${props.linkBaseURL}${row[labelColumn.linkColumnIndex]}`}>{column}</a>
+                    <a tabIndex={0} href={`${props.linkBaseURL}${row[labelColumn.linkColumnIndex]}`}>{column}</a>
                   ) : (
                     <>{column}</>
                   )}

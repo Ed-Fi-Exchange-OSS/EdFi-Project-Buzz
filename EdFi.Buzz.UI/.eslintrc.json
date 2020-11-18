@@ -58,6 +58,7 @@
     }
   },
   "rules": {
+    "jsx-a11y/tabindex-no-positive": "error",
     "jsx-a11y/interactive-supports-focus": [
       "error",
       {

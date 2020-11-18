@@ -86,7 +86,7 @@ export const SurveyMetadataUI: React.FunctionComponent<SurveyMetadataUIComponent
           <Link
             key={surveyMetadata.surveykey}
             onKeyPress={(event) => event.key === 'Enter' ? props.onSurveySelected(surveyMetadata) : null}
-            tabIndex={3}
+            tabIndex={0}
             to={{
               pathname: '/surveyAnswersDetail',
               state: {surveyMetadata}

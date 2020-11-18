@@ -82,7 +82,7 @@ export const StudentDetailSurvey: FunctionComponent<StudentDetailSurveyProps> = 
                 <div className='bold'>Questions:&nbsp;{survey.answers.length}</div>
               </div>
             </div>
-            <StyledChevronIcon onClick={() => toggleDetail()} tabIndex={3} onKeyPress={() => toggleDetail()}>
+            <StyledChevronIcon onClick={() => toggleDetail()} tabIndex={0} onKeyPress={() => toggleDetail()}>
               {!show ? <ChevronDownIcon /> : <ChevronUpIcon />}
             </StyledChevronIcon>
           </StyledStudentSurveyRow>

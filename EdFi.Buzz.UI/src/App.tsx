@@ -140,8 +140,8 @@ export default function App(): JSX.Element {
               <Route path="/surveyAnalytics"> <SurveyAnalytics api={api} /> </Route>
               <Route path="/surveyAnswersDetail"> <SurveyAnswersDetail api={api}/> </Route>
               {isAdminSurveyLoader || isTeacherSurveyLoader
-              ? <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
-              : <Route><div>Need upload survey rights</div></Route>
+                ? <Route path="/uploadSurvey/:surveyKey"> <UploadSurvey api={api} /> </Route>
+                : <Route><div>Need upload survey rights</div></Route>
               }
               {isAdminSurveyLoader || isTeacherSurveyLoader
                 ? <Route path="/uploadSurvey"> <UploadSurvey api={api} /> </Route>

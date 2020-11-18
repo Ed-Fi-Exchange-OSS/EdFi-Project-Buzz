@@ -344,7 +344,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       {student && (
         <StudentDetailContainer>
           <div className='student-detail-top'>
-            <a href={'/'} className='student-detail-go-back-container' tabIndex={3}>
+            <a href={'/'} className='student-detail-go-back-container' tabIndex={0}>
               <LeftArrowIcon />
               <div className='student-detail-go-back-label'>Go back to Class Roster</div>
             </a>
@@ -364,7 +364,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                           className='text-ellipsis'
                           href={`mailto:${student.primaryemailaddress}`}
                           title={student.primaryemailaddress}
-                          tabIndex={3}
+                          tabIndex={0}
                         >
                           {student.primaryemailaddress}
                         </a>
@@ -421,7 +421,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
             </div>
             <div className='student-detail-tabbed-container'>
               <div className='student-detail-tabs'>
-                <div tabIndex={3}
+                <div tabIndex={0}
                   ref={surveyTabRef}
                   className={selectedTabClassName}
                   onClick={() => {
@@ -433,7 +433,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 >
                 Surveys
                 </div>
-                <div tabIndex={3}
+                <div tabIndex={0}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
                   onClick={() => {
