@@ -282,7 +282,7 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
     } else {
       menuLogoutRef.current.focus();
     }
-  }, [menuActive, isAdminSurveyLoader, isTeacherSurveyLoader, menuAdminSurveyRef, menuLogoutRef, menuUploadSurveyRef]);
+  }, [menuActive, isAdminSurveyLoader, isTeacherSurveyLoader, menuAdminSurveyRef, menuLogoutRef]);
 
   function logOut() {
     props.api.authentication.logout();
