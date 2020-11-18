@@ -9,8 +9,8 @@ CREATE TABLE buzz.Attendance (
     SchoolKey VARCHAR(30) NOT NULL,
     ReportedAsPresentAtSchool NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsAbsentFromSchool NUMERIC(5,2) NOT NULL DEFAULT 0,
-    ReportedAsAbsentFromSchoolReportedAsPresentAtHomeRoom NUMERIC(5,2) NOT NULL DEFAULT 0,
-    ReportedAsAbsentFromHomeRoom NUMERIC(5,2) NULL DEFAULT 0,
+    ReportedAsPresentAtHomeRoom NUMERIC(5,2) NOT NULL DEFAULT 0,
+    ReportedAsAbsentFromHomeRoom NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsIsPresentInAllSections NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsAbsentFromAnySection NUMERIC(5,2) NOT NULL  DEFAULT 0,
     CONSTRAINT PK_AttendanceKey PRIMARY KEY (StudentSchoolKey)
