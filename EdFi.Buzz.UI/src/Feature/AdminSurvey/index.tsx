@@ -213,7 +213,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
         <StyledTextParent>
           <img src={OrangeSearch} alt="Search icon" />
           <input
-            tabIndex={2}
+            tabIndex={0}
             type='text'
             id='SurveyTitleInputs'
             placeholder='Search by Title'
@@ -265,7 +265,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
                         </span>
                       </div>
                       <div className='col-2'>
-                        <Link tabIndex={3}
+                        <Link tabIndex={0}
                           to={`/uploadSurvey/${survey.surveykey}`}
                           className='btn btn-primary'>
                           <Icon icon={mdCreate}></Icon>
@@ -282,7 +282,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
           <div className='col-lg-4' key={0}>
             <Link
               to={'/uploadSurvey'}
-              tabIndex={3}>
+              tabIndex={0}>
               <UploadSurveyContainer className='card'>
                 <Icon width={'40px'} icon={add}></Icon>
                 Upload Survey
