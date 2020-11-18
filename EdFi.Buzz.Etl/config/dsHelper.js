@@ -31,4 +31,32 @@ const dbDataStandard = async (config) => {
   }
 };
 
+const chronicAbsenteeismAttendanceFactExists = async (config) => {
+  try {
+    await sql.connect(config);
+    const result = await sql.query`
+        IF EXISTS
+        (
+            SELECT 1
+            FROM INFORMATION_SCHEMA.VIEWS
+            WHERE TABLE_SCHEMA = 'analytics'
+                  AND TABLE_NAME = 'chrab_ChronicAbsenteeismAttendanceFact'
+        )
+        BEGIN
+            SELECT 'yes' AS 'exists'
+        END
+        ELSE BEGIN
+            SELECT 'no' AS 'exists'
+        END
+        `;
+
+    if (result.recordset && result.recordset.length > 0) return result.recordset[0].exists;
+
+    return undefined;
+  } catch (err) {
+    return undefined;
+  }
+};
+
 exports.dbDataStandard = dbDataStandard;
+exports.chronicAbsenteeismAttendanceFactExists = chronicAbsenteeismAttendanceFactExists;
