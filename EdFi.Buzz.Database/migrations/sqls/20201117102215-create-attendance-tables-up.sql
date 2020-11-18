@@ -5,8 +5,6 @@
 
 CREATE TABLE buzz.Attendance (
     StudentSchoolKey VARCHAR(45) NOT NULL,
-    StudentKey VARCHAR(32) NOT NULL,
-    SchoolKey VARCHAR(30) NOT NULL,
     ReportedAsPresentAtSchool NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsAbsentFromSchool NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsPresentAtHomeRoom NUMERIC(5,2) NOT NULL DEFAULT 0,
