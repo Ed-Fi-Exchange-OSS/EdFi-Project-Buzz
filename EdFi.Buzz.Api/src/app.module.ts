@@ -54,6 +54,13 @@ config({ path: `${__dirname}/.env` });
     }),
     GraphQLModule.forRoot({
       typePaths: [`${__dirname}/**/*.graphql`],
+      cors: {
+        origin: process.env.BUZZ_API_CORS_ORIGINS.split(','),
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        preflightContinue: true,
+        optionsSuccessStatus: 204,
+        credentials: true,
+      },
       playground: true,
       context: ({ request }) => ({ headers: request.raw.headers }),
     }),
