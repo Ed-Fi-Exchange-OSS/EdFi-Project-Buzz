@@ -47,10 +47,7 @@ const processEntity = async (values, pgClient, rowConfig) => {
     .then(async (res) => {
       if (res.rowCount === 0) {
         await pgClient.query(rowConfig.insertSql, values)
-          .catch(() => {
-            console.error('error');
-            console.error(JSON.stringify(values));
-          });
+          .catch(() => console.error(JSON.stringify(values)));
       }
 
       if (res.rowCount === 1) {
