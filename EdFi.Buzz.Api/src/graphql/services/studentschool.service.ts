@@ -14,6 +14,7 @@ import {
   StudentSurveyEntity,
   StudentNoteEntity,
   SurveyEntity,
+  AttendanceEntity,
 }
   from '../entities/buzz';
 import { BUZZ_DATABASE } from '../../constants';
@@ -36,6 +37,8 @@ export default class SectionService {
     private readonly BuzzStudentSurveyRepository: Repository<StudentSurveyEntity>,
     @InjectRepository(StudentNoteEntity, BUZZ_DATABASE)
     private readonly BuzzStudentNotesRepository: Repository<StudentNoteEntity>,
+    @InjectRepository(AttendanceEntity, BUZZ_DATABASE)
+    private readonly BuzzAttendanceRepository: Repository<AttendanceEntity>,
   ) {}
 
   async findAll(): Promise<StudentSchoolEntity[]> {
@@ -119,5 +122,15 @@ export default class SectionService {
       .where('(studentnotes.deletedat IS NULL)')
       .orderBy('studentnotekey', 'DESC')
       .getMany();
+  }
+
+  async findAttendanceByStudentSchoolKey(studentschoolkey: string): Promise<AttendanceEntity> {
+    return this.BuzzAttendanceRepository.createQueryBuilder('attendance')
+      .innerJoin(
+        StudentSchoolEntity,
+        'ss',
+        `attendance.studentschoolkey = ss.studentschoolkey and ss.studentschoolkey='${studentschoolkey}'`,
+      )
+      .getOne();
   }
 }

@@ -23,6 +23,7 @@ type Query{
   odssurveybyid(surveyidentifier: ID!): OdsSurvey
   canLoadSurverysFromUI: CanLoadSurverysFromUI
   doesOdsContainsSurveyModel: DoesOdsContainsSurveyModel
+  attendancebystudent(studentschoolkey: String!): Attendance
 }
 type Section{
   sectionkey: String
@@ -55,6 +56,7 @@ type StudentSchool
   siblings: [StudentSchool]
   studentsurveys: [StudentSurvey]
   notes: [StudentNote]
+  attendance: Attendance
 }
 type StudentNote {
   studentnotekey: Int
@@ -112,7 +114,6 @@ type StudentSection{
   schoolkey: String
   schoolyear: String
 }
-
 
 type Survey {
   surveykey: Int
@@ -212,6 +213,16 @@ type JobStatus {
 input OdsSurveyItem {
   surveyidentifier: String
   surveytitle: String
+}
+
+type Attendance{
+  studentschoolkey: String
+  reportedaspresentatschool: Float
+  reportedasabsentfromschool: Float
+  reportedaspresentathomeroom: Float
+  reportedasabsentfromhomeroom: Float
+  reportedasispresentinallsections: Float
+  reportedasabsentfromanysection: Float
 }
 
 type LoadSurveyFromOdsResponse{

@@ -15,6 +15,7 @@ import {
   StudentNoteEntity,
   StudentSurveyEntity,
   SurveyEntity,
+  AttendanceEntity,
 } from '../entities/buzz';
 import { BUZZ_DATABASE } from '../../constants';
 
@@ -28,6 +29,7 @@ import { BUZZ_DATABASE } from '../../constants';
       StudentSurveyEntity,
       StudentNoteEntity,
       SurveyEntity,
+      AttendanceEntity,
     ], BUZZ_DATABASE),
   ],
   providers: [StudentSchoolService, StudentSchoolResolvers],
