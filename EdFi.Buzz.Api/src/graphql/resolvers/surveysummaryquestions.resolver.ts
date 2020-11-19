@@ -9,9 +9,9 @@ import {
 import { UseGuards } from '@nestjs/common';
 import { SurveySummaryAnswers } from '../graphql.schema';
 import SurveySummaryQuestionsService from '../services/surveysummaryquestions.service';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @Resolver('SurveySummaryQuestions')
 export default class SurveySummaryQuestionsResolvers {
   // eslint-disable-next-line no-useless-constructor

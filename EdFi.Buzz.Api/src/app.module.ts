@@ -22,6 +22,7 @@ import SurveyStatusModule from './graphql/modules/surveystatus.module';
 import SurveyModule from './graphql/modules/survey.module';
 import OdsSurveyModule from './graphql/modules/odssurvey.module';
 import { BUZZ_DATABASE, ODS_DATABASE } from './constants';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 config({ path: `${__dirname}/.env` });
 
@@ -70,6 +71,6 @@ config({ path: `${__dirname}/.env` });
     OdsSurveyModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleStrategy],
 })
 export default class AppModule { }

@@ -11,13 +11,13 @@ import { UseGuards } from '@nestjs/common';
 import {
   LoadSurveyFromOdsResponse, OdsSurveyItem, Survey,
 } from '../graphql.schema';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import SurveyService from '../services/survey.service';
 import TaskItemService from '../services/taskitem.service';
 import { LoadSurveyFromOdsTaskItem } from '../entities/buzz';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @UseGuards(ValidateStaffIdGuard)
 @Resolver('Survey')
 export default class SurveyResolvers {

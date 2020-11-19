@@ -9,9 +9,9 @@ import {
 } from '@nestjs/graphql';
 import { Section, StudentSchool } from '../graphql.schema';
 import SectionService from '../services/section.service';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @Resolver('Section')
 export default class SectionResolvers {
   // eslint-disable-next-line no-useless-constructor

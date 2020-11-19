@@ -11,9 +11,9 @@ import {
   StudentSchool, ContactPerson, StudentSurvey, StudentNote,
 } from '../graphql.schema';
 import StudentSchoolService from '../services/studentschool.service';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @Resolver('StudentSchool')
 export default class StudentSchoolResolvers {
   // eslint-disable-next-line no-useless-constructor

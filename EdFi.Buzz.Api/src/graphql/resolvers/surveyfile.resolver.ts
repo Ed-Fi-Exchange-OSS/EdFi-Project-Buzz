@@ -9,14 +9,14 @@ import {
 import { UseGuards, UnauthorizedException } from '@nestjs/common';
 
 import SurveyFileService from '../services/surveyfile.service';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import TaskItemService from '../services/taskitem.service';
 import SurveyStatusService from '../services/surveystatus.service';
 import { SurveyStatusEntity } from '../entities/buzz';
 import SurveyService from '../services/survey.service';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @UseGuards(ValidateStaffIdGuard)
 @Resolver('SurveyFile')
 export default class SurveyFileResolvers {

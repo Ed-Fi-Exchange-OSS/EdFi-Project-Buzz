@@ -9,12 +9,12 @@ import {
 import { UseGuards } from '@nestjs/common';
 
 import { JobStatus } from '../graphql.schema';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 import ValidateStaffIdGuard from '../guards/validateStaffId.guard';
 import SurveyStatusService from '../services/surveystatus.service';
 import { SurveyStatusEntity } from '../entities/buzz';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @UseGuards(ValidateStaffIdGuard)
 @Resolver('SurveyStatus')
 export default class SurveyStatusResolvers {

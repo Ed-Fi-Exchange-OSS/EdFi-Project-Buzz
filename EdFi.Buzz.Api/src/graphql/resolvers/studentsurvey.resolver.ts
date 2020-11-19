@@ -7,9 +7,9 @@ import { UseGuards } from '@nestjs/common';
 import { ResolveProperty, Resolver, Parent } from '@nestjs/graphql';
 import { StudentSurvey, AnswersByStudent } from '../graphql.schema';
 import StudentSurveyService from '../services/studentsurvey.service';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @Resolver('StudentSurvey')
 export default class StudentSurveyResolvers {
   // eslint-disable-next-line no-useless-constructor

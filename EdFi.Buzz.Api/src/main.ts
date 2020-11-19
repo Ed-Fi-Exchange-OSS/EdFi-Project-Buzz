@@ -38,6 +38,7 @@ const corsOptions: CorsOptions = {
 async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter({ trustProxy: true, logger: true });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter);
+  app.register(require('fastify-cors'));
   app.enableCors({ ...corsOptions });
   Logger.log(`NODE_TLS_REJECT_UNAUTHORIZED := ${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
   await app.listen(httpPort);

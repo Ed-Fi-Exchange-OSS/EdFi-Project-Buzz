@@ -9,10 +9,10 @@ import {
 } from '@nestjs/graphql';
 import { OdsSurvey, CanLoadSurverysFromUI } from '../graphql.schema';
 import OdsSurveyService from '../services/odssurvey.service';
-import AuthGuard from '../auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 import { DoesOdsContainsSurveyModel } from '../entities/buzz';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('google'))
 @Resolver('OdsSurvey')
 export default class SectionResolvers {
   // eslint-disable-next-line no-useless-constructor
