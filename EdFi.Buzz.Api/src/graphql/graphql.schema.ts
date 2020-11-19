@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -115,7 +116,7 @@ export abstract class IQuery {
 
     abstract doesOdsContainsSurveyModel(): DoesOdsContainsSurveyModel | Promise<DoesOdsContainsSurveyModel>;
 
-    abstract attendancebystudent(studentschoolkey: string): Attendance | Promise<Attendance>;
+    abstract attendancebystudentschool(studentschoolkey: string): Attendance | Promise<Attendance>;
 }
 
 export class School {
@@ -213,7 +214,6 @@ export class StudentSection {
     studentsectionenddatekey?: string;
     schoolkey?: string;
     schoolyear?: string;
-    attendance?: Attendance;
 }
 
 export class StudentSurvey {

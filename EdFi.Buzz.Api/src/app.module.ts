@@ -21,6 +21,7 @@ import SurveyFileModule from './graphql/modules/surveyfile.module';
 import SurveyStatusModule from './graphql/modules/surveystatus.module';
 import SurveyModule from './graphql/modules/survey.module';
 import OdsSurveyModule from './graphql/modules/odssurvey.module';
+import AttendanceModule from './graphql/modules/attendance.module';
 import { BUZZ_DATABASE, ODS_DATABASE } from './constants';
 
 config({ path: `${__dirname}/.env` });
@@ -68,6 +69,7 @@ config({ path: `${__dirname}/.env` });
     SurveyStatusModule,
     SurveyModule,
     OdsSurveyModule,
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -16,4 +16,4 @@ import { BUZZ_DATABASE } from '../../constants';
   imports: [TypeOrmModule.forFeature([AttendanceEntity], BUZZ_DATABASE)],
   providers: [AttendanceService, AttendanceResolvers],
 })
-export default class SectionModule {}
+export default class AttendanceModule {}

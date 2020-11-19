@@ -23,7 +23,7 @@ type Query{
   odssurveybyid(surveyidentifier: ID!): OdsSurvey
   canLoadSurverysFromUI: CanLoadSurverysFromUI
   doesOdsContainsSurveyModel: DoesOdsContainsSurveyModel
-  attendancebystudent(studentschoolkey: String!): Attendance
+  attendancebystudentschool(studentschoolkey: String!): Attendance
 }
 type Section{
   sectionkey: String

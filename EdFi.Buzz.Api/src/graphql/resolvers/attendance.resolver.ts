@@ -5,7 +5,7 @@
 
 import { UseGuards } from '@nestjs/common';
 import {
-  Args, Resolver,
+  Args, Resolver, Query,
 } from '@nestjs/graphql';
 import { Attendance } from '../graphql.schema';
 import AttendanceService from '../services/attendance.service';
@@ -17,10 +17,10 @@ export default class AttendanceResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly attendanceService: AttendanceService) {}
 
-  async sections(): Promise<Attendance[]> {
+  async attendance(): Promise<Attendance[]> {
     return this.attendanceService.findAll();
   }
-
+  @Query('attendancebystudentschool')
   async findOneByStudentSchool(@Args('studentschoolkey') studentschoolkey: string): Promise<Attendance> {
     return this.attendanceService.findOneByStudentSchool(studentschoolkey);
   }
