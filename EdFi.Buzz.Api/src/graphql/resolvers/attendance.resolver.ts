@@ -20,6 +20,7 @@ export default class AttendanceResolvers {
   async attendance(): Promise<Attendance[]> {
     return this.attendanceService.findAll();
   }
+
   @Query('attendancebystudentschool')
   async findOneByStudentSchool(@Args('studentschoolkey') studentschoolkey: string): Promise<Attendance> {
     return this.attendanceService.findOneByStudentSchool(studentschoolkey);
