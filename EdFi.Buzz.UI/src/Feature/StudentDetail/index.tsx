@@ -12,11 +12,12 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
 import ApiService from '../../Services/ApiService';
-import { Student, Teacher, ContactPerson } from '../../Models';
+import { Student, Teacher, ContactPerson, Attendance } from '../../Models';
 import { EmailIcon, LeftArrowIcon, StarIcon } from '../../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
 import { StudentDetailSurvey } from './StudentDetailSurvey';
 import { StudentDetailNotesContainer } from './StudentDetailNotesContainer';
+import { StudentDetailAttendance } from './StudentDetailAttendance';
 
 const StudentDetailContainer = styled.div`
   display: flex;
@@ -251,6 +252,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   enum ActiveTabEnum {
     Surveys = 'SURVEYS',
     Notes = 'NOTES',
+    Attendance = 'ATTENDANCE',
   }
 
   const selectedTabClassName = 'survey-notes-container-tab survey-notes-tab-selected';
@@ -265,12 +267,15 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   const [siblings, setSiblings] = useState<Array<Student>>();
   const [primaryContact, setPrimaryContact] = useState<ContactPerson>();
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
+  const [attendance, setAttendance] = useState<Attendance>();
   const [tabSelected, setTabSelected] = useState<string>();
 
   const notesTabRef = React.createRef<HTMLDivElement>();
   const surveyTabRef = React.createRef<HTMLDivElement>();
+  const attendanceTabRef = React.createRef<HTMLDivElement>();
   const notesAreaRef = React.createRef<HTMLDivElement>();
   const surveyAreaRef = React.createRef<HTMLDivElement>();
+  const attendanceAreaRef = React.createRef<HTMLDivElement>();
 
   interface ParamTypes {
     studentKey: string;
@@ -278,8 +283,16 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
 
   const { studentKey } = useParams<ParamTypes>();
 
+  const getAttendanceData = useCallback(async (studentSchoolKey: string) => {
+    await props.api.attendance.getAttendanceData(studentSchoolKey).then((result) => {
+      setAttendance(result);
+    });
+  }, [props.api.attendance]);
+
   const toggleTabVisibility = useCallback((tab: string) => {
-    if (!notesTabRef.current || !surveyTabRef.current || !notesAreaRef.current || !surveyAreaRef.current) {
+    if (!notesTabRef.current || !surveyTabRef.current || !attendanceTabRef.current
+        || !notesAreaRef.current || !surveyAreaRef.current || !attendanceAreaRef.current
+      ) {
       return;
     }
 
@@ -289,19 +302,31 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       case ActiveTabEnum.Surveys:
         notesTabRef.current.className = unselectedTabClassName;
         notesAreaRef.current.className = `${unselectedAreaClassName}`;
+        attendanceTabRef.current.className = unselectedTabClassName;
+        attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
         surveyTabRef.current.className = selectedTabClassName;
         surveyAreaRef.current.className = `${surveyContainerClassName} ${selectedAreaClassName}`;
+        break;
+      case ActiveTabEnum.Attendance:
+        surveyTabRef.current.className = unselectedTabClassName;
+        surveyAreaRef.current.className = `${unselectedAreaClassName}`;
+        notesTabRef.current.className = unselectedTabClassName;
+        notesAreaRef.current.className = `${unselectedAreaClassName}`;
+        attendanceTabRef.current.className = selectedTabClassName;
+        attendanceAreaRef.current.className = `${surveyContainerClassName} ${selectedAreaClassName}`;
         break;
       case ActiveTabEnum.Notes:
         surveyTabRef.current.className = unselectedTabClassName;
         surveyAreaRef.current.className = `${unselectedAreaClassName}`;
+        attendanceTabRef.current.className = unselectedTabClassName;
+        attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
         notesTabRef.current.className = selectedTabClassName;
         notesAreaRef.current.className = `${notesContainerClassName} ${selectedAreaClassName}`;
         break;
       default:
         break;
     }
-  }, [ActiveTabEnum.Notes, ActiveTabEnum.Surveys, notesAreaRef, notesTabRef, surveyAreaRef, surveyTabRef]);
+  }, [ActiveTabEnum.Notes, ActiveTabEnum.Surveys, ActiveTabEnum.Attendance, notesAreaRef, notesTabRef, surveyAreaRef, surveyTabRef, attendanceAreaRef, attendanceTabRef]);
 
   useEffect(() => {
     toggleTabVisibility(tabSelected);
@@ -326,6 +351,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
           setSiblings(result.siblings);
           const pc = result.contacts.filter((c) => c.isprimarycontact === true)[0] || result.contacts[0];
           setPrimaryContact(pc);
+          getAttendanceData(result.studentschoolkey);
         }
       });
     } catch (error) {
@@ -335,7 +361,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     return () => {
       cancel = true;
     };
-  }, [props.api.authentication.currentUserValue.teacher, props.api.student, studentKey]);
+  }, [props.api.authentication.currentUserValue.teacher, props.api.student, studentKey, getAttendanceData]);
 
   toggleTabVisibility(ActiveTabEnum.Surveys);
 
@@ -433,6 +459,20 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 >
                 Surveys
                 </div>
+                {attendance ? 
+                  <div tabIndex={0}
+                    ref={attendanceTabRef}
+                    className={unselectedTabClassName}
+                    onClick={() => {
+                      toggleTabVisibility(ActiveTabEnum.Attendance);
+                    }}
+                    onKeyPress={() => {
+                      toggleTabVisibility(ActiveTabEnum.Attendance);
+                    }}
+                  >
+                  Attendance
+                  </div>
+                : null }
                 <div tabIndex={0}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
@@ -460,6 +500,12 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                       studentschoolkey={student.studentschoolkey}
                       notes={student.notes} />
                   </div>
+                </div>
+                <div ref={attendanceAreaRef} className={`${surveyContainerClassName} ${unselectedAreaClassName}`}>
+                  {attendance &&
+                    <StudentDetailAttendance
+                      attendance={attendance}
+                    /> }
                 </div>
               </div>
             </div>
