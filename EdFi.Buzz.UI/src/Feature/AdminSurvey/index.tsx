@@ -5,6 +5,8 @@
 
 import * as React from 'react';
 import { FunctionComponent, useState, useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import Icon from '@iconify/react';
 import mdCreate from '@iconify-icons/ion/md-create';
@@ -153,6 +155,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   const [surveyList, setsurveyList] = useState([] as SurveyStatus[]);
   const [surveyToDelete, setsurveyToDelete] = useState(null as number);
   const [searchText, setsearchText] = useState('' as string);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const surveyFilterRef = React.createRef<HTMLInputElement>();
 
   if (!surveyFilteredList || surveyFilteredList.length === 0) {
@@ -176,8 +179,9 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
     }
   }
 
-  function setSurveyToDelete(surveyKey: number) {
+  function openModal(surveyKey: number) {
     setsurveyToDelete(surveyKey);
+    setShowModal(true);
   }
 
   useEffect(()=> {
@@ -185,6 +189,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   }, [surveyFilterRef]);
 
   function deleteSurvey() {
+    setShowModal(false);
     if (surveyToDelete) {
       props.api.survey
         .deleteSurvey(props.api.authentication.currentUserValue.teacher.staffkey, surveyToDelete)
@@ -256,11 +261,10 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
                       <div className='col-2 offset-8'>
                         <span
                           tabIndex={0}
-                          onClick={() => setSurveyToDelete(survey.surveykey)}
-                          onKeyPress={(event) => event.key === 'Enter' ? setSurveyToDelete(survey.surveykey)   : null}
+                          onClick={() => openModal(survey.surveykey)}
+                          onKeyPress={(event) => event.key === 'Enter' ? openModal(survey.surveykey)   : null}
                           className='btn btn-danger btn-delete-note ion-md-trash'
-                          data-toggle='modal'
-                          data-target='#deletesurveyconfirmation'>
+                        >
                           <Icon icon={mdTrash}></Icon>
                         </span>
                       </div>
@@ -291,33 +295,38 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
           </div>
         </div>
         {/* Modal */}
-        <div
-          className='modal'
-          id='deletesurveyconfirmation'
-          data-backdrop='static'
-          data-keyboard='false'
-          role='dialog'
-          aria-labelledby='staticBackdropLabel'
-          aria-hidden='true'
-        >
-          <div className='modal-dialog modal-dialog-centered'>
-            <div className='modal-content'>
-              <div className='modal-header'>
-                <h3 className='modal-title' id='deletenoteconfirmationLabel'>Administer surveys</h3>
-                <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
-                  <span aria-hidden='true'>&times;</span>
-                </button>
-              </div>
-              <div className='modal-body'>
-                Are you sure you want to delete this survey?
-              </div>
-              <div className='modal-footer'>
-                <button type='button' className='btn btn-secondary' data-dismiss='modal'>No</button>
-                <button type='button' onClick={deleteSurvey} data-dismiss='modal' className='btn btn-danger'>Yes</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal
+          show={showModal}
+          backdrop='static'
+          size='lg'
+          aria-labelledby='contained-modal-title-vcenter'
+          centered>
+          <Modal.Header>
+            <Modal.Title>Administer surveys</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Do you want to delete this survey?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button
+              variant='secondary'
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+                No
+            </Button>
+            <Button
+              className='btn-danger'
+              variant='primary'
+              onClick={deleteSurvey}
+            >
+                Yes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </MainContainer>
     </>
   );
