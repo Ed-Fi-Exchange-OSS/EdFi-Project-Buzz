@@ -18,6 +18,16 @@ export class AnswersByStudent {
     answer?: string;
 }
 
+export class Attendance {
+    studentschoolkey?: string;
+    reportedaspresentatschool?: number;
+    reportedasabsentfromschool?: number;
+    reportedaspresentathomeroom?: number;
+    reportedasabsentfromhomeroom?: number;
+    reportedasispresentinallsections?: number;
+    reportedasabsentfromanysection?: number;
+}
+
 export class CanLoadSurverysFromUI {
     allowed?: boolean;
 }
@@ -104,6 +114,8 @@ export abstract class IQuery {
     abstract canLoadSurverysFromUI(): CanLoadSurverysFromUI | Promise<CanLoadSurverysFromUI>;
 
     abstract doesOdsContainsSurveyModel(): DoesOdsContainsSurveyModel | Promise<DoesOdsContainsSurveyModel>;
+
+    abstract attendancebystudentschool(studentschoolkey: string): Attendance | Promise<Attendance>;
 }
 
 export class School {
@@ -185,6 +197,7 @@ export class StudentSchool {
     siblings?: StudentSchool[];
     studentsurveys?: StudentSurvey[];
     notes?: StudentNote[];
+    attendance?: Attendance;
 }
 
 export class StudentSection {
