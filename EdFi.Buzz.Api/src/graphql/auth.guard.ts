@@ -12,11 +12,12 @@ export default class AuthGuard implements CanActivate {
   // eslint-disable-next-line class-methods-use-this
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context).getContext();
-    if (!ctx.headers.authorization) {
+    const { request } = ctx;
+    if (!request.headers.authorization) {
       return false;
     }
 
-    ctx.user = await validateToken(ctx.headers.authorization);
+    ctx.user = await validateToken(request.headers.authorization);
     return true;
   }
 }

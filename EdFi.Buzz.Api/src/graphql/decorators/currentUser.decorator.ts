@@ -7,8 +7,8 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import getClaims from '../services/jwt.service';
 
 const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
-  const [, , { headers }] = context.getArgs();
-  const userData = getClaims(headers.authorization);
+  const [, , { request }] = context.getArgs();
+  const userData = getClaims(request.headers.authorization);
   const email = userData.email || userData.upn;
   return email;
 });

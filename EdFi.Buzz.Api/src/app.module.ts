@@ -62,7 +62,7 @@ config({ path: `${__dirname}/.env` });
         credentials: true,
       },
       playground: true,
-      context: ({ request }) => ({ headers: request.raw.headers }),
+      context: ({ req }) => ({ request: req }),
     }),
     SectionModule,
     StaffModule,
@@ -81,4 +81,4 @@ config({ path: `${__dirname}/.env` });
   controllers: [AppController],
   providers: [AppService],
 })
-export default class AppModule { }
+export default class AppModule {}

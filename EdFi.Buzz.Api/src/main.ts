@@ -6,7 +6,7 @@
 import { Logger } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestFactory } from '@nestjs/core';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import AppModule from './app.module';
 
 const httpPort: number = parseInt(process.env.BUZZ_API_HTTP_PORT, 10);
@@ -36,8 +36,7 @@ const corsOptions: CorsOptions = {
 };
 
 async function bootstrap() {
-  const fastifyAdapter = new FastifyAdapter({ trustProxy: true, logger: true });
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({ ...corsOptions });
   Logger.log(`NODE_TLS_REJECT_UNAUTHORIZED := ${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
   await app.listen(httpPort);

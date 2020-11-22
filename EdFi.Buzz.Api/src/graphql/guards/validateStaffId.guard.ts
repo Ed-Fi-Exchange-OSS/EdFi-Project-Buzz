@@ -16,8 +16,8 @@ export default class ValidateStaffIdGuard implements CanActivate {
 
   // eslint-disable-next-line class-methods-use-this
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const [, params, { headers }] = context.getArgs();
-    const userData = getClaims(headers.authorization);
+    const [, params, { request }] = context.getArgs();
+    const userData = getClaims(request.headers.authorization);
     const errorMessage = 'You don\'t have access to execute this query or the parameters are not valid.';
 
     if (!userData) {

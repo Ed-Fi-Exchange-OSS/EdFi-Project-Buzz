@@ -105,10 +105,9 @@ export const validateToken = async (auth: string): Promise<string|object> => {
     const usesGoogle = (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_ID !== '');
 
     if (usesGoogle) {
-      console.log('Using Google verification');
       return await validateGoogleToken(token);
     }
-    console.log('Using ADFS verification');
+
     return await validateAdfsToken(token);
   } catch (err) {
     throw new HttpException(err.message, HttpStatus.UNAUTHORIZED);
