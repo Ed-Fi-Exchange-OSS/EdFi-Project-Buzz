@@ -104,12 +104,12 @@ window['runConfig'] = {
     REACT_APP_TITLE_LOGO:"$script:titleLogo",
     REACT_APP_TITLE_LOGO_WIDTH:"$script:titleLogoWidth",
     REACT_APP_TITLE_LOGO_HEIGHT:"$script:titleLogoHeight",
-    REACT_ID_PROVIDER:"$script:idProvider",
+    REACT_APP_ID_PROVIDER:"$script:idProvider"
   };
 "@
   if (Test-Path -Path "$appPath\\runtime-config.js") {
     Set-Content -Path "$appPath\\runtime-config.js" -Value $runtimeConfig -Force
-    Write-Host "Updated the runtime config with runtime configuration"
+    Write-Host "Updated runtime configuration"
   }
   else {
     throw "Could not locate the runtime-config.js"

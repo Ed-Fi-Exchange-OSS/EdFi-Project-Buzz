@@ -5,10 +5,8 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import jwt from 'jsonwebtoken';
 import ApolloHelper from 'Helpers/ApolloHelper';
-import { OAuth2Client } from 'google-auth-library';
-import JWTHelper from 'Helpers/JWTHelper';
+import { validateToken } from 'Helpers/JWTHelper';
 import TeacherApiService from './TeacherService';
 import User from '../Models/User';
 import EnvironmentService from './EnvironmentService';
@@ -56,44 +54,12 @@ export default class AuthenticationService {
     return true;
   }
 
-
-  async validateToken (token: string): Promise<boolean> {
-    try {
-      let ticket;
-      if (this.environmentService.environment.ADFS_TENANT_ID && this.environmentService.environment.ADFS_TENANT_ID !== '') {
-        const jwtHelper = new JWTHelper();
-        ticket = jwtHelper.validateToken(token);
-        const decodedToken = jwt.decode(token, { complete: true, json: true });
-        const dateNow = new Date();
-
-        if(decodedToken && decodedToken.payload.exp >= Math.round(dateNow.getTime()/1000)){
-          return true;
-        }
-        return true;
-      }
-      const client = new OAuth2Client(
-        this.environmentService.environment.GOOGLE_CLIENT_ID
-      );
-      ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: this.environmentService.environment.GOOGLE_CLIENT_ID
-      });
-
-      const payload = ticket.getPayload();
-      return payload.email_verified;
-
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  };
-
   public validateJWT = async (): Promise<boolean> =>{
     const token = sessionStorage.getItem('validatingToken');
     try {
       if(token){
-        const validateToken = await this.validateToken(token);
-        if(!validateToken){
+        const isValid = await validateToken(token, this.environmentService.environment);
+        if(!isValid){
           throw new Error('Did not return a valid token');
         }
         return true;

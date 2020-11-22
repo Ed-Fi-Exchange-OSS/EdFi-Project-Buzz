@@ -13,10 +13,8 @@ export default class SurveyService{
 
   public readonly SURVEY_MAX_FILE_SIZE_BYTES: number;
 
-  private apollo: ApolloClient<InMemoryCache>;
-
   constructor(private env: EnvironmentService, private apolloClient: ApolloClient<InMemoryCache>) {
-    this.SURVEY_MAX_FILE_SIZE_BYTES = Number(process.env.REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES);
+    this.SURVEY_MAX_FILE_SIZE_BYTES = Number(env.environment.SURVEY_MAX_FILE_SIZE_BYTES);
     this.JOB_STATUS_FINISH_IDS = this.env.environment.JOB_STATUS_FINISH_IDS;
   }
 

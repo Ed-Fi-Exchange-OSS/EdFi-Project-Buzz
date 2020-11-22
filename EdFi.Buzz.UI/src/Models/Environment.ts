@@ -4,6 +4,9 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 export default class Environment {
+
+  URI_DISCOVERY: string;
+
   GQL_ENDPOINT: string;
 
   GOOGLE_CLIENT_ID?: string;
