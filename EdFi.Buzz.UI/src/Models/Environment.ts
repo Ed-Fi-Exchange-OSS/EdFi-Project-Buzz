@@ -30,4 +30,6 @@ export default class Environment {
 
   TITLE_LOGO_HEIGHT: string;
 
+  ID_PROVIDER: string;
+
 }

@@ -21,6 +21,7 @@ declare global {
     REACT_APP_TITLE_LOGO: string;
     REACT_APP_TITLE_LOGO_WIDTH: string;
     REACT_APP_TITLE_LOGO_HEIGHT: string;
+    REACT_ID_PROVIDER: string;
   }
 
   interface Window {
@@ -47,7 +48,8 @@ export default class EnvironmentService {
       LOGIN_LOGO_WIDTH: runConfig?.REACT_APP_LOGO_WIDTH || process.env.REACT_APP_LOGO_WIDTH,
       TITLE_LOGO: runConfig?.REACT_APP_TITLE_LOGO || process.env.REACT_APP_TITLE_LOGO,
       TITLE_LOGO_WIDTH: runConfig?.REACT_APP_TITLE_LOGO_WIDTH || process.env.REACT_APP_TITLE_LOGO_WIDTH,
-      TITLE_LOGO_HEIGHT: runConfig?.REACT_APP_TITLE_LOGO_HEIGHT || process.env.REACT_APP_TITLE_LOGO_HEIGHT
+      TITLE_LOGO_HEIGHT: runConfig?.REACT_APP_TITLE_LOGO_HEIGHT || process.env.REACT_APP_TITLE_LOGO_HEIGHT,
+      ID_PROVIDER: runConfig?.REACT_ID_PROVIDER || process.env.REACT_ID_PROVIDER
     };
   }
 }
