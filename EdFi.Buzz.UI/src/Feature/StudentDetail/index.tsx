@@ -501,7 +501,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                       notes={student.notes} />
                   </div>
                 </div>
-                <div ref={attendanceAreaRef} className={`${surveyContainerClassName} ${unselectedAreaClassName}`}>
+                <div ref={attendanceAreaRef} className={`${unselectedAreaClassName}`}>
                   {attendance &&
                     <StudentDetailAttendance
                       attendance={attendance}

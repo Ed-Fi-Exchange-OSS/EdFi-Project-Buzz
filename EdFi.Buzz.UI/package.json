@@ -32,6 +32,7 @@
     "react-router-dom": "^5.2.0",
     "react-social-login": "^3.4.9",
     "react-wordcloud": "^1.2.7",
+    "reaviz": "^9.5.0",
     "rsdi": "^1.0.5",
     "rxjs": "^6.6.3",
     "serve": "^11.3.2",
