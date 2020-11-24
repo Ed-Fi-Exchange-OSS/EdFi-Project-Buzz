@@ -4,18 +4,17 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 export default class Attendance {
-  studentschoolkey : string;
+  studentschoolkey: string;
 
-  reportedaspresentatschool : number;
-  
-  reportedasabsentfromschool : number;
-  
-  reportedaspresentathomeroom : number;
-  
-  reportedasabsentfromhomeroom : number;
-  
-  reportedasispresentinallsections : number;
- 
+  reportedaspresentatschool: number;
+
+  reportedasabsentfromschool: number;
+
+  reportedaspresentathomeroom: number;
+
+  reportedasabsentfromhomeroom: number;
+
+  reportedasispresentinallsections: number;
+
   reportedasabsentfromanysection: number;
 }
-  

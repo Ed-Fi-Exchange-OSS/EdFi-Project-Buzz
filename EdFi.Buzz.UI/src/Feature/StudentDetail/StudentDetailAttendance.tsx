@@ -7,9 +7,9 @@
 
 import * as React from 'react';
 import { FunctionComponent } from 'react';
-import { Attendance } from '../../Models';
 import { RadialGauge, RadialGaugeSeries, RadialGaugeArc, ChartTooltip } from 'reaviz';
 import styled from 'styled-components';
+import { Attendance } from '../../Models';
 
 const ChartContainer = styled.div`
   width: 50%;
@@ -21,97 +21,99 @@ interface StudentDetailAttendanceProps {
 }
 
 export const StudentDetailAttendance: FunctionComponent<StudentDetailAttendanceProps> = (
-    props: StudentDetailAttendanceProps
-  ) => {
+  props: StudentDetailAttendanceProps
+) => {
 
-    const heightAndWidth=190;
-    const minValue=0;
-    const maxValue=100;
-    const arcWidth=15;
-    const cornerRadius=1.5;
-    const tooltipPlacement="right"
-    
-    return (
+  const heightAndWidth=190;
+  const minValue=0;
+  const maxValue=100;
+  const arcWidth=15;
+  const cornerRadius=1.5;
+  const tooltipPlacement='right';
+  const colorScheme='#007cba';
+
+  return (
     <>
-      {props.attendance 
+      {props.attendance
         ? <ChartContainer>
-            <RadialGauge
-              data={[
-                {
-                  "key": "Present at school %",
-                  "data": props.attendance.reportedaspresentatschool
-                }
-              ]}
-              height={heightAndWidth}
-              width={heightAndWidth}
-              minValue={minValue}
-              maxValue={maxValue}
-              series={
-                <RadialGaugeSeries
-                  arcWidth={arcWidth}
-                  colorScheme={'#007cba'}
-                  innerArc={
-                    <RadialGaugeArc cornerRadius={cornerRadius} tooltip={
-                      <ChartTooltip
-                        placement={tooltipPlacement}
-                      />
-                    } />
-                  }
-                />
+          <RadialGauge
+            data={[
+              {
+                'key': 'Present at school %',
+                'data': props.attendance.reportedaspresentatschool
               }
-            />
-            <RadialGauge
-              data={[
-                {
-                  "key": "Present at homeroom %",
-                  "data": props.attendance.reportedaspresentathomeroom
+            ]}
+            height={heightAndWidth}
+            width={heightAndWidth}
+            minValue={minValue}
+            maxValue={maxValue}
+            series={
+              <RadialGaugeSeries
+                arcWidth={arcWidth}
+                colorScheme={colorScheme}
+                innerArc={
+                  <RadialGaugeArc cornerRadius={cornerRadius} tooltip={
+                    <ChartTooltip
+                      placement={tooltipPlacement}
+                    />
+                  } />
                 }
-              ]}
-              height={heightAndWidth}
-              width={heightAndWidth}
-              minValue={minValue}
-              maxValue={maxValue}
-              series={
-                <RadialGaugeSeries
-                  arcWidth={arcWidth}
-                  colorScheme={'#ffc52b'}
-                  innerArc={
-                    <RadialGaugeArc cornerRadius={cornerRadius} tooltip={
-                      <ChartTooltip
-                        placement={tooltipPlacement}
-                      />
-                    } />
-                  }
-                />
+              />
+            }
+          />
+          <RadialGauge
+            data={[
+              {
+                'key': 'Present at homeroom %',
+                'data': props.attendance.reportedaspresentathomeroom
               }
-            />
-            <RadialGauge
-              data={[
-                {
-                  "key": "Present all sections %",
-                  "data": props.attendance.reportedasispresentinallsections
+            ]}
+            height={heightAndWidth}
+            width={heightAndWidth}
+            minValue={minValue}
+            maxValue={maxValue}
+            series={
+              <RadialGaugeSeries
+                arcWidth={arcWidth}
+                colorScheme={colorScheme}
+                innerArc={
+                  <RadialGaugeArc cornerRadius={cornerRadius} tooltip={
+                    <ChartTooltip
+                      placement={tooltipPlacement}
+                    />
+                  } />
                 }
-              ]}
-              height={heightAndWidth}
-              width={heightAndWidth}
-              minValue={minValue}
-              maxValue={maxValue}
-              series={
-                <RadialGaugeSeries 
-                  arcWidth={arcWidth}
-                  colorScheme={'#ac268b'}
-                  innerArc={
-                    <RadialGaugeArc cornerRadius={cornerRadius} tooltip={
-                      <ChartTooltip
-                        placement={tooltipPlacement}
-                      />
-                    } />
-                  }
-                />
+              />
+            }
+          />
+          <RadialGauge
+            data={[
+              {
+                'key': 'Present all sections %',
+                'data': props.attendance.reportedasispresentinallsections
               }
-            />
-          </ChartContainer>
-        : null 
+            ]}
+            height={heightAndWidth}
+            width={heightAndWidth}
+            minValue={minValue}
+            maxValue={maxValue}
+            series={
+              <RadialGaugeSeries
+                arcWidth={arcWidth}
+                colorScheme={colorScheme}
+                innerArc={
+                  <RadialGaugeArc cornerRadius={cornerRadius} tooltip={
+                    <ChartTooltip
+                      placement={tooltipPlacement}
+                    />
+                  } />
+                }
+              />
+            }
+          />
+        </ChartContainer>
+        : null
       }
     </>
-)};
+  );
+};

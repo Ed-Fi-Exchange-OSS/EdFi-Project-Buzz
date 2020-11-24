@@ -252,7 +252,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   enum ActiveTabEnum {
     Surveys = 'SURVEYS',
     Notes = 'NOTES',
-    Attendance = 'ATTENDANCE',
+    AttendanceData = 'ATTENDANCEDATA',
   }
 
   const selectedTabClassName = 'survey-notes-container-tab survey-notes-tab-selected';
@@ -267,7 +267,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   const [siblings, setSiblings] = useState<Array<Student>>();
   const [primaryContact, setPrimaryContact] = useState<ContactPerson>();
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
-  const [attendance, setAttendance] = useState<Attendance>();
+  const [attendanceData, setAttendanceData] = useState<Attendance>();
   const [tabSelected, setTabSelected] = useState<string>();
 
   const notesTabRef = React.createRef<HTMLDivElement>();
@@ -285,14 +285,14 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
 
   const getAttendanceData = useCallback(async (studentSchoolKey: string) => {
     await props.api.attendance.getAttendanceData(studentSchoolKey).then((result) => {
-      setAttendance(result);
+      setAttendanceData(result);
     });
   }, [props.api.attendance]);
 
   const toggleTabVisibility = useCallback((tab: string) => {
     if (!notesTabRef.current || !surveyTabRef.current || !attendanceTabRef.current
         || !notesAreaRef.current || !surveyAreaRef.current || !attendanceAreaRef.current
-      ) {
+    ) {
       return;
     }
 
@@ -307,7 +307,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
         surveyTabRef.current.className = selectedTabClassName;
         surveyAreaRef.current.className = `${surveyContainerClassName} ${selectedAreaClassName}`;
         break;
-      case ActiveTabEnum.Attendance:
+      case ActiveTabEnum.AttendanceData:
         surveyTabRef.current.className = unselectedTabClassName;
         surveyAreaRef.current.className = `${unselectedAreaClassName}`;
         notesTabRef.current.className = unselectedTabClassName;
@@ -326,7 +326,8 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       default:
         break;
     }
-  }, [ActiveTabEnum.Notes, ActiveTabEnum.Surveys, ActiveTabEnum.Attendance, notesAreaRef, notesTabRef, surveyAreaRef, surveyTabRef, attendanceAreaRef, attendanceTabRef]);
+  }, [ActiveTabEnum.Notes, ActiveTabEnum.Surveys, ActiveTabEnum.AttendanceData,
+    notesAreaRef, notesTabRef, surveyAreaRef, surveyTabRef, attendanceAreaRef, attendanceTabRef]);
 
   useEffect(() => {
     toggleTabVisibility(tabSelected);
@@ -459,20 +460,20 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 >
                 Surveys
                 </div>
-                {attendance ? 
+                {attendanceData ?
                   <div tabIndex={0}
                     ref={attendanceTabRef}
                     className={unselectedTabClassName}
                     onClick={() => {
-                      toggleTabVisibility(ActiveTabEnum.Attendance);
+                      toggleTabVisibility(ActiveTabEnum.AttendanceData);
                     }}
                     onKeyPress={() => {
-                      toggleTabVisibility(ActiveTabEnum.Attendance);
+                      toggleTabVisibility(ActiveTabEnum.AttendanceData);
                     }}
                   >
                   Attendance
                   </div>
-                : null }
+                  : null }
                 <div tabIndex={0}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
@@ -502,9 +503,9 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                   </div>
                 </div>
                 <div ref={attendanceAreaRef} className={`${unselectedAreaClassName}`}>
-                  {attendance &&
+                  {attendanceData &&
                     <StudentDetailAttendance
-                      attendance={attendance}
+                      attendance={attendanceData}
                     /> }
                 </div>
               </div>
