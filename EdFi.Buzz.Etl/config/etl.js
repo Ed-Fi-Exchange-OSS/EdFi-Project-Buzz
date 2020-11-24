@@ -16,6 +16,7 @@ const studentContactSource = `${sqlSourceDir}/0004-ImportStudentContact.sql`;
 const sectionSource = `${sqlSourceDir}/0005-ImportSection.sql`;
 const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
 const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
+const studentAttendanceSource = `${sqlSourceDir}/0009-ImportChronicAbsenteeismData.sql`;
 
 const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');
 const studentSchoolSourceSQL = fs.readFileSync(path.join(__dirname, studentSchoolSource), 'utf8');
@@ -24,6 +25,7 @@ const studentContactSourceSQL = fs.readFileSync(path.join(__dirname, studentCont
 const sectionSourceSQL = fs.readFileSync(path.join(__dirname, sectionSource), 'utf8');
 const staffSourceSQL = fs.readFileSync(path.join(__dirname, staffSource), 'utf8');
 const studentSectionSourceSQL = fs.readFileSync(path.join(__dirname, studentSectionSource), 'utf8');
+const studentAttendanceSourceSQL = fs.readFileSync(path.join(__dirname, studentAttendanceSource), 'utf8');
 
 let staffSectionConfig = {};
 
@@ -201,5 +203,24 @@ exports.studentSectionConfig = {
     row.studentsectionenddatekey,
     row.schoolkey,
     row.schoolyear,
+  ],
+};
+
+exports.studentAttendanceConfig = {
+  recordType: 'Attendance',
+  selectSql: 'SELECT 1 FROM buzz.attendance WHERE studentschoolkey=$1',
+  insertSql: 'INSERT INTO buzz.attendance (studentschoolkey, reportedaspresentatschool, reportedasabsentfromschool, reportedaspresentathomeroom, reportedasabsentfromhomeroom, reportedasispresentinallsections, reportedasabsentfromanysection) VALUES ($1::text, $2, $3, $4, $5, $6, $7)',
+  updateSql: 'UPDATE buzz.attendance SET reportedaspresentatschool=$2, reportedasabsentfromschool=$3, reportedaspresentathomeroom=$4, reportedasabsentfromhomeroom=$5, reportedasispresentinallsections=$6, reportedasabsentfromanysection=$7 WHERE studentschoolkey=$1',
+  sourceSql: studentAttendanceSourceSQL,
+  keyIndex: 0,
+  isEntityMap: false,
+  valueFunc: (row) => [
+    row.studentschoolkey,
+    row.reportedaspresentatschool,
+    row.reportedasabsentfromschool,
+    row.reportedaspresentathomeroom,
+    row.reportedasabsentfromhomeroom,
+    row.reportedasispresentinallsections,
+    row.reportedasabsentfromanysection,
   ],
 };

@@ -11,5 +11,6 @@ CREATE TABLE buzz.Attendance (
     ReportedAsAbsentFromHomeRoom NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsIsPresentInAllSections NUMERIC(5,2) NOT NULL DEFAULT 0,
     ReportedAsAbsentFromAnySection NUMERIC(5,2) NOT NULL  DEFAULT 0,
-    CONSTRAINT PK_AttendanceKey PRIMARY KEY (StudentSchoolKey)
+    CONSTRAINT PK_AttendanceKey PRIMARY KEY (StudentSchoolKey),
+    CONSTRAINT FK_Attendance_StudentSchoolKey_StudentSchoolKey FOREIGN KEY (StudentSchoolKey) REFERENCES buzz.StudentSchool (StudentSchoolKey)
 );
