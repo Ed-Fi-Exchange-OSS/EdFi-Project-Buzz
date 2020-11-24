@@ -9,6 +9,6 @@ CREATE TABLE buzz.StudentAssessment (
     AssessmentIdentifier VARCHAR(60) NOT NULL,
     DateTaken Date NOT NULL,
     Score varchar(35) NOT NULL,
-    CONSTRAINT PK_StudentAssessment PRIMARY KEY (StudentSchoolKey),
+    CONSTRAINT PK_StudentAssessmentKey PRIMARY KEY (StudentSchoolKey),
     CONSTRAINT FK_StudentAssessment_StudentSchoolKey FOREIGN KEY (StudentSchoolKey) REFERENCES buzz.StudentSchool (StudentSchoolKey)
 );
