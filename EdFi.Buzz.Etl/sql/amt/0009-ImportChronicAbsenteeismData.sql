@@ -7,7 +7,7 @@ SELECT
     studentschoolkey,
     cast(sum(ReportedAsPresentAtSchool) * 1.0 / count(DateKey) as numeric(5,2)) as reportedaspresentatschool,
     cast(sum(ReportedAsAbsentFromSchool) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasabsentfromschool,
-    cast(sum(ReportedAsAbsentFromSchoolReportedAsPresentAtHomeRoom) * 1.0 / count(DateKey) as numeric(5,2)) as reportedaspresentathomeroom,
+    cast(sum(ReportedAsPresentAtHomeRoom) * 1.0 / count(DateKey) as numeric(5,2)) as reportedaspresentathomeroom,
     cast(sum(ReportedAsAbsentFromHomeRoom) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasabsentfromhomeroom,
     cast(sum(ReportedAsIsPresentInAllSections) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasispresentinallsections,
     cast(sum(ReportedAsAbsentFromAnySection) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasabsentfromanysection
