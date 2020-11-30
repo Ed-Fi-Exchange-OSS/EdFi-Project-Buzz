@@ -17,6 +17,7 @@ const sectionSource = `${sqlSourceDir}/0005-ImportSection.sql`;
 const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
 const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
 const studentAttendanceSource = `${sqlSourceDir}/0009-ImportChronicAbsenteeismData.sql`;
+const studentAssessmentsSource = `${sqlSourceDir}/0010-ImportStudentAssessments.sql`;
 
 const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');
 const studentSchoolSourceSQL = fs.readFileSync(path.join(__dirname, studentSchoolSource), 'utf8');
@@ -26,6 +27,7 @@ const sectionSourceSQL = fs.readFileSync(path.join(__dirname, sectionSource), 'u
 const staffSourceSQL = fs.readFileSync(path.join(__dirname, staffSource), 'utf8');
 const studentSectionSourceSQL = fs.readFileSync(path.join(__dirname, studentSectionSource), 'utf8');
 const studentAttendanceSourceSQL = fs.readFileSync(path.join(__dirname, studentAttendanceSource), 'utf8');
+const studentAssessmentsSourceSQL = fs.readFileSync(path.join(__dirname, studentAssessmentsSource), 'utf8');
 
 let staffSectionConfig = {};
 
@@ -222,5 +224,22 @@ exports.studentAttendanceConfig = {
     row.reportedasabsentfromhomeroom,
     row.reportedasispresentinallsections,
     row.reportedasabsentfromanysection,
+  ],
+};
+
+exports.studentAssessmentsConfig = {
+  recordType: 'StudentAssessment',
+  selectSql: 'SELECT 1 FROM buzz.studentassessment WHERE studentschoolkey=$1',
+  insertSql: 'INSERT INTO buzz.studentassessment (studentschoolkey, assessmenttitle, assessmentidentifier, datetaken, score) VALUES ($1::text, $2::text, $3::text, $4, $5::text)',
+  updateSql: 'UPDATE buzz.studentassessment SET assessmenttitle=$2, assessmentidentifier=$3, datetaken=$4, score=$5 WHERE studentschoolkey=$1',
+  sourceSql: studentAssessmentsSourceSQL,
+  keyIndex: 0,
+  isEntityMap: false,
+  valueFunc: (row) => [
+    row.studentschoolkey,
+    row.assessmenttitle,
+    row.assessmentidentifier,
+    row.datetaken,
+    row.score
   ],
 };
