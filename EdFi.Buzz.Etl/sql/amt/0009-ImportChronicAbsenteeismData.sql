@@ -4,13 +4,17 @@
 -- See the LICENSE and NOTICES files in the project root for more information.
 
 SELECT
-    studentschoolkey,
+    chrab_ChronicAbsenteeismAttendanceFact.studentschoolkey,
     cast(sum(ReportedAsPresentAtSchool) * 1.0 / count(DateKey) as numeric(5,2)) as reportedaspresentatschool,
     cast(sum(ReportedAsAbsentFromSchool) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasabsentfromschool,
-    cast(sum(ReportedAsAbsentFromSchoolReportedAsPresentAtHomeRoom) * 1.0 / count(DateKey) as numeric(5,2)) as reportedaspresentathomeroom,
+    cast(sum(ReportedAsPresentAtHomeRoom) * 1.0 / count(DateKey) as numeric(5,2)) as reportedaspresentathomeroom,
     cast(sum(ReportedAsAbsentFromHomeRoom) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasabsentfromhomeroom,
     cast(sum(ReportedAsIsPresentInAllSections) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasispresentinallsections,
     cast(sum(ReportedAsAbsentFromAnySection) * 1.0 / count(DateKey) as numeric(5,2)) as reportedasabsentfromanysection
-FROM analytics.chrab_ChronicAbsenteeismAttendanceFact
-GROUP BY StudentSchoolKey
-ORDER BY StudentSchoolKey;
+FROM
+    analytics.chrab_ChronicAbsenteeismAttendanceFact
+    INNER JOIN
+        analytics.StudentSchoolDim
+            ON chrab_ChronicAbsenteeismAttendanceFact.StudentSchoolKey = StudentSchoolDim.StudentSchoolKey
+GROUP BY chrab_ChronicAbsenteeismAttendanceFact.StudentSchoolKey
+ORDER BY chrab_ChronicAbsenteeismAttendanceFact.StudentSchoolKey;
