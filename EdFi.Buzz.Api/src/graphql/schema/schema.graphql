@@ -24,6 +24,7 @@ type Query{
   canLoadSurverysFromUI: CanLoadSurverysFromUI
   doesOdsContainsSurveyModel: DoesOdsContainsSurveyModel
   attendancebystudentschool(studentschoolkey: String!): Attendance
+  assessmentsbystudentschool(studentschoolkey: String!): [StudentAssessment]
 }
 type Section{
   sectionkey: String
@@ -57,6 +58,7 @@ type StudentSchool
   studentsurveys: [StudentSurvey]
   notes: [StudentNote]
   attendance: Attendance
+  assessments: [StudentAssessment]
 }
 type StudentNote {
   studentnotekey: Int
@@ -223,6 +225,14 @@ type Attendance{
   reportedasabsentfromhomeroom: Float
   reportedasispresentinallsections: Float
   reportedasabsentfromanysection: Float
+}
+
+type StudentAssessment {
+  studentschoolkey: String
+  assessmenttitle: String
+  assessmentidentifier: String
+  datetaken: String
+  score: String
 }
 
 type LoadSurveyFromOdsResponse{
