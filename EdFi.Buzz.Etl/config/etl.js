@@ -240,6 +240,6 @@ exports.studentAssessmentsConfig = {
     row.assessmenttitle,
     row.assessmentidentifier,
     row.datetaken,
-    row.score
+    row.score,
   ],
 };
