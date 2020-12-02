@@ -6,9 +6,9 @@ import { UseGuards } from '@nestjs/common';
 import {
   Args, Resolver, Query,
 } from '@nestjs/graphql';
-import AuthGuard from "../auth.guard";
-import { StudentAssessment } from "../graphql.schema";
-import AssessmentService from "../services/assessment.service";
+import AuthGuard from '../auth.guard';
+import { StudentAssessment } from '../graphql.schema';
+import AssessmentService from '../services/assessment.service';
 
 @UseGuards(AuthGuard)
 @Resolver('Assessment')

@@ -7,7 +7,6 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ schema: 'buzz', name: 'studentassessment', synchronize: false })
 export default class StudentAssessmentEntity {
-
   @PrimaryColumn() studentassessmentkey: string;
 
   @Column() studentschoolkey : string;
