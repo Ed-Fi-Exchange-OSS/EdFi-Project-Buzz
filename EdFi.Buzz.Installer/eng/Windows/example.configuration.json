@@ -47,13 +47,15 @@
     "api": {
         "version": null,
         "url": "http://localhost:3000",
+        "externalRoute": "http://localhost:3001",
+        "internalRoute": "http://localhost:3000",
         "port": 3000,
         "surveyFilesFolder": "C:\\Ed-Fi\\Buzz\\surveys",
-        "corsOrigins": "http://localhost,https://localhost,http://another.api.consumer.local"
+        "corsOrigins": "http://localhost,http://another.api.consumer.local"
     },
     "ui": {
         "version": null,
-        "url": "http://localhost:4200",
+        "url": "http://localhost",
         "graphQlEndpoint": "http://localhost:3000/graphql",
 		"externalLogo": false,
 		"logo": "Owl-Logo-GrandBend.png",

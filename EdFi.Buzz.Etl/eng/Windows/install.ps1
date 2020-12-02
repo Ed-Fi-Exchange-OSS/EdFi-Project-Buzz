@@ -94,14 +94,17 @@ function Install-NodeService {
   $xmlFile = "$InstallPath\$winSwVersion\EdFiBuzzEtl.xml"
   Copy-Item -Path "$PSScriptRoot\EdFiBuzzEtl.xml" -Destination $xmlFile -Force
 
+  # URL Encode Postgress password and encode plus(spaces) to %20.
+  $encodedPassword = [System.Web.HttpUtility]::UrlEncode($PostgresPassword).Replace("+","%20")
+
   # Inject the correct path to nginx.exe into the config XML file
   $content = Get-Content -Path $xmlFile -Encoding UTF8
   $content = $content.Replace("{0}", "$InstallPath")
-  $content = $content.Replace("{1}", "$PostgresUserName")
-  $content = $content.Replace("{2}", "$PostgresPassword")
-  $content = $content.Replace("{3}", "$PostgresHost")
-  $content = $content.Replace("{4}", "$PostgresPort")
-  $content = $content.Replace("{5}", "$PostgresDbName")
+  $content = $content.Replace("{1}", [System.Web.HttpUtility]::UrlEncode("$PostgresUserName"))
+  $content = $content.Replace("{2}", $encodedPassword)
+  $content = $content.Replace("{3}", [System.Web.HttpUtility]::UrlEncode("$PostgresHost"))
+  $content = $content.Replace("{4}", [System.Web.HttpUtility]::UrlEncode("$PostgresPort"))
+  $content = $content.Replace("{5}", [System.Web.HttpUtility]::UrlEncode("$PostgresDbName"))
   $content = $content.Replace("{6}", "$InstallPath/dist")
   $content | Out-File -FilePath $xmlFile -Encoding UTF8 -Force
 
@@ -119,24 +122,24 @@ function New-DotEnvFile {
   New-Item -Path "$installPath/.env" -ItemType File -Force | Out-Null
 
   $fileContents = @"
-  BUZZ_SQLSOURCE=amt
-  BUZZ_DBSERVER=$PostgresHost
-  BUZZ_PORT=$PostgresPort
-  BUZZ_USER=$PostgresUserName
-  BUZZ_PASSWORD=$PostgresPassword
-  BUZZ_DBNAME=$PostgresDbName
-  BUZZ_MAX=20
-  BUZZ_IDLETIMEOUTMILLIS=5000
-  BUZZ_CONNECTIONTIMEOUTMILLIS=2000
-  ODS_DBNAME=$SqlServerDbName
-  ODS_SERVER=$SqlServerHost
-  ODS_USER=$SqlServerUserName
-  ODS_PASSWORD=$SqlServerPassword
-  ODS_PORT=$SqlServerPort
-  ODS_TRUSTSERVERCERTIFICATE=false
-  ODS_ENABLEARITHABORT=true
-  ODS_ENCRYPT=false
-  KeepSurveysSynch=$keepSurveysSynch
+BUZZ_SQLSOURCE=amt
+BUZZ_DBSERVER=$PostgresHost
+BUZZ_PORT=$PostgresPort
+BUZZ_USER=$PostgresUserName
+BUZZ_PASSWORD=$PostgresPassword
+BUZZ_DBNAME=$PostgresDbName
+BUZZ_MAX=20
+BUZZ_IDLETIMEOUTMILLIS=5000
+BUZZ_CONNECTIONTIMEOUTMILLIS=2000
+ODS_DBNAME=$SqlServerDbName
+ODS_SERVER=$SqlServerHost
+ODS_USER=$SqlServerUserName
+ODS_PASSWORD=$SqlServerPassword
+ODS_PORT=$SqlServerPort
+ODS_TRUSTSERVERCERTIFICATE=false
+ODS_ENABLEARITHABORT=true
+ODS_ENCRYPT=false
+KeepSurveysSynch=$keepSurveysSynch
 "@
   $fileContents | Out-File "$installPath/.env" -Encoding UTF8 -Force
 }

@@ -71,7 +71,19 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $SqlServerDbName = "edfi_buzz"
+  $SqlServerDbName = "edfi_buzz",
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $internalRoute,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $externalRoute,
+
+  [Parameter(Mandatory = $true)]
+  [string]
+  $corsOrigins
 )
 
 function Get-FileNameWithoutExtensionFromUrl {
@@ -123,7 +135,7 @@ function Install-WebApplication {
 
   Push-Location "$script:installPath\dist"
   Write-Host "Executing: npm install --production"
-  &npm install --production
+  &npm install --production --silent
   Pop-Location
 }
 
@@ -132,76 +144,66 @@ function New-DotEnvFile {
 
   if ("google" -eq $idProvider) {
     $envFile = @"
-    /*
-      * SPDX-License-Identifier: Apache-2.0
-      * Licensed to the Ed-Fi Alliance under one or more agreements.
-      * The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
-      * See the LICENSE and NOTICES files in the project root for more information.
-      */
-    NODE_TLS_REJECT_UNAUTHORIZED='1'
-    BUZZ_API_DB_HOST = '$DbServer'
-    BUZZ_API_DB_PORT = $DbPort
-    BUZZ_API_DB_USERNAME ='$DbUserName'
-    BUZZ_API_DB_PASSWORD = '$DbPassword'
-    BUZZ_API_DB_DATABASE = '$DbName'
-    BUZZ_API_HTTP_PORT = $port
-    BUZZ_WORKER_JOB_NAME = 'buzzSurvey'
-    BUZZ_WORKER_CLEANUP_JOB_NAME = 'buzzCleanUp'
-    ODS_DBNAME=$SqlServerDbName
-    ODS_SERVER=$SqlServerHost
-    ODS_USER=$SqlServerUserName
-    ODS_PASSWORD=$SqlServerPassword
-    ODS_PORT=$SqlServerPort
-    ODS_TRUSTSERVERCERTIFICATE=false
-    ODS_ENABLEARITHABORT=true
-    ODS_ENCRYPT=false
-    URI_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
-    GOOGLE_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
-    GOOGLE_CLIENT_ID=$googleClientID
-    GOOGLE_SECRET=$clientSecret
-    GOOGLE_AUTH_CALLBACK=$googleAuthCallback
-    SURVEY_FILES_FOLDER=$surveyFilesFolder
-    SURVEY_MAX_FILE_SIZE_BYTES=1mb
-    SURVEY_PROCESS_INITIAL_STATUS_KEY=1
-    SURVEY_FILES_RETENTION_DAYS=1
-    KEEP_SURVEY_SYNCH=$KeepSurveysSynch
+NODE_TLS_REJECT_UNAUTHORIZED=1
+BUZZ_API_CORS_ORIGINS='$corsOrigins'
+BUZZ_API_DB_HOST=$DbServer
+BUZZ_API_DB_PORT=$DbPort
+BUZZ_API_DB_USERNAME=$DbUserName
+BUZZ_API_DB_PASSWORD=$DbPassword
+BUZZ_API_DB_DATABASE=$DbName
+BUZZ_API_HTTP_PORT=$port
+BUZZ_WORKER_JOB_NAME=buzzSurvey
+BUZZ_WORKER_CLEANUP_JOB_NAME=buzzCleanUp
+ODS_DBNAME=$SqlServerDbName
+ODS_SERVER=$SqlServerHost
+ODS_USER=$SqlServerUserName
+ODS_PASSWORD=$SqlServerPassword
+ODS_PORT=$SqlServerPort
+ODS_TRUSTSERVERCERTIFICATE=false
+ODS_ENABLEARITHABORT=true
+ODS_ENCRYPT=false
+URI_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
+GOOGLE_DISCOVERY=https://accounts.google.com/.well-known/openid-configuration
+GOOGLE_CLIENT_ID=$googleClientID
+GOOGLE_SECRET=$clientSecret
+GOOGLE_AUTH_CALLBACK=$googleAuthCallback
+SURVEY_FILES_FOLDER=$surveyFilesFolder
+SURVEY_MAX_FILE_SIZE_BYTES=1mb
+SURVEY_PROCESS_INITIAL_STATUS_KEY=1
+SURVEY_FILES_RETENTION_DAYS=1
+KEEP_SURVEY_SYNCH=$KeepSurveysSynch
 "@
   }
   else {
     $envFile = @"
-    /*
-      * SPDX-License-Identifier: Apache-2.0
-      * Licensed to the Ed-Fi Alliance under one or more agreements.
-      * The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
-      * See the LICENSE and NOTICES files in the project root for more information.
-      */
-    NODE_TLS_REJECT_UNAUTHORIZED='1'
-    BUZZ_API_DB_HOST = '$DbServer'
-    BUZZ_API_DB_PORT = $DbPort
-    BUZZ_API_DB_USERNAME ='$DbUserName'
-    BUZZ_API_DB_PASSWORD = '$DbPassword'
-    BUZZ_API_DB_DATABASE = '$DbName'
-    BUZZ_API_HTTP_PORT = $port
-    BUZZ_WORKER_JOB_NAME = 'buzzSurvey'
-    BUZZ_WORKER_CLEANUP_JOB_NAME = 'buzzCleanUp'
-    ODS_DBNAME=$SqlServerDbName
-    ODS_SERVER=$SqlServerHost
-    ODS_USER=$SqlServerUserName
-    ODS_PASSWORD=$SqlServerPassword
-    ODS_PORT=$SqlServerPort
-    ODS_TRUSTSERVERCERTIFICATE=false
-    ODS_ENABLEARITHABORT=true
-    ODS_ENCRYPT=false
-    URI_DISCOVERY = https://login.microsoftonline.com/common/.well-known/openid-configuration
-    GOOGLE_DISCOVERY=
-    GOOGLE_CLIENT_ID=
-    GOOGLE_SECRET=
-    GOOGLE_AUTH_CALLBACK=
-    SURVEY_FILES_FOLDER=$surveyFilesFolder
-    SURVEY_MAX_FILE_SIZE_BYTES=1mb
-    SURVEY_PROCESS_INITIAL_STATUS_KEY=1
-    SURVEY_FILES_RETENTION_DAYS=1
-    KEEP_SURVEY_SYNCH=$KeepSurveysSynch
+NODE_TLS_REJECT_UNAUTHORIZED=1
+BUZZ_API_CORS_ORIGINS='$corsOrigins'
+BUZZ_API_DB_HOST=$DbServer
+BUZZ_API_DB_PORT=$DbPort
+BUZZ_API_DB_USERNAME=$DbUserName
+BUZZ_API_DB_PASSWORD=$DbPassword
+BUZZ_API_DB_DATABASE=$DbName
+BUZZ_API_HTTP_PORT=$port
+BUZZ_WORKER_JOB_NAME=buzzSurvey
+BUZZ_WORKER_CLEANUP_JOB_NAME=buzzCleanUp
+ODS_DBNAME=$SqlServerDbName
+ODS_SERVER=$SqlServerHost
+ODS_USER=$SqlServerUserName
+ODS_PASSWORD=$SqlServerPassword
+ODS_PORT=$SqlServerPort
+ODS_TRUSTSERVERCERTIFICATE=false
+ODS_ENABLEARITHABORT=true
+ODS_ENCRYPT=false
+URI_DISCOVERY=https://login.microsoftonline.com/common/.well-known/openid-configuration
+GOOGLE_DISCOVERY=
+GOOGLE_CLIENT_ID=
+GOOGLE_SECRET=
+GOOGLE_AUTH_CALLBACK=
+SURVEY_FILES_FOLDER=$surveyFilesFolder
+SURVEY_MAX_FILE_SIZE_BYTES=1mb
+SURVEY_PROCESS_INITIAL_STATUS_KEY=1
+SURVEY_FILES_RETENTION_DAYS=1
+KEEP_SURVEY_SYNCH=$KeepSurveysSynch
 
 "@
   }
@@ -215,6 +217,18 @@ try {
 
   Install-WebApplication
   New-DotEnvFile
+
+  # update the web.config with URL rewritten paths
+  $apiRedirectDir = "$script:installPath/../API-Redirect"
+  Write-Host "Create re-write rules in $apiRedirect\web.config"
+  $replacements = @{
+    "%INTERNAL_ROUTE%"=$script:internalRoute
+    "%EXTERNAL_ROUTE%"=$script:externalRoute
+  }
+  # Move the web.config
+  New-Item -Path $apiRedirectDir -ItemType Directory -ErrorAction SilentlyContinue
+  Move-Item -Path "$PSScriptRoot\web.config" -Destination $apiRedirectDir -Force -ErrorAction SilentlyContinue
+  Update-File -appPath "$apiRedirectDir\web.config" -replacements $replacements
 
   $winSwVersion = Get-HelperAppIfNotExists -Url $WinSWUrl
   Install-NodeService -winSwVersion $winSwVersion -InstallPath $script:installPath -app $app

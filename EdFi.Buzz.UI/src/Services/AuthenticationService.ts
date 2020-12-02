@@ -5,11 +5,11 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import jwt from 'jsonwebtoken';
 import ApolloHelper from 'Helpers/ApolloHelper';
-import JWTHelper from '../Helpers/JWTHelper';
+import { validateToken } from 'Helpers/JWTHelper';
 import TeacherApiService from './TeacherService';
 import User from '../Models/User';
+import EnvironmentService from './EnvironmentService';
 
 export default class AuthenticationService {
   public currentUser: Observable<User>;
@@ -20,7 +20,8 @@ export default class AuthenticationService {
 
   constructor(
     private teacherService: TeacherApiService,
-    private apolloClient: ApolloClient<InMemoryCache>
+    private apolloClient: ApolloClient<InMemoryCache>,
+    private environmentService: EnvironmentService
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.getItem('currentUser') ));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -53,39 +54,19 @@ export default class AuthenticationService {
     return true;
   }
 
-
   public validateJWT = async (): Promise<boolean> =>{
     const token = sessionStorage.getItem('validatingToken');
     try {
       if(token){
-        const jwtHelper = new JWTHelper();
-        const validateToken = await jwtHelper.validateToken(token);
-        if(!validateToken){
-          this.cleanUpUser();
-          window.location.replace('/login');
-          return false;
+        const isValid = await validateToken(token, this.environmentService.environment);
+        if(!isValid){
+          throw new Error('Did not return a valid token');
         }
-        const decodedToken = jwt.decode(token, { complete: true, json: true });
-        const dateNow = new Date();
-
-        if(decodedToken && decodedToken.payload.exp >= Math.round(dateNow.getTime()/1000)){
-          return true;
-        }
-
-        this.cleanUpUser();
-        window.location.replace('/login');
-        return false;
-
+        return true;
       }
-      if(token === ''){
-        this.cleanUpUser();
-        window.location.replace('/login');
-        return false;
-      }
-
-      return true;
-
-    } catch{
+      return false;
+    } catch(err) {
+      console.error(`validateJWT error: ${err.message} - ${err.detail}`);
       this.cleanUpUser();
       window.location.replace('/login');
       return false;
@@ -101,10 +82,7 @@ export default class AuthenticationService {
 
   logout = (): void => {
     // remove user from local storage to log user out
-    this.storage.removeItem('currentUser');
-    this.storage.removeItem('lastUploadedSurvey');
-    localStorage.clear();
-    sessionStorage.clear();
+    this.cleanUpUser();
     this.currentUserSubject.next(null);
     // clear graphql cache
     ApolloHelper.clearApolloStorage(this.apolloClient);

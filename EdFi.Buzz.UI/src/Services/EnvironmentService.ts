@@ -5,11 +5,36 @@
 
 import Environment from 'Models/Environment';
 
+declare global {
+
+  interface runConfig {
+    REACT_APP_GQL_ENDPOINT: string;
+    REACT_APP_GOOGLE_CLIENT_ID: string;
+    REACT_APP_ADFS_CLIENT_ID: string;
+    REACT_APP_ADFS_TENANT_ID: string;
+    REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES: string;
+    REACT_APP_JOB_STATUS_FINISH_IDS: string;
+    REACT_APP_TITLE: string;
+    REACT_APP_EXTERNAL_LOGO: string;
+    REACT_APP_LOGO: string;
+    REACT_APP_LOGO_WIDTH: string;
+    REACT_APP_TITLE_LOGO: string;
+    REACT_APP_TITLE_LOGO_WIDTH: string;
+    REACT_APP_TITLE_LOGO_HEIGHT: string;
+    REACT_APP_ID_PROVIDER: string;
+    REACT_APP_URI_DISCOVERY: string;
+  }
+
+  interface Window {
+    runConfig: runConfig;
+  }
+}
+
 export default class EnvironmentService {
   public environment: Environment;
 
   constructor() {
-    var runConfig = window['runConfig'];
+    const {runConfig} = window;
 
     this.environment = {
       GQL_ENDPOINT: runConfig?.REACT_APP_GQL_ENDPOINT || process.env.REACT_APP_GQL_ENDPOINT,
@@ -24,7 +49,9 @@ export default class EnvironmentService {
       LOGIN_LOGO_WIDTH: runConfig?.REACT_APP_LOGO_WIDTH || process.env.REACT_APP_LOGO_WIDTH,
       TITLE_LOGO: runConfig?.REACT_APP_TITLE_LOGO || process.env.REACT_APP_TITLE_LOGO,
       TITLE_LOGO_WIDTH: runConfig?.REACT_APP_TITLE_LOGO_WIDTH || process.env.REACT_APP_TITLE_LOGO_WIDTH,
-      TITLE_LOGO_HEIGHT: runConfig?.REACT_APP_TITLE_LOGO_HEIGHT || process.env.REACT_APP_TITLE_LOGO_HEIGHT
+      TITLE_LOGO_HEIGHT: runConfig?.REACT_APP_TITLE_LOGO_HEIGHT || process.env.REACT_APP_TITLE_LOGO_HEIGHT,
+      ID_PROVIDER: runConfig?.REACT_APP_ID_PROVIDER || process.env.REACT_APP_ID_PROVIDER,
+      URI_DISCOVERY: runConfig?.REACT_APP_URI_DISCOVERY || process.env.REACT_APP_URI_DISCOVERY
     };
   }
 }

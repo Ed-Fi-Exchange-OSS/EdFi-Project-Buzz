@@ -95,6 +95,9 @@ function Install-ApiApp {
         "SqlServerPassword"  = $configuration.sqlServerDatabase.password;
         "SqlServerDbName"    = $configuration.sqlServerDatabase.database;
         "KeepSurveysSynch"   = $configuration.keepSurveysSynch;
+        "internalRoute"      = $configuration.api.internalRoute;
+        "externalRoute"      = $configuration.api.externalRoute;
+        "corsOrigins"        = $configuration.api.corsOrigins;
         "rootDir"            = "dist";
         "app"                = "API";
     }
