@@ -16,10 +16,6 @@ export default class AssessmentResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly assessmentService: AssessmentService) {}
 
-  async assessments(): Promise<StudentAssessment[]> {
-    return this.assessmentService.findAll();
-  }
-
   @Query('assessmentsbystudentschool')
   async findOneByStudentSchool(@Args('studentschoolkey') studentschoolkey: string): Promise<StudentAssessment[]> {
     return this.assessmentService.findByStudentSchool(studentschoolkey);

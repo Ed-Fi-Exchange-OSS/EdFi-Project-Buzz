@@ -228,6 +228,7 @@ type Attendance{
 }
 
 type StudentAssessment {
+  studentassessmentkey: String
   studentschoolkey: String
   assessmenttitle: String
   assessmentidentifier: String

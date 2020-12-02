@@ -173,6 +173,7 @@ export class StaffInformation {
 }
 
 export class StudentAssessment {
+    studentassessmentkey?: string;
     studentschoolkey?: string;
     assessmenttitle?: string;
     assessmentidentifier?: string;
