@@ -7,7 +7,7 @@ import {
   Args, Resolver, Query,
 } from '@nestjs/graphql';
 import AuthGuard from '../auth.guard';
-import { StudentAssessment } from '../graphql.schema';
+import StudentAssessmentEntity from '../entities/buzz/studentassessment.entity';
 import AssessmentService from '../services/assessment.service';
 
 @UseGuards(AuthGuard)
@@ -17,7 +17,7 @@ export default class AssessmentResolvers {
   constructor(private readonly assessmentService: AssessmentService) {}
 
   @Query('assessmentsbystudentschool')
-  async findOneByStudentSchool(@Args('studentschoolkey') studentschoolkey: string): Promise<StudentAssessment[]> {
+  async findOneByStudentSchool(@Args('studentschoolkey') studentschoolkey: string): Promise<StudentAssessmentEntity[]> {
     return this.assessmentService.findByStudentSchool(studentschoolkey);
   }
 }

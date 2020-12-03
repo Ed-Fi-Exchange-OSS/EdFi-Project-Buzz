@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -176,7 +177,7 @@ export class StudentAssessment {
     studentschoolkey?: string;
     assessmenttitle?: string;
     assessmentidentifier?: string;
-    datetaken?: string;
+    datetaken?: Date;
     score?: string;
 }
 

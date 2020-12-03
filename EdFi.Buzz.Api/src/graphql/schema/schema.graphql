@@ -3,6 +3,8 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
+scalar Date
+
 type Mutation {
   addstudentnote(staffkey: Int!, studentschoolkey: String!, note: String!): StudentNote
   deletestudentnote(staffkey: Int!, studentnotekey: Int!): StudentNote
@@ -232,7 +234,7 @@ type StudentAssessment {
   studentschoolkey: String
   assessmenttitle: String
   assessmentidentifier: String
-  datetaken: String
+  datetaken: Date
   score: String
 }
 

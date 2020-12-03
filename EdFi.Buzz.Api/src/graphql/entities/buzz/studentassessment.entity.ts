@@ -13,7 +13,7 @@ export default class StudentAssessmentEntity {
 
   @Column() assessmentidentifier: string;
 
-  @Column() datetaken: string;
+  @Column() datetaken: number;
 
   @Column() score: string;
 
