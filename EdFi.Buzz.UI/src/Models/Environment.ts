@@ -21,7 +21,7 @@ export default class Environment {
 
   TITLE: string;
 
-  EXTERNAL_LOGO: string;
+  EXTERNAL_LOGO: boolean;
 
   LOGO: string;
 

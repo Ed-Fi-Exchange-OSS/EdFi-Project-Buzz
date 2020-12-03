@@ -15,7 +15,7 @@ declare global {
     REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES: string;
     REACT_APP_JOB_STATUS_FINISH_IDS: string;
     REACT_APP_TITLE: string;
-    REACT_APP_EXTERNAL_LOGO: string;
+    REACT_APP_EXTERNAL_LOGO: boolean;
     REACT_APP_LOGO: string;
     REACT_APP_LOGO_WIDTH: string;
     REACT_APP_TITLE_LOGO: string;
@@ -44,7 +44,7 @@ export default class EnvironmentService {
       SURVEY_MAX_FILE_SIZE_BYTES:  Number(runConfig?.REACT_APP_SURVEY_MAX_FILE_SIZE_BYTES|| '1048576'),
       JOB_STATUS_FINISH_IDS: JSON.parse(runConfig?.REACT_APP_JOB_STATUS_FINISH_IDS || '[3]'),
       TITLE: runConfig?.REACT_APP_TITLE || process.env.REACT_APP_TITLE,
-      EXTERNAL_LOGO: runConfig?.REACT_APP_EXTERNAL_LOGO || process.env.REACT_APP_EXTERNAL_LOGO,
+      EXTERNAL_LOGO: runConfig?.REACT_APP_EXTERNAL_LOGO || (process.env.REACT_APP_EXTERNAL_LOGO.toLowerCase() === 'true'),
       LOGO: runConfig?.REACT_APP_LOGO || process.env.REACT_APP_LOGO,
       LOGIN_LOGO_WIDTH: runConfig?.REACT_APP_LOGO_WIDTH || process.env.REACT_APP_LOGO_WIDTH,
       TITLE_LOGO: runConfig?.REACT_APP_TITLE_LOGO || process.env.REACT_APP_TITLE_LOGO,

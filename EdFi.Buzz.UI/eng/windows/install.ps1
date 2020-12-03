@@ -84,6 +84,8 @@ function Update-Configuration {
   $uriDiscovery = "https://login.microsoftonline.com/common/.well-known/openid-configuration"
   }
 
+  $isExternalLogo = if($externalLogo) {"true"} else {"false"}
+
   $runtimeConfig = @"
 // SPDX-License-Identifier: Apache-2.0
 // Licensed to the Ed-Fi Alliance under one or more agreements.
@@ -97,7 +99,7 @@ window['runConfig'] = {
     REACT_APP_GOOGLE_CLIENT_ID:"$script:googleClientId",
     REACT_APP_ADFS_CLIENT_ID:"$script:adfsClientId",
     REACT_APP_ADFS_TENANT_ID:"$script:adfsTenantId",
-    REACT_APP_EXTERNAL_LOGO:$script:externalLogo,
+    REACT_APP_EXTERNAL_LOGO:$isExternalLogo,
     REACT_APP_LOGO:"$script:logo",
     REACT_APP_LOGO_WIDTH:"$script:logoWidth",
     REACT_APP_TITLE:"$script:title",
