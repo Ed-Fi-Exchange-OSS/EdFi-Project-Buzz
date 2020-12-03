@@ -24,7 +24,7 @@ import OdsSurveyModule from './graphql/modules/odssurvey.module';
 import AttendanceModule from './graphql/modules/attendance.module';
 import { BUZZ_DATABASE, ODS_DATABASE } from './constants';
 import StudentAssessmentModule from './graphql/modules/assessment.module';
-import DateScalar from './graphql/scalars/datescalar';
+import DateScalar from './graphql/scalars/date.scalar';
 
 config({ path: `${__dirname}/.env` });
 
