@@ -116,6 +116,8 @@ export abstract class IQuery {
     abstract doesOdsContainsSurveyModel(): DoesOdsContainsSurveyModel | Promise<DoesOdsContainsSurveyModel>;
 
     abstract attendancebystudentschool(studentschoolkey: string): Attendance | Promise<Attendance>;
+
+    abstract assessmentsbystudentschool(studentschoolkey: string): StudentAssessment[] | Promise<StudentAssessment[]>;
 }
 
 export class School {
@@ -169,6 +171,15 @@ export class StaffInformation {
     electronicmailaddress?: string;
 }
 
+export class StudentAssessment {
+    studentassessmentkey?: string;
+    studentschoolkey?: string;
+    assessmenttitle?: string;
+    assessmentidentifier?: string;
+    datetaken?: Date;
+    score?: string;
+}
+
 export class StudentNote {
     studentnotekey?: number;
     note?: string;
@@ -198,6 +209,7 @@ export class StudentSchool {
     studentsurveys?: StudentSurvey[];
     notes?: StudentNote[];
     attendance?: Attendance;
+    assessments?: StudentAssessment[];
 }
 
 export class StudentSection {
