@@ -13,11 +13,11 @@ import { useParams } from 'react-router-dom';
 
 import ApiService from '../../Services/ApiService';
 import { Student,
-      Teacher,
-      ContactPerson,
-      Attendance,
-      Assessment
-     } from '../../Models';
+  Teacher,
+  ContactPerson,
+  Attendance,
+  Assessment
+} from '../../Models';
 import { EmailIcon, LeftArrowIcon, StarIcon } from '../../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
 import { StudentDetailSurvey } from './StudentDetailSurvey';
@@ -304,7 +304,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     await props.api.assessment.getAssessmentData(studentSchoolKey).then((result) => {
       setAssessmentData(result);
     });
-  }, [props.api.attendance]);
+  }, [props.api.assessment]);
 
   const toggleTabVisibility = useCallback((tab: string) => {
     if (!notesTabRef.current
@@ -388,7 +388,9 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     attendanceAreaRef,
     attendanceTabRef,
     assessmentAreaRef,
-    assessmentTabRef
+    assessmentTabRef,
+    assessmentData,
+    attendanceData
   ]);
 
   useEffect(() => {
@@ -425,7 +427,11 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     return () => {
       cancel = true;
     };
-  }, [props.api.authentication.currentUserValue.teacher, props.api.student, studentKey, getAttendanceData, getAssessmentData]);
+  }, [props.api.authentication.currentUserValue.teacher,
+    props.api.student,
+    studentKey,
+    getAttendanceData,
+    getAssessmentData]);
 
   toggleTabVisibility(ActiveTabEnum.Surveys);
 
@@ -537,7 +543,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                   Attendance
                   </div>
                   : null }
-                 {assessmentData && assessmentData.length > 0 &&
+                {assessmentData && assessmentData.length > 0 &&
                 <div tabIndex={0}
                   ref={assessmentTabRef}
                   className={unselectedTabClassName}
@@ -587,9 +593,9 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 </div>
                 {assessmentData && assessmentData.length > 0 &&
                 <div ref={assessmentAreaRef} className={`${unselectedAreaClassName}`}>
-                    <StudentDetailAssessment
-                      assessment={assessmentData}
-                    />
+                  <StudentDetailAssessment
+                    assessment={assessmentData}
+                  />
                 </div>}
               </div>
             </div>

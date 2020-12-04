@@ -7,12 +7,11 @@
 
 import * as React from 'react';
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
-import { DataTable , ColumnOption } from '../../Components/DataTable/dataTable';
+import { DataTable } from '../../Components/DataTable/dataTable';
 import { Assessment } from '../../Models';
 
 interface StudentDetailAssessmentProps {
-   assessment?: Assessment[];
+  assessment?: Assessment[];
 }
 
 export const StudentDetailAssessment: FunctionComponent<StudentDetailAssessmentProps> = (
@@ -23,21 +22,21 @@ export const StudentDetailAssessment: FunctionComponent<StudentDetailAssessmentP
 
   const assessmentDataset
     = props.assessment
-    ? props.assessment.map((student) =>
-    [student.assessmenttitle, (new Date(student.datetaken)).toLocaleDateString(), student.score]
-    )
-    : null;
+      ? props.assessment.map((student) =>
+        [student.assessmenttitle, (new Date(student.datetaken)).toLocaleDateString(), student.score]
+      )
+      : null;
 
   return (
     <>
-    <DataTable
-      columns={columns}
-      dataSet={assessmentDataset}
-      linkBaseURL={''}
-      defaultSort={1}
-      alwaysSortLastByColumn={1}
-      key={32}
-    />
+      <DataTable
+        columns={columns}
+        dataSet={assessmentDataset}
+        linkBaseURL={''}
+        defaultSort={1}
+        alwaysSortLastByColumn={1}
+        key={32}
+      />
     </>
   );
 };

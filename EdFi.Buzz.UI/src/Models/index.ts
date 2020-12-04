@@ -40,4 +40,4 @@ export { Environment,
   Section,
   Attendance,
   Assessment
- };
+};
