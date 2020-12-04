@@ -20,6 +20,7 @@ import SurveyQuestionSummary from './SurveyQuestionSummary';
 import Teacher from './Teacher';
 import Section from './Section';
 import Attendance from './Attendance';
+import Assessment from './Assessment';
 
 export { Environment,
   ContactPerson,
@@ -37,4 +38,6 @@ export { Environment,
   SurveyQuestionSummary,
   Teacher,
   Section,
-  Attendance };
+  Attendance,
+  Assessment
+};

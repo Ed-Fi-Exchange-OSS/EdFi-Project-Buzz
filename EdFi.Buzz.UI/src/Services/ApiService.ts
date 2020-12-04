@@ -11,6 +11,7 @@ import StudentNotesApiService from './StudentNotesService';
 import SurveyService from './SurveyService';
 import OdsSurveyService from './OdsSurveyService';
 import AttendanceApiService from './AttendanceService';
+import AssessmentApiService from './AssessmentService';
 
 export default class ApiService {
 
@@ -23,7 +24,8 @@ export default class ApiService {
     public teacher: TeacherApiService,
     public survey: SurveyService,
     public odsSurvey: OdsSurveyService,
-    public attendance: AttendanceApiService
+    public attendance: AttendanceApiService,
+    public assessment: AssessmentApiService
   ) { }
 
 }

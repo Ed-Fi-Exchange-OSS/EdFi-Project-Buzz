@@ -12,12 +12,18 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
 import ApiService from '../../Services/ApiService';
-import { Student, Teacher, ContactPerson, Attendance } from '../../Models';
+import { Student,
+  Teacher,
+  ContactPerson,
+  Attendance,
+  Assessment
+} from '../../Models';
 import { EmailIcon, LeftArrowIcon, StarIcon } from '../../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
 import { StudentDetailSurvey } from './StudentDetailSurvey';
 import { StudentDetailNotesContainer } from './StudentDetailNotesContainer';
 import { StudentDetailAttendance } from './StudentDetailAttendance';
+import { StudentDetailAssessment } from './StudentDetailAssessment';
 
 const StudentDetailContainer = styled.div`
   display: flex;
@@ -253,6 +259,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     Surveys = 'SURVEYS',
     Notes = 'NOTES',
     AttendanceData = 'ATTENDANCEDATA',
+    AssessmentData= 'ASSESSMENT'
   }
 
   const selectedTabClassName = 'survey-notes-container-tab survey-notes-tab-selected';
@@ -261,6 +268,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   const unselectedAreaClassName = 'survey-notes-container-tab survey-notes-area-unselected';
   const surveyContainerClassName = 'student-surveys-container';
   const notesContainerClassName = 'notes-container';
+  const assessmentContainerClassName = 'notes-container';
 
   const [student, setStudent] = useState<Student>();
   const [contacts, setContacts] = useState<Array<ContactPerson>>();
@@ -268,14 +276,17 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   const [primaryContact, setPrimaryContact] = useState<ContactPerson>();
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
   const [attendanceData, setAttendanceData] = useState<Attendance>();
+  const [assessmentData, setAssessmentData] = useState<Assessment[]>();
   const [tabSelected, setTabSelected] = useState<string>();
 
   const notesTabRef = React.createRef<HTMLDivElement>();
   const surveyTabRef = React.createRef<HTMLDivElement>();
   const attendanceTabRef = React.createRef<HTMLDivElement>();
+  const assessmentTabRef = React.createRef<HTMLDivElement>();
   const notesAreaRef = React.createRef<HTMLDivElement>();
   const surveyAreaRef = React.createRef<HTMLDivElement>();
   const attendanceAreaRef = React.createRef<HTMLDivElement>();
+  const assessmentAreaRef = React.createRef<HTMLDivElement>();
 
   interface ParamTypes {
     studentKey: string;
@@ -289,9 +300,21 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     });
   }, [props.api.attendance]);
 
+  const getAssessmentData = useCallback(async (studentSchoolKey: string) => {
+    await props.api.assessment.getAssessmentData(studentSchoolKey).then((result) => {
+      setAssessmentData(result);
+    });
+  }, [props.api.assessment]);
+
   const toggleTabVisibility = useCallback((tab: string) => {
-    if (!notesTabRef.current || !surveyTabRef.current || !attendanceTabRef.current
-        || !notesAreaRef.current || !surveyAreaRef.current || !attendanceAreaRef.current
+    if (!notesTabRef.current
+        || !surveyTabRef.current
+        || (attendanceData && !attendanceTabRef.current)
+        || (assessmentData && assessmentData.length > 0 && !assessmentTabRef.current)
+        || !notesAreaRef.current
+        || !surveyAreaRef.current
+        || (attendanceData && !attendanceAreaRef.current)
+        || (assessmentData && assessmentData.length > 0  && !assessmentAreaRef.current)
     ) {
       return;
     }
@@ -302,10 +325,16 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
       case ActiveTabEnum.Surveys:
         notesTabRef.current.className = unselectedTabClassName;
         notesAreaRef.current.className = `${unselectedAreaClassName}`;
-        attendanceTabRef.current.className = unselectedTabClassName;
-        attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
+        if(attendanceData){
+          attendanceTabRef.current.className = unselectedTabClassName;
+          attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         surveyTabRef.current.className = selectedTabClassName;
         surveyAreaRef.current.className = `${surveyContainerClassName} ${selectedAreaClassName}`;
+        if(assessmentData && assessmentData.length > 0){
+          assessmentTabRef.current.className = unselectedTabClassName;
+          assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         break;
       case ActiveTabEnum.AttendanceData:
         surveyTabRef.current.className = unselectedTabClassName;
@@ -314,20 +343,55 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
         notesAreaRef.current.className = `${unselectedAreaClassName}`;
         attendanceTabRef.current.className = selectedTabClassName;
         attendanceAreaRef.current.className = `${surveyContainerClassName} ${selectedAreaClassName}`;
+        if(assessmentData && assessmentData.length > 0){
+          assessmentTabRef.current.className = unselectedTabClassName;
+          assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         break;
       case ActiveTabEnum.Notes:
         surveyTabRef.current.className = unselectedTabClassName;
         surveyAreaRef.current.className = `${unselectedAreaClassName}`;
-        attendanceTabRef.current.className = unselectedTabClassName;
-        attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
+        if(attendanceData){
+          attendanceTabRef.current.className = unselectedTabClassName;
+          attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         notesTabRef.current.className = selectedTabClassName;
         notesAreaRef.current.className = `${notesContainerClassName} ${selectedAreaClassName}`;
+        if(assessmentData && assessmentData.length > 0){
+          assessmentTabRef.current.className = unselectedTabClassName;
+          assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
+        break;
+      case ActiveTabEnum.AssessmentData:
+        surveyTabRef.current.className = unselectedTabClassName;
+        surveyAreaRef.current.className = `${unselectedAreaClassName}`;
+        notesTabRef.current.className = unselectedTabClassName;
+        notesAreaRef.current.className = `${unselectedAreaClassName}`;
+        if(attendanceData){
+          attendanceTabRef.current.className = unselectedTabClassName;
+          attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
+        assessmentTabRef.current.className = selectedTabClassName;
+        assessmentAreaRef.current.className = `${assessmentContainerClassName} ${selectedAreaClassName}`;
         break;
       default:
         break;
     }
-  }, [ActiveTabEnum.Notes, ActiveTabEnum.Surveys, ActiveTabEnum.AttendanceData,
-    notesAreaRef, notesTabRef, surveyAreaRef, surveyTabRef, attendanceAreaRef, attendanceTabRef]);
+  }, [ActiveTabEnum.Notes,
+    ActiveTabEnum.Surveys,
+    ActiveTabEnum.AttendanceData,
+    ActiveTabEnum.AssessmentData,
+    notesAreaRef,
+    notesTabRef,
+    surveyAreaRef,
+    surveyTabRef,
+    attendanceAreaRef,
+    attendanceTabRef,
+    assessmentAreaRef,
+    assessmentTabRef,
+    assessmentData,
+    attendanceData
+  ]);
 
   useEffect(() => {
     toggleTabVisibility(tabSelected);
@@ -353,6 +417,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
           const pc = result.contacts.filter((c) => c.isprimarycontact === true)[0] || result.contacts[0];
           setPrimaryContact(pc);
           getAttendanceData(result.studentschoolkey);
+          getAssessmentData(result.studentschoolkey);
         }
       });
     } catch (error) {
@@ -362,7 +427,11 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     return () => {
       cancel = true;
     };
-  }, [props.api.authentication.currentUserValue.teacher, props.api.student, studentKey, getAttendanceData]);
+  }, [props.api.authentication.currentUserValue.teacher,
+    props.api.student,
+    studentKey,
+    getAttendanceData,
+    getAssessmentData]);
 
   toggleTabVisibility(ActiveTabEnum.Surveys);
 
@@ -474,6 +543,20 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                   Attendance
                   </div>
                   : null }
+                {assessmentData && assessmentData.length > 0 &&
+                <div tabIndex={0}
+                  ref={assessmentTabRef}
+                  className={unselectedTabClassName}
+                  onClick={() => {
+                    toggleTabVisibility(ActiveTabEnum.AssessmentData);
+                  }}
+                  onKeyPress={() => {
+                    toggleTabVisibility(ActiveTabEnum.AssessmentData);
+                  }}
+                >
+                Assessment
+                </div>
+                }
                 <div tabIndex={0}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
@@ -508,6 +591,12 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                       attendance={attendanceData}
                     /> }
                 </div>
+                {assessmentData && assessmentData.length > 0 &&
+                <div ref={assessmentAreaRef} className={`${unselectedAreaClassName}`}>
+                  <StudentDetailAssessment
+                    assessment={assessmentData}
+                  />
+                </div>}
               </div>
             </div>
           </div>
