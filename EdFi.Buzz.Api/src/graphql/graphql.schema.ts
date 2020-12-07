@@ -48,6 +48,12 @@ export class ContactPerson {
     contactnotes?: string;
 }
 
+export class Demographics {
+    demographicskey?: number;
+    shortdescription?: string;
+    demographicstypekey?: number;
+}
+
 export class DoesOdsContainsSurveyModel {
     contains?: boolean;
 }
@@ -118,6 +124,10 @@ export abstract class IQuery {
     abstract attendancebystudentschool(studentschoolkey: string): Attendance | Promise<Attendance>;
 
     abstract assessmentsbystudentschool(studentschoolkey: string): StudentAssessment[] | Promise<StudentAssessment[]>;
+
+    abstract studentcharacteristicsbystudentschool(studentschoolkey: string): Demographics[] | Promise<Demographics[]>;
+
+    abstract studentprogramsbystudentschool(studentschoolkey: string): Demographics[] | Promise<Demographics[]>;
 }
 
 export class School {

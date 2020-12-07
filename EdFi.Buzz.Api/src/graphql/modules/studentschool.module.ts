@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import StudentSchoolResolvers from '../resolvers/studentschool.resolver';
 import StudentSchoolService from '../services/studentschool.service';
+import DemographicsService from '../services/demographics.service';
 import {
   StudentSchoolEntity,
   StudentContactEntity,
@@ -16,6 +17,7 @@ import {
   StudentSurveyEntity,
   SurveyEntity,
   AttendanceEntity,
+  DemographicsEntity,
 } from '../entities/buzz';
 import { BUZZ_DATABASE } from '../../constants';
 
@@ -30,8 +32,9 @@ import { BUZZ_DATABASE } from '../../constants';
       StudentNoteEntity,
       SurveyEntity,
       AttendanceEntity,
+      DemographicsEntity,
     ], BUZZ_DATABASE),
   ],
-  providers: [StudentSchoolService, StudentSchoolResolvers],
+  providers: [StudentSchoolService, DemographicsService, StudentSchoolResolvers],
 })
 export default class StudentSchoolModule {}
