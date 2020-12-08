@@ -58,7 +58,7 @@ $toolsPath = $conf.toolsPath
 try {
     # Validating Auth configuration
     if (-not (Test-AuthConfiguration -idProvider $conf.idProvider -clientSecret $conf.clientSecret -googleClientId $conf.googleClientId -adfsClientId $conf.adfsClientId -adfsTenantId $conf.adfsTenantId)) {
-        Write-Host "ERROR: Buzz authentication configuration has not been provided properly. Please either provide Google's client identifier and sercret, or ADFS's client and tenant identifiers."
+        Write-Host "ERROR: Buzz authentication configuration has not been provided properly. Please either provide Google's client identifier and secret, or ADFS's client and tenant identifiers."
         exit -1;
     }
 
