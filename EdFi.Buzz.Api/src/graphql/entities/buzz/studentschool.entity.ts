@@ -7,6 +7,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { config } from 'dotenv';
 import StudentSurveyEntity from './survey/studentsurvey.entity';
 import StudentNoteEntity from './studentnote.entity';
+import DemographicsEntity from './demographics.entity';
 
 config({ path: `${__dirname}/../../../../.env` });
 @Entity({ schema: 'buzz', name: 'studentschool', synchronize: false })
@@ -40,4 +41,8 @@ export default class StudentSchoolEntity {
   studentsurveys?: StudentSurveyEntity[];
 
   notes?: StudentNoteEntity[];
+
+  characteristics?: DemographicsEntity[];
+
+  programs?: DemographicsEntity[];
 }

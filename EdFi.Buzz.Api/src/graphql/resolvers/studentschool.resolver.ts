@@ -13,15 +13,20 @@ import {
   StudentSurvey,
   StudentNote,
   Attendance,
+  Demographics,
 } from '../graphql.schema';
 import StudentSchoolService from '../services/studentschool.service';
+import DemographicsService from '../services/demographics.service';
 import AuthGuard from '../auth.guard';
 
 @UseGuards(AuthGuard)
 @Resolver('StudentSchool')
 export default class StudentSchoolResolvers {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly studentschoolService: StudentSchoolService) {}
+  constructor(
+    private readonly studentschoolService: StudentSchoolService,
+    private readonly demographicsService: DemographicsService,
+  ) {}
 
   // @Query()
   async students(): Promise<StudentSchool[]> {
@@ -76,5 +81,17 @@ export default class StudentSchoolResolvers {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentattendance(@Parent() parent): Promise<Attendance> {
     return this.studentschoolService.findAttendanceByStudentSchoolKey(parent.studentschoolkey);
+  }
+
+  @ResolveProperty('characteristics')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async studentatcharacteristics(@Parent() parent): Promise<Demographics[]> {
+    return this.demographicsService.findByStudentSchool(parent.studentschoolkey, 'Characteristics');
+  }
+
+  @ResolveProperty('programs')
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async studentatprograms(@Parent() parent): Promise<Demographics[]> {
+    return this.demographicsService.findByStudentSchool(parent.studentschoolkey, 'Programs');
   }
 }

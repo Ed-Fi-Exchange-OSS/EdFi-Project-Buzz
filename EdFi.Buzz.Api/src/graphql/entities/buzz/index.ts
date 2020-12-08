@@ -27,6 +27,9 @@ import LoadSurveyFromOdsTaskItem from './queues/loadSurveyFromOdsTaskitem.entity
 import CanLoadSurverysFromUI from './survey/CanLoadSurverysFromUI.entity';
 import DoesOdsContainsSurveyModel from './survey/DoesOdsContainsSurveyModel.entity';
 import AttendanceEntity from './attendance.entity';
+import DemographicsEntity from './demographics.entity';
+import DemographicsTypeEntity from './demographicstype.entity';
+import StudentDemographicsEntity from './studentdemographics.entity';
 
 export {
   ContactPersonEntity,
@@ -53,4 +56,7 @@ export {
   CanLoadSurverysFromUI,
   DoesOdsContainsSurveyModel,
   AttendanceEntity,
+  DemographicsEntity,
+  DemographicsTypeEntity,
+  StudentDemographicsEntity,
 };

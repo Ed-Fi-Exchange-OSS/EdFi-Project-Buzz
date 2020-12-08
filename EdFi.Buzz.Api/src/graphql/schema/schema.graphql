@@ -27,6 +27,8 @@ type Query{
   doesOdsContainsSurveyModel: DoesOdsContainsSurveyModel
   attendancebystudentschool(studentschoolkey: String!): Attendance
   assessmentsbystudentschool(studentschoolkey: String!): [StudentAssessment]
+  studentcharacteristicsbystudentschool(studentschoolkey: String!): [Demographics]
+  studentprogramsbystudentschool(studentschoolkey: String!): [Demographics]
 }
 type Section{
   sectionkey: String
@@ -61,6 +63,8 @@ type StudentSchool
   notes: [StudentNote]
   attendance: Attendance
   assessments: [StudentAssessment]
+  characteristics: [Demographics]
+  programs: [Demographics]
 }
 type StudentNote {
   studentnotekey: Int
@@ -265,4 +269,10 @@ type CanLoadSurverysFromUI {
 
 type DoesOdsContainsSurveyModel {
   contains: Boolean
+}
+
+type Demographics {
+  demographicskey: Int
+  shortdescription: String
+  demographicstypekey: Int
 }
