@@ -31,6 +31,8 @@ const loadBaseEntities = async () => {
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentSectionConfig);
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentContactConfig);
     await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentAssessmentsConfig);
+    await loadMsSqlData.loadMsSqlData(pg, ms, etl.demographicsConfig);
+    await loadMsSqlData.loadMsSqlData(pg, ms, etl.studentDemographicsConfig);
 
     if (process.env.BUZZ_SQLSOURCE === 'amt') {
       const viewExists = await dsHelper.chronicAbsenteeismAttendanceFactExists(ms);
