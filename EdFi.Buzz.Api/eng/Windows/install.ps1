@@ -156,7 +156,7 @@ function New-DotEnvFile {
     $extraCaCertsText="NODE_EXTRA_CA_CERTS=$extraCaCerts`n"
   }
 
-  if($tlsRejectUnauthorized -eq $false) {
+  if($rejectTlsUnauthorized -eq $false) {
     $tlsRejectUnauthorizedText="NODE_TLS_REJECT_UNAUTHORIZED=0`n"
   }
 
@@ -190,8 +190,6 @@ SURVEY_MAX_FILE_SIZE_BYTES=1mb
 SURVEY_PROCESS_INITIAL_STATUS_KEY=1
 SURVEY_FILES_RETENTION_DAYS=1
 KEEP_SURVEY_SYNCH=$KeepSurveysSynch
-$extraCaCertsText
-$tlsRejectUnauthorizedText
 "@
   }
   else {
