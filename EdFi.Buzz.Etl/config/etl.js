@@ -18,6 +18,8 @@ const staffSource = `${sqlSourceDir}/0006-ImportStaff.sql`;
 const studentSectionSource = `${sqlSourceDir}/0008-ImportStudentSection.sql`;
 const studentAttendanceSource = `${sqlSourceDir}/0009-ImportChronicAbsenteeismData.sql`;
 const studentAssessmentsSource = `${sqlSourceDir}/0010-ImportStudentAssessments.sql`;
+const demographicsSource = `${sqlSourceDir}/0011-ImportDemographic.sql`;
+const studentDemographicsSource = `${sqlSourceDir}/0012-ImportStudentDemographic.sql`;
 
 const schoolSourceSQL = fs.readFileSync(path.join(__dirname, schoolSource), 'utf8');
 const studentSchoolSourceSQL = fs.readFileSync(path.join(__dirname, studentSchoolSource), 'utf8');
@@ -28,6 +30,8 @@ const staffSourceSQL = fs.readFileSync(path.join(__dirname, staffSource), 'utf8'
 const studentSectionSourceSQL = fs.readFileSync(path.join(__dirname, studentSectionSource), 'utf8');
 const studentAttendanceSourceSQL = fs.readFileSync(path.join(__dirname, studentAttendanceSource), 'utf8');
 const studentAssessmentsSourceSQL = fs.readFileSync(path.join(__dirname, studentAssessmentsSource), 'utf8');
+const demographicSourceSQL = fs.readFileSync(path.join(__dirname, demographicsSource), 'utf8');
+const studentDemographicSourceSQL = fs.readFileSync(path.join(__dirname, studentDemographicsSource), 'utf8');
 
 let staffSectionConfig = {};
 
@@ -241,5 +245,34 @@ exports.studentAssessmentsConfig = {
     row.assessmentidentifier,
     row.datetaken,
     row.score,
+  ],
+};
+
+exports.demographicsConfig = {
+  recordType: 'Demographics',
+  selectSql: 'SELECT 1 FROM buzz.demographics WHERE shortdescription=$1',
+  insertSql: 'INSERT INTO buzz.demographics (shortdescription, demographicstypekey) VALUES ($1, $2)',
+  updateSql: 'UPDATE buzz.demographics SET shortdescription=$1 WHERE shortdescription=$1 and demographicstypekey=$2',
+  sourceSql: demographicSourceSQL,
+  keyIndex: 0,
+  isEntityMap: false,
+  valueFunc: (row) => [
+    row.shortdescription,
+    row.demographicstypekey,
+  ],
+};
+
+exports.studentDemographicsConfig = {
+  recordType: 'StudentDemographics',
+  selectSql: 'SELECT 1 FROM buzz.studentdemographics INNER JOIN buzz.demographics WHERE studentdemographics.studentschoolkey=$1 AND shortdescription=$2 AND demographicstypekey=$3',
+  deleteSql: 'DELETE FROM buzz.studentdemographics',
+  insertSql: 'INSERT INTO buzz.studentdemographics (demographicskey, studentschoolkey) (SELECT demographicskey, $1 FROM buzz.demographics WHERE shortdescription=$2 and demographicstypekey=$3)',
+  sourceSql: studentDemographicSourceSQL,
+  keyIndex: 0,
+  isEntityMap: true,
+  valueFunc: (row) => [
+    row.studentschoolkey,
+    row.shortdescription,
+    row.demographicstypekey,
   ],
 };
