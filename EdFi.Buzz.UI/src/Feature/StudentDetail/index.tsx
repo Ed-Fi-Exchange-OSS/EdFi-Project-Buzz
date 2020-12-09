@@ -334,7 +334,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
         || (assessmentData && assessmentData.length > 0  && !assessmentAreaRef.current)
         || ((demographicsCharacteristicsData || demographicsProgramsData) && !attendanceAreaRef.current)
         || (((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
-          || (demographicsProgramsData && demographicsProgramsData.length > 0))  && !assessmentAreaRef.current)
+          || (demographicsProgramsData && demographicsProgramsData.length > 0))  && !demographicAreaRef.current)
     ) {
       return;
     }
