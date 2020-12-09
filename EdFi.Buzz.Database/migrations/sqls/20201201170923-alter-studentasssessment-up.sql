@@ -3,6 +3,9 @@
 -- The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 -- See the LICENSE and NOTICES files in the project root for more information.
 
+DROP EXTENSION IF EXISTS pgcrypto CASCADE;
+CREATE EXTENSION pgcrypto;
+
 ALTER TABLE  buzz.studentassessment
 	ADD studentassessmentkey VARCHAR(45) NOT NULL DEFAULT gen_random_uuid ();
 
