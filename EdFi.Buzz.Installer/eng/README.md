@@ -92,6 +92,8 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **port:** API port.
 - **surveyFilesFolder** The folder into which uploaded survey files are written
 - **corsOrigins** This is a comma-delimited list of URIs which require API access. CORS policy will reject any URIs not in this list. Include the protocol (http or https).
+- **rejectTlsUnauthorized** true/false value to bypass the server certificate validation callback.
+- **extraCaCerts** Comma-delimited list of file system paths to your organization's root CA certificates for that server. Export from your certificate store.
 
 #### ui
 

@@ -74,32 +74,34 @@ function Install-ApiApp {
     }
 
     $params = @{
-        "InstallPath"        = Join-Path $configuration.InstallPath "API";
-        "DbServer"           = $configuration.postgresDatabase.host;
-        "DbPort"             = $configuration.postgresDatabase.port;
-        "DbUserName"         = $configuration.postgresDatabase.username;
-        "DbPassword"         = $configuration.postgresDatabase.password;
-        "DbName"             = $configuration.postgresDatabase.database;
-        "idProvider"         = $configuration.idProvider;
-        "uriDiscovery"       = "";
-        "googleClientID"     = $configuration.googleClientID;
-        "clientSecret"       = $configuration.clientSecret;
-        "googleAuthCallback" = $configuration.api.url;
-        "surveyFilesFolder"  = $configuration.api.surveyFilesFolder;
-        "port"               = $configuration.api.Port;
-        "toolsPath"          = $toolsPath;
-        "packagesPath"       = $packagesPath;
-        "SqlServerHost"      = $configuration.sqlServerDatabase.host;
-        "SqlServerPort"      = $configuration.sqlServerDatabase.port;
-        "SqlServerUserName"  = $configuration.sqlServerDatabase.username;
-        "SqlServerPassword"  = $configuration.sqlServerDatabase.password;
-        "SqlServerDbName"    = $configuration.sqlServerDatabase.database;
-        "KeepSurveysSynch"   = $configuration.keepSurveysSynch;
-        "internalRoute"      = $configuration.api.internalRoute;
-        "externalRoute"      = $configuration.api.externalRoute;
-        "corsOrigins"        = $configuration.api.corsOrigins;
-        "rootDir"            = "dist";
-        "app"                = "API";
+        "InstallPath"           = Join-Path $configuration.InstallPath "API";
+        "DbServer"              = $configuration.postgresDatabase.host;
+        "DbPort"                = $configuration.postgresDatabase.port;
+        "DbUserName"            = $configuration.postgresDatabase.username;
+        "DbPassword"            = $configuration.postgresDatabase.password;
+        "DbName"                = $configuration.postgresDatabase.database;
+        "idProvider"            = $configuration.idProvider;
+        "uriDiscovery"          = "";
+        "googleClientID"        = $configuration.googleClientID;
+        "clientSecret"          = $configuration.clientSecret;
+        "googleAuthCallback"    = $configuration.api.url;
+        "surveyFilesFolder"     = $configuration.api.surveyFilesFolder;
+        "port"                  = $configuration.api.Port;
+        "toolsPath"             = $toolsPath;
+        "packagesPath"          = $packagesPath;
+        "SqlServerHost"         = $configuration.sqlServerDatabase.host;
+        "SqlServerPort"         = $configuration.sqlServerDatabase.port;
+        "SqlServerUserName"     = $configuration.sqlServerDatabase.username;
+        "SqlServerPassword"     = $configuration.sqlServerDatabase.password;
+        "SqlServerDbName"       = $configuration.sqlServerDatabase.database;
+        "KeepSurveysSynch"      = $configuration.keepSurveysSynch;
+        "internalRoute"         = $configuration.api.internalRoute;
+        "externalRoute"         = $configuration.api.externalRoute;
+        "corsOrigins"           = $configuration.api.corsOrigins;
+        "rejectTlsUnauthorized" = $configuration.api.rejectTlsUnauthorized;
+        "extraCaCerts"          = $configuration.api.extraCaCerts;
+        "rootDir"               = "dist";
+        "app"                   = "API";
     }
 
     if ("google" -eq $configuration.idProvider) {
@@ -138,12 +140,12 @@ function Install-DatabaseApp {
     }
 
     $params = @{
-        "DbServer"          = $configuration.postgresDatabase.host;
-        "DbPort"            = $configuration.postgresDatabase.port;
-        "DbUserName"        = $configuration.postgresDatabase.username;
-        "DbPassword"        = $configuration.postgresDatabase.password;
-        "DbName"            = $configuration.postgresDatabase.database;
-        "LoadSampleData"    = $configuration.loadSampleData;
+        "DbServer"       = $configuration.postgresDatabase.host;
+        "DbPort"         = $configuration.postgresDatabase.port;
+        "DbUserName"     = $configuration.postgresDatabase.username;
+        "DbPassword"     = $configuration.postgresDatabase.password;
+        "DbName"         = $configuration.postgresDatabase.database;
+        "LoadSampleData" = $configuration.loadSampleData;
     }
 
     Install-BuzzApp -skipFlag $configuration.installDatabase -app "Database" -configuration $configuration -packagesPath $packagesPath -params $params -version $configuration.database.version

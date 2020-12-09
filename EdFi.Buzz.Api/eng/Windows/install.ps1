@@ -83,7 +83,15 @@ param(
 
   [Parameter(Mandatory = $true)]
   [string]
-  $corsOrigins
+  $corsOrigins,
+
+  [Parameter(Mandatory = $true)]
+  [boolean]
+  $rejectTlsUnauthorized = $true,
+
+  [Parameter(Mandatory = $false)]
+  [string]
+  $extraCaCerts
 )
 
 function Get-FileNameWithoutExtensionFromUrl {
@@ -141,10 +149,20 @@ function Install-WebApplication {
 
 function New-DotEnvFile {
   $envFile = ""
+  $extraCaCertsText=""
+  $tlsRejectUnauthorizedText="NODE_TLS_REJECT_UNAUTHORIZED=1`n"
+
+  if(-not [string]::IsNullOrEmpty($extraCaCerts)) {
+    $extraCaCertsText="NODE_EXTRA_CA_CERTS=$extraCaCerts`n"
+  }
+
+  if($rejectTlsUnauthorized -eq $false) {
+    $tlsRejectUnauthorizedText="NODE_TLS_REJECT_UNAUTHORIZED=0`n"
+  }
 
   if ("google" -eq $idProvider) {
     $envFile = @"
-NODE_TLS_REJECT_UNAUTHORIZED=1
+$tlsRejectUnauthorizedText$extraCaCertsText
 BUZZ_API_CORS_ORIGINS='$corsOrigins'
 BUZZ_API_DB_HOST=$DbServer
 BUZZ_API_DB_PORT=$DbPort
@@ -176,7 +194,7 @@ KEEP_SURVEY_SYNCH=$KeepSurveysSynch
   }
   else {
     $envFile = @"
-NODE_TLS_REJECT_UNAUTHORIZED=1
+$tlsRejectUnauthorizedText$extraCaCertsText
 BUZZ_API_CORS_ORIGINS='$corsOrigins'
 BUZZ_API_DB_HOST=$DbServer
 BUZZ_API_DB_PORT=$DbPort
@@ -204,7 +222,6 @@ SURVEY_MAX_FILE_SIZE_BYTES=1mb
 SURVEY_PROCESS_INITIAL_STATUS_KEY=1
 SURVEY_FILES_RETENTION_DAYS=1
 KEEP_SURVEY_SYNCH=$KeepSurveysSynch
-
 "@
   }
   $envFile | Out-File "$script:installPath\dist\.env" -Encoding UTF8 -Force
