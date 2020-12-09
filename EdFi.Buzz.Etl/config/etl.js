@@ -264,14 +264,15 @@ exports.demographicsConfig = {
 
 exports.studentDemographicsConfig = {
   recordType: 'StudentDemographics',
+  selectSql: 'SELECT 1 FROM buzz.studentdemographics INNER JOIN buzz.demographics WHERE studentdemographics.studentschoolkey=$1 AND shortdescription=$2 AND demographicstypekey=$3',
   deleteSql: 'DELETE FROM buzz.studentdemographics',
-  insertSql: 'INSERT INTO buzz.studentdemographics (demographicskey, studentschoolkey) (SELECT demographicskey, $1 FROM buzz.demographics WHERE shortdescription=$2 and demographicstypekey=$3)  ON CONFLICT (demographicskey, studentschoolkey) DO NOTHING',
+  insertSql: 'INSERT INTO buzz.studentdemographics (demographicskey, studentschoolkey) (SELECT demographicskey, $1 FROM buzz.demographics WHERE shortdescription=$2 and demographicstypekey=$3)',
   sourceSql: studentDemographicSourceSQL,
   keyIndex: 0,
   isEntityMap: true,
   valueFunc: (row) => [
-    row.demographicskey,
     row.studentschoolkey,
+    row.shortdescription,
     row.demographicstypekey,
   ],
 };
