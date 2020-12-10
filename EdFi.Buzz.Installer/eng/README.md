@@ -106,6 +106,13 @@ Options to configure the ETL to load from the database or file to the postgres d
 - **titleLogoWidth:** Site logo title max width with CSS size units ("78px").
 - **titleLogoHeight:** Site logo max height with CSS size units ("350px").
 
+#### Change Privacy Policy page 
+The privacy policy is included as a Markdown file and can be customized on the installed site.
+
+To include a customized privacy policy page, you can replace the content of the **PRIVACY.POLICY.md** file with the content of your privacy policy. The file is in the web application folder (**C:\Ed-Fi\Buzz\UI\build\PRIVACY.POLICY.md**).
+
+![Privacy Policy File](./images/privacyPolicy.png)
+
 #### Change UI Web App icon (fav.ico)
 To update the icon displayed in the browser, it is required to replace the fav.ico file with a valid icon file. You must copy the fav.ico that you want to use in the web application, in the public folder (**C:\Ed-Fi\Buzz\UI\build\fav.ico**).
 
