@@ -44,7 +44,7 @@ const Privacy: React.FunctionComponent<PrivacyProps> = ({title}) => {
       .then(response => response.text())
       .then(text => {
         if(isMounted){
-          setMarkdownFile(marked(DOMPurify.sanitize(text)));
+          setMarkdownFile(DOMPurify.sanitize(marked(text)));
         }
       });
     return () => {
