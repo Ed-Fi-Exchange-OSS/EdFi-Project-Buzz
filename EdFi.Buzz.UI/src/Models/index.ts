@@ -21,6 +21,7 @@ import Teacher from './Teacher';
 import Section from './Section';
 import Attendance from './Attendance';
 import Assessment from './Assessment';
+import Demographic from './Demographic';
 
 export { Environment,
   ContactPerson,
@@ -39,5 +40,6 @@ export { Environment,
   Teacher,
   Section,
   Attendance,
-  Assessment
+  Assessment,
+  Demographic
 };

@@ -21,6 +21,7 @@ import TeacherApiService from 'Services/TeacherService';
 import OdsSurveyService from 'Services/OdsSurveyService';
 import AttendanceApiService from 'Services/AttendanceService';
 import AssessmentApiService from 'Services/AssessmentService';
+import DemographicsApiService from 'Services/DemographicsService';
 import typeDefs from './graphql/typeDefinitions';
 
 function createApolloClient(container: DIContainer) {
@@ -69,7 +70,8 @@ export default function configureDI(): DIContainer {
       get('SurveyService'),
       get('OdsSurveyService'),
       get('AttendanceApiService'),
-      get('AssessmentApiService')
+      get('AssessmentApiService'),
+      get('DemographicsApiService')
     ),
     'AuthenticationService': object(AuthenticationService).construct(
       get('TeacherApiService'),
@@ -108,6 +110,9 @@ export default function configureDI(): DIContainer {
       get('ApolloClient')
     ),
     'AssessmentApiService': object(AssessmentApiService).construct(
+      get('ApolloClient')
+    ),
+    'DemographicsApiService': object(DemographicsApiService).construct(
       get('ApolloClient')
     )
   });

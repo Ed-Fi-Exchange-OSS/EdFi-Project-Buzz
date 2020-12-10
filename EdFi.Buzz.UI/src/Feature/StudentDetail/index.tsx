@@ -16,7 +16,8 @@ import { Student,
   Teacher,
   ContactPerson,
   Attendance,
-  Assessment
+  Assessment,
+  Demographic
 } from '../../Models';
 import { EmailIcon, LeftArrowIcon, StarIcon } from '../../common/Icons';
 import { StudentDetailContactCard } from './StudentDetailContactCard';
@@ -24,6 +25,7 @@ import { StudentDetailSurvey } from './StudentDetailSurvey';
 import { StudentDetailNotesContainer } from './StudentDetailNotesContainer';
 import { StudentDetailAttendance } from './StudentDetailAttendance';
 import { StudentDetailAssessment } from './StudentDetailAssessment';
+import { StudentDetailDemographics } from './StudentDetailDemographics';
 
 const StudentDetailContainer = styled.div`
   display: flex;
@@ -259,7 +261,8 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     Surveys = 'SURVEYS',
     Notes = 'NOTES',
     AttendanceData = 'ATTENDANCEDATA',
-    AssessmentData= 'ASSESSMENT'
+    AssessmentData = 'ASSESSMENT',
+    DemographicsData = 'DEMOGRAPHICS'
   }
 
   const selectedTabClassName = 'survey-notes-container-tab survey-notes-tab-selected';
@@ -269,6 +272,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   const surveyContainerClassName = 'student-surveys-container';
   const notesContainerClassName = 'notes-container';
   const assessmentContainerClassName = 'notes-container';
+  const demographicsContainerClassName = 'notes-container';
 
   const [student, setStudent] = useState<Student>();
   const [contacts, setContacts] = useState<Array<ContactPerson>>();
@@ -277,16 +281,20 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
   const [currentTeacher, setCurrentTeacher] = useState<Teacher>();
   const [attendanceData, setAttendanceData] = useState<Attendance>();
   const [assessmentData, setAssessmentData] = useState<Assessment[]>();
+  const [demographicsCharacteristicsData, setDemographicsCharacteristicsData] = useState<Demographic[]>();
+  const [demographicsProgramsData, setDemographicsProgramsData] = useState<Demographic[]>();
   const [tabSelected, setTabSelected] = useState<string>();
 
   const notesTabRef = React.createRef<HTMLDivElement>();
   const surveyTabRef = React.createRef<HTMLDivElement>();
   const attendanceTabRef = React.createRef<HTMLDivElement>();
   const assessmentTabRef = React.createRef<HTMLDivElement>();
+  const demographicsTabRef = React.createRef<HTMLDivElement>();
   const notesAreaRef = React.createRef<HTMLDivElement>();
   const surveyAreaRef = React.createRef<HTMLDivElement>();
   const attendanceAreaRef = React.createRef<HTMLDivElement>();
   const assessmentAreaRef = React.createRef<HTMLDivElement>();
+  const demographicAreaRef = React.createRef<HTMLDivElement>();
 
   interface ParamTypes {
     studentKey: string;
@@ -306,6 +314,15 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     });
   }, [props.api.assessment]);
 
+  const getDemographicsData = useCallback(async (studentSchoolKey: string) => {
+    await props.api.demographics.getDemographicsCharacteristicsData(studentSchoolKey).then((result) => {
+      setDemographicsCharacteristicsData(result);
+    });
+    await props.api.demographics.getDemographicsProgramsData(studentSchoolKey).then((result) => {
+      setDemographicsProgramsData(result);
+    });
+  }, [props.api.demographics]);
+
   const toggleTabVisibility = useCallback((tab: string) => {
     if (!notesTabRef.current
         || !surveyTabRef.current
@@ -315,6 +332,9 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
         || !surveyAreaRef.current
         || (attendanceData && !attendanceAreaRef.current)
         || (assessmentData && assessmentData.length > 0  && !assessmentAreaRef.current)
+        || ((demographicsCharacteristicsData || demographicsProgramsData) && !attendanceAreaRef.current)
+        || (((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
+          || (demographicsProgramsData && demographicsProgramsData.length > 0))  && !demographicAreaRef.current)
     ) {
       return;
     }
@@ -335,6 +355,11 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
           assessmentTabRef.current.className = unselectedTabClassName;
           assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
         }
+        if((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
+            || (demographicsProgramsData && demographicsProgramsData.length > 0)){
+          demographicsTabRef.current.className = unselectedTabClassName;
+          demographicAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         break;
       case ActiveTabEnum.AttendanceData:
         surveyTabRef.current.className = unselectedTabClassName;
@@ -346,6 +371,11 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
         if(assessmentData && assessmentData.length > 0){
           assessmentTabRef.current.className = unselectedTabClassName;
           assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
+        if((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
+            || (demographicsProgramsData && demographicsProgramsData.length > 0)){
+          demographicsTabRef.current.className = unselectedTabClassName;
+          demographicAreaRef.current.className = `${unselectedAreaClassName}`;
         }
         break;
       case ActiveTabEnum.Notes:
@@ -361,6 +391,11 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
           assessmentTabRef.current.className = unselectedTabClassName;
           assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
         }
+        if((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
+            || (demographicsProgramsData && demographicsProgramsData.length > 0)){
+          demographicsTabRef.current.className = unselectedTabClassName;
+          demographicAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         break;
       case ActiveTabEnum.AssessmentData:
         surveyTabRef.current.className = unselectedTabClassName;
@@ -371,8 +406,29 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
           attendanceTabRef.current.className = unselectedTabClassName;
           attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
         }
+        if((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
+            || (demographicsProgramsData && demographicsProgramsData.length > 0)){
+          demographicsTabRef.current.className = unselectedTabClassName;
+          demographicAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
         assessmentTabRef.current.className = selectedTabClassName;
         assessmentAreaRef.current.className = `${assessmentContainerClassName} ${selectedAreaClassName}`;
+        break;
+      case ActiveTabEnum.DemographicsData:
+        surveyTabRef.current.className = unselectedTabClassName;
+        surveyAreaRef.current.className = `${unselectedAreaClassName}`;
+        notesTabRef.current.className = unselectedTabClassName;
+        notesAreaRef.current.className = `${unselectedAreaClassName}`;
+        if(attendanceData){
+          attendanceTabRef.current.className = unselectedTabClassName;
+          attendanceAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
+        if(assessmentData && assessmentData.length > 0){
+          assessmentTabRef.current.className = unselectedTabClassName;
+          assessmentAreaRef.current.className = `${unselectedAreaClassName}`;
+        }
+        demographicsTabRef.current.className = selectedTabClassName;
+        demographicAreaRef.current.className = `${demographicsContainerClassName}`;
         break;
       default:
         break;
@@ -381,6 +437,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     ActiveTabEnum.Surveys,
     ActiveTabEnum.AttendanceData,
     ActiveTabEnum.AssessmentData,
+    ActiveTabEnum.DemographicsData,
     notesAreaRef,
     notesTabRef,
     surveyAreaRef,
@@ -389,8 +446,12 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     attendanceTabRef,
     assessmentAreaRef,
     assessmentTabRef,
+    demographicAreaRef,
+    demographicsTabRef,
     assessmentData,
-    attendanceData
+    attendanceData,
+    demographicsCharacteristicsData,
+    demographicsProgramsData
   ]);
 
   useEffect(() => {
@@ -418,6 +479,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
           setPrimaryContact(pc);
           getAttendanceData(result.studentschoolkey);
           getAssessmentData(result.studentschoolkey);
+          getDemographicsData(result.studentschoolkey);
         }
       });
     } catch (error) {
@@ -431,7 +493,8 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
     props.api.student,
     studentKey,
     getAttendanceData,
-    getAssessmentData]);
+    getAssessmentData,
+    getDemographicsData]);
 
   toggleTabVisibility(ActiveTabEnum.Surveys);
 
@@ -557,6 +620,21 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 Assessment
                 </div>
                 }
+                {((demographicsCharacteristicsData && demographicsCharacteristicsData.length > 0)
+                  || (demographicsProgramsData && demographicsProgramsData.length > 0)) &&
+                <div tabIndex={0}
+                  ref={demographicsTabRef}
+                  className={unselectedTabClassName}
+                  onClick={() => {
+                    toggleTabVisibility(ActiveTabEnum.DemographicsData);
+                  }}
+                  onKeyPress={() => {
+                    toggleTabVisibility(ActiveTabEnum.DemographicsData);
+                  }}
+                >
+                Demographics
+                </div>
+                }
                 <div tabIndex={0}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
@@ -595,6 +673,14 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 <div ref={assessmentAreaRef} className={`${unselectedAreaClassName}`}>
                   <StudentDetailAssessment
                     assessment={assessmentData}
+                  />
+                </div>}
+                {((demographicsCharacteristicsData && demographicsCharacteristicsData.length)
+                    || (demographicsProgramsData && demographicsProgramsData.length)) > 0 &&
+                <div ref={demographicAreaRef} className={`${unselectedAreaClassName}`}>
+                  <StudentDetailDemographics
+                    demographicsCharacteristics={demographicsCharacteristicsData}
+                    demographicsPrograms={demographicsProgramsData}
                   />
                 </div>}
               </div>
