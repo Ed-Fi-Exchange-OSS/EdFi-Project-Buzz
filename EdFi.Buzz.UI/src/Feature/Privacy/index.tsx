@@ -37,7 +37,7 @@ const BackToHome = styled(Link)`
 const Privacy: React.FunctionComponent<PrivacyProps> = ({title}) => {
   const [markdownFile,setMarkdownFile] = useState(null);
 
-  useEffect(() => {console.log(`${window.location.origin}/PRIVACY.POLICY.md`);
+  useEffect(() => {
     let isMounted = true; // note this flag denote mount status
     const readmePath = (`${window.location.origin}/PRIVACY.POLICY.md`);
     fetch(readmePath)
