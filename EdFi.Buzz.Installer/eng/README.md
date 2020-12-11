@@ -125,10 +125,41 @@ To update the icon displayed in the browser, it is required to replace the fav.i
 ![favico](./images/favico.png)
 
 ### Installation
+
 Installation script requirements:
+
 - A non-core PowerShell.
 - $PSVersionTable.PSEdition is Desktop
+
+```powershell
+C:\temp\edfi-buzz.1.0.0.384\eng\Windows> $PSVersionTable
+
+Name                           Value
+----                           -----
+PSVersion                      5.1.19041.610
+PSEdition                      Desktop
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0...}
+BuildVersion                   10.0.19041.610
+CLRVersion                     4.0.30319.42000
+WSManStackVersion              3.0
+PSRemotingProtocolVersion      2.3
+SerializationVersion           1.1.0.1
+
+```
+
 - Run as Administrator. It requires administrator privileges.
+- Set the execution policy to Bypass for the duration of the PowerShell session.
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+- Execute the install.ps1 script. If the configuration.json file is in the same folder, then
+
+```powershell
+C:\temp\edfi-buzz.1.0.0.384\eng\Windows> .\install.ps1
+```
+
 - Configuration file. It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
 
 ![configuration](./images/configurationJSON.png)
