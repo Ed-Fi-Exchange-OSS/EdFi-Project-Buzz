@@ -17,11 +17,15 @@ The ETL requires a default, local instance of SQL Server, and the user executing
 - **UI:** Project Buzz Web Application..
 
 ## Prerequisites
+
 We recommend that the following prerequisites are installed on the machine that you are going to run the scripts on.
 
-1. Node Js LTS version https://nodejs.org/en/
-2. Postgresql
-3. IIS with the [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing) and [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite) modules, installed and configured per the documentation to provide request routing.
+- Node Js LTS version https://nodejs.org/en/
+- Postgresql
+- IIS with the [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing) and [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite) modules, installed and configured per the documentation to provide request routing.
+- [dotnet runtime 3.1.9](https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-3.1.9-windows-x64-installer) is used by the Windows Service Wrapper ([winsw](https://github.com/winsw/winsw/))
+- The [IIS URL Rewrite Module version 2.1](https://www.iis.net/downloads/microsoft/url-rewrite) provides routing for both IIS websites to support React as a single-page application (SPA) and for API's reverse proxy routes.
+- [Application Request Routing version 3.0](https://www.microsoft.com/en-us/download/details.aspx?id=47333) is used by the API site for configuring reverse proxy routes in IIS.
 
 ## Setup Instructions
 1. Choose a drive and root directory location. For our purposes, D:\Ed-Fi\Buzz will be used in examples.
