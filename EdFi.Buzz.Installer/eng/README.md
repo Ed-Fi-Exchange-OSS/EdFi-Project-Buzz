@@ -170,6 +170,24 @@ The installation script must be run in PowerShell as an administrator.
 
 ![installation](./images/install.png)
 
+- After a successful install, you should see that all Service applications are in a Running state, and web sites return HTTP status 200.
+
+```powershell
+Checking Ed-Fi Buzz App Services and Webs statuses ...
+
+Name                           Value
+----                           -----
+Ed-Fi Buzz UI Website          Status code returned: 200
+Ed-Fi Buzz API Service         Running
+Ed-Fi Buzz ETL Service         Running
+Ed-Fi Buzz API Website         Status code returned: 200
+
+
+Ed-Fi Buzz installation complete.
+```
+- Confirm that the Windows Service Host has two Ed-Fi services for the ETL and API.
+
+
 ## Developer READMEs
 
 Developer information for each Project Buzz application is outlined in a README within their respective root folders. The READMEs contain instructions for running the applications for debugging, or other tasks.
