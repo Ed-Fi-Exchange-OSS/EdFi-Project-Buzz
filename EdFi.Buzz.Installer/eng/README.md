@@ -6,30 +6,49 @@ These scripts were made possible thanks to the Ed-Fi Alliance and the Michael an
 
 The installation script downloads all the assets needed for the Ed-Fi Buzz. Artifacts are placed in the dist/ directory at the root of this project
 
-It validates existence of NuGet Package Provider, Node JS, IIS, SQL Server and Postgres. Retrieves the latest release of several Ed-Fi Buzz NuGet packages. Downloads prequisites from the web.
+It validates existence of NuGet Package Provider, Node JS, IIS, SQL Server and Postgres. Retrieves the latest release of several Ed-Fi Buzz NuGet packages. Downloads prerequisites from the web.
 
 The ETL requires a default, local instance of SQL Server, and the user executing the script must have sufficient permissions. Any existing Buzz databases on the build server should be backed-up and removed before running this build script.
 
 ## Installation
+
 - **Database:** This application provides the scripts to create the database structures necessary to execute Ed-Fi Buzz.
 - **ETL:** This application provides two ETL modules to load Google Form Survey data to the Buzz database, and to port data from the ODS data sources to Postgres.
 - **API:** GraphQL-based API for supporting the Ed-Fi Buzz solution.
 - **UI:** Project Buzz Web Application..
 
 ## Prerequisites
+
 We recommend that the following prerequisites are installed on the machine that you are going to run the scripts on.
 
-1. Node Js LTS version https://nodejs.org/en/
-2. Postgresql
-3. IIS with the [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing) and [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite) modules, installed and configured per the documentation to provide request routing.
+- Node Js LTS version https://nodejs.org/en/
+- Postgresql
+- IIS with the [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing) and [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite) modules, installed and configured per the documentation to provide request routing.
+- [dotnet runtime 3.1.9](https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-3.1.9-windows-x64-installer) is used by the Windows Service Wrapper ([winsw](https://github.com/winsw/winsw/))
+- The [IIS URL Rewrite Module version 2.1](https://www.iis.net/downloads/microsoft/url-rewrite) provides routing for both IIS websites to support React as a single-page application (SPA) and for API's reverse proxy routes.
+- [Application Request Routing version 3.0](https://www.microsoft.com/en-us/download/details.aspx?id=47333) is used by the API site for configuring reverse proxy routes in IIS.
 
 ## Setup Instructions
-1. Choose a drive and root directory location. For our purposes, D:\Ed-Fi\Buzz will be used in examples.
-1. Create your Buzz website in IIS. Configure SSL, certificates and port bindings. The Buzz UI web site would be installed to D:\Ed-Fi\Buzz\UI\build. Note the port (if other than https 443), and the location for the configuration (if different than the example) in step 2.
-2. Edit the configuration file to include the values according to your installation environment.
-3. Run as administrator the installation script.
 
-### IIS Web site
+- Choose a drive and root directory location. For our purposes, `D:\Ed-Fi\Buzz` will be used in examples.
+- Create an empty directory`D:\Ed-Fi\UI\build`. We will map an IIS website to this directory as the Buzz UI.
+- Create an empty directory `D:\Ed-Fi\API-Redirect` for the reverse proxy rules. We will point the IIS API site to this directory, and later install redirection rules in a web.config. This will be the Buz API endpoint.
+- Download the NuGet package edfi.buzz from the [Ed-Fi Azure Artifact Repository](https://dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging?_a=feed&feed=EdFi%40Local)r
+- Rename the file's extension from `.nupkg` to `.zip`.
+- Expand the edfi.buzz zip package to a temporary location - `C:\temp\edfi`, for example.
+- Create a `Buzz` website in IIS using `D:\Ed-Fi\Buzz\UI`. See the `IIS Web site` section below.
+- Configure SSL bindings, apply a certificate and port bindings. The Buzz UI web site would be installed to D:\Ed-Fi\Buzz\UI\build. Note the port (if other than https 443), and the location for the configuration (if different than the example) in step 2.
+- Create another SSL bound website called `Buzz-Api` for the Buzz API. Point  the folder contents to the empty `D:\Ed-Fi\Buzz\API-Redirect` folder. (The install will create a single web.config file to redirect calls to the locally hosted API service endpoint)
+- Repeat the SSL binding step to apply SSL certificates and ports for the `Buzz-API` website.
+- In the Application Request Routing module settings, ensure that `Enable proxy` is checked.
+![ARR module in IIS](./images/iis-arr-module.png)
+![ARR configuration in IIS](./images/iis-arr-config.png)
+- Open PowerShell console as an Administrator.
+-Set your current location to the edfi-buzz's `eng\Windows` directory.
+- Make a copy the `example.configuration.json` file and renamed it to `configuration.json`.
+- See the `General configuration` section for editing the `configuration.json` file to include the values according to your installation environment.
+
+## IIS Web site
 
 Create a website for IIS per your internal procedures. For the configuration, note the install location and port. Configure the ARR and URL Rewrite modules for IIS from the link above. The installation will include a web.config to set up routes within the UI React application.
 
@@ -41,7 +60,7 @@ The configuration variables for the installation are in the **'Windows\configura
 
 ![installation](./images/configFile.png)
 
-The variables that can be configured are detailed below.
+The variables that can be configured are detailed below. Note that the version values are repeated for each Buzz application, and should be null to get the latest value.
 
 #### General configuration
 
@@ -49,6 +68,7 @@ The variables that can be configured are detailed below.
 - **installPath:** The folder where Buzz apps are installed (C:\Ed-Fi\Buzz)
 - **toolsPath:** The folder where Buzz downloads helper NuGet packages. (C:\temp\tools)
 - **packagesPath:** The folder where Buzz downloads NuGet packages. (C:\temp\tools)
+- **artifactRepo:** The NuGet repository URI (https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json)
 - **install[Database|Etl|Ui|Api]:** skips installation for apps marked false.
 - **idProvider:** Authentication provider. Valid values: google, adfs.
 - **googleClientId:** If the authentication provider is google, you must set in this field the corresponding googleClientId when you created the Web Application in Google Developers Console.
@@ -121,10 +141,41 @@ To update the icon displayed in the browser, it is required to replace the fav.i
 ![favico](./images/favico.png)
 
 ### Installation
+
 Installation script requirements:
+
 - A non-core PowerShell.
 - $PSVersionTable.PSEdition is Desktop
+
+```powershell
+C:\temp\edfi-buzz.1.0.0.384\eng\Windows> $PSVersionTable
+
+Name                           Value
+----                           -----
+PSVersion                      5.1.19041.610
+PSEdition                      Desktop
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0...}
+BuildVersion                   10.0.19041.610
+CLRVersion                     4.0.30319.42000
+WSManStackVersion              3.0
+PSRemotingProtocolVersion      2.3
+SerializationVersion           1.1.0.1
+
+```
+
 - Run as Administrator. It requires administrator privileges.
+- Set the execution policy to Bypass for the duration of the PowerShell session.
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+- Execute the install.ps1 script. If the configuration.json file is in the same folder, then
+
+```powershell
+C:\temp\edfi-buzz.1.0.0.384\eng\Windows> .\install.ps1
+```
+
 - Configuration file. It receives the configPath Full path to a JSON document containing configuration settings for Buzz. Defaults to **.\configuration.json** in the same directory.
 
 ![configuration](./images/configurationJSON.png)
@@ -134,6 +185,24 @@ Installation script requirements:
 The installation script must be run in PowerShell as an administrator.
 
 ![installation](./images/install.png)
+
+- After a successful install, you should see that all Service applications are in a Running state, and web sites return HTTP status 200.
+
+```powershell
+Checking Ed-Fi Buzz App Services and Webs statuses ...
+
+Name                           Value
+----                           -----
+Ed-Fi Buzz UI Website          Status code returned: 200
+Ed-Fi Buzz API Service         Running
+Ed-Fi Buzz ETL Service         Running
+Ed-Fi Buzz API Website         Status code returned: 200
+
+
+Ed-Fi Buzz installation complete.
+```
+- Confirm that the Windows Service Host has two Ed-Fi services for the ETL and API.
+
 
 ## Developer READMEs
 
