@@ -294,31 +294,45 @@ export const Header: FunctionComponent<HeaderComponentProps> = (
         <HeaderLogo><HeaderImage src={props.titleLogo} alt={props.title} /></HeaderLogo>
         <MainNav>
           <ul>
-            <li tabIndex={0} onKeyPress={goToRoster}> <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink> </li>
-            <li tabIndex={0} onKeyPress={goToSurveyAnalytics}> <CustomLink to="/surveyAnalytics">Surveys</CustomLink> </li>
-            <li tabIndex={0} onKeyPress={() => setMenuActive(!menuActive)}>
-              <LoggedUserMenu onClick={() => setMenuActive(!menuActive)}>
-                <span>
-                  {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>
-                </span>
-                <MenuOptions className={menuActive ? 'active' : ''}>
-                  <ul>
-                    {isAdminSurveyLoader || isTeacherSurveyLoader
-                      ? <li tabIndex={0} onKeyPress={goToAdminSurvey} ref={menuAdminSurveyRef}>
-                        <Link to="/adminSurvey" tabIndex={-1}>
-                          <LinkButton tabIndex={-1}><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
-                        </Link>
+            <li>
+              <div role='button' tabIndex={0} onKeyPress={goToRoster}>
+                <CustomLink to="/" activeOnlyWhenExact={true}>Class Roster</CustomLink>
+              </div>
+            </li>
+            <li>
+              <div role='button' tabIndex={0} onKeyPress={goToSurveyAnalytics}>
+                <CustomLink to="/surveyAnalytics">Surveys</CustomLink>
+              </div>
+            </li>
+            <li>
+              <div role='button' tabIndex={0} onKeyPress={() => setMenuActive(!menuActive)}>
+                <LoggedUserMenu onClick={() => setMenuActive(!menuActive)}>
+                  <span>
+                    {`${teacher.firstname} ${teacher.lastsurname}`} &nbsp;<MenuArrow src={ArrowDown}></MenuArrow>
+                  </span>
+                  <MenuOptions className={menuActive ? 'active' : ''}>
+                    <ul>
+                      {isAdminSurveyLoader || isTeacherSurveyLoader
+                        ? <li ref={menuAdminSurveyRef}>
+                          <div role='button' tabIndex={0} onKeyPress={goToAdminSurvey}>
+                            <Link to="/adminSurvey" tabIndex={-1}>
+                              <LinkButton tabIndex={-1}><Icon icon={mdBuild}></Icon>&nbsp;Admin Survey</LinkButton>
+                            </Link>
+                          </div>
+                        </li>
+                        : null}
+                      <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
+                      <li ref={menuLogoutRef}>
+                        <div role='button' tabIndex={0} onKeyPress={logOut}>
+                          <Link to="/Login" tabIndex={-1}>
+                            <LinkButton tabIndex={-1} onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
+                          </Link>
+                        </div>
                       </li>
-                      : null}
-                    <LoadOdsSurveysMenuOption isAdminSurveyLoader={isAdminSurveyLoader} api={props.api}/>
-                    <li tabIndex={0} onKeyPress={logOut} ref={menuLogoutRef}>
-                      <Link to="/Login" tabIndex={-1}>
-                        <LinkButton tabIndex={-1} onClick={logOut}><Icon icon={mdUnlock}></Icon>&nbsp;LogOut</LinkButton>
-                      </Link>
-                    </li>
-                  </ul>
-                </MenuOptions>
-              </LoggedUserMenu>
+                    </ul>
+                  </MenuOptions>
+                </LoggedUserMenu>
+              </div>
             </li>
           </ul>
         </MainNav>

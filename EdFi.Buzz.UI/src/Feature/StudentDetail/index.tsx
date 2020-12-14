@@ -581,6 +581,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
             <div className='student-detail-tabbed-container'>
               <div className='student-detail-tabs'>
                 <div tabIndex={0}
+                  role='button'
                   ref={surveyTabRef}
                   className={selectedTabClassName}
                   onClick={() => {
@@ -596,6 +597,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                   <div tabIndex={0}
                     ref={attendanceTabRef}
                     className={unselectedTabClassName}
+                    role='button'
                     onClick={() => {
                       toggleTabVisibility(ActiveTabEnum.AttendanceData);
                     }}
@@ -610,6 +612,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 <div tabIndex={0}
                   ref={assessmentTabRef}
                   className={unselectedTabClassName}
+                  role='button'
                   onClick={() => {
                     toggleTabVisibility(ActiveTabEnum.AssessmentData);
                   }}
@@ -625,6 +628,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 <div tabIndex={0}
                   ref={demographicsTabRef}
                   className={unselectedTabClassName}
+                  role='button'
                   onClick={() => {
                     toggleTabVisibility(ActiveTabEnum.DemographicsData);
                   }}
@@ -638,6 +642,7 @@ export const StudentDetail: FunctionComponent<StudentDetailProps> = (props: Stud
                 <div tabIndex={0}
                   ref={notesTabRef}
                   className={unselectedTabClassName}
+                  role='button'
                   onClick={() => {
                     toggleTabVisibility(ActiveTabEnum.Notes);
                   }}

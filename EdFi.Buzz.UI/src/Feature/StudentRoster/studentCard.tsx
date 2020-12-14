@@ -289,16 +289,27 @@ export const StudentCard: React.FunctionComponent<StudentCardComponentProps> = (
           {(!student.contacts || student.contacts.length === 0) && (
             <div className='alert alert-primary'>Student has no contacts</div>
           )}
-          <div tabIndex={0} className='outline-button' onKeyPress={handleStudentDetailRedirect}>
+          <div tabIndex={0}
+            className='outline-button'
+            role='button'
+            onKeyPress={handleStudentDetailRedirect}>
             <Link to={`/studentDetail/${student.studentschoolkey}`} tabIndex={-1}>Student Details</Link>
           </div>
         </div>
       </div>
 
       <div className='footer card-footer'>
-        <div className='clickable' onClick={() => setIsCollapsed(!isCollapsed)} tabIndex={0} onKeyPress={handleStudentDetailCollapse}>
+        <div className='clickable'
+          role='button'
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          tabIndex={0}
+          onKeyPress={handleStudentDetailCollapse}>
           <div>{!isCollapsed ? 'View more' : 'Collapse'}</div>
-          <img src={!isCollapsed ? ChevronDown : ChevronUp} onClick={() => setIsCollapsed(!isCollapsed)} alt="" />
+          <Link to='#' onClick={() => setIsCollapsed(!isCollapsed)}>
+            <img
+              src={!isCollapsed ? ChevronDown : ChevronUp}
+              alt="" />
+          </Link>
         </div>
       </div>
     </StyledStudentCard>
