@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-  Args, Query, Resolver, ResolveProperty, Parent,
+  Args, Query, Resolver, ResolveField, Parent,
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
@@ -28,7 +28,7 @@ export default class SurveySummaryResolvers {
     return this.surveySummaryService.findAll(title, staffkey, sectionkey, surveykey);
   }
 
-  @ResolveProperty('questions')
+  @ResolveField('questions')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async questions(@Parent() parent): Promise<SurveySummaryQuestions[]> {
     return this.surveySummaryService.findQuestionsBySurvey(parent.surveykey);

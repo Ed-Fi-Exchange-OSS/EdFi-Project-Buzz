@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-  Args, Parent, Query, Resolver, ResolveProperty,
+  Args, Parent, Query, Resolver, ResolveField,
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
@@ -59,13 +59,13 @@ export default class StaffResolvers {
     return this.staffService.findStudentByStaff(staffkey, studentschoolkey);
   }
 
-  @ResolveProperty('sections')
+  @ResolveField('sections')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async sections(@Parent() parent): Promise<Section[]> {
     return this.staffService.findSectionsByStaff(parent.staffkey);
   }
 
-  @ResolveProperty('section')
+  @ResolveField('section')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async section(@Parent() parent,
     @Args('sectionkey') sectionkey: string): Promise<Section> {
