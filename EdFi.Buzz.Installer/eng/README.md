@@ -227,3 +227,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 See [NOTICES](../../NOTICES.md) for additional copyright and license notifications.
+
+
+## Common Problems
+##### 1. Installation fails with this error:
+**Please verify all your online package sources are available (OR) package id, version are specified correctly:**
+
+```powershell
+Downloading the package for Buzz Database application ...
+Install-EdFiPackage installing  edfi.buzz.database...
+D:\temp\tools\nuget install edfi.buzz.database -source EdFi -version 0.1.0-pre0123 -outputDirectory D:\temp\packages -prerelease
+Package 'edfi.buzz.database 0.1.0-pre0123' is not found in the following primary source(s): 'C:\WINDOWS\system32\config\systemprofile\.nuget\packages\,https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json'. Please verify all your online package sources are available (OR) package id, version are specified correctly.
+Ed-Fi Buzz installation failed.
+Finished Buzz install..
+```
+##### Solution
+**1. Clear All Nuget Cache(s)**
+To do this, follow the instructions in this link [Clearing local folders](https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders#clearing-local-folders).
+
+**2. Wait 10 minutes and try again.**
+If the first option doesn't work. just try waiting 10 minutes. The packages take some time, after they have been deployed, to actually be available. 
