@@ -55,8 +55,8 @@ config({ path: `${__dirname}/.env` });
       synchronize: false,
       logging: false,
       options: {
-        enableArithAbort: true
-      }
+        enableArithAbort: true,
+      },
     }),
     GraphQLModule.forRoot({
       typePaths: [`${__dirname}/**/*.graphql`],
