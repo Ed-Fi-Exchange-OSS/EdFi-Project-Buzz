@@ -54,6 +54,9 @@ config({ path: `${__dirname}/.env` });
       entities: [`${__dirname}/**/entities/ods/**/*.entity.js`],
       synchronize: false,
       logging: false,
+      options: {
+        enableArithAbort: true
+      }
     }),
     GraphQLModule.forRoot({
       typePaths: [`${__dirname}/**/*.graphql`],
