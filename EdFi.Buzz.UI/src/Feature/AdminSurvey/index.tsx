@@ -261,6 +261,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
                       <div className='col-2 offset-8'>
                         <span
                           tabIndex={0}
+                          role='button'
                           onClick={() => openModal(survey.surveykey)}
                           onKeyPress={(event) => event.key === 'Enter' ? openModal(survey.surveykey)   : null}
                           className='btn btn-danger btn-delete-note ion-md-trash'

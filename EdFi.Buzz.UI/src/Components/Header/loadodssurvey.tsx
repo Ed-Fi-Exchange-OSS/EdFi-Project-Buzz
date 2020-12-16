@@ -61,10 +61,15 @@ export const LoadOdsSurveysMenuOption: FunctionComponent<LoadOdsSurveysMenuOptio
   return (
     <>
       {props.isAdminSurveyLoader && canLoadSurverysFromUI && doesOdsContainsSurveyModel
-        ? <li tabIndex={0} onKeyPress={goToLoadodssurvey}>
-          <Link to="/loadodssurvey" tabIndex={-1}>
-            <LinkButton tabIndex={-1}><Icon icon={mdCloudDownload}></Icon>&nbsp;ODS Surveys</LinkButton>
-          </Link>
+        ? <li>
+          <div tabIndex={0} role='button' onKeyPress={goToLoadodssurvey}>
+            <Link
+              to="/loadodssurvey"
+              tabIndex={-1}>
+              <LinkButton tabIndex={-1}>
+                <Icon icon={mdCloudDownload}></Icon>&nbsp;ODS Surveys</LinkButton>
+            </Link>
+          </div>
         </li>
         : null}
     </>

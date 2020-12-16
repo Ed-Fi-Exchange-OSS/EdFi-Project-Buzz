@@ -1,5 +1,6 @@
 import * as React from 'react';
 import SurveyQuestionSummary from 'Models/SurveyQuestionSummary';
+import { Link } from 'react-router-dom';
 
 export interface SurveySummaryComponentProps {
   surveyName: string;
@@ -23,7 +24,7 @@ export const SurveySummary: React.FunctionComponent<SurveySummaryComponentProps>
 
         <ul className='list-group'>
           {props.surveyQuestionSummaryList.map((question, idx) => <li className='list-group-item' key={`${question.surveyquestionkey}`}>
-            <a href='#' onClick={(e) => onClickHandle(e, question)} >{idx + 1}. {question.question}</a><br />
+            <Link to='#' onClick={(e) => onClickHandle(e, question)} >{idx + 1}. {question.question}</Link><br />
             {question.answers
               .sort((a, b) => (a.count - b.count) * -1 /* inverse order */)
               .map((answer, idxA) => <span key={`${question.surveyquestionkey}-${answer.label}`}>

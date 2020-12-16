@@ -218,6 +218,7 @@ export const SearchInSections: React.FunctionComponent<SearchInSectionsComponent
             id='sectionsSelect'
             value={defaultValue}
             ref={sectionSelectionRef}
+            onBlur={searchEventHandler}
             onChange={searchEventHandler}
           >
             <option value='null'>Select a section</option>

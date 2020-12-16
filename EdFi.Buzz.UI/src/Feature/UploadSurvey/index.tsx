@@ -448,7 +448,9 @@ export const UploadSurvey: FunctionComponent<UploadSurveyProps> = (props: Upload
                 onChange={onChangeSurveyName}
                 value={surveyName} />
               {(!isTitleValid)
-                ? <label className='label alert-danger text-justify'>Survey name is required</label>
+                ? <label
+                  htmlFor="survey-name"
+                  className='label alert-danger text-justify'>Survey name is required</label>
                 : null}
             </StyledTextParent>
 
