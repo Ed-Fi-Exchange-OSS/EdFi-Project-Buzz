@@ -64,7 +64,7 @@ export const StudentDetailNote: FunctionComponent<StudentDetailNoteProps> = (pro
             </div>
             <div>
               <span className='label'>Added by:</span>
-              <span>{note.staffEMail ? <a href={note.staffEMail}>{note.staffFullName}</a> : note.staffFullName}</span>
+              <span>{note.staffEMail ? <a href={`mailto:${note.staffEMail}`}>{note.staffFullName}</a> : note.staffFullName}</span>
             </div>
           </div>
           <div>
