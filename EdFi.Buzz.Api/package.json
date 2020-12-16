@@ -106,5 +106,9 @@
     "apollo-server-core": "^2.15.0",
     "class-transformer": "^0.3.0",
     "class-validator": "0.12.2"
+  },
+  "resolutions": {
+    "node-fetch": "^2.6.1",
+    "lodash": "^4.17.20"
   }
 }
