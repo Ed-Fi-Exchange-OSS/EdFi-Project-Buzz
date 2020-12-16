@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-  Args, Resolver, Query, ResolveProperty, Parent,
+  Args, Resolver, Query, ResolveField, Parent,
 } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
@@ -31,7 +31,7 @@ export default class SurveyStatusResolvers {
     return this.surveyStatusService.find(staffkey, jobkey);
   }
 
-  @ResolveProperty('jobstatus')
+  @ResolveField('jobstatus')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async jobstatus(@Parent() parent): Promise<JobStatus> {
     return this.surveyStatusService.findJobStatusByJobStatusKey(parent.jobstatuskey);

@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { UseGuards } from '@nestjs/common';
-import { ResolveProperty, Resolver, Parent } from '@nestjs/graphql';
+import { ResolveField, Resolver, Parent } from '@nestjs/graphql';
 import { StudentSurvey, AnswersByStudent } from '../graphql.schema';
 import StudentSurveyService from '../services/studentsurvey.service';
 import AuthGuard from '../auth.guard';
@@ -15,13 +15,13 @@ export default class StudentSurveyResolvers {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly studentSurveyService: StudentSurveyService) {}
 
-  @ResolveProperty('survey')
+  @ResolveField('survey')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentsurveys(@Parent() parent): Promise<StudentSurvey> {
     return this.studentSurveyService.findSurvey(parent.surveykey);
   }
 
-  @ResolveProperty('answers')
+  @ResolveField('answers')
   async findAnwsersByStudent(@Parent() parent: StudentSurvey): Promise<AnswersByStudent[]> {
     return this.studentSurveyService.findAnwsersByStudent(parent.surveykey, parent.studentschoolkey);
   }

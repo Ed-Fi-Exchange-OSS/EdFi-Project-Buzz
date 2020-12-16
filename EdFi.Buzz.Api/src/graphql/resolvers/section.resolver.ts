@@ -5,7 +5,7 @@
 
 import { UseGuards } from '@nestjs/common';
 import {
-  Args, Parent, Resolver, ResolveProperty,
+  Args, Parent, Resolver, ResolveField,
 } from '@nestjs/graphql';
 import { Section, StudentSchool } from '../graphql.schema';
 import SectionService from '../services/section.service';
@@ -25,14 +25,14 @@ export default class SectionResolvers {
     return this.sectionsService.findOneById(sectionkey);
   }
 
-  @ResolveProperty('student')
+  @ResolveField('student')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async student(@Parent() parent,
     @Args('studentschoolkey') studentschoolkey: string): Promise<StudentSchool> {
     return this.sectionsService.findStudentBySection(parent.sectionkey, studentschoolkey);
   }
 
-  @ResolveProperty('students')
+  @ResolveField('students')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async students(@Parent() parent): Promise<StudentSchool[]> {
     return this.sectionsService.findStudentsBySection(parent.sectionkey);

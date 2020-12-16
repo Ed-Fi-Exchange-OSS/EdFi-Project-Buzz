@@ -5,7 +5,7 @@
 
 import { UseGuards } from '@nestjs/common';
 import {
-  Parent, Args, Resolver, ResolveProperty,
+  Parent, Args, Resolver, ResolveField,
 } from '@nestjs/graphql';
 import {
   StudentSchool,
@@ -39,57 +39,57 @@ export default class StudentSchoolResolvers {
     return this.studentschoolService.findOneById(studentschoolkey);
   }
 
-  @ResolveProperty('contacts')
+  @ResolveField('contacts')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async contacts(@Parent() parent): Promise<ContactPerson[]> {
     return this.studentschoolService.findStudentContactsById(parent.studentschoolkey);
   }
 
-  @ResolveProperty('siblingscount')
+  @ResolveField('siblingscount')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async siblingscount(@Parent() parent): Promise<number> {
     const studentList = this.studentschoolService.findStudentsSiblings(parent.studentschoolkey);
     return studentList && studentList !== undefined ? (await studentList).length : 0;
   }
 
-  @ResolveProperty('siblings')
+  @ResolveField('siblings')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async siblings(@Parent() parent): Promise<ContactPerson[]> {
     return this.studentschoolService.findStudentsSiblings(parent.studentschoolkey);
   }
 
-  @ResolveProperty('schoolname')
+  @ResolveField('schoolname')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async schoolname(@Parent() parent): Promise<string> {
     const result = await this.studentschoolService.findOneSchoolByStudent(parent.schoolkey);
     return result && result !== undefined ? result.schoolname : '';
   }
 
-  @ResolveProperty('studentsurveys')
+  @ResolveField('studentsurveys')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentsurveys(@Parent() parent): Promise<StudentSurvey[]> {
     return this.studentschoolService.findByStudentSchoolKey(parent.studentschoolkey);
   }
 
-  @ResolveProperty('notes')
+  @ResolveField('notes')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentnotes(@Parent() parent): Promise<StudentNote[]> {
     return this.studentschoolService.findStudentNotesByStudentSchoolKey(parent.studentschoolkey);
   }
 
-  @ResolveProperty('attendance')
+  @ResolveField('attendance')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentattendance(@Parent() parent): Promise<Attendance> {
     return this.studentschoolService.findAttendanceByStudentSchoolKey(parent.studentschoolkey);
   }
 
-  @ResolveProperty('characteristics')
+  @ResolveField('characteristics')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentatcharacteristics(@Parent() parent): Promise<Demographics[]> {
     return this.demographicsService.findByStudentSchool(parent.studentschoolkey, 'Characteristics');
   }
 
-  @ResolveProperty('programs')
+  @ResolveField('programs')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async studentatprograms(@Parent() parent): Promise<Demographics[]> {
     return this.demographicsService.findByStudentSchool(parent.studentschoolkey, 'Programs');
