@@ -188,6 +188,7 @@ const StudentDetailContainer = styled.div`
     justify-content: flex-start;
     color: var(--shark);
     border-bottom: 1px solid var(--iron);
+    overflow-x: auto;
 
     & > div {
       max-width: fit-content;
