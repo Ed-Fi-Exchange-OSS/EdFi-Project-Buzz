@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import StudentImage from 'assets/studentImage.jpg';
+import { trackPromise } from 'react-promise-tracker';
 import { Student } from '../Models';
 import { getStudentsBySection, getStudentById } from './GraphQL/StudentQueries';
 import AuthenticationService from './AuthenticationService';
@@ -19,16 +20,18 @@ export default class StudentApiService {
       return this.students;
     }
     const client = this.apolloClient;
-    const { data } = await client.query({
-      query: getStudentsBySection,
-      variables: {
-        sectionKey: section,
-        staffkey: this.auth.currentUserValue.teacher.staffkey
-      }
-    });
-
-    this.students = data.sectionbystaff.students;
-
+    await trackPromise(client
+      .query({
+        query: getStudentsBySection,
+        variables: {
+          sectionKey: section,
+          staffkey: this.auth.currentUserValue.teacher.staffkey
+        }
+      })
+      .then(response => {
+        this.students = response.data.sectionbystaff.students;
+      })
+    );
     return this.students
       .map(s => this.setDefaultValues(s))
       .filter(s => name ? s.name.toUpperCase().includes(name.toUpperCase()) : true)
@@ -40,11 +43,11 @@ export default class StudentApiService {
 
     const client = this.apolloClient;
     const queryParams = { staffkey: this.auth.currentUserValue.teacher.staffkey, studentschoolkey: studentSchoolKey };
-    await client.query({ query: getStudentById, variables: queryParams })
+    await trackPromise(client.query({ query: getStudentById, variables: queryParams })
       .then(response => {
         student = response.data.studentbystaff;
         student = this.setDefaultValues(student);
-      });
+      }));
 
     return student;
   };

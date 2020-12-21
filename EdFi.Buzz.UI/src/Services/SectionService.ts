@@ -6,6 +6,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import { Section } from 'Models';
+import { trackPromise } from 'react-promise-tracker';
 import { getSectionsByStaff } from './GraphQL/SectionQueries';
 import AuthenticationService from './AuthenticationService';
 
@@ -19,7 +20,7 @@ export default class SectionApiService {
 
   public getByTeacherId = async (): Promise<Section[]> => {
     const client = this.apolloClient;
-    await client
+    await trackPromise(client
       .query({
         query: getSectionsByStaff,
         variables: {
@@ -28,7 +29,7 @@ export default class SectionApiService {
       })
       .then(({ data }) => {
         this.sections = data.sectionsbystaff;
-      });
+      }));
     return this.sections;
   };
 }

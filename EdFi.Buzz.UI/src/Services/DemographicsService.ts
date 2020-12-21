@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { trackPromise } from 'react-promise-tracker';
 import { getDemographicsCharacteristicsData, studentprogramsbystudentschool } from './GraphQL/DemographicsQueries';
 import { Demographic } from '../Models';
 
@@ -16,10 +17,10 @@ export default class DemographicsApiService {
 
     const client = this.apolloClient;
     const queryParams = { studentschoolkey: studentSchoolKey };
-    await client.query({ query: getDemographicsCharacteristicsData, variables: queryParams, fetchPolicy: 'network-only' })
+    await trackPromise(client.query({ query: getDemographicsCharacteristicsData, variables: queryParams, fetchPolicy: 'network-only' })
       .then(response => {
         demographics = response.data.studentcharacteristicsbystudentschool;
-      });
+      }));
 
     return demographics;
   };
@@ -29,10 +30,10 @@ export default class DemographicsApiService {
 
     const client = this.apolloClient;
     const queryParams = { studentschoolkey: studentSchoolKey };
-    await client.query({ query: studentprogramsbystudentschool, variables: queryParams, fetchPolicy: 'network-only' })
+    await trackPromise(client.query({ query: studentprogramsbystudentschool, variables: queryParams, fetchPolicy: 'network-only' })
       .then(response => {
         demographics = response.data.studentprogramsbystudentschool;
-      });
+      }));
 
     return demographics;
   };

@@ -158,14 +158,25 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   const [showModal, setShowModal] = useState<boolean>(false);
   const surveyFilterRef = React.createRef<HTMLInputElement>();
 
-  if (!surveyFilteredList || surveyFilteredList.length === 0) {
-    props.api.survey.getSurveyStatus(
-      props.api.authentication.currentUserValue.teacher.staffkey, null)
-      .then((surveysValue) => {
-        setsurveyList(surveysValue);
-        setsurveyFilteredList(surveysValue);
-      });
-  }
+  useEffect(() => {
+    let appMounted=true;
+    if(appMounted){
+      if (!surveyFilteredList || surveyFilteredList.length === 0) {
+        props.api.survey.getSurveyStatus(
+          props.api.authentication.currentUserValue.teacher.staffkey, null)
+          .then((surveysValue) => {
+            setsurveyList(surveysValue);
+            setsurveyFilteredList(surveysValue);
+          });
+      }
+    }
+    return () => {
+      appMounted=false;
+    };
+  }, [props.api.authentication.currentUserValue.teacher.staffkey,
+    props.api.survey,
+    surveyFilteredList]);
+
 
   function handleChange() {
     setsearchText(surveyFilterRef.current.value);

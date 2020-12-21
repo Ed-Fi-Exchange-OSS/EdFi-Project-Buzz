@@ -5,6 +5,7 @@
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import Teacher from 'Models/Teacher';
+import { trackPromise } from 'react-promise-tracker';
 import { getStaffNameById, getStaffByEMail } from './GraphQL/StaffQueries';
 
 export default class TeacherApiService {
@@ -12,8 +13,16 @@ export default class TeacherApiService {
 
   getTeacher = async(): Promise<Teacher> => {
     const client = this.apolloClient;
-    const { data } = await client.query({ query: getStaffByEMail, fetchPolicy: 'network-only' });
-    const staff = data.staffbyemail;
+    let staff = null;
+    await trackPromise(client
+      .query(
+        {
+          query: getStaffByEMail,
+          fetchPolicy: 'network-only'
+        })
+      .then(response => {
+        staff = response.data.staffbyemail;
+      }));
     const teacher: Teacher = staff as Teacher;
 
     return teacher;
@@ -21,8 +30,16 @@ export default class TeacherApiService {
 
   getStaffNameByKey = async(staffKey: number): Promise<Teacher>  => {
     const client = this.apolloClient;
-    const { data } = await client.query({ query: getStaffNameById, variables: { staffkey: staffKey } });
-    const staff = data.staffbyid;
+    let staff = null;
+    await client
+      .query(
+        {
+          query: getStaffNameById,
+          variables: { staffkey: staffKey }
+        })
+      .then(response => {
+        staff = response.data.staffbyid;
+      });
     const teacher: Teacher = staff as Teacher;
 
     return teacher;

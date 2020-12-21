@@ -5,6 +5,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import Teacher from 'Models/Teacher';
 import { SurveyQuestionAnswer } from 'Models';
+import { trackPromise } from 'react-promise-tracker';
 import StudentApiService from './StudentService';
 import { getSurveySummaryBySectionKey, getSurveyQuestionsSummary } from './GraphQL/SurveyQueries';
 import AuthenticationService from './AuthenticationService';
@@ -41,19 +42,30 @@ export default class SurveyAnalyticsApiService{
    */
   public getSurveyAnswers = async(surveyKey: number, question?: string, sectionKey?: string): Promise<SurveyQuestionAnswers> => {
     const client = this.apolloClient;
-    const { data } = await client.query({
+    let surveySummary: SurveyQuestionAnswers = null;
+    await trackPromise(client.query({
       query: getSurveyQuestionsSummary,
       variables: {
         staffkey: this.getTeacher().staffkey,
         sectionkey: sectionKey,
         surveykey: surveyKey
       }
-    });
-    if (data.surveysummary.length === 0) {
-      return null;
-    }
-    const surveysummary = data.surveysummary[0].questions.filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
-    return surveysummary;
+    })
+      .then(response => {
+        if (response.data && response.data.length > 0) {
+
+          const surveySummaryResponse =
+            response
+              .data
+              .surveysummary[0]
+              .questions
+              .filter(q => q.question.toUpperCase() === question.toUpperCase())[0];
+          surveySummary = surveySummaryResponse;
+        } else {
+          surveySummary = null;
+        }
+      }));
+    return surveySummary;
   };
 
   /*
@@ -68,20 +80,28 @@ export default class SurveyAnalyticsApiService{
    */
   public getAllSurveyAnswers = async(surveyKey: number, sectionKey?: string): Promise<AllStudentAnswers[]> => {
     const client = this.apolloClient;
-    const { data } = await client.query({
-      query: getSurveyQuestionsSummary,
-      variables: {
-        staffkey: this.getTeacher().staffkey,
-        sectionkey: sectionKey,
-        surveykey: surveyKey
-      }
-    });
-    if (data.surveysummary.length === 0) {
-      return [];
-    }
+    let answers = [];
+    await trackPromise(client
+      .query({
+        query: getSurveyQuestionsSummary,
+        variables: {
+          staffkey: this.getTeacher().staffkey,
+          sectionkey: sectionKey,
+          surveykey: surveyKey
+        }
+      })
+      .then(response => {
+        if (response.data.surveysummary && response.data.surveysummary.length > 0) {
+          answers = response.data.surveysummary;
+        } else{
+          answers = [];
+        }
+
+      })
+    );
 
     const q = Object.values(
-      data.surveysummary[0].questions.reduce((qacc, qcur) => qcur.answers.reduce((aaccParam, acur) => {
+      answers[0].questions.reduce((qacc, qcur) => qcur.answers.reduce((aaccParam, acur) => {
         const aacc = aaccParam;
         let student = aacc[acur.studentschoolkey];
         if (!student) {
@@ -111,15 +131,20 @@ export default class SurveyAnalyticsApiService{
   */
   public getSurveyMetadata = async(sectionKey: string, filter: string): Promise<SurveyMetadata[]> => {
     const client = this.apolloClient;
-    const { data } = await client.query({
-      query: getSurveySummaryBySectionKey,
-      variables: {
-        staffkey: this.getTeacher().staffkey,
-        sectionkey: sectionKey,
-        title: filter
-      }
-    });
-    const sections = data.surveysummary;
+    let sections: SurveyMetadata[] = [];
+    await trackPromise(client
+      .query({
+        query: getSurveySummaryBySectionKey,
+        variables: {
+          staffkey: this.getTeacher().staffkey,
+          sectionkey: sectionKey,
+          title: filter
+        }
+      })
+      .then(response => {
+        sections = response.data.surveysummary;
+      })
+    );
     return sections;
   };
 
@@ -133,7 +158,7 @@ export default class SurveyAnalyticsApiService{
   }]
   */
   public getSurveyQuestionSummaryList = async(surveyKey: number, sectionKey: string): Promise<SurveyQuestionSummary[]> => {
-
+    let surveyList = [];
     const calculateTopAnswers = (answers: SurveyQuestionAnswer[]) => {
       const countAnswers = answers
         .reduce((aaccParam, acur) => {
@@ -150,22 +175,31 @@ export default class SurveyAnalyticsApiService{
     };
 
     const client = this.apolloClient;
-    const { data } = await client.query({
-      query: getSurveyQuestionsSummary,
-      variables: {
-        staffkey: this.getTeacher().staffkey,
-        sectionkey: sectionKey,
-        surveykey: surveyKey
-      }
-    });
+    await trackPromise(client
+      .query({
+        query: getSurveyQuestionsSummary,
+        variables: {
+          staffkey: this.getTeacher().staffkey,
+          sectionkey: sectionKey,
+          surveykey: surveyKey
+        }
+      })
+      .then(response => {
+        if (response.data.surveysummary && response.data.surveysummary.length > 0) {
+          surveyList = response.data.surveysummary;
+        } else{
+          surveyList = [];
+        }
+      })
+    );
 
-    if (data.surveysummary.length === 0) {
+    if (surveyList.length === 0) {
       return [];
     }
-    const surveysummary = data.surveysummary[0];
+    const surveysummary = surveyList[0];
     const questions = surveysummary.questions
       .map((qcur) => ({
-        surveykey: data.surveysummary[0].surveykey,
+        surveykey: surveyList[0].surveykey,
         surveyquestionkey: qcur.surveyquestionkey,
         question: qcur.question,
         answers: calculateTopAnswers(qcur.answers),
