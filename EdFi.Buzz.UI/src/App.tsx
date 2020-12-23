@@ -67,17 +67,25 @@ export default function App(): JSX.Element {
   `;
 
   useEffect(() => {
-    const subscription = api.authentication.currentUser.subscribe((cu) => {
-      setIsLoggedIn(cu && cu.teacher != null);
-      setIsAdminSurveyLoader(cu?.teacher?.isadminsurveyloader === true);
-      setIsTeacherSurveyLoader(cu?.teacher?.isteachersurveyloader === true);
-    });
-    setAppMounted(true);
-    return () => subscription.unsubscribe();
+    let isMounted = true;
+    let subscription = null;
+    if(isMounted){
+      subscription = api.authentication.currentUser.subscribe((cu) => {
+        setIsLoggedIn(cu && cu.teacher != null);
+        setIsAdminSurveyLoader(cu?.teacher?.isadminsurveyloader === true);
+        setIsTeacherSurveyLoader(cu?.teacher?.isteachersurveyloader === true);
+      });
+      setAppMounted(true);
+    }
+    return () => {
+      isMounted = false;
+      return subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
-    if(appMounted){
+    let isMounted = true;
+    if(isMounted){
       setBuzzTitle(env.TITLE);
       if(env.EXTERNAL_LOGO){
         if(env.LOGO && env.LOGO !== ''){
@@ -99,7 +107,9 @@ export default function App(): JSX.Element {
         }
       }
     }
-
+    return () => {
+      isMounted = false;
+    };
   },[appMounted]);
 
   function RouterContent(): JSX.Element {

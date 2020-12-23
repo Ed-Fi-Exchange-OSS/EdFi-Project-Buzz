@@ -4,9 +4,10 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { trackPromise } from 'react-promise-tracker';
 import { HeadlineContainer, MainContainer, TitleSpanContainer, TotalRecordsContainer } from '../../buzztheme';
 
 import ApiService from '../../Services/ApiService';
@@ -51,7 +52,7 @@ export const StudentRoster: FunctionComponent<StudentRosterComponentProps> = (pr
 
   document.title = 'EdFi Buzz: Student Roster';
 
-  const [sectionList, setSections] = useState([] as Section[]);
+  const [sectionList, setSectionList] = useState([] as Section[]);
   const [studentList, setStudentList] = useState([] as Student[]);
   const [selectedSectionKey, setSelectedSectionKey] = useState('');
 
@@ -62,20 +63,28 @@ export const StudentRoster: FunctionComponent<StudentRosterComponentProps> = (pr
   const [viewType, setViewType] = useState(ViewTypes.Card);
 
   function onSearchHandle(sectionKey: string, studentFilter: string) {
-    props.api.student.get(sectionKey, studentFilter).then((studentsValue) => {
+    trackPromise(props.api.student.get(sectionKey, studentFilter).then((studentsValue) => {
       setStudentList(studentsValue);
       setSelectedSectionKey(sectionKey);
-    });
+    }));
   }
 
-  if (!sectionList || sectionList.length === 0) {
-    props.api.section.getByTeacherId().then((sectionsValue) => {
-      setSections(sectionsValue);
-      if(sectionsValue.length>0){
-        onSearchHandle(sectionsValue[0].sectionkey, null);
+  useEffect(() => {
+    let appMounted = true;
+    if(appMounted){
+      if (!sectionList || sectionList.length === 0) {
+        props.api.section.getByTeacherId().then((sectionsValue) => {
+          setSectionList(sectionsValue);
+          if(sectionsValue.length>0){
+            onSearchHandle(sectionsValue[0].sectionkey, null);
+          }
+        });
       }
-    });
-  }
+    }
+    return () => {
+      appMounted=false;
+    };
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainContainer role='main' className='container'>

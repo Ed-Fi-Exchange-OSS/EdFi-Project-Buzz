@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import Environment from 'Models/Environment';
+import { trackPromise } from 'react-promise-tracker';
 import { uploadSurvey , deleteSurvey } from './GraphQL/SurveyMutations';
 import EnvironmentService from './EnvironmentService';
 import Survey from '../Models/Survey';
@@ -36,8 +37,19 @@ export default class SurveyService{
 
   public getSurveyStatus = async (staffKey: number, jobKey: string): Promise<SurveyStatus[]> => {
     const client = this.apolloClient;
-    const { data } = await client.query({ query: getSurveyStatus, variables: { staffKey, jobKey }, fetchPolicy: 'network-only' });
-    let surveyStatusList: SurveyStatus[] = data.surveystatus ? data.surveystatus : [];
+    let surveyStatusList: SurveyStatus[] = [];
+    await trackPromise(client
+      .query(
+        {
+          query: getSurveyStatus,
+          variables: { staffKey, jobKey },
+          fetchPolicy: 'network-only' }
+      )
+      .then(response => {
+        surveyStatusList = response.data.surveystatus
+          ? response.data.surveystatus
+          : [];
+      }));
     surveyStatusList = surveyStatusList.map((_item) => {
       const item = { ..._item}; // decouple instance
       if (surveyStatusList) {
@@ -52,7 +64,10 @@ export default class SurveyService{
 
   public deleteSurvey= async (staffKey: number, surveyKey: number): Promise<Survey> => {
     const client = this.apolloClient;
-    return client.mutate({ mutation: deleteSurvey, variables: { staffkey: staffKey , surveykey: surveyKey } })
+    return client.mutate(
+      {
+        mutation: deleteSurvey,
+        variables: { staffkey: staffKey , surveykey: surveyKey } })
       .then(result =>  result.data.deletesurvey);
   };
 }

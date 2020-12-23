@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { trackPromise } from 'react-promise-tracker';
 import { getAttendanceData } from './GraphQL/AttendanceQueries';
 import { Attendance } from '../Models';
 
@@ -16,10 +17,10 @@ export default class AttendanceApiService {
 
     const client = this.apolloClient;
     const queryParams = { studentschoolkey: studentSchoolKey };
-    await client.query({ query: getAttendanceData, variables: queryParams, fetchPolicy: 'network-only' })
+    await trackPromise(client.query({ query: getAttendanceData, variables: queryParams, fetchPolicy: 'network-only' })
       .then(response => {
         attendance = response.data.attendancebystudentschool;
-      });
+      }));
 
     return attendance;
   };
