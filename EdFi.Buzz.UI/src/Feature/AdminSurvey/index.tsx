@@ -160,8 +160,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   const surveyFilterRef = React.createRef<HTMLInputElement>();
 
   useEffect(() => {
-    SetAppMounted(true);
-    if(appMounted){
+    if(!appMounted){
       if (!surveyFilteredList || surveyFilteredList.length === 0) {
         props.api.survey.getSurveyStatus(
           props.api.authentication.currentUserValue.teacher.staffkey, null)
@@ -172,7 +171,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
       }
     }
     return () => {
-      SetAppMounted(false);
+      SetAppMounted(true);
     };
   }, [props.api.authentication.currentUserValue.teacher.staffkey,
     props.api.survey,
