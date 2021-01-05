@@ -151,6 +151,7 @@ const StyledTextParent = styled.div`
 export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props: AdminSurveyComponentProps) => {
   document.title = 'EdFi Buzz: Admin Surveys';
 
+  const [appMounted, SetAppMounted] = useState(false);
   const [surveyFilteredList, setsurveyFilteredList] = useState([] as SurveyStatus[]);
   const [surveyList, setsurveyList] = useState([] as SurveyStatus[]);
   const [surveyToDelete, setsurveyToDelete] = useState(null as number);
@@ -159,8 +160,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
   const surveyFilterRef = React.createRef<HTMLInputElement>();
 
   useEffect(() => {
-    let appMounted=true;
-    if(appMounted){
+    if(!appMounted){
       if (!surveyFilteredList || surveyFilteredList.length === 0) {
         props.api.survey.getSurveyStatus(
           props.api.authentication.currentUserValue.teacher.staffkey, null)
@@ -171,7 +171,7 @@ export const AdminSurvey: FunctionComponent<AdminSurveyComponentProps> = (props:
       }
     }
     return () => {
-      appMounted=false;
+      SetAppMounted(true);
     };
   }, [props.api.authentication.currentUserValue.teacher.staffkey,
     props.api.survey,
