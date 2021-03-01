@@ -50,5 +50,8 @@
   },
   "peerDependencies": {
     "eslint": "^7.3.1"
+  },
+  "resolutions": {
+    "axios": "^0.21.1"
   }
 }
