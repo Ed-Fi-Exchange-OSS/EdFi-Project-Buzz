@@ -14,11 +14,11 @@ const allowedOrigins: string[] = process.env.BUZZ_API_CORS_ORIGINS.split(',');
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    /*if (allowedOrigins.includes(origin) || !origin) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error(`Origin ${origin} was not defined in BUZZ_API_CORS_ORIGINS`));
-    }*/callback(null, true);
+    }callback(null, true);
   },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: [
