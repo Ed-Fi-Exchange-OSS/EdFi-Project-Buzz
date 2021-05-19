@@ -110,7 +110,7 @@
   },
   "resolutions": {
     "node-fetch": "^2.6.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "axios": "^0.21.1",
     "@graphql-tools/git-loader": "^6.2.6"
   }
