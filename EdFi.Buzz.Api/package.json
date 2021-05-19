@@ -82,7 +82,7 @@
     "prettier": "1.18.2",
     "rimraf": "^3.0.2",
     "supertest": "^4.0.2",
-    "synp": "^1.7.0",
+    "synp": "^1.9.7",
     "ts-jest": "26.1.0",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.10.2",
